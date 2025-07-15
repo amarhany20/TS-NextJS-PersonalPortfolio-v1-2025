@@ -5,6 +5,7 @@ This is the source code for [ammarhany.com](https://ammarhany.com), the personal
 ## About
 
 The portfolio is designed to present:
+
 - **CV/Resume**: Education, work history, skills, and achievements.
 - **Portfolio**: Projects, case studies, and creative work.
 - **Contact**: Easy ways to get in touch, including a contact form and social links.
