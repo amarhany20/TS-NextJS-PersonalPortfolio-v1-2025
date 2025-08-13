@@ -1,0 +1,367 @@
+// Personal Portfolio Schema - Simplified & Clean
+// This is your Prisma schema file for personal portfolio/CV site
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ==============================================================================
+// AUTHENTICATION & USER MANAGEMENT (Simplified)
+// ==============================================================================
+
+enum SessionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+// Single admin user - no complex roles needed for personal portfolio
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String
+  firstName       String?
+  lastName        String?
+  avatar          String?
+  emailVerified   Boolean   @default(false)
+  emailVerifyToken String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+  lastLoginAt     DateTime?
+  isActive        Boolean   @default(true)
+  
+  // Relations
+  sessions        Session[]
+  auditLogs       AuditLog[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([email])
+  @@index([emailVerifyToken])
+  @@index([resetPasswordToken])
+}
+
+model Session {
+  id        String        @id @default(cuid())
+  userId    String
+  token     String        @unique
+  status    SessionStatus @default(ACTIVE)
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// ==============================================================================
+// PORTFOLIO CONTENT
+// ==============================================================================
+
+// Work Experience
+model Experience {
+  id          Int      @id @default(autoincrement())
+  company     String
+  position    String
+  duration    String
+  location    String
+  type        String
+  description String
+  achievements String // JSON array
+  skills      String // JSON array
+  companyUrl  String?
+  displayOrder Int    @default(0)
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([company, createdAt])
+  @@index([type, createdAt])
+  @@index([position])
+  @@index([displayOrder])
+}
+
+// Education
+model Education {
+  id          Int      @id @default(autoincrement())
+  institution String
+  degree      String
+  field       String
+  duration    String
+  location    String
+  gpa         String?
+  description String
+  achievements String // JSON array
+  courses     String // JSON array
+  thesis      String?
+  displayOrder Int    @default(0)
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([institution, createdAt])
+  @@index([degree, field])
+  @@index([displayOrder])
+}
+
+// Skills
+model SkillCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  title     String
+  icon      String
+  displayOrder Int   @default(0)
+  isActive  Boolean @default(true)
+  skills    Skill[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([displayOrder])
+}
+
+model Skill {
+  id         Int           @id @default(autoincrement())
+  name       String
+  level      Int           // Skill level 1-100
+  experience String
+  isCoreSkill Boolean      @default(false) // Replaces CoreSkill table
+  displayOrder Int         @default(0)
+  isActive   Boolean       @default(true)
+  category   SkillCategory @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([categoryId, level])
+  @@index([name])
+  @@index([level])
+  @@index([isCoreSkill, displayOrder])
+}
+
+// Certificates
+model Certificate {
+  id          Int      @id @default(autoincrement())
+  name        String
+  issuer      String
+  date        String
+  credential  String?
+  description String
+  skills      String // JSON array
+  image       String?
+  verifyUrl   String?
+  displayOrder Int    @default(0)
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([issuer, createdAt])
+  @@index([date])
+  @@index([name])
+  @@index([displayOrder])
+}
+
+// Recommendations
+model Recommendation {
+  id          Int      @id @default(autoincrement())
+  name        String
+  position    String
+  company     String
+  relationship String
+  content     String
+  rating      Int
+  date        String
+  linkedin    String?
+  photo       String?
+  displayOrder Int    @default(0)
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([company, rating])
+  @@index([rating, createdAt])
+  @@index([date])
+  @@index([displayOrder])
+}
+
+// Services
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  icon        String
+  features    String // JSON array
+  technologies String // JSON array
+  pricing     String // JSON object
+  displayOrder Int    @default(0)
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([title])
+  @@index([createdAt])
+  @@index([displayOrder])
+}
+
+// Languages
+model Language {
+  id          Int      @id @default(autoincrement())
+  name        String
+  level       String
+  proficiency Int
+  description String
+  certificate String?
+  flag        String
+  displayOrder Int    @default(0)
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([proficiency])
+  @@index([name])
+  @@index([displayOrder])
+}
+
+// Portfolio Projects (Simplified)
+model Project {
+  id               String          @id @default(cuid())
+  title            String
+  description      String
+  longDescription  String?
+  
+  // Timeline
+  startDate        DateTime
+  endDate          DateTime?
+  
+  // Technical details (for portfolio display)
+  image            String?
+  gallery          String          // JSON array
+  technologies     String          // JSON array
+  features         String          // JSON array
+  demoUrl          String?
+  githubUrl        String?
+  category         String
+  
+  displayOrder     Int             @default(0)
+  isActive         Boolean         @default(true)
+  isFeatured       Boolean         @default(false)
+  
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([title])
+  @@index([startDate])
+  @@index([category, isActive])
+  @@index([displayOrder])
+  @@index([isFeatured, displayOrder])
+}
+
+// Blog Posts
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  coverImage  String?
+  author      String
+  publishedAt DateTime
+  category    String
+  tags        String // JSON array
+  readTime    Int
+  isPublished Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished, publishedAt])
+  @@index([category, publishedAt])
+  @@index([slug])
+  @@index([author])
+  @@index([viewCount])
+  @@index([isFeatured, publishedAt])
+}
+
+// Enhanced Metadata (Shortcode system for dynamic content)
+// This replaces HeroContent, ContactInfo and other static content models
+model Metadata {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique // e.g., "fullName", "email", "phone", "heroTitle"
+  value       String   // JSON string for complex data, plain text for simple
+  type        String   // "string", "json", "number", "boolean", "html"
+  category    String   // "personal", "hero", "contact", "social", "config"
+  subcategory String?  // "profile", "sidebar", "footer", etc.
+  section     String?  // "homepage", "about", "contact" - for location context
+  description String?  // Human readable description of what this field is for
+  
+  // Validation and versioning
+  isRequired  Boolean  @default(false)
+  validation  String?  // JSON validation schema
+  version     Int      @default(1)
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, subcategory])
+  @@index([section, category])
+  @@index([key])
+  @@index([isActive])
+}
+
+// CV/Resume Information
+model CVInfo {
+  id          Int      @id @default(autoincrement())
+  title       String
+  subtitle    String
+  description String
+  downloadUrl String
+  viewUrl     String?
+  fileSize    String
+  lastUpdated String
+  version     String
+  downloadCount Int    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([version])
+  @@index([downloadCount])
+}
+
+// Simplified Audit Log for change tracking
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  entityType  String   // "project", "blog_post", "metadata", "experience", etc.
+  entityId    String   // ID of the changed record
+  action      String   // "create", "update", "delete"
+  oldData     String?  // JSON
+  newData     String?  // JSON
+  
+  // User tracking
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  // Request details
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@index([action])
+  @@index([userId])
+}

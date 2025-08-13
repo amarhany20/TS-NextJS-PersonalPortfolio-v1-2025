@@ -1,4 +1,8 @@
-export default function BlogsPage() {
+import { getBlogPosts } from "@/lib/database-services";
+
+export default async function BlogsPage() {
+  const blogPosts = await getBlogPosts();
+
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">
@@ -7,41 +11,34 @@ export default function BlogsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <article className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
-          <h2 className="text-xl font-semibold text-foreground mb-3">Getting Started with Next.js 15</h2>
-          <p className="text-[var(--text-secondary)] mb-4">Exploring the new features and improvements in Next.js 15, including the App Router and server components.</p>
-          <div className="flex items-center justify-between text-sm text-[var(--text-secondary)]">
-            <span>Dec 15, 2024</span>
-            <span>5 min read</span>
-          </div>
-        </article>
+        {blogPosts.map((post) => (
+          <article key={post.id} className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
+            <div className="flex items-center justify-between mb-3">
+              <span className="px-3 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-xs rounded-full">{post.category}</span>
+              <span className="text-[var(--text-secondary)] text-sm">{post.readTime} min read</span>
+            </div>
 
-        <article className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
-          <h2 className="text-xl font-semibold text-foreground mb-3">Building Scalable APIs with Node.js</h2>
-          <p className="text-[var(--text-secondary)] mb-4">Best practices for designing and implementing scalable REST APIs using Node.js and Express.</p>
-          <div className="flex items-center justify-between text-sm text-[var(--text-secondary)]">
-            <span>Dec 10, 2024</span>
-            <span>8 min read</span>
-          </div>
-        </article>
+            <h2 className="text-xl font-bold text-foreground mb-3 hover:text-[var(--accent-primary)] transition-colors">{post.title}</h2>
 
-        <article className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
-          <h2 className="text-xl font-semibold text-foreground mb-3">TypeScript Tips and Tricks</h2>
-          <p className="text-[var(--text-secondary)] mb-4">Advanced TypeScript techniques to improve your code quality and developer experience.</p>
-          <div className="flex items-center justify-between text-sm text-[var(--text-secondary)]">
-            <span>Dec 5, 2024</span>
-            <span>6 min read</span>
-          </div>
-        </article>
+            <p className="text-[var(--text-secondary)] text-sm mb-4 line-clamp-3">{post.excerpt}</p>
 
-        <article className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
-          <h2 className="text-xl font-semibold text-foreground mb-3">Responsive Design with Tailwind CSS</h2>
-          <p className="text-[var(--text-secondary)] mb-4">Creating beautiful, responsive layouts using Tailwind CSS utility classes and best practices.</p>
-          <div className="flex items-center justify-between text-sm text-[var(--text-secondary)]">
-            <span>Nov 28, 2024</span>
-            <span>7 min read</span>
-          </div>
-        </article>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--text-secondary)] text-xs">{new Date(post.publishedAt).toLocaleDateString()}</span>
+                <span className="text-[var(--text-secondary)] text-xs">•</span>
+                <span className="text-[var(--text-secondary)] text-xs">By {post.author}</span>
+              </div>
+
+              <div className="flex flex-wrap gap-1">
+                {post.tags.slice(0, 2).map((tag) => (
+                  <span key={tag} className="px-2 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-xs rounded">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   );

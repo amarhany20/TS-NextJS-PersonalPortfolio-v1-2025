@@ -40,7 +40,7 @@ body {
   font-family: var(--font-sans);
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  /* Removed overflow-x hidden to allow sidebar tooltips to overflow */
 }
 
 /* Helpers for Tailwind usage */
@@ -78,4 +78,9 @@ body {
 
 .border-border {
   border-color: var(--border);
+}
+
+/* Ensure tooltips are always on top */
+.group:hover [class*="z-[9999]"] {
+  z-index: 9999 !important;
 }

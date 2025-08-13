@@ -2,18 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Briefcase, GraduationCap, Award, Quote, Settings, Folder, Book, Package, Mail } from "lucide-react";
+import { Home, Folder, Book, Package, Mail } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/experience", label: "Experience", icon: Briefcase },
-  { href: "/education", label: "Education", icon: GraduationCap },
-  { href: "/certificates", label: "Certificates", icon: Award },
-  { href: "/recommendations", label: "Recommendations", icon: Quote },
-  { href: "/skills", label: "Skills", icon: Settings },
   { href: "/projects", label: "Projects", icon: Folder },
-  { href: "/blogs", label: "Blogs", icon: Book },
   { href: "/services", label: "Services", icon: Package },
+  { href: "/blogs", label: "Blogs", icon: Book },
   { href: "/contact", label: "Contact", icon: Mail },
 ];
 
@@ -21,7 +16,8 @@ export default function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-4 mt-8">
+    <nav className="space-y-1">
+      <h3 className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase tracking-wider text-center mb-3">Navigation</h3>
       {navLinks.map((link) => {
         const IconComponent = link.icon;
         const isActive = pathname === link.href;
@@ -31,12 +27,12 @@ export default function NavLinks() {
             href={link.href}
             key={link.href}
             className={`
-              flex flex-col items-center justify-center gap-2 py-3 px-2 rounded-xl group transition-all duration-300 relative
-              ${isActive ? "bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black shadow-lg" : "hover:bg-[var(--accent-muted)] text-[var(--text-secondary)]"}
+              flex flex-col items-center justify-center gap-1 py-2 px-2 rounded-lg group transition-all duration-300 relative
+              ${isActive ? "bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black shadow-lg" : "hover:bg-[var(--accent-muted)] text-[var(--text-secondary)] hover:transform hover:scale-105"}
             `}
             aria-label={link.label}>
             <IconComponent
-              size={22}
+              size={18}
               className={`
                 transition-all duration-300
                 ${isActive ? "text-black" : "text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] group-hover:scale-110"}
@@ -44,19 +40,17 @@ export default function NavLinks() {
             />
             <span
               className={`
-              text-xs font-medium transition-all duration-300
+              text-[10px] font-medium transition-all duration-300 text-center leading-tight
               ${isActive ? "text-black" : "text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)]"}
             `}>
               {link.label}
             </span>
 
-            {/* Tooltip */}
-            <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <div className="bg-[var(--card-bg)] text-[var(--foreground)] px-3 py-2 rounded-lg text-sm font-medium shadow-lg border border-[var(--border)]">{link.label}</div>
-            </div>
+            {/* Active indicator */}
+            {isActive && <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-[var(--accent-primary)] rounded-full shadow-lg" />}
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 }

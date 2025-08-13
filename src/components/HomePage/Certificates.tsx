@@ -1,23 +1,60 @@
+"use client";
+
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { certificates } from "@/data/profile";
-import { ExternalLink } from "lucide-react";
+import { useCertificates } from "@/hooks/useApiData";
+import { ExternalLink, Loader2 } from "lucide-react";
 
 export default function Certificates() {
+  const { data: certificates, loading, error } = useCertificates();
+
+  if (loading) {
+    return (
+      <section id="certificates" className="scroll-mt-8">
+        <SectionHeader title="Certificates" subtitle="Professional certifications and achievements" />
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-primary)]" />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="certificates" className="scroll-mt-8">
+        <SectionHeader title="Certificates" subtitle="Professional certifications and achievements" />
+        <div className="flex items-center justify-center py-12">
+          <p className="text-red-500">Error loading certificates: {error}</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!certificates || certificates.length === 0) {
+    return (
+      <section id="certificates" className="scroll-mt-8">
+        <SectionHeader title="Certificates" subtitle="Professional certifications and achievements" />
+        <div className="flex items-center justify-center py-12">
+          <p className="text-[var(--text-secondary)]">No certificates available</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="certificates" className="scroll-mt-8">
       <SectionHeader title="Certificates" subtitle="Professional certifications and achievements" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {certificates.map((cert) => (
-          <SectionCard key={cert.id} hover className="group">
+        {certificates.map((cert, index) => (
+          <SectionCard key={index} hover className="group">
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-foreground mb-1">{cert.name}</h3>
-                <p className="text-[var(--accent-primary)] font-medium mb-2">{cert.organization}</p>
+                <p className="text-[var(--accent-primary)] font-medium mb-2">{cert.issuer}</p>
               </div>
-              {cert.link && (
-                <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-[var(--accent-secondary)] hover:text-[var(--accent-primary)] transition-colors" aria-label="View credential">
+              {cert.verifyUrl && (
+                <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--accent-secondary)] hover:text-[var(--accent-primary)] transition-colors" aria-label="View credential">
                   <ExternalLink size={16} />
                 </a>
               )}
@@ -28,12 +65,7 @@ export default function Certificates() {
 
               <div className="flex flex-col gap-1 text-sm">
                 <p className="text-[var(--text-secondary)]">
-                  <span className="font-medium">Completed:</span>{" "}
-                  {new Date(cert.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  <span className="font-medium">Completed:</span> {cert.date}
                 </p>
               </div>
             </div>

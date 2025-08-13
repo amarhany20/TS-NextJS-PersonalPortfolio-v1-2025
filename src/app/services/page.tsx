@@ -1,6 +1,8 @@
-import { services } from "@/data/profile";
+import { getServices } from "@/lib/database-services";
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
+
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">

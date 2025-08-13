@@ -1,18 +1,54 @@
+"use client";
+
 import SectionHeader from "@/components/UI/SectionHeader";
 import AccentBar from "@/components/UI/AccentBar";
 import SectionCard from "@/components/UI/SectionCard";
-import { education } from "@/data/profile";
-import { formatDateRange } from "@/utils/helpers";
-import { GraduationCap, MapPin, Calendar, Award, Trophy } from "lucide-react";
+import { useEducation } from "@/hooks/useApiData";
+import { GraduationCap, MapPin, Calendar, Award, Trophy, Loader2 } from "lucide-react";
 
 export default function Education() {
+  const { data: education, loading, error } = useEducation();
+
+  if (loading) {
+    return (
+      <section id="education" className="scroll-mt-8">
+        <SectionHeader title="Education" subtitle="My academic background and achievements" />
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-secondary)]" />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="education" className="scroll-mt-8">
+        <SectionHeader title="Education" subtitle="My academic background and achievements" />
+        <div className="flex items-center justify-center py-12">
+          <p className="text-red-500">Error loading education: {error}</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!education || education.length === 0) {
+    return (
+      <section id="education" className="scroll-mt-8">
+        <SectionHeader title="Education" subtitle="My academic background and achievements" />
+        <div className="flex items-center justify-center py-12">
+          <p className="text-[var(--text-secondary)]">No education data available</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="education" className="scroll-mt-8">
       <SectionHeader title="Education" subtitle="My academic background and achievements" />
 
       <div className="space-y-8">
-        {education.map((edu) => (
-          <SectionCard key={edu.id} hover className="group relative overflow-hidden">
+        {education.map((edu, index) => (
+          <SectionCard key={index} hover className="group relative overflow-hidden">
             {/* Decorative elements */}
             <AccentBar direction="secondary-to-primary" />
 
@@ -32,15 +68,19 @@ export default function Education() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      {formatDateRange(edu.startDate, edu.endDate)}
+                      {edu.duration}
                     </div>
                   </div>
-                  {edu.gpa && (
+                  <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center gap-1">
                       <Award size={16} className="text-[var(--success)]" />
-                      <span className="text-[var(--success)] font-medium text-sm">GPA: {edu.gpa}</span>
+                      <span className="text-[var(--success)] font-medium text-sm">{edu.gpa}</span>
                     </div>
-                  )}
+                    <div className="flex items-center gap-1">
+                      <Trophy size={16} className="text-[var(--accent-primary)]" />
+                      <span className="text-[var(--accent-primary)] font-medium text-sm">Top Student</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Status badge */}
@@ -55,14 +95,7 @@ export default function Education() {
                   <span className="w-2 h-2 bg-[var(--accent-primary)] rounded-full"></span>
                   Academic Focus
                 </h4>
-                <ul className="space-y-2">
-                  {edu.description.map((item, index) => (
-                    <li key={index} className="text-[var(--text-secondary)] text-sm flex items-start">
-                      <span className="text-[var(--accent-secondary)] mr-3 mt-1 font-bold">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-[var(--text-secondary)] text-sm">{edu.description}</p>
               </div>
 
               {/* Achievements */}

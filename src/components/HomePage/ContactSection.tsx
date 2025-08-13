@@ -1,9 +1,25 @@
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { socialLinks, personalInfo } from "@/data/profile";
+import { getSocialLinks, getPersonalInfo } from "@/lib/database-services";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
 
-export default function ContactSection() {
+export default async function ContactSection() {
+  const personalInfo = await getPersonalInfo();
+  const socialLinks = await getSocialLinks();
+
+  if (!personalInfo || !socialLinks) {
+    return <div>Loading...</div>;
+  }
+
+  // Extract metadata values
+  const emails = (personalInfo.personal_emails as Record<string, string>) || {};
+  const phones = (personalInfo.personal_phones as Record<string, string>) || {};
+  const addresses = (personalInfo.personal_addresses as Record<string, string>) || {};
+
+  const primaryEmail = emails.primary || "ammarhanyezeldin@gmail.com";
+  const whatsappPhone = phones.egypt || "+20 106 188 8476";
+  const primaryLocation = addresses.egypt || "New Cairo, Egypt";
+
   return (
     <section id="contact" className="scroll-mt-8">
       <SectionHeader title="Get In Touch" subtitle="Let's discuss your project or collaboration opportunities" />
@@ -20,8 +36,8 @@ export default function ContactSection() {
               </div>
               <div>
                 <p className="text-[var(--text-secondary)] text-sm">Email</p>
-                <a href={`mailto:${personalInfo.email}`} className="text-foreground hover:text-[var(--accent-primary)] transition-colors">
-                  {personalInfo.email}
+                <a href={`mailto:${primaryEmail}`} className="text-foreground hover:text-[var(--accent-primary)] transition-colors">
+                  {primaryEmail}
                 </a>
               </div>
             </div>
@@ -33,7 +49,7 @@ export default function ContactSection() {
               <div>
                 <p className="text-[var(--text-secondary)] text-sm">WhatsApp</p>
                 <a href={socialLinks.whatsapp} className="text-foreground hover:text-[var(--accent-primary)] transition-colors" target="_blank" rel="noopener noreferrer">
-                  {personalInfo.phoneNumbers[1].number}
+                  {whatsappPhone}
                 </a>
               </div>
             </div>
@@ -44,7 +60,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <p className="text-[var(--text-secondary)] text-sm">Location</p>
-                <p className="text-foreground">{personalInfo.location}</p>
+                <p className="text-foreground">{primaryLocation}</p>
               </div>
             </div>
           </div>
@@ -58,7 +74,7 @@ export default function ContactSection() {
             <p className="text-[var(--text-secondary)] text-sm">Ready to start a project or have questions? Choose your preferred way to reach out:</p>
 
             <div className="flex flex-col gap-3">
-              <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-3 p-3 bg-[var(--accent-muted)] rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all group">
+              <a href={`mailto:${primaryEmail}`} className="flex items-center gap-3 p-3 bg-[var(--accent-muted)] rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all group">
                 <Mail className="group-hover:text-black" size={20} />
                 <span className="font-medium">Send me an email</span>
               </a>
