@@ -1,31 +1,33 @@
+"use client";
+
+import { useCoreSkills } from "@/hooks/useApiData";
+import { Loader2 } from "lucide-react";
+
 export default function Skills() {
-  const skills = [
-    { label: "React", color: "#61dafb" },
-    { label: "Next.js", color: "#000000" },
-    { label: "TypeScript", color: "#3178c6" },
-    { label: "Node.js", color: "#8cc84b" },
-    { label: "MongoDB", color: "#4DB33D" },
-    { label: "PostgreSQL", color: "#336791" },
-    { label: "Tailwind", color: "#38bdf8" },
-    { label: "Docker", color: "#2496ed" },
-  ];
+  const { data: core, loading, error } = useCoreSkills();
 
   return (
     <div className="w-full">
       <h3 className="text-md font-semibold text-[var(--accent-primary)] mb-3 text-center">Core Skills</h3>
-      <div className="flex flex-wrap gap-2 justify-center">
-        {skills.map((skill) => (
-          <span
-            key={skill.label}
-            className="px-3 py-1 rounded-full text-xs font-semibold text-white transition-transform hover:scale-105"
-            style={{
-              background: skill.color,
-              boxShadow: "0 2px 8px 0 rgba(0,0,0,0.2)",
-            }}>
-            {skill.label}
-          </span>
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center py-2">
+          <Loader2 className="h-4 w-4 animate-spin text-[var(--accent-primary)]" />
+        </div>
+      ) : error ? (
+        <p className="text-xs text-center text-red-500">Failed to load</p>
+      ) : (
+        <div className="flex flex-wrap gap-2 justify-center">
+          {(core || []).slice(0, 12).map((skill) => (
+            <span
+              key={skill.id}
+              className="px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--accent-secondary)]/80 hover:scale-105 transition-transform"
+              style={{ boxShadow: "0 2px 8px 0 rgba(0,0,0,0.2)" }}
+            >
+              {skill.name}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

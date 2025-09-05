@@ -365,3 +365,19 @@ model AuditLog {
   @@index([action])
   @@index([userId])
 }
+
+// Contact leads saved from the contact form
+model Lead {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  subject     String?
+  message     String
+  status      String   @default("new") // new, in_progress, closed
+  source      String?  // e.g., website, referral
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([email])
+  @@index([status, createdAt])
+}

@@ -13,7 +13,6 @@
 
 "use client";
 
-import AdminLayout from "@/components/Admin/AdminLayout";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -67,7 +66,6 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <AdminLayout>
       <div className="min-h-screen bg-[var(--bg-primary)] p-6">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Welcome Header */}
@@ -220,7 +218,6 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
-      </div>
-    </AdminLayout>
+  </div>
   );
 }

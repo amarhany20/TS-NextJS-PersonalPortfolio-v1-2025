@@ -21,7 +21,7 @@ export default async function ServicesPage() {
             <div className="mb-4">
               <h4 className="text-sm font-semibold text-foreground mb-2">Technologies:</h4>
               <div className="flex flex-wrap gap-1">
-                {service.technologies.map((tech, index) => (
+                {(Array.isArray(service.technologies) ? service.technologies : []).map((tech, index) => (
                   <span key={index} className="px-2 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-xs rounded">
                     {tech}
                   </span>
@@ -31,7 +31,7 @@ export default async function ServicesPage() {
             <div>
               <h4 className="text-sm font-semibold text-foreground mb-2">Key Features:</h4>
               <ul className="text-sm text-[var(--text-secondary)] space-y-1">
-                {service.features.map((feature, index) => (
+                {(Array.isArray(service.features) ? service.features : []).map((feature, index) => (
                   <li key={index}>• {feature}</li>
                 ))}
               </ul>

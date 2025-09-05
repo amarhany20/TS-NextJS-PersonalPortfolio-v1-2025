@@ -58,7 +58,16 @@ export const getPersonalMetadata = async (key: string) => {
 };
 
 // Hero Content Service
-export const getHeroContent = async (): Promise<Record<string, unknown> | null> => {
+type HeroContentShape = {
+  greeting: string;
+  subtitle: string;
+  description: string;
+  callToAction: string;
+  primaryButton: { text: string; href: string };
+  secondaryButton: { text: string; href: string };
+};
+
+export const getHeroContent = async (): Promise<HeroContentShape | null> => {
   const heroMetadata = await prisma.metadata.findMany({
     where: {
       category: "hero",
@@ -69,7 +78,7 @@ export const getHeroContent = async (): Promise<Record<string, unknown> | null> 
   if (!heroMetadata.length) return null;
 
   // Transform metadata array into a structured object with proper key mapping
-  const heroContent: Record<string, unknown> = {};
+  const heroContent: Partial<HeroContentShape> = {};
   heroMetadata.forEach((meta) => {
     try {
       let processedValue;
@@ -93,15 +102,44 @@ export const getHeroContent = async (): Promise<Record<string, unknown> | null> 
         heroSecondaryButton: "secondaryButton",
       };
 
-      const mappedKey = keyMapping[meta.key] || meta.key;
-      heroContent[mappedKey] = processedValue;
+      const mappedKey = (keyMapping[meta.key] || meta.key) as keyof HeroContentShape;
+      if (mappedKey === "primaryButton" || mappedKey === "secondaryButton") {
+        const btn = processedValue as unknown;
+        const isBtn = (b: unknown): b is { text: unknown; href: unknown } => typeof b === "object" && b !== null && "text" in (b as Record<string, unknown>) && "href" in (b as Record<string, unknown>);
+        const text = isBtn(btn) && typeof btn.text === "string" ? btn.text : "";
+        const href = isBtn(btn) && typeof btn.href === "string" ? btn.href : "#";
+        heroContent[mappedKey] = { text, href };
+      } else if (mappedKey === "greeting" || mappedKey === "subtitle" || mappedKey === "description" || mappedKey === "callToAction") {
+        heroContent[mappedKey] = String(processedValue) as HeroContentShape[typeof mappedKey];
+      }
     } catch (error) {
       console.error(`Error parsing hero metadata for key ${meta.key}:`, error);
-      heroContent[meta.key] = meta.value;
+      const keyMapping: Record<string, keyof HeroContentShape> = {
+        heroGreeting: "greeting",
+        heroSubtitle: "subtitle",
+        heroDescription: "description",
+        heroCallToAction: "callToAction",
+        heroPrimaryButton: "primaryButton",
+        heroSecondaryButton: "secondaryButton",
+      };
+      const mappedKey = keyMapping[meta.key];
+      if (mappedKey === "primaryButton" || mappedKey === "secondaryButton") {
+        heroContent[mappedKey] = { text: "", href: "#" };
+      } else if (mappedKey) {
+        heroContent[mappedKey] = String(meta.value) as HeroContentShape[typeof mappedKey];
+      }
     }
   });
 
-  return heroContent;
+  // Provide sensible fallbacks if any field missing
+  return {
+    greeting: heroContent.greeting || "",
+    subtitle: heroContent.subtitle || "",
+    description: heroContent.description || "",
+    callToAction: heroContent.callToAction || "",
+    primaryButton: heroContent.primaryButton || { text: "", href: "#" },
+    secondaryButton: heroContent.secondaryButton || { text: "", href: "#" },
+  };
 };
 
 // Contact Information Service

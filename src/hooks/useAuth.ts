@@ -130,20 +130,12 @@ export function useRequireAuth() {
 }
 
 // Utility hook for role-based access
-export function useRequireRole(requiredRole: string) {
+export function useRequireRole(_requiredRole: string) {
   const auth = useAuth();
 
   const hasAccess = () => {
-    if (!auth.user) return false;
-
-    const roleHierarchy: Record<string, number> = {
-      GUEST: 0,
-      USER: 1,
-      ADMIN: 2,
-      SUPER_ADMIN: 3,
-    };
-
-    return (roleHierarchy[auth.user.role] || 0) >= (roleHierarchy[requiredRole] || 999);
+  // For this portfolio, any authenticated user is considered authorized
+  return !!auth.user;
   };
 
   useEffect(() => {
@@ -151,7 +143,7 @@ export function useRequireRole(requiredRole: string) {
       // Redirect to unauthorized page
       window.location.href = "/unauthorized";
     }
-  }, [auth.isLoading, auth.user]);
+  }, [auth.isLoading, auth.user, hasAccess]);
 
   return { ...auth, hasAccess: hasAccess() };
 }

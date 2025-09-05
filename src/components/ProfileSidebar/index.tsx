@@ -3,6 +3,7 @@
 import ProfileSidebarClient from "./ProfileSidebarClient";
 import { useProfileData } from "@/hooks/useApiData";
 import { Loader2 } from "lucide-react";
+import type { Skill } from "@/types/database";
 
 export default function ProfileSidebar() {
   const { personalInfo, coreSkills, languages, loading, error } = useProfileData();
@@ -27,5 +28,11 @@ export default function ProfileSidebar() {
     );
   }
 
-  return <ProfileSidebarClient personalInfo={personalInfo} coreSkills={coreSkills || []} languages={languages || []} />;
+  return (
+    <ProfileSidebarClient
+      personalInfo={personalInfo}
+  coreSkills={(coreSkills as Skill[] | null)?.map((s) => ({ id: s.id, name: s.name })) || []}
+      languages={languages || []}
+    />
+  );
 }

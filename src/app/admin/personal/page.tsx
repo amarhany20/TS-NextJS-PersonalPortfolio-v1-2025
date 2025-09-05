@@ -25,7 +25,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import AdminLayout from "@/components/Admin/AdminLayout";
 import SectionCard from "@/components/UI/SectionCard";
 import SectionHeader from "@/components/UI/SectionHeader";
 
@@ -125,7 +124,6 @@ export default function PersonalInfoPage() {
 
   if (isLoading) {
     return (
-      <AdminLayout>
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
           <div className="max-w-4xl mx-auto">
             <div className="animate-pulse text-center py-12">
@@ -134,12 +132,10 @@ export default function PersonalInfoPage() {
             </div>
           </div>
         </div>
-      </AdminLayout>
     );
   }
 
   return (
-    <AdminLayout>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Header */}
@@ -267,7 +263,6 @@ export default function PersonalInfoPage() {
             </div>
           </div>
         </div>
-      </div>
-    </AdminLayout>
+  </div>
   );
 }

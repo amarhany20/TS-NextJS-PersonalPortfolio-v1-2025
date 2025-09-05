@@ -19,7 +19,6 @@ async function testLogin() {
         email: true,
         firstName: true,
         lastName: true,
-        role: true,
         isActive: true,
       },
     });

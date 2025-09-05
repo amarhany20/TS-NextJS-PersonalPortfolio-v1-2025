@@ -10,7 +10,12 @@ function ProfileSidebarLoading() {
         personal_display_name: "Ammar Hany",
         personal_addresses: { egypt: "New Cairo, Egypt" },
       }}
-      coreSkills={["Python", "React/Next.js", "Flask/Django", "ASP.NET Core"]}
+      coreSkills={[
+        { id: 1, name: "Python" },
+        { id: 2, name: "React/Next.js" },
+        { id: 3, name: "Flask/Django" },
+        { id: 4, name: "ASP.NET Core" },
+      ]}
       languages={[
         { name: "Arabic", level: "Native", flag: "🇪🇬" },
         { name: "English", level: "C2", flag: "🇺🇸" },
@@ -25,10 +30,16 @@ function ProfileSidebarLoading() {
 async function ProfileSidebarWithData() {
   try {
     const personalInfo = await getPersonalInfo();
-    const coreSkills = await getCoreSkills();
+  const coreSkills = await getCoreSkills();
     const languages = await getLanguages();
 
-    return <ProfileSidebarClient personalInfo={personalInfo} coreSkills={coreSkills} languages={languages} />;
+    return (
+      <ProfileSidebarClient
+        personalInfo={personalInfo}
+        coreSkills={coreSkills.map((s) => ({ id: s.id, name: s.name }))}
+        languages={languages}
+      />
+    );
   } catch (error) {
     console.error("Error loading profile data:", error);
     return <ProfileSidebarLoading />;

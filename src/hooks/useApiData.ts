@@ -120,8 +120,8 @@ export const useSkills = (): UseApiState<Record<string, { title: string; icon: s
   return { data, loading, error, refetch: fetchData };
 };
 
-export const useCoreSkills = (): UseApiState<string[]> => {
-  const [data, setData] = useState<string[] | null>(null);
+export const useCoreSkills = (): UseApiState<Skill[]> => {
+  const [data, setData] = useState<Skill[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

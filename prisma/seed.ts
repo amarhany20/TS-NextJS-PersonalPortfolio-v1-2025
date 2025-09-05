@@ -26,16 +26,16 @@ async function main() {
   // 0. Seed Admin User (for authentication)
   console.log("👤 Creating admin user...");
   
-  // Generate a proper bcrypt hash for "admin123"
+  // Generate a proper bcrypt hash for requested password
   const bcrypt = await import("bcryptjs");
-  const passwordHash = await bcrypt.hash("admin123", 12);
+  const passwordHash = await bcrypt.hash("Ammar_12341234", 12);
   
   await prisma.user.create({
     data: {
       email: "ammarhanyezeldin@gmail.com",
       firstName: "Ammar",
       lastName: "Hany",
-      // Default password: "admin123" - should be changed after first login
+    // Default password set as requested. Change it after first login.
       passwordHash,
       isActive: true,
       emailVerified: true,
@@ -43,7 +43,7 @@ async function main() {
     },
   });
 
-  console.log("✅ Admin user created: ammarhanyezeldin@gmail.com (password: admin123)");
+  console.log("✅ Admin user created: ammarhanyezeldin@gmail.com (password: Ammar_12341234)");
 
   // 1. Seed Metadata (Shortcode system for dynamic content)
   console.log("📋 Seeding metadata shortcodes...");
@@ -82,6 +82,26 @@ async function main() {
     { key: "githubUrl", value: "https://github.com/ammarhany", type: "string", category: "social", description: "GitHub profile URL" },
     { key: "websiteUrl", value: "https://ammarhany.dev", type: "string", category: "social", description: "Personal website URL" },
     { key: "twitterUrl", value: "https://twitter.com/ammarhany", type: "string", category: "social", description: "Twitter profile URL" },
+
+  // Profile Image
+  { key: "profileImageUrl", value: "/2024 Ammar Personal Photo.jpg", type: "string", category: "personal", description: "Profile image URL for sidebar/avatar" },
+
+  // Additional Social Links
+  { key: "youtubeUrl", value: "https://www.youtube.com/@TheChillTechgineer", type: "string", category: "social", description: "YouTube channel URL" },
+  { key: "whatsappUrl", value: "https://wa.me/905395775990", type: "string", category: "social", description: "WhatsApp contact link" },
+
+  // Navigation items (shown in sidebar navigation)
+  { key: "navHome", value: JSON.stringify({ href: "/", label: "Home", icon: "Home" }), type: "json", category: "navigation", description: "Home nav item" },
+  { key: "navPortfolio", value: JSON.stringify({ href: "/projects", label: "Portfolio", icon: "Folder" }), type: "json", category: "navigation", description: "Portfolio nav item" },
+  { key: "navBlog", value: JSON.stringify({ href: "/blogs", label: "Blog", icon: "Book" }), type: "json", category: "navigation", description: "Blog nav item" },
+  { key: "navServices", value: JSON.stringify({ href: "/services", label: "Services", icon: "Package" }), type: "json", category: "navigation", description: "Services nav item" },
+  { key: "navContact", value: JSON.stringify({ href: "/contact", label: "Contact", icon: "Mail" }), type: "json", category: "navigation", description: "Contact nav item" },
+
+  // Sidebar bottom quick links (up to 6), editable in DB
+  { key: "quick1", value: JSON.stringify({ href: "https://linkedin.com/in/ammarhany", icon: "Linkedin", label: "LinkedIn" }), type: "json", category: "quickLinks", description: "Quick link 1" },
+  { key: "quick2", value: JSON.stringify({ href: "https://github.com/amarhany20", icon: "Github", label: "GitHub" }), type: "json", category: "quickLinks", description: "Quick link 2" },
+  { key: "quick3", value: JSON.stringify({ href: "mailto:ammarhanyezeldin@gmail.com", icon: "Mail", label: "Email" }), type: "json", category: "quickLinks", description: "Quick link 3" },
+  { key: "quick4", value: JSON.stringify({ href: "https://wa.me/201061888476", icon: "MessageCircle", label: "WhatsApp" }), type: "json", category: "quickLinks", description: "Quick link 4" },
 
     // Professional Summary
     {
@@ -599,9 +619,9 @@ async function main() {
       relationship: "Direct Manager",
       content: "Ammar demonstrated exceptional technical skills and leadership during his time with us. His expertise in computer vision and backend development significantly contributed to our agricultural AI solutions. He successfully deployed 30+ CV models and mentored our intern team.",
       rating: 5,
-      date: "Apr 2024",
-      linkedin: "https://www.linkedin.com/in/yuan-xiong-cto",
-      photo: "/testimonials/yuan-xiong.jpg",
+  date: "2024-04-01",
+  linkedin: "https://www.linkedin.com/in/yuan-xiong-cto",
+  photo: "/2024 Ammar Personal Photo.jpg",
       displayOrder: 0,
       isActive: true,
     },
@@ -612,9 +632,9 @@ async function main() {
       relationship: "Direct Manager",
       content: "Ammar has been leading our digital transformation with exceptional skill and vision. His technical expertise in Next.js and WordPress, combined with his strategic thinking, has transformed our online presence. A true technical leader.",
       rating: 5,
-      date: "Present",
-      linkedin: "https://www.linkedin.com/in/ahmed-hassan-ceo",
-      photo: "/testimonials/ahmed-hassan.jpg",
+  date: "Present",
+  linkedin: "https://www.linkedin.com/in/ahmed-hassan-ceo",
+  photo: "/2024 Ammar Personal Photo.jpg",
       displayOrder: 1,
       isActive: true,
     },
@@ -689,7 +709,7 @@ async function main() {
   console.log("- 2 Professional recommendations");
   console.log("- 1 CV information entry");
   console.log("- 2 Technical blog posts");
-  console.log("🔐 Default admin login: ammarhanyezeldin@gmail.com / admin123");
+  console.log("🔐 Default admin login: ammarhanyezeldin@gmail.com / Ammar_12341234");
   console.log("🔄 All models use displayOrder and isActive for better organization!");
 }
 

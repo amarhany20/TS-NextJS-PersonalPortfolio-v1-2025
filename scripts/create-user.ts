@@ -18,7 +18,6 @@ interface CreateUserArgs {
   password: string;
   firstName?: string;
   lastName?: string;
-  role?: "USER" | "ADMIN" | "SUPER_ADMIN";
 }
 
 async function createUser(args: CreateUserArgs) {
@@ -51,8 +50,7 @@ async function createUser(args: CreateUserArgs) {
         email: args.email,
         passwordHash,
         firstName: args.firstName || "",
-        lastName: args.lastName || "",
-        role: args.role || "USER",
+  lastName: args.lastName || "",
         emailVerified: true,
         isActive: true,
       },
@@ -60,7 +58,6 @@ async function createUser(args: CreateUserArgs) {
 
     console.log(`✅ User created successfully!`);
     console.log(`Email: ${user.email}`);
-    console.log(`Role: ${user.role}`);
     console.log(`Name: ${user.firstName} ${user.lastName}`);
 
     return user;
@@ -88,18 +85,11 @@ function parseArgs(): CreateUserArgs {
     process.exit(1);
   }
 
-  // Validate role
-  if (args.role && !["USER", "ADMIN", "SUPER_ADMIN"].includes(args.role)) {
-    console.error("Invalid role. Must be one of: USER, ADMIN, SUPER_ADMIN");
-    process.exit(1);
-  }
-
   return {
     email: args.email,
     password: args.password,
     firstName: args.firstName,
     lastName: args.lastName,
-    role: args.role as "USER" | "ADMIN" | "SUPER_ADMIN",
   };
 }
 

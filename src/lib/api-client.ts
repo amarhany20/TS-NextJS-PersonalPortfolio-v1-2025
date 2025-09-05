@@ -171,6 +171,11 @@ export const apiService = {
   // Personal Info - using metadata endpoint with category filter
   getPersonalInfo: () => apiClient.get<ApiResponse<Record<string, string | number | boolean | object>>>("/metadata?category=personal"),
 
+  // Generic metadata helpers
+  getMetadataByCategory: (category: string) =>
+    apiClient.get<ApiResponse<Record<string, unknown>>>(`/metadata?category=${encodeURIComponent(category)}`),
+  getMetadataByKey: (key: string) => apiClient.get<ApiResponse<{ key: string; value: unknown; type: string; category: string; description?: string }>>(`/metadata?key=${encodeURIComponent(key)}`),
+
   // Experience
   getExperience: () => apiClient.get<ApiResponse<Experience[]>>("/experience"),
 

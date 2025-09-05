@@ -30,7 +30,7 @@ export default async function BlogsPage() {
               </div>
 
               <div className="flex flex-wrap gap-1">
-                {post.tags.slice(0, 2).map((tag) => (
+                {((Array.isArray(post.tags) ? post.tags : []) as string[]).slice(0, 2).map((tag) => (
                   <span key={tag} className="px-2 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-xs rounded">
                     {tag}
                   </span>

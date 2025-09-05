@@ -52,19 +52,7 @@ export async function requireRole(request: NextRequest, requiredRole: string, ha
     if (!req.user) {
       return NextResponse.json({ error: "User not found" }, { status: 401 });
     }
-
-    // Check role hierarchy
-    const roleHierarchy: Record<string, number> = {
-      GUEST: 0,
-      USER: 1,
-      ADMIN: 2,
-      SUPER_ADMIN: 3,
-    };
-
-    if ((roleHierarchy[req.user.role] || 0) < (roleHierarchy[requiredRole] || 999)) {
-      return NextResponse.json({ error: "Insufficient permissions" }, { status: 403 });
-    }
-
+  // For this portfolio, any authenticated user is authorized
     return handler(req);
   });
 }
@@ -111,15 +99,7 @@ export function getUser(request: AuthenticatedRequest): AuthUser | null {
  */
 export function canAccessResource(user: AuthUser | null, resourceOwnerId?: string): boolean {
   if (!user) return false;
-
-  // Super admins can access everything
-  if (user.role === "SUPER_ADMIN") return true;
-
-  // Admins can access most things
-  if (user.role === "ADMIN") return true;
-
-  // Users can only access their own resources
   if (resourceOwnerId && user.id === resourceOwnerId) return true;
-
-  return false;
+  // All authenticated users can access (single-owner portfolio)
+  return true;
 }

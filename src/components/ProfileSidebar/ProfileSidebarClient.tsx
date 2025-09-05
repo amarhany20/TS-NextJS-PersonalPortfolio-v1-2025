@@ -6,13 +6,7 @@ import { useSidebar } from "@/components/UI/SidebarProvider";
 
 interface ProfileSidebarProps {
   personalInfo: Record<string, string | number | boolean | object> | null;
-  coreSkills: Array<{
-    id: number;
-    name: string;
-    level: number;
-    experience: string;
-    isCoreSkill: boolean;
-  }> | null;
+  coreSkills: Array<{ id: number; name: string }> | null;
   languages: Array<{ name: string; level: string; flag: string }> | null;
 }
 
@@ -22,10 +16,9 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
   if (!personalInfo) return null;
 
   // Extract data from metadata structure
-  const displayName = (personalInfo.personal_display_name as string) || "Ammar Hany";
-  const addresses = (personalInfo.personal_addresses as Record<string, string>) || {};
-  const primaryLocation = addresses.egypt || "New Cairo, Egypt";
-  const profileTitle = "Senior Software Engineer";
+  const displayName = (personalInfo.fullName as string) || (personalInfo.personal_display_name as string) || "";
+  const primaryLocation = ((personalInfo.location as string) || "").toString();
+  const profileTitle = ((personalInfo.title as string) || "").toString();
 
   return (
     <>
@@ -109,7 +102,7 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         <hr className="border-[var(--border)] mb-4" />
 
         {/* Bottom - Copyright */}
-        <div className="mt-auto text-center text-xs text-[var(--text-secondary)]">© 2025</div>
+  <div className="mt-auto text-center text-xs text-[var(--text-secondary)]">© {new Date().getFullYear()}</div>
       </aside>
     </>
   );
