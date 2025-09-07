@@ -177,8 +177,9 @@ export const getContactInfo = async (): Promise<Record<string, unknown> | null> 
 
 // Work Experience Service
 export const getExperience = async (): Promise<Experience[]> => {
+  // displayOrder: 0 = newest (ascending gives newest first visually)
   const experiences = await prisma.experience.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { displayOrder: "asc" },
   });
 
   return experiences.map((exp) => ({
@@ -239,7 +240,7 @@ export const getCoreSkills = async (): Promise<Skill[]> => {
 // Certificates Service
 export const getCertificates = async (): Promise<Certificate[]> => {
   const certificates = await prisma.certificate.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { displayOrder: "asc" },
   });
 
   return certificates.map((cert) => ({
@@ -258,7 +259,7 @@ export const getRecommendations = async (): Promise<Recommendation[]> => {
 // Services Service
 export const getServices = async (): Promise<Service[]> => {
   const services = await prisma.service.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { displayOrder: "asc" },
   });
 
   return services.map((service) => ({

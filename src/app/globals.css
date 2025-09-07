@@ -43,6 +43,21 @@ body {
   /* Removed overflow-x hidden to allow sidebar tooltips to overflow */
 }
 
+/* Global hover text color normalization to avoid abrupt white->black flash */
+.hover-text-invert, a.hover-text-invert, .tag-chip {
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+.hover-text-invert:hover {
+  color: #000 !important;
+}
+
+/* Utility for gradient chips to ensure text color transitions smoothly */
+.chip-gradient {
+  transition: background 220ms ease, color 160ms ease;
+  will-change: background, color;
+}
+
 /* Helpers for Tailwind usage */
 .bg-background {
   background: var(--background);

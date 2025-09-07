@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { MapPin, Globe, X } from "lucide-react";
 import { useSidebar } from "@/components/UI/SidebarProvider";
+// Import package.json to read the project version for display in the sidebar footer
+import { APP_VERSION } from '@/lib/version';
 
 interface ProfileSidebarProps {
   personalInfo: Record<string, string | number | boolean | object> | null;
@@ -101,8 +103,11 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         {/* Divider */}
         <hr className="border-[var(--border)] mb-4" />
 
-        {/* Bottom - Copyright */}
-  <div className="mt-auto text-center text-xs text-[var(--text-secondary)]">© {new Date().getFullYear()}</div>
+        {/* Bottom - Version & Copyright */}
+        <div className="mt-auto text-center text-xs text-[var(--text-secondary)]">
+          <div>ammarhany.com @ 2025 - V{APP_VERSION}</div>
+          <div className="mt-1">© {new Date().getFullYear()}</div>
+        </div>
       </aside>
     </>
   );
