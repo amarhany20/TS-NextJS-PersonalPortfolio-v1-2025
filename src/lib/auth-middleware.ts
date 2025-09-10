@@ -17,7 +17,7 @@ export interface AuthenticatedRequest extends NextRequest {
 export async function requireAuth(request: NextRequest, handler: (req: AuthenticatedRequest) => Promise<NextResponse>): Promise<NextResponse> {
   try {
     // Get token from cookie or Authorization header
-    const cookieToken = request.cookies.get("auth-token")?.value;
+  const cookieToken = request.cookies.get("session-token")?.value;
     const bearerToken = request.headers.get("authorization")?.replace("Bearer ", "");
     const token = cookieToken || bearerToken;
 
@@ -64,7 +64,7 @@ export async function requireRole(request: NextRequest, requiredRole: string, ha
 export async function optionalAuth(request: NextRequest, handler: (req: AuthenticatedRequest) => Promise<NextResponse>): Promise<NextResponse> {
   try {
     // Get token from cookie or Authorization header
-    const cookieToken = request.cookies.get("auth-token")?.value;
+  const cookieToken = request.cookies.get("session-token")?.value;
     const bearerToken = request.headers.get("authorization")?.replace("Bearer ", "");
     const token = cookieToken || bearerToken;
 

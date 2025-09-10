@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="en" className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full`}>
-        {/* Client-side UI and Sidebars */}
-        <ClientLayout>{children}</ClientLayout>
+  <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

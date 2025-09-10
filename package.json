@@ -1,9 +1,10 @@
 {
   "name": "ts-nextjs-personalportfolio-v1-2025",
-  "version": "00.01.02 ",
+  "version": "00.21.01 ",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+  "dev": "next dev --turbopack",
+  "dev:webpack": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,7 +14,8 @@
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "create-user": "tsx scripts/create-user.ts",
-    "test:login": "tsx scripts/test-login.ts",
+  "test:login": "tsx scripts/test-login.ts",
+  "set-password": "tsx scripts/set-password.ts",
     "test:api": "node scripts/test-api.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",

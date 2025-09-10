@@ -4,9 +4,9 @@ import bcrypt from 'bcryptjs';
 export async function seedCore(prisma: PrismaClient) {
   console.log('\n[core] Seeding core user, metadata, education, languages, skills...');
 
-  // Admin user (ensure idempotent by email)
+  // Admin user (ensure idempotent by emal)
   const adminEmail = 'ammarhanyezeldin@gmail.com';
-  const passwordHash = await bcrypt.hash('Ammar_12341234', 12);
+  const passwordHash = await bcrypt.hash('Bomtecbom_12341234', 12);
   await prisma.user.upsert({
     where: { email: adminEmail },
     update: {},

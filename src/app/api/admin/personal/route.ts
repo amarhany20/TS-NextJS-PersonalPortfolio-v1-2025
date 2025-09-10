@@ -26,13 +26,24 @@ const personalInfoSchema = z.object({
   careerObjective: z.string(),
 });
 
+// Helper to convert snake_case to camelCase
+function toCamel(s: string) {
+  return s.replace(/[_-](\w)/g, (_, c) => (c ? c.toUpperCase() : ""));
+}
+
+function normalizeKey(key: string): string {
+  if (key.startsWith("personal_")) return toCamel(key.replace(/^personal_/, ""));
+  if (key.startsWith("professional_")) return toCamel(key.replace(/^professional_/, ""));
+  return toCamel(key);
+}
+
 // GET /api/admin/personal - Get personal information
 export async function GET(request: NextRequest) {
   return requireRole(request, "USER", async () => {
     try {
       const personalInfo = await prisma.metadata.findMany({
         where: {
-          category: "personal",
+          category: { in: ["personal", "professional"] },
           isActive: true,
         },
         orderBy: { key: "asc" },
@@ -40,15 +51,13 @@ export async function GET(request: NextRequest) {
 
       // Transform metadata into structured object
       const info = personalInfo.reduce((acc, item) => {
-        const keyParts = item.key.split("_");
-        const mainKey = keyParts[1]; // Remove 'personal_' prefix
-
-        if (item.type === "json") {
-          acc[mainKey] = JSON.parse(item.value);
-        } else {
+        const mainKey = normalizeKey(item.key);
+        if (!mainKey) return acc;
+        try {
+          acc[mainKey] = item.type === "json" ? JSON.parse(item.value) : item.value;
+        } catch {
           acc[mainKey] = item.value;
         }
-
         return acc;
       }, {} as Record<string, unknown>);
 

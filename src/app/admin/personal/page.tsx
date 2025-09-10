@@ -124,11 +124,11 @@ export default function PersonalInfoPage() {
 
   if (isLoading) {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+        <div className="min-h-screen bg-[var(--background)] p-6">
           <div className="max-w-4xl mx-auto">
             <div className="animate-pulse text-center py-12">
-              <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-48 mx-auto"></div>
+              <div className="h-8 bg-[var(--accent-muted)] rounded w-64 mx-auto mb-4"></div>
+              <div className="h-4 bg-[var(--accent-muted)] rounded w-48 mx-auto"></div>
             </div>
           </div>
         </div>
@@ -136,79 +136,88 @@ export default function PersonalInfoPage() {
   }
 
   return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+      <div className="min-h-screen bg-[var(--background)] p-6">
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Header */}
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+          <div className="bg-[var(--card-bg)] rounded-xl shadow-md p-6 border border-[var(--border)]">
             <SectionHeader title="Personal Information" subtitle="Update your personal details and contact information" />
 
-            {message && <div className={`mt-4 p-4 rounded-lg ${message.startsWith("Error") ? "bg-red-50 text-red-700 border border-red-200" : "bg-green-50 text-green-700 border border-green-200"}`}>{message}</div>}
+            {message && (
+              <div
+                className={`mt-4 p-4 rounded-lg border ${
+                  message.startsWith("Error")
+                    ? "bg-[var(--danger)]/10 text-[var(--danger)] border-[var(--danger)]/30"
+                    : "bg-[var(--success)]/10 text-[var(--success)] border-[var(--success)]/30"
+                }`}>
+                {message}
+              </div>
+            )}
           </div>
 
           {/* Basic Information */}
-          <SectionCard className="bg-white">
+          <SectionCard className="bg-[var(--card-bg)]">
             <div className="mb-6">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">📝 Basic Information</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">📝 Basic Information</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                <input type="text" value={personalInfo.name} onChange={(e) => updateField("name", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your full name" />
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Full Name</label>
+                <input type="text" value={personalInfo.name} onChange={(e) => updateField("name", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground" placeholder="Your full name" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Display Name</label>
-                <input type="text" value={personalInfo.displayName} onChange={(e) => updateField("displayName", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Name shown on portfolio" />
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Display Name</label>
+                <input type="text" value={personalInfo.displayName} onChange={(e) => updateField("displayName", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground" placeholder="Name shown on portfolio" />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Professional Title</label>
-                <input type="text" value={personalInfo.title} onChange={(e) => updateField("title", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Senior Software Engineer" />
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Professional Title</label>
+                <input type="text" value={personalInfo.title} onChange={(e) => updateField("title", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground" placeholder="e.g., Senior Software Engineer" />
               </div>
             </div>
           </SectionCard>
 
           {/* Contact Information */}
-          <SectionCard className="bg-white">
+          <SectionCard className="bg-[var(--card-bg)]">
             <div className="mb-6">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">📞 Contact Information</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">📞 Contact Information</h3>
             </div>
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Primary Email</label>
-                  <input type="email" value={personalInfo.emails.primary} onChange={(e) => updateNestedField("emails", "primary", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="your@email.com" />
+                  <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Primary Email</label>
+                  <input type="email" value={personalInfo.emails.primary} onChange={(e) => updateNestedField("emails", "primary", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground" placeholder="your@email.com" />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Professional Email (Optional)</label>
+                  <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Professional Email (Optional)</label>
                   <input
                     type="email"
                     value={personalInfo.emails.professional || ""}
                     onChange={(e) => updateNestedField("emails", "professional", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground"
                     placeholder="work@company.com"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Website (Optional)</label>
-                <input type="url" value={personalInfo.website || ""} onChange={(e) => updateField("website", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="https://yourwebsite.com" />
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Website (Optional)</label>
+                <input type="url" value={personalInfo.website || ""} onChange={(e) => updateField("website", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground" placeholder="https://yourwebsite.com" />
               </div>
             </div>
           </SectionCard>
 
           {/* Professional Details */}
-          <SectionCard className="bg-white">
+          <SectionCard className="bg-[var(--card-bg)]">
             <div className="mb-6">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">💼 Professional Details</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">💼 Professional Details</h3>
             </div>
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Availability Status</label>
-                  <select value={personalInfo.availability} onChange={(e) => updateField("availability", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Availability Status</label>
+                  <select value={personalInfo.availability} onChange={(e) => updateField("availability", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground">
                     <option value="">Select availability</option>
                     <option value="Available immediately">Available immediately</option>
                     <option value="Available in 2 weeks">Available in 2 weeks</option>
@@ -219,8 +228,8 @@ export default function PersonalInfoPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Relocation Status</label>
-                  <select value={personalInfo.relocationStatus} onChange={(e) => updateField("relocationStatus", e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Relocation Status</label>
+                  <select value={personalInfo.relocationStatus} onChange={(e) => updateField("relocationStatus", e.target.value)} className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground">
                     <option value="">Select relocation status</option>
                     <option value="Open to relocation">Open to relocation</option>
                     <option value="No relocation">No relocation</option>
@@ -231,23 +240,23 @@ export default function PersonalInfoPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Professional Summary</label>
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Professional Summary</label>
                 <textarea
                   value={personalInfo.professionalSummary}
                   onChange={(e) => updateField("professionalSummary", e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground"
                   placeholder="Brief summary of your professional background and expertise..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Career Objective</label>
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Career Objective</label>
                 <textarea
                   value={personalInfo.careerObjective}
                   onChange={(e) => updateField("careerObjective", e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-[var(--accent-muted)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-foreground"
                   placeholder="Your career goals and what you're looking for in your next role..."
                 />
               </div>
@@ -255,9 +264,9 @@ export default function PersonalInfoPage() {
           </SectionCard>
 
           {/* Save Button */}
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+          <div className="bg-[var(--card-bg)] rounded-xl shadow-md p-6 border border-[var(--border)]">
             <div className="flex justify-end">
-              <button onClick={handleSave} disabled={isSaving} className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
+              <button onClick={handleSave} disabled={isSaving} className="bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 disabled:bg-[var(--accent-primary)]/50 text-black px-6 py-2 rounded-lg font-medium transition-colors duration-200">
                 {isSaving ? "Saving..." : "Save Changes"}
               </button>
             </div>

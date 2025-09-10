@@ -8,8 +8,17 @@ import Footer from "@/components/UI/Footer";
 import AnimatedBackground from "@/components/UI/AnimatedBackground";
 import { SidebarProvider } from "@/components/UI/SidebarProvider";
 import { AuthProvider } from "@/hooks/useAuthContext";
+import { usePathname } from "next/navigation";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
+
+  // For admin routes, don't render public site chrome (sidebars, background, footer)
+  if (isAdmin) {
+    return <>{children}</>;
+  }
+
   return (
     <AuthProvider>
       <SidebarProvider>

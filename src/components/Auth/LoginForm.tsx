@@ -7,12 +7,13 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 
 export default function LoginForm() {
   const { login, isLoading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,8 +25,9 @@ export default function LoginForm() {
     try {
       const result = await login(formData);
       if (result.success) {
-        // Redirect to admin dashboard
-        router.push("/admin");
+        // Redirect to callbackUrl if provided, else to admin dashboard
+        const callbackUrl = searchParams?.get("callbackUrl");
+        router.push(callbackUrl && callbackUrl.startsWith("/") ? callbackUrl : "/admin");
       } else {
         setError(result.error || "Login failed");
       }

@@ -4,6 +4,9 @@
   /* Palette */
   --background: #111216;
   --foreground: #fff;
+  /* Aliases used by some components */
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
   --sidebar: #181a1b;
   --accent-primary: #ffd600; /* yellow */
   --accent-secondary: #058ddb; /* teal/cyan */
@@ -24,6 +27,8 @@
   :root {
     --background: #111216;
     --foreground: #fff;
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
     --sidebar: #181a1b;
     --accent-primary: #ffd600;
     --accent-secondary: #058ddb;

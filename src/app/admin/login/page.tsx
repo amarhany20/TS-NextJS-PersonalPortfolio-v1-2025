@@ -5,7 +5,12 @@
  */
 
 import LoginForm from "@/components/Auth/LoginForm";
+import { Suspense } from "react";
 
 export default function AdminLoginPage() {
-  return <LoginForm />;
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Loading…</div>}>
+      <LoginForm />
+    </Suspense>
+  );
 }

@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Enhanced middleware for performance and security
+// Enhanced middleware for performance, security, and admin auth gating
 export function middleware(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+
+  // Gate admin routes (pages) behind auth; allow /admin/login without a session
+  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
+    const hasSession = Boolean(request.cookies.get("session-token")?.value);
+    if (!hasSession) {
+      const loginUrl = new URL("/admin/login", request.url);
+      loginUrl.searchParams.set("callbackUrl", `${pathname}${search || ""}`);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
   const response = NextResponse.next();
 
   // Security Headers
