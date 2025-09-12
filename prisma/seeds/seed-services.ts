@@ -4,95 +4,194 @@ export async function seedServices(prisma: PrismaClient) {
   console.log('\n[services] Seeding professional services (generated)...');
 
   const services = [
+    // 1) Custom WordPress Websites
     {
-      title: 'Backend API Architecture & Development',
-      description: 'Design and implement scalable REST APIs with clean architecture (DTOs, services, repositories) in Python (Django/Flask/FastAPI) or ASP.NET Core.',
-      icon: '⚙️',
-      features: ['Layered architecture','JWT/OAuth2 auth','RBAC/ABAC','Observability hooks','Performance optimization','Documentation & onboarding'],
-      technologies: ['Django','FastAPI','ASP.NET Core','PostgreSQL','Redis','Docker'],
-      pricing: { model: 'project', starting: 3000 },
+      title: 'Custom WordPress Websites',
+      description: 'Design and develop fast, secure, and multilingual WordPress websites with Elementor, Pods, and custom PHP.',
+      icon: '🧩',
+      features: [
+        'Custom plugins',
+        'WooCommerce stores',
+        'Multilingual content',
+        'Caching & optimization',
+        'Training for editors'
+      ],
+      technologies: ['WordPress','PHP','Elementor Pro','Pods','MySQL'],
+      pricing: { model: 'project', starting: 2000 },
       displayOrder: 0
     },
+    // 2) Next.js Frontend Development
     {
-      title: 'Full-Stack Product Development',
-      description: 'End-to-end delivery of web platforms using Next.js (App Router) + backend (Django/ASP.NET) with CI/CD and infrastructure guidance.',
+      title: 'Next.js Frontend Development',
+      description: 'Modern, SEO-friendly web frontends using Next.js with clean, responsive UI/UX.',
       icon: '🌐',
-      features: ['SSR & SEO optimized','Design system & components','API integration','State management patterns','Testing strategy','Deployment automation'],
-      technologies: ['Next.js','TypeScript','Tailwind','Django','ASP.NET Core','Prisma'],
-      pricing: { model: 'project', starting: 5000 },
+      features: [
+        'TailwindCSS styling',
+        'SSR/ISR',
+        'Accessibility compliance',
+        'API integration',
+        'Pixel-perfect Figma matches'
+      ],
+      technologies: ['Next.js','React','TailwindCSS','TypeScript'],
+      pricing: { model: 'project', starting: 2500 },
       displayOrder: 1
     },
+    // 3) Backend API Development
     {
-      title: 'AI / Computer Vision Pipelines',
-      description: 'Custom CV model development (YOLOv8, PyTorch) with dataset workflows, training automation, and Jetson edge deployment.',
-      icon: '🤖',
-      features: ['Dataset curation','Model training & evaluation','Edge optimization','Monitoring hooks','Inference APIs','Documentation & handover'],
-      technologies: ['PyTorch','YOLOv8','OpenCV','Jetson','GCP','Flask'],
-      pricing: { model: 'project', starting: 6000 },
+      title: 'Backend API Development',
+      description: 'Robust and scalable REST/WebSocket APIs with secure authentication and clean architecture.',
+      icon: '⚙️',
+      features: [
+        'JWT/OAuth2',
+        'RBAC',
+        'DTO patterns',
+        'Migrations',
+        'Containerized deployments'
+      ],
+      technologies: ['Django REST Framework','ASP.NET Core','Flask','FastAPI','PostgreSQL'],
+      pricing: { model: 'project', starting: 3000 },
       displayOrder: 2
     },
+    // 4) E-Commerce Solutions
     {
-      title: 'Cloud & DevOps Enablement',
-      description: 'Infrastructure design & automation for small to growth-stage teams with cost-aware containerized deployments.',
-      icon: '☁️',
-      features: ['Dockerization','CI/CD pipelines','Cloud Run / GCE','Monitoring & logging','Cost optimization','Environment parity'],
-      technologies: ['Docker','GitHub Actions','GCP','Kubernetes','Redis','PostgreSQL'],
-      pricing: { model: 'retainer', starting: 1500 },
+      title: 'E-Commerce Solutions',
+      description: 'Complete e-commerce builds and optimizations for both SMEs and high-end brands.',
+      icon: '🛒',
+      features: [
+        'WooCommerce customizations',
+        'Next.js + Django commerce stacks',
+        'Multilingual/multi-currency',
+        'Payment integrations',
+        'Checkout optimization'
+      ],
+      technologies: ['WooCommerce','Next.js','Django','PostgreSQL'],
+      pricing: { model: 'project', starting: 4000 },
       displayOrder: 3
     },
+    // 5) Performance Optimization
     {
-      title: 'System Architecture & Technical Audits',
-      description: 'Architecture reviews, refactor roadmaps, scalability & reliability assessments with actionable recommendations.',
-      icon: '📐',
-      features: ['Codebase audit','Performance profiling','Security & auth review','Architecture diagrams','Refactor plan','Knowledge transfer'],
-      technologies: ['Django','ASP.NET','Next.js','PostgreSQL','Redis','Cloud'],
+      title: 'Performance Optimization',
+      description: 'Audit and optimize websites and systems for speed, SEO, and scalability.',
+      icon: '🚀',
+      features: [
+        'Lighthouse improvements',
+        'Caching (Redis, Varnish, Object Cache Pro)',
+        'Database tuning',
+        'CDN setup',
+        'Code refactoring'
+      ],
+      technologies: ['WordPress','Next.js','Redis','Nginx/Apache'],
       pricing: { model: 'audit', starting: 1200 },
       displayOrder: 4
     },
+    // 6) AI & Computer Vision Solutions
     {
-      title: 'WordPress Performance & Architecture',
-      description: 'Enterprise-grade WordPress builds and optimization (Elementor/Pods/Custom plugins) with caching and deploy workflows.',
-      icon: '🚀',
-      features: ['Custom CPTs & relationships','Caching layers','Security hardening','Plugin architecture','SEO foundations','Staging workflows'],
-      technologies: ['WordPress','PHP','Elementor','Pods','Redis','Varnish'],
-      pricing: { model: 'project', starting: 2000 },
+      title: 'AI & Computer Vision Solutions',
+      description: 'End-to-end AI systems for object detection, image analysis, and automation.',
+      icon: '🤖',
+      features: [
+        'YOLOv8 model training',
+        'Data pipelines',
+        'Jetson deployment',
+        'REST API integration',
+        'Dataset preparation'
+      ],
+      technologies: ['PyTorch','YOLOv8','TensorFlow','OpenCV','Jetson'],
+      pricing: { model: 'project', starting: 6000 },
       displayOrder: 5
     },
+    // 7) Mobile App Development (Flutter)
     {
-      title: 'Pricing & Internal Tools Platforms',
-      description: 'Rapid development of internal-priced operations tools (pricing, analytics, resource catalogues) with audit trails.',
-      icon: '📊',
-      features: ['Role-based access','Audit logging','Data modeling','UI scaffolding','Export/reporting','Deployment automation'],
-      technologies: ['Next.js','PostgreSQL','Prisma','Django','ASP.NET Core','Tailwind'],
+      title: 'Mobile App Development (Flutter)',
+      description: 'Cross-platform mobile applications with backend integration and localization.',
+      icon: '📱',
+      features: [
+        'Multilingual support',
+        'Dynamic screen generation',
+        'Offline-first workflows',
+        'Secure API integration'
+      ],
+      technologies: ['Flutter','Dart','ASP.NET Core','Django'],
       pricing: { model: 'project', starting: 3500 },
       displayOrder: 6
     },
+    // 8) Desktop & ERP Systems
     {
-      title: 'Technical Leadership & Mentorship',
-      description: 'Hands-on advisory for early-stage teams: architecture decisions, hiring calibration, code reviews & process design.',
-      icon: '🧭',
-      features: ['Architecture guidance','Career growth support','Code review cadence','Process improvement','Knowledge sharing','Security posture uplift'],
-      technologies: ['Architecture','Clean patterns','CI/CD','Testing','DevEx','Documentation'],
-      pricing: { model: 'retainer', starting: 1800 },
+      title: 'Desktop & ERP Systems',
+      description: 'Custom role-based Windows software for ERP, POS, or inventory management.',
+      icon: '🖥️',
+      features: [
+        'User roles',
+        'Reporting dashboards',
+        'Secure login',
+        'Database-driven workflows',
+        'Local or server deployment'
+      ],
+      technologies: ['C#','.NET WPF','MSSQL','SQLite'],
+      pricing: { model: 'project', starting: 3000 },
       displayOrder: 7
     },
+    // 9) Cloud & DevOps Services
     {
-      title: 'Data & Reporting Enablement',
-      description: 'Marketing and product analytics frameworks (dashboards, performance pipelines) aligning business decision flows.',
-      icon: '📈',
-      features: ['Reporting templates','Attribution checks','Data collection review','Visualization setup','Automation scripts','Metric definitions'],
-      technologies: ['GA4','BigQuery','Python','APIs','Dashboards','Automation'],
-      pricing: { model: 'project', starting: 1300 },
+      title: 'Cloud & DevOps Services',
+      description: 'Deployment, scaling, and cost-optimized management of cloud infrastructure.',
+      icon: '☁️',
+      features: [
+        'Docker/Kubernetes setups',
+        'GitHub Actions CI/CD',
+        'GCP/DigitalOcean deployments',
+        'Monitoring & backups'
+      ],
+      technologies: ['GCP','Firebase','DigitalOcean','Docker','Kubernetes','GitHub Actions'],
+      pricing: { model: 'retainer', starting: 1500 },
       displayOrder: 8
     },
+    // 10) IT & Digital Transformation
     {
-      title: 'Legacy Modernization Pathfinding',
-      description: 'Assess monolithic or outdated systems and design pragmatic staged modernization (APIs, services, infra evolution).',
-      icon: '🛠️',
-      features: ['Baseline assessment','Risk mapping','Modularization plan','Tech stack recommendations','Migration sequencing','KPIs & tracking'],
-      technologies: ['Monoliths','Microservices','APIs','Containers','Observability','Databases'],
-      pricing: { model: 'audit', starting: 1600 },
+      title: 'IT & Digital Transformation',
+      description: 'Helping companies modernize tools and workflows.',
+      icon: '🏢',
+      features: [
+        'Google Workspace setup',
+        'CRM/ERP integrations',
+        'SOP & template libraries',
+        'Process automation',
+        'Staff upskilling'
+      ],
+      technologies: ['Google Workspace','Microsoft 365','CRMs','ERP platforms'],
+      pricing: { model: 'retainer', starting: 1200 },
       displayOrder: 9
+    },
+    // 11) Tracking & Analytics Integration
+    {
+      title: 'Tracking & Analytics Integration',
+      description: 'Set up and maintain accurate marketing and conversion tracking.',
+      icon: '📈',
+      features: [
+        'Meta Pixel + CAPI',
+        'TikTok Events API',
+        'GA4 setup',
+        'Server-side GTM',
+        'Reporting dashboards'
+      ],
+      technologies: ['Google Tag Manager','GA4','Meta CAPI','TikTok API'],
+      pricing: { model: 'project', starting: 1000 },
+      displayOrder: 10
+    },
+    // 12) Marketing Reporting Automation
+    {
+      title: 'Marketing Reporting Automation',
+      description: 'Automated performance dashboards and structured reporting frameworks.',
+      icon: '📊',
+      features: [
+        'MoM comparisons',
+        'Campaign efficiency metrics',
+        'PDF/Sheets exports',
+        'Cross-platform reporting'
+      ],
+      technologies: ['Google Sheets','Power BI','Python','Meta Ads API','TikTok Ads API'],
+      pricing: { model: 'project', starting: 1200 },
+      displayOrder: 11
     }
   ];
 
