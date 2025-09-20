@@ -1,29 +1,20 @@
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { getRecommendations } from "@/lib/database-services";
+import { recommendations as loadRecommendations } from "@/temp-data/loaders/recommendationsLoader";
+import { formatMonthYear } from "@/utils/helpers";
 import { Linkedin, Quote } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 function formatDisplayDate(value: string | Date): string {
   if (!value) return "";
-  // Allow known labels like "Present"
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    if (/present/i.test(trimmed)) return "Present";
-    // Try parsing common formats
-    const parsed = new Date(trimmed);
-    if (!isNaN(parsed.getTime())) {
-      return parsed.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-    }
-    // Fallback to raw string if unparseable
-    return trimmed;
-  }
-  const d = new Date(value);
-  return !isNaN(d.getTime()) ? d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "";
+  if (typeof value !== "string") return formatMonthYear(value.toString());
+  if (/present/i.test(value)) return "Present";
+  return formatMonthYear(value);
 }
 
 export default async function Recommendations() {
-  const recommendations = await getRecommendations();
+  const recommendations = await loadRecommendations();
 
   return (
     <section id="recommendations" className="scroll-mt-8">
@@ -43,7 +34,14 @@ export default async function Recommendations() {
                 )}
               </div>
 
-              <blockquote className="text-[var(--text-secondary)] text-[15px] mb-5 leading-relaxed">“{rec.content}”</blockquote>
+              <blockquote className="text-[var(--text-secondary)] text-[15px] mb-5 leading-relaxed">
+                “{rec.content.length > 180 ? rec.content.slice(0, 180) + "…" : rec.content}”
+              </blockquote>
+              {rec.content.length > 180 && (
+                <Link href={`#`} className="text-[var(--accent-primary)] text-sm font-medium hover:underline">
+                  Read full
+                </Link>
+              )}
 
               <div className="flex items-center gap-3">
                 {rec.photo && <Image src={rec.photo} alt={rec.name} width={44} height={44} className="w-11 h-11 rounded-full object-cover" />}

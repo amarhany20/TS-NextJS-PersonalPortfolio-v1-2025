@@ -2,29 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { apiService } from "@/lib/api-client";
 
 export default function Avatar() {
   const [name, setName] = useState<string>("Profile");
   const [imageUrl, setImageUrl] = useState<string>("/2024 Ammar Personal Photo.jpg");
 
+  // In static mode you may later hydrate from CMS or file-based config.
   useEffect(() => {
-    let mounted = true;
-    Promise.all([
-      apiService.getMetadataByKey("fullName"),
-      apiService.getMetadataByKey("profileImageUrl"),
-    ])
-      .then(([nameRes, imageRes]) => {
-        if (!mounted) return;
-        const n = nameRes?.data?.value;
-        if (typeof n === "string" && n.trim()) setName(n);
-        const img = imageRes?.data?.value;
-        if (typeof img === "string" && img.trim()) setImageUrl(img);
-      })
-      .catch(() => void 0);
-    return () => {
-      mounted = false;
-    };
+    // Placeholder – no async fetch
   }, []);
 
   return (

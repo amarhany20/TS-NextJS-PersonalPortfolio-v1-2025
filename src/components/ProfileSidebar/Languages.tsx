@@ -1,7 +1,7 @@
 "use client";
 
 import { Globe, Loader2 } from "lucide-react";
-import { useLanguages } from "@/hooks/useApiData";
+import { useLanguages } from "@/hooks/useStaticData";
 
 export default function Languages() {
   const { data: langs, loading, error } = useLanguages();

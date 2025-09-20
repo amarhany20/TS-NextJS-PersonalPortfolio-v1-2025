@@ -1,8 +1,7 @@
 "use client";
 
 import { Mail, Linkedin, MessageCircle, Github, Youtube } from "lucide-react";
-import { useEffect, useState } from "react";
-import { apiService } from "@/lib/api-client";
+import { useState } from "react";
 
 type SocialMeta = Record<string, unknown>;
 
@@ -10,20 +9,7 @@ export default function ContactLinks() {
   const [social, setSocial] = useState<SocialMeta | null>(null);
   const [email, setEmail] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    Promise.all([apiService.getMetadataByCategory("social"), apiService.getMetadataByCategory("contact")])
-      .then(([socialRes, contactRes]) => {
-        if (!mounted) return;
-        setSocial(socialRes.data || null);
-        const contact = (contactRes.data || {}) as Record<string, unknown>;
-        setEmail(typeof contact.email === "string" ? contact.email : null);
-      })
-      .catch(() => void 0);
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  // Static fallback only; edit src/data/index.ts for real values.
 
   const linkedInUrl = (social?.linkedInUrl as string) || "#";
   const githubUrl = (social?.githubUrl as string) || "#";

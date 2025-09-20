@@ -2,11 +2,14 @@
 
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { useCertificates } from "@/hooks/useApiData";
+import { useCertificates } from "@/hooks/useStaticData";
+import { formatMonthYear } from "@/utils/helpers";
 import { ExternalLink, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 export default function Certificates() {
   const { data: certificates, loading, error } = useCertificates();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   if (loading) {
     return (
@@ -65,13 +68,43 @@ export default function Certificates() {
 
               <div className="flex flex-col gap-1 text-sm">
                 <p className="text-[var(--text-secondary)]">
-                  <span className="font-medium">Completed:</span> {cert.date}
+                  <span className="font-medium">Completed:</span> {formatMonthYear(cert.date)}
                 </p>
+                {(cert.image || cert.credential) && (
+                  <div className="mt-2">
+                    <button
+                      className="text-[var(--accent-primary)] hover:underline text-sm font-medium"
+                      onClick={() => {
+                        const url = cert.image || `/files/cv/${encodeURIComponent(cert.credential || "")}.pdf`;
+                        setPreviewUrl(url!);
+                      }}
+                    >
+                      View certificate
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </SectionCard>
         ))}
       </div>
+
+      {previewUrl && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setPreviewUrl(null)}>
+          <div className="bg-[var(--background)] rounded-lg shadow-xl w-11/12 h-5/6 p-2" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-end mb-2">
+              <button className="px-3 py-1 rounded bg-[var(--accent-muted)] hover:bg-[var(--accent-primary)] hover:text-black" onClick={() => setPreviewUrl(null)}>Close</button>
+            </div>
+            {previewUrl.endsWith(".pdf") ? (
+              <iframe src={previewUrl} className="w-full h-full rounded" />
+            ) : (
+              // image fallback
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={previewUrl} alt="Certificate" className="max-h-full max-w-full mx-auto" />
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

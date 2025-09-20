@@ -1,0 +1,103 @@
+import type { SkillGroupDisplay } from '@/types';
+
+// New simplified skill data; no levels/recency. Icons are lightweight emojis/placeholders.
+export const skillGroups: readonly SkillGroupDisplay[] = [
+  {
+    id: 'backend',
+    title: 'Backend',
+    summary: 'APIs, services, systems design, and performance.',
+    skills: [
+      { name: 'Python (Django, DRF, Flask, FastAPI)', icon: '🐍' },
+      { name: 'C# (ASP.NET Core, EF Core)', icon: '⚙️' },
+      { name: 'Go (Gin)', icon: '🐹' },
+      { name: 'Node.js (Express)', icon: '🟢' },
+      { name: 'Shopify API (GraphQL/REST)', icon: '🛒' },
+    ],
+  },
+  {
+    id: 'frontend',
+    title: 'Frontend',
+    summary: 'Modern SPAs, SSR/ISR, design systems, CMS, and desktop UI.',
+    skills: [
+      { name: 'Next.js (App Router)', icon: '▲' },
+      { name: 'React', icon: '⚛️' },
+      { name: 'Tailwind CSS', icon: '🌬️' },
+      { name: 'WordPress (Elementor, Pods)', icon: '📝' },
+      { name: 'C# WPF (XAML)', icon: '🪟' },
+      { name: 'Flutter', icon: '🦋' },
+    ],
+  },
+  {
+    id: 'databases',
+    title: 'Databases',
+    summary: 'Relational, document, and cache design & optimization.',
+    skills: [
+      { name: 'PostgreSQL', icon: '🐘' },
+      { name: 'MySQL', icon: '🛢️' },
+      { name: 'MSSQL', icon: '💾' },
+      { name: 'SQLite', icon: '🧩' },
+      { name: 'Firebase Firestore', icon: '🔥' },
+      { name: 'Neon (Postgres)', icon: '💡' },
+      { name: 'Redis (Cache)', icon: '🧠' },
+    ],
+  },
+  {
+    id: 'cloud-devops',
+    title: 'Cloud & DevOps',
+    summary: 'Deployment, automation, observability, and infra efficiency.',
+    skills: [
+      { name: 'Google Cloud (Compute Engine, Cloud Run, Pub/Sub)', icon: '☁️' },
+      { name: 'Firebase', icon: '🔥' },
+      { name: 'DigitalOcean / VPS', icon: '🌊' },
+      { name: 'Docker', icon: '🐳' },
+      { name: 'Kubernetes', icon: '☸️' },
+      { name: 'GitHub Actions', icon: '🤖' },
+      { name: 'Linux (Ubuntu/Debian), SSH', icon: '🐧' },
+      { name: 'Nginx / Caddy / OpenLiteSpeed', icon: '🕸️' },
+      { name: 'Cloudways, cPanel/WHM, CyberPanel', icon: '🧰' },
+    ],
+  },
+  {
+    id: 'ai-cv',
+    title: 'AI & Computer Vision',
+    summary: 'Training, deployment, and edge inference for real-world systems.',
+    skills: [
+      { name: 'PyTorch', icon: '🔥' },
+      { name: 'TensorFlow / Keras', icon: '🧠' },
+      { name: 'OpenCV', icon: '👁️' },
+      { name: 'YOLO (Ultralytics v8)', icon: '🎯' },
+      { name: 'scikit-learn', icon: '📊' },
+      { name: 'NVIDIA Jetson (Edge/IoT)', icon: '🚀' },
+    ],
+  },
+  {
+    id: 'languages',
+    title: 'Languages',
+    summary: 'Working languages for collaboration and delivery.',
+    skills: [
+      { name: 'English (C2)', icon: '🇬🇧' },
+      { name: 'Arabic (Native)', icon: '🇪🇬' },
+      { name: 'Turkish (B2)', icon: '🇹🇷' },
+      { name: 'Swedish (A1)', icon: '🇸🇪' },
+      { name: 'French (A1)', icon: '🇫🇷' },
+    ],
+  },
+  {
+    id: 'soft-skills',
+    title: 'Soft Skills',
+    summary: 'Leadership, collaboration, problem solving, and adaptability.',
+    skills: [
+      { name: 'Systems Thinking', icon: '🧠' },
+      { name: 'Problem Solving', icon: '🧩' },
+      { name: 'Attention to Detail', icon: '🔍' },
+      { name: 'Mentorship', icon: '👥' },
+      { name: 'Team Leadership', icon: '🏅' },
+      { name: 'Cross-Cultural Teamwork', icon: '🌐' },
+      { name: 'Agile / Scrum', icon: '⚡' },
+      { name: 'Technical Writing & Documentation', icon: '✍️' },
+      { name: 'Client Communication', icon: '💬' },
+      { name: 'Rapid Prototyping', icon: '⚙️' },
+      { name: 'Fast Typing (77 WPM)', icon: '⌨️' },
+    ],
+  },
+];

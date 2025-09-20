@@ -1,14 +1,9 @@
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { getCVInfo } from "@/lib/database-services";
 import { Download, FileText, Eye } from "lucide-react";
 
 export default async function CVSection() {
-  const cvInfo = await getCVInfo();
-
-  if (!cvInfo) {
-    return null;
-  }
+  const cvInfo = { downloadUrl: "/cv/placeholder.pdf", lastUpdated: "2025-01-01", version: "1.0", fileSize: "120KB" };
   return (
     <section id="cv" className="scroll-mt-8">
       <SectionHeader title="Curriculum Vitae" subtitle="Download my resume or view it online" />

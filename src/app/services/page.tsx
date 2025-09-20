@@ -1,7 +1,8 @@
-import { getServices } from "@/lib/database-services";
+import { services as loadServices } from "@/temp-data/loaders/servicesLoader";
+import type { Service } from "@/types/database";
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const services: Service[] = await loadServices();
 
   return (
     <div className="flex flex-col gap-8">

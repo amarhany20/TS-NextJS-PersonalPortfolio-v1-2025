@@ -1,13 +1,26 @@
 "use client";
 
+import React from "react";
 import SectionHeader from "@/components/UI/SectionHeader";
 import AccentBar from "@/components/UI/AccentBar";
 import SectionCard from "@/components/UI/SectionCard";
-import { useExperience } from "@/hooks/useApiData";
+import { experience as loadExperience } from "@/temp-data/loaders/experienceLoader";
 import { Briefcase, MapPin, Calendar, Star, Loader2 } from "lucide-react";
 
 export default function Experience() {
-  const { data: experience, loading, error } = useExperience();
+  const [expData, setExpData] = React.useState<ReturnType<typeof Array.prototype.slice>>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const data = await loadExperience();
+        setExpData(data);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   if (loading) {
     return (
@@ -19,24 +32,12 @@ export default function Experience() {
       </section>
     );
   }
-
-  if (error) {
+  if (!expData.length) {
     return (
       <section id="experience" className="scroll-mt-8">
         <SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />
         <div className="flex items-center justify-center py-12">
-          <p className="text-red-500">Error loading experience: {error}</p>
-        </div>
-      </section>
-    );
-  }
-
-  if (!experience || experience.length === 0) {
-    return (
-      <section id="experience" className="scroll-mt-8">
-        <SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />
-        <div className="flex items-center justify-center py-12">
-          <p className="text-[var(--text-secondary)]">No experience data available</p>
+          <p className="text-[var(--text-secondary)]">Static placeholder: add experience in src/data/index.ts</p>
         </div>
       </section>
     );
@@ -47,7 +48,7 @@ export default function Experience() {
       <SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        {experience.map((exp, index) => (
+  {expData.map((exp, index) => (
           <SectionCard key={index} hover className="group relative overflow-hidden">
             {/* Decorative elements */}
             <AccentBar direction="primary-to-secondary" />
@@ -60,7 +61,14 @@ export default function Experience() {
                     <Briefcase size={20} className="text-[var(--accent-primary)]" />
                     <h3 className="text-xl font-bold text-foreground">{exp.position}</h3>
                   </div>
-                  <p className="text-[var(--accent-primary)] font-semibold text-lg mb-2">{exp.company}</p>
+                  <p className="text-[var(--accent-primary)] font-semibold text-lg mb-2">
+                    {exp.company}
+                    {exp.companyUrl && (
+                      <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="ml-2 text-sm font-medium underline text-[var(--accent-secondary)] hover:text-[var(--accent-primary)]">
+                        Visit ↗
+                      </a>
+                    )}
+                  </p>
                   <div className="flex items-center gap-4 text-[var(--text-secondary)] text-sm">
                     <div className="flex items-center gap-1">
                       <MapPin size={16} />
@@ -95,7 +103,7 @@ export default function Experience() {
                   Key Achievements
                 </h4>
                 <ul className="space-y-2">
-                  {exp.achievements.map((achievement, i) => (
+                  {exp.achievements.map((achievement: string, i: number) => (
                     <li key={i} className="text-[var(--text-secondary)] text-sm flex items-start">
                       <span className="text-[var(--success)] mr-3 mt-1 font-bold">✓</span>
                       {achievement}
@@ -108,7 +116,7 @@ export default function Experience() {
               <div>
                 <h4 className="text-sm font-semibold text-foreground mb-3">Technologies Used</h4>
                 <div className="flex flex-wrap gap-2">
-                  {exp.skills.map((skill) => (
+                  {exp.skills.map((skill: string) => (
                     <span
                       key={skill}
                       className="px-3 py-1 bg-gradient-to-r from-[var(--accent-muted)] to-[var(--accent-muted)] hover:from-[var(--accent-primary)] hover:to-[var(--accent-secondary)] hover:text-black text-[var(--text-secondary)] text-xs rounded-full font-medium transition-all duration-300 cursor-default">

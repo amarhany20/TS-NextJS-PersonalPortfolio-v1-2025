@@ -3,7 +3,7 @@
 import SectionHeader from "@/components/UI/SectionHeader";
 import AccentBar from "@/components/UI/AccentBar";
 import SectionCard from "@/components/UI/SectionCard";
-import { useEducation } from "@/hooks/useApiData";
+import { useEducation } from "@/hooks/useStaticData";
 import { GraduationCap, MapPin, Calendar, Award, Trophy, Loader2 } from "lucide-react";
 
 export default function Education() {

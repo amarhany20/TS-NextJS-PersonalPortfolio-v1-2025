@@ -55,14 +55,14 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         {/* Name & Title */}
         <div className="text-center mb-4">
           <h2 className="text-2xl font-bold text-[var(--accent-primary)] mb-1">{displayName}</h2>
-          <p className="text-md text-[var(--accent-secondary)]">{profileTitle}</p>
+          <p className="text-base text-[var(--accent-secondary)]">{profileTitle}</p>
         </div>
 
         {/* Location */}
         <div className="mb-4">
-          <div className="flex items-center gap-3 text-[var(--text-secondary)]">
-            <MapPin size={16} />
-            <span className="text-sm">{primaryLocation}</span>
+            <div className="flex items-center gap-3 text-[var(--text-secondary)]">
+            <MapPin size={18} />
+            <span className="text-base">{primaryLocation}</span>
           </div>
         </div>
 
@@ -71,10 +71,10 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
 
         {/* Core Skills */}
         <div className="mb-4">
-          <h3 className="text-sm font-semibold text-[var(--accent-primary)] mb-2">Core Skills</h3>
+          <h3 className="text-base font-semibold text-[var(--accent-primary)] mb-2">Core Skills</h3>
           <div className="flex flex-wrap gap-2">
             {coreSkills?.slice(0, 5).map((skill) => (
-              <span key={skill.id} className="bg-[var(--accent-muted)] text-xs rounded px-2 py-1 text-[var(--foreground)]">
+              <span key={skill.id} className="bg-[var(--accent-muted)] text-sm rounded px-3 py-1 text-[var(--foreground)]">
                 {skill.name}
               </span>
             ))}
@@ -86,12 +86,12 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
 
         {/* Languages */}
         <div className="mb-4">
-          <h3 className="text-sm font-semibold text-[var(--accent-primary)] mb-3">Languages</h3>
+          <h3 className="text-base font-semibold text-[var(--accent-primary)] mb-3">Languages</h3>
           <div className="space-y-3">
-            {languages?.slice(0, 4).map((lang) => (
+            {languages?.filter(l => ['English','Turkish','Arabic'].includes(l.name)).slice(0,3).map((lang) => (
               <div key={lang.name} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Globe size={12} className="text-[var(--accent-primary)] flex-shrink-0" />
+                  <Globe size={16} className="text-[var(--accent-primary)] flex-shrink-0" />
                   <span className="text-[var(--foreground)] text-sm font-medium">{lang.name}</span>
                 </div>
                 <span className="text-[var(--text-secondary)] text-xs">{lang.level.split(" –")[0]}</span>
@@ -104,7 +104,7 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         <hr className="border-[var(--border)] mb-4" />
 
         {/* Bottom - Version & Copyright */}
-        <div className="mt-auto text-center text-xs text-[var(--text-secondary)]">
+  <div className="mt-auto text-center text-sm text-[var(--text-secondary)]">
           <div>ammarhany.com @ 2025 - V{APP_VERSION}</div>
           <div className="mt-1">© {new Date().getFullYear()}</div>
         </div>

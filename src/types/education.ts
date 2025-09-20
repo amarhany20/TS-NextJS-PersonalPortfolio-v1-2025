@@ -9,3 +9,16 @@ export interface Education {
   description: string[];
   achievements: string[];
 }
+
+// Flat temp-data shape used before mapping into database-style Education objects
+export interface EducationItem {
+  institution: string;
+  degree: string;
+  field?: string;
+  location?: string;
+  start: string; // YYYY-MM
+  end?: string;  // YYYY-MM
+  gpa?: string;
+  achievements?: string[];
+  project?: string;
+}

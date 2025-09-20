@@ -1,7 +1,7 @@
-import { getBlogPosts } from "@/lib/database-services";
+import { blogPosts as loadBlogPosts } from "@/temp-data/loaders/blogLoader";
 
 export default async function BlogsPage() {
-  const blogPosts = await getBlogPosts();
+  const blogPosts = await loadBlogPosts();
 
   return (
     <div className="flex flex-col gap-8">
@@ -14,7 +14,7 @@ export default async function BlogsPage() {
         {blogPosts.map((post) => (
           <article key={post.id} className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
             <div className="flex items-center justify-between mb-3">
-              <span className="px-3 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-xs rounded-full">{post.category}</span>
+              <span className="px-3 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-sm rounded-full">{post.category}</span>
               <span className="text-[var(--text-secondary)] text-sm">{post.readTime} min read</span>
             </div>
 
@@ -24,14 +24,14 @@ export default async function BlogsPage() {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-[var(--text-secondary)] text-xs">{new Date(post.publishedAt).toLocaleDateString()}</span>
-                <span className="text-[var(--text-secondary)] text-xs">•</span>
-                <span className="text-[var(--text-secondary)] text-xs">By {post.author}</span>
+                <span className="text-[var(--text-secondary)] text-sm">{new Date(post.publishedAt).toLocaleDateString()}</span>
+                <span className="text-[var(--text-secondary)] text-sm">•</span>
+                <span className="text-[var(--text-secondary)] text-sm">By {post.author}</span>
               </div>
 
               <div className="flex flex-wrap gap-1">
                 {((Array.isArray(post.tags) ? post.tags : []) as string[]).slice(0, 2).map((tag) => (
-                  <span key={tag} className="px-2 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-xs rounded">
+                  <span key={tag} className="px-2 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] text-sm rounded">
                     {tag}
                   </span>
                 ))}

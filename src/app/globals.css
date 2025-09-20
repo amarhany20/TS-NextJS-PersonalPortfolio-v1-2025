@@ -21,6 +21,16 @@
   /* Fonts */
   --font-sans: var(--font-geist-sans, "Geist", Arial, sans-serif);
   --font-mono: var(--font-geist-mono, "Geist Mono", monospace);
+
+  /* Typography scale */
+  --fs-2xs: 0.65rem;
+  --fs-xs: 0.70rem;
+  --fs-sm: 0.78rem;
+  --fs-base: 0.88rem; /* slightly larger base for better readability */
+  --fs-md: 0.95rem;
+  --fs-lg: 1.15rem;
+  --fs-xl: 1.38rem;
+  --fs-2xl: 1.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,6 +53,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-size: var(--fs-base);
   margin: 0;
   padding: 0;
   /* Removed overflow-x hidden to allow sidebar tooltips to overflow */
