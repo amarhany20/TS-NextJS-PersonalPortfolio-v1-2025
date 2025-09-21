@@ -5,7 +5,7 @@
 
 // CTA buttons shown in contact section footer
 export const globalCtas = [
-  { href: '/projects', label: 'Projects', variant: 'primary' as const },
+  { href: '/portfolio', label: 'Portfolio', variant: 'primary' as const },
   { href: '/services', label: 'Services', variant: 'secondary' as const },
   { href: '/blogs', label: 'Blogs', variant: 'default' as const },
   { href: '/contact', label: 'Contact', variant: 'outline' as const },

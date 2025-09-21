@@ -5,6 +5,7 @@ import SectionHeader from "@/components/UI/SectionHeader";
 import AccentBar from "@/components/UI/AccentBar";
 import SectionCard from "@/components/UI/SectionCard";
 import { experience } from "@/temp-data";
+import type { Experience as ExperienceType } from '@/types/experience';
 import { Briefcase, MapPin, Calendar, Star } from "lucide-react";
 
 export default function Experience() {
@@ -25,8 +26,8 @@ export default function Experience() {
       <SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-  {expData.map((exp, index) => (
-          <SectionCard key={index} hover className="group relative overflow-hidden">
+  {expData.map((exp: ExperienceType) => (
+    <SectionCard key={exp.id} hover className="group relative overflow-hidden">
             {/* Decorative elements */}
             <AccentBar direction="primary-to-secondary" />
 
@@ -36,7 +37,7 @@ export default function Experience() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <Briefcase size={20} className="text-[var(--accent-primary)]" />
-                    <h3 className="text-xl font-bold text-foreground">{exp.position}</h3>
+                    <h3 className="text-xl font-bold text-foreground">{exp.title}</h3>
                   </div>
                   <p className="text-[var(--accent-primary)] font-semibold text-lg mb-2">
                     {exp.company}
@@ -53,14 +54,14 @@ export default function Experience() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      {exp.duration}
+                      {exp.end ? `${exp.start} - ${exp.end}` : `${exp.start} - Present`}
                     </div>
                   </div>
                 </div>
 
                 {/* Status badge */}
                 <div className="mt-4 lg:mt-0">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${exp.type === "Full-time" ? "bg-[var(--accent-primary)] text-black" : "bg-[var(--accent-muted)] text-[var(--text-secondary)]"}`}>{exp.type}</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${exp.present ? 'bg-[var(--accent-primary)] text-black' : 'bg-[var(--accent-muted)] text-[var(--text-secondary)]'}`}>{exp.present ? 'Current' : 'Past'}</span>
                 </div>
               </div>
 
@@ -70,7 +71,7 @@ export default function Experience() {
                   <span className="w-2 h-2 bg-[var(--accent-secondary)] rounded-full"></span>
                   Role Overview
                 </h4>
-                <p className="text-[var(--text-secondary)] text-sm">{exp.description}</p>
+                <p className="text-[var(--text-secondary)] text-sm">{exp.impact}</p>
               </div>
 
               {/* Achievements */}

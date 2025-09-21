@@ -2,7 +2,7 @@ import SectionHeader from '@/components/UI/SectionHeader';
 import SectionCard from '@/components/UI/SectionCard';
 import { recommendations } from '@/temp-data/recommendations';
 import { formatMonthYear } from '@/utils/helpers';
-import { Linkedin, Quote } from 'lucide-react';
+import { Linkedin, Quote, FileText } from 'lucide-react';
 import Image from 'next/image';
 import type { Recommendation } from '@/types/recommendation';
 
@@ -20,14 +20,37 @@ export default function RecommendationsSection() {
 			<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 				{recommendations.map((rec: Recommendation, index) => {
 					const dateStr = formatDisplayDate(String(rec.date ?? ''));
-					
-					const cardContent = (
-						<SectionCard hover className="group h-full">
-							<div className="flex items-start justify-between mb-4">
-								<Quote className="text-[var(--accent-primary)] flex-shrink-0 mt-1" size={22} />
-								{rec.linkedin && (
+
+					// Determine link strategy
+					const hasLetter = !!rec.recommendationLetterUrl;
+					const hasLinkedIn = !!rec.linkedin || !!rec.linkedinUrl;
+					const primaryLink = rec.recommendationLetterUrl ?? rec.linkedin ?? rec.linkedinUrl;
+					const multipleLinks = hasLetter && hasLinkedIn && rec.recommendationLetterUrl !== rec.linkedin;
+					const useOuterAnchor = !!primaryLink && !multipleLinks; // only safe when we have a single target
+
+					const headerIcons = (
+						<div className="flex items-center gap-2">
+							{hasLetter && (!useOuterAnchor || primaryLink !== rec.recommendationLetterUrl) && (
+								<a
+									href={rec.recommendationLetterUrl!}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label="Open recommendation letter PDF"
+									className="text-[var(--accent-secondary)] hover:text-[var(--accent-primary)] transition-colors"
+								>
+									<FileText size={18} />
+								</a>
+							)}
+							{hasLinkedIn && (
+								primaryLink === rec.linkedin && useOuterAnchor ? (
+									<Linkedin
+										size={18}
+										aria-label="LinkedIn profile"
+										className="text-[var(--accent-secondary)] group-hover:text-[var(--accent-primary)] transition-colors"
+									/>
+								) : (
 									<a
-										href={rec.linkedin}
+										href={rec.linkedin || rec.linkedinUrl!}
 										target="_blank"
 										rel="noopener noreferrer"
 										aria-label="View LinkedIn profile"
@@ -35,7 +58,16 @@ export default function RecommendationsSection() {
 									>
 										<Linkedin size={18} />
 									</a>
-								)}
+								)
+							)}
+						</div>
+					);
+
+					const cardInner = (
+						<SectionCard hover className="group h-full">
+							<div className="flex items-start justify-between mb-4">
+								<Quote className="text-[var(--accent-primary)] flex-shrink-0 mt-1" size={22} />
+								{headerIcons}
 							</div>
 							<blockquote className="text-[var(--text-secondary)] text-base mb-5 leading-relaxed">
 								&ldquo;{rec.content.length > 180 ? rec.content.slice(0, 180) + '…' : rec.content}&rdquo;
@@ -66,21 +98,23 @@ export default function RecommendationsSection() {
 						</SectionCard>
 					);
 
-					// Make entire card clickable - priority: recommendation letter PDF > LinkedIn profile
-					const linkUrl = rec.recommendationLetterUrl ?? rec.linkedin ?? rec.linkedinUrl;
-					return linkUrl ? (
-						<a 
-							key={index} 
-							href={linkUrl} 
-							target="_blank" 
-							rel="noopener noreferrer" 
-							className="block hover:scale-[1.02] transition-transform"
-						>
-							{cardContent}
-						</a>
-					) : (
-						<div key={index}>
-							{cardContent}
+					if (useOuterAnchor && primaryLink) {
+						return (
+							<a
+								key={index}
+								href={primaryLink}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="block hover:scale-[1.02] transition-transform"
+							>
+								{cardInner}
+							</a>
+						);
+					}
+
+					return (
+						<div key={index} className="group">
+							{cardInner}
 						</div>
 					);
 				})}

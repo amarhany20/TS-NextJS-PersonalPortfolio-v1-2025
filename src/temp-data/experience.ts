@@ -1,5 +1,4 @@
-import type { Experience } from '@/types/database';
-import type { ExperienceItem } from '@/types/experience';
+import type { Experience, ExperienceItem } from '@/types/experience';
 
 // Raw source items (authoring-friendly). These are transformed below into DB-shaped Experience objects.
 const rawExperience: readonly ExperienceItem[] = [
@@ -106,21 +105,19 @@ const rawExperience: readonly ExperienceItem[] = [
 ] as const;
 
 // Transformed UI/DB ready data (mirrors former loader output)
-export const experience: Experience[] = rawExperience.map((r, idx) => {
-  const duration = r.present ? `${r.start} - Present` : r.end ? `${r.start} - ${r.end}` : r.start;
-  return {
-    id: idx + 1,
-    company: r.company,
-    position: r.title,
-    duration,
-    location: r.location,
-    type: r.present ? 'Current' : 'Past',
-    description: r.impact || r.bullets[0] || '',
-    achievements: r.bullets.slice(0, 5),
-    skills: r.stack ? [...r.stack] : [],
-    companyUrl: null,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } as Experience;
-});
+export const experience: Experience[] = rawExperience.map((r, idx) => ({
+  id: idx + 1,
+  company: r.company,
+  title: r.title,
+  location: r.location,
+  start: r.start,
+  end: r.end,
+  present: !!r.present,
+  impact: r.impact || r.bullets[0] || '',
+  achievements: r.bullets.slice(0, 5),
+  skills: r.stack ? [...r.stack] : [],
+  companyUrl: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}));
 

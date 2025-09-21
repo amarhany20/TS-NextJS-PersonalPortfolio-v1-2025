@@ -1,5 +1,20 @@
-import type { Education as EducationDB } from '@/types/database';
-import type { EducationItem } from '@/types';
+import type { EducationItem } from '@/types/education';
+
+export interface Education {
+  id: number | string;
+  institution: string;
+  degree: string;
+  field?: string;
+  location?: string;
+  start: string;
+  end?: string;
+  present: boolean;
+  gpa?: string;
+  achievements: string[];
+  project?: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
+}
 
 // Raw source education items
 export const educationItems: readonly EducationItem[] = [
@@ -21,22 +36,19 @@ export const educationItems: readonly EducationItem[] = [
 ] as const;
 
 // Transformed education array (DB/loader compatible)
-export const education: EducationDB[] = educationItems.map((e, idx) => {
-  const now = new Date();
-  return {
-    id: idx + 1,
-    institution: e.institution,
-    degree: e.degree,
-    field: e.field ?? '',
-    duration: e.end ? `${e.start} - ${e.end}` : `${e.start} - Present`,
-    location: e.location || '',
-    gpa: e.gpa || null,
-    description: e.project || '',
-    achievements: e.achievements ? [...e.achievements] : [],
-    courses: [],
-    thesis: null,
-    createdAt: now,
-    updatedAt: now,
-  } as EducationDB;
-});
+export const education: Education[] = educationItems.map((e, idx) => ({
+  id: idx + 1,
+  institution: e.institution,
+  degree: e.degree,
+  field: e.field,
+  location: e.location,
+  start: e.start,
+  end: e.end,
+  present: !e.end,
+  gpa: e.gpa,
+  achievements: e.achievements ? [...e.achievements] : [],
+  project: e.project,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}));
 
