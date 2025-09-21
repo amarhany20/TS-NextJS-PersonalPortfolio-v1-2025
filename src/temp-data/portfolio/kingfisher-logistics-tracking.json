@@ -4,7 +4,7 @@
   "tagline": "Shipment tracking WordPress plugin + client-facing tracking pages",
   "intro": "Custom WordPress plugin and shipment tracking pages built for Kingfisher Logistics to provide role-based access and document management.",
   "summary": "Developed a private WordPress plugin to manage manual shipment entries, track status updates, and provide clients with secure tracking links. Integrated document uploads and role-based access within the WordPress admin.",
-  "featured": false,
+  "featured": true,
   "visibility": "private",
   "access": "client-owned",
   "status": "live",

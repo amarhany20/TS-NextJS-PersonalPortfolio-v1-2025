@@ -4,34 +4,12 @@ import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
 import { useCertificates } from "@/hooks/useStaticData";
 import { formatMonthYear } from "@/utils/helpers";
-import { ExternalLink, Loader2 } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 export default function Certificates() {
-  const { data: certificates, loading, error } = useCertificates();
+  const certificates = useCertificates();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  if (loading) {
-    return (
-      <section id="certificates" className="scroll-mt-8">
-        <SectionHeader title="Certificates" subtitle="Professional certifications and achievements" />
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-primary)]" />
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section id="certificates" className="scroll-mt-8">
-        <SectionHeader title="Certificates" subtitle="Professional certifications and achievements" />
-        <div className="flex items-center justify-center py-12">
-          <p className="text-red-500">Error loading certificates: {error}</p>
-        </div>
-      </section>
-    );
-  }
 
   if (!certificates || certificates.length === 0) {
     return (

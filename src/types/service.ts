@@ -3,16 +3,11 @@ export interface Service {
   title: string;
   slug: string;
   description: string;
-  longDescription: string;
+  longDescription?: string;
   features: string[];
   technologies: string[];
-  pricing?: {
-    basic?: number;
-    standard?: number;
-    premium?: number;
-  };
-  deliveryTime: string;
+  // pricing and deliveryTime removed — handled outside of the service object
   icon?: string;
   image?: string;
-  active: boolean;
+  active?: boolean;
 }

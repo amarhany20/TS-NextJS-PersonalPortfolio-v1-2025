@@ -9,7 +9,7 @@ import { APP_VERSION } from '@/lib/version';
 interface ProfileSidebarProps {
   personalInfo: Record<string, string | number | boolean | object> | null;
   coreSkills: Array<{ id: number; name: string }> | null;
-  languages: Array<{ name: string; level: string; flag: string }> | null;
+  languages: readonly string[];
 }
 
 export default function ProfileSidebarClient({ personalInfo, coreSkills, languages }: ProfileSidebarProps) {
@@ -84,17 +84,14 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         {/* Divider */}
         <hr className="border-[var(--border)] mb-4" />
 
-        {/* Languages */}
+        {/* Languages (simple list from metadata) */}
         <div className="mb-4">
           <h3 className="text-base font-semibold text-[var(--accent-primary)] mb-3">Languages</h3>
-          <div className="space-y-3">
-            {languages?.filter(l => ['English','Turkish','Arabic'].includes(l.name)).slice(0,3).map((lang) => (
-              <div key={lang.name} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Globe size={16} className="text-[var(--accent-primary)] flex-shrink-0" />
-                  <span className="text-[var(--foreground)] text-sm font-medium">{lang.name}</span>
-                </div>
-                <span className="text-[var(--text-secondary)] text-xs">{lang.level.split(" –")[0]}</span>
+          <div className="space-y-2">
+            {languages.slice(0,5).map(l => (
+              <div key={l} className="flex items-center gap-2 text-sm text-[var(--foreground)]">
+                <Globe size={14} className="text-[var(--accent-primary)]" />
+                <span>{l}</span>
               </div>
             ))}
           </div>
@@ -104,9 +101,8 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         <hr className="border-[var(--border)] mb-4" />
 
         {/* Bottom - Version & Copyright */}
-  <div className="mt-auto text-center text-sm text-[var(--text-secondary)]">
-          <div>ammarhany.com @ 2025 - V{APP_VERSION}</div>
-          <div className="mt-1">© {new Date().getFullYear()}</div>
+        <div className="mt-auto text-center text-sm text-[var(--text-secondary)]">
+          <div>© {new Date().getFullYear()} ammarhany.com - V{APP_VERSION}</div>
         </div>
       </aside>
     </>

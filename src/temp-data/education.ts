@@ -1,5 +1,7 @@
+import type { Education as EducationDB } from '@/types/database';
 import type { EducationItem } from '@/types';
 
+// Raw source education items
 export const educationItems: readonly EducationItem[] = [
   {
     institution: 'Toros University',
@@ -17,3 +19,24 @@ export const educationItems: readonly EducationItem[] = [
     project: 'Self-Driving Car using Behavioral Cloning (TensorFlow/Keras CNNs)',
   },
 ] as const;
+
+// Transformed education array (DB/loader compatible)
+export const education: EducationDB[] = educationItems.map((e, idx) => {
+  const now = new Date();
+  return {
+    id: idx + 1,
+    institution: e.institution,
+    degree: e.degree,
+    field: e.field ?? '',
+    duration: e.end ? `${e.start} - ${e.end}` : `${e.start} - Present`,
+    location: e.location || '',
+    gpa: e.gpa || null,
+    description: e.project || '',
+    achievements: e.achievements ? [...e.achievements] : [],
+    courses: [],
+    thesis: null,
+    createdAt: now,
+    updatedAt: now,
+  } as EducationDB;
+});
+

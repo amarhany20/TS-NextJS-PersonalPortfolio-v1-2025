@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { projectBySlug, allProjects } from '@/temp-data/loaders/projectsLoader';
+import { findProject as projectBySlug, portfolio as allProjects } from '@/temp-data';
 import type { Project } from '@/types/portfolio';
 import React from 'react';
 import { ProjectBadges } from '@/components/Portfolio/ProjectBadges';
@@ -17,14 +17,13 @@ function Section({ title, body }: { title: string; body: string }) {
 
 
 export async function generateStaticParams() {
-  const projects = await allProjects();
-  return projects.map(p => ({ slug: p.slug }));
+  return allProjects.map(p => ({ slug: p.slug }));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function ProjectPage({ params }: { params: any }) {
+export default function ProjectPage({ params }: { params: any }) {
   const slug = params?.slug as string;
-  const project: Project | null = await projectBySlug(slug);
+  const project: Project | null = projectBySlug(slug);
   if (!project) return notFound();
 
   return (

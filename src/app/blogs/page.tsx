@@ -1,7 +1,8 @@
-import { blogPosts as loadBlogPosts } from "@/temp-data/loaders/blogLoader";
+// Blog posts loader removed; replace with static placeholder until real data source provided.
+interface BlogPostLite { id: number; title: string; category: string; readTime: number; excerpt: string; publishedAt: string | Date; author: string; tags: string[] }
+const blogPosts: BlogPostLite[] = [];
 
-export default async function BlogsPage() {
-  const blogPosts = await loadBlogPosts();
+export default function BlogsPage() {
 
   return (
     <div className="flex flex-col gap-8">
@@ -11,6 +12,9 @@ export default async function BlogsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {blogPosts.length === 0 && (
+          <p className="text-[var(--text-secondary)] text-sm col-span-full">No blog posts yet. Content coming soon.</p>
+        )}
         {blogPosts.map((post) => (
           <article key={post.id} className="bg-[var(--card-bg)] border border-[var(--border)] rounded-lg p-6 hover:shadow-lg hover:shadow-[var(--accent-primary)]/10 transition-all">
             <div className="flex items-center justify-between mb-3">

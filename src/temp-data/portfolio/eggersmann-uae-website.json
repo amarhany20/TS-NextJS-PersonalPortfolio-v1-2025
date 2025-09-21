@@ -4,7 +4,7 @@
   "tagline": "Multilingual, high-performance luxury brand presence",
   "intro": "A premium, bilingual WordPress website for Eggersmann UAE, focused on design fidelity and performance.",
   "summary": "Built with Elementor Pro, custom PHP, and Pods to manage Projects, Materials, and Finishes. Tuned for SEO, responsiveness, and maintainability on Cloudways (DigitalOcean).",
-  "featured": false,
+  "featured": true,
   "visibility": "public",
   "access": "client-owned",
   "status": "live",

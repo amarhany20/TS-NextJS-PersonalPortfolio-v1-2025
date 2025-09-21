@@ -1,12 +1,9 @@
 import { ArrowRight, Download } from "lucide-react";
-import { heroContent as loadHeroContent } from "@/temp-data/loaders/personal";
+import { heroContent } from "@/temp-data";
 import MetaContent from "@/components/MetaContent";
 
-export default async function Summary() {
-  const heroContent = await loadHeroContent();
+export default function Summary() {
   const cvInfo = { downloadUrl: "/cv/your-cv.pdf" };
-
-  if (!heroContent) return null;
 
   return (
     <section id="summary" className="relative flex flex-col items-start gap-6 py-8 md:py-14 scroll-mt-8">
@@ -17,7 +14,7 @@ export default async function Summary() {
         <p className="mt-2">{heroContent.callToAction}</p>
       </div>
       <div className="flex gap-4 mt-2">
-        <a href={heroContent.primaryButton.href || "/contact"} className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-primary)] text-black hover:bg-yellow-300 shadow-md transition">
+  <a href={heroContent.primaryButton.href || "/contact"} className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-primary)] text-black hover:bg-yellow-300 shadow-md transition">
           {(heroContent.primaryButton.text && heroContent.primaryButton.text.trim()) || "Contact Me"} <ArrowRight className="ml-2" size={20} />
         </a>
         {cvInfo && (

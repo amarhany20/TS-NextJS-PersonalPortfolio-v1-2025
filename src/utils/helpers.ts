@@ -99,10 +99,10 @@ export const isValidUrl = (url: string): boolean => {
 };
 
 // Social media links
-export const socialLinks = {
-  whatsapp: "https://wa.me/201061888476",
-  email: "mailto:ammarhanyezeldin@gmail.com",
-  github: "https://github.com/amarhany20",
-  linkedin: "https://www.linkedin.com/in/ammar-hany/",
-  youtube: "https://www.youtube.com/@TheChillTechgineer",
-};
+// export const socialLinks = {
+//   whatsapp: "https://wa.me/201061888476",
+//   email: "mailto:ammarhanyezeldin@gmail.com",
+//   github: "https://github.com/amarhany20",
+//   linkedin: "https://www.linkedin.com/in/ammar-hany/",
+//   youtube: "https://www.youtube.com/@TheChillTechgineer",
+// };

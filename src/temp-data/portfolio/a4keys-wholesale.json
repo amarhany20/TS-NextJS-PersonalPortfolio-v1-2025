@@ -4,7 +4,7 @@
   "tagline": "Zero-downtime migration with custom wholesale pricing plugin",
   "intro": "WordPress site migrated with no downtime and enhanced with a custom pricing plugin for bulk orders.",
   "summary": "Delivered a host migration across providers without service disruption. Implemented a WordPress plugin to manage wholesale pricing logic and maintained the platform long term.",
-  "featured": true,
+  "featured": false,
   "visibility": "public",
   "access": "client-owned",
   "status": "live",

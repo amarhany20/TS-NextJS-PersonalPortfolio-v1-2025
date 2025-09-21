@@ -3,7 +3,7 @@ import type { Metadata } from '@/types/metadata';
 export const metadata: Metadata = {
   fullName: 'Ammar Hany Ezeldin Abdelrazik',
   // Friendlier, concise professional tagline derived from CV summary
-  tagline: 'Dynamic Software Engineer (approaching senior) — backend, full‑stack & system architecture',
+  tagline: 'Dynamic Software Engineer — backend, full‑stack & system architecture',
   emails: ['ammarhanyezeldin@gmail.com'],
   phones: [
     { label: 'Egypt', e164: '+201061888476' },
@@ -39,4 +39,15 @@ export const metadata: Metadata = {
     'CI/CD & DevOps: GitHub Actions · Containers · Infrastructure optimization',
     'Cross‑platform delivery including WordPress & headless commerce',
   ],
+  // Hero content configuration
+  hero: {
+    greeting: 'Hi, I\'m Ammar 👋',
+    callToAction: 'Let\'s build something amazing together.',
+    primaryButton: { text: 'Get in Touch', href: '#contact' },
+    secondaryButton: { text: 'Download CV', href: '/cv/Ammar%202025%20CV%20Website%20V1.500.pdf' },
+  },
+  // Contact information
+  contact: {
+    title: 'Get In Touch',
+  },
 } as const;

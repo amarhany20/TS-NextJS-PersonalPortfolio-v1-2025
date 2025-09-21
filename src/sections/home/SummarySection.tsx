@@ -1,14 +1,10 @@
 "use client";
 import { ArrowRight, Download, FolderOpen } from 'lucide-react';
-import { heroContent as loadHeroContent } from '@/temp-data/loaders/personal';
-import type { HeroContent } from '@/types/database';
+import { heroContent } from '@/temp-data/personal';
 import MetaContent from '@/components/MetaContent';
-import { useEffect, useState } from 'react';
 
 export default function SummarySection() {
-	const [heroContent, setHeroContent] = useState<HeroContent | null>(null);
-	useEffect(() => { (async () => { setHeroContent(await loadHeroContent()); })(); }, []);
-	const cvInfo = { downloadUrl: '/Ammar%202025%20CV%20Website%20V1.45.pdf' };
+	const cvInfo = { downloadUrl: '/cv/Ammar%202025%20CV%20Website%20V1.500.pdf' };
 	if (!heroContent) return null;
 	return (
 		<section id="summary" className="relative flex flex-col items-start gap-6 py-8 md:py-14 scroll-mt-8">

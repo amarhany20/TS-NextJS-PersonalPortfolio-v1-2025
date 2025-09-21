@@ -12,7 +12,7 @@ export default function SocialLinks() {
 
   const fallback = useMemo<QuickLink[]>(
     () => [
-      { href: "https://wa.me/201061888476", icon: "MessageCircle", label: "WhatsApp" },
+      { href: "https://wa.me/905395775990", icon: "MessageCircle", label: "WhatsApp" },
       { href: "mailto:ammarhanyezeldin@gmail.com", icon: "Mail", label: "Email" },
       { href: "https://github.com/amarhany20", icon: "Github", label: "GitHub" },
       { href: "https://www.linkedin.com/in/ammar-hany/", icon: "Linkedin", label: "LinkedIn" },

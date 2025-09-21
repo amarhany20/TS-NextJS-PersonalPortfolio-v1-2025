@@ -4,33 +4,10 @@ import SectionHeader from "@/components/UI/SectionHeader";
 import AccentBar from "@/components/UI/AccentBar";
 import SectionCard from "@/components/UI/SectionCard";
 import { useEducation } from "@/hooks/useStaticData";
-import { GraduationCap, MapPin, Calendar, Award, Trophy, Loader2 } from "lucide-react";
+import { GraduationCap, MapPin, Calendar, Award, Trophy } from "lucide-react";
 
 export default function Education() {
-  const { data: education, loading, error } = useEducation();
-
-  if (loading) {
-    return (
-      <section id="education" className="scroll-mt-8">
-        <SectionHeader title="Education" subtitle="My academic background and achievements" />
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-secondary)]" />
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section id="education" className="scroll-mt-8">
-        <SectionHeader title="Education" subtitle="My academic background and achievements" />
-        <div className="flex items-center justify-center py-12">
-          <p className="text-red-500">Error loading education: {error}</p>
-        </div>
-      </section>
-    );
-  }
-
+  const education = useEducation();
   if (!education || education.length === 0) {
     return (
       <section id="education" className="scroll-mt-8">

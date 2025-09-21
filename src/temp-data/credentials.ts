@@ -45,4 +45,12 @@ export const credentials: readonly Credential[] = [
     description: 'Autonomous Harvesting Robot project ranked in the top 25 nationally (showcased to 2.5M attendees).',
     tags: ['Competition', 'Computer Vision'],
   },
+  {
+    title: 'Animals.ai Recommendation Letter',
+    issuer: 'Animals.ai',
+    year: 2023,
+    type: 'certificate',
+    description: 'Signed recommendation letter from Animals.ai internship supervisor.',
+    tags: ['Recommendation'],
+  },
 ] as const;

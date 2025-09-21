@@ -1,20 +1,12 @@
 "use client";
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { personalInfo as loadPersonalInfo } from "@/temp-data/loaders/personal";
+import { personalInfo } from "@/temp-data";
 import { metadata } from "@/temp-data/metadata";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
 import { contactLeads, globalCtas } from "@/temp-data/presentation";
 
-import { useEffect, useState } from 'react';
-
-interface PersonalInfoShape { fullName: string; legalName: string; title: string; email: string; location: string; heroGreeting: string; heroSubtitle: string }
-
 export default function ContactSection() {
-  const [personal, setPersonal] = useState<PersonalInfoShape | null>(null);
-  useEffect(() => {
-    (async () => { setPersonal(await loadPersonalInfo()); })();
-  }, []);
   const turkeyPhone = metadata.phones.find(p => p.label.toLowerCase() === 'turkey')?.e164 || metadata.phones[0].e164;
   const waLink = `https://wa.me/${turkeyPhone.replace(/[^0-9]/g,'')}`;
   const socialLinks = { whatsapp: waLink, linkedin: metadata.links.find(l => /linkedin/i.test(l.label))?.href || "#" } as const;
@@ -24,18 +16,9 @@ export default function ContactSection() {
   const contactDescription = (meta.get('contactSectionDescription') || "Let's discuss your project or collaboration opportunities").trim();
   // quickIntro removed; replaced with 3D visualization
 
-  if (!personal) {
-    return (
-      <section id="contact" className="scroll-mt-8">
-        <SectionHeader title={contactTitle} subtitle={contactDescription} />
-      </section>
-    );
-  }
-
-  // Extract metadata values
-  const primaryEmail = personal.email || "you@example.com";
+  const primaryEmail = personalInfo.email || "you@example.com";
   const whatsappPhone = turkeyPhone.replace(/^(\+\d{2})(\d{3})(\d{3})(\d{4})$/, '$1 $2 $3 $4');
-  const primaryLocation = personal.location || "Your City";
+  const primaryLocation = personalInfo.location || "Your City";
   const leftLead = contactLeads.left;
   const rightLead = contactLeads.right;
 

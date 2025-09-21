@@ -1,11 +1,20 @@
 export interface Recommendation {
-  id: string;
+  id: string | number;
   name: string;
-  title: string;
-  company: string;
-  relationship: string;
+  // Some records use `position` instead of `title`
+  title?: string;
+  position?: string;
+  company?: string;
+  relationship?: string;
   content: string;
+  // Optional auxiliary fields present in the static data
+  rating?: number;
+  photo?: string | null;
   avatar?: string;
+  linkedin?: string;
   linkedinUrl?: string;
-  date: string;
+  recommendationLetterUrl?: string;
+  date?: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 }

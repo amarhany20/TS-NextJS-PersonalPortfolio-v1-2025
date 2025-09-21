@@ -2,7 +2,6 @@
 // Dynamic categories come from data layer, no fixed unions or levels.
 export interface SkillItem {
   name: string;
-  icon?: string; // icon name, emoji or lucide id
 }
 
 export interface SkillGroupDisplay {

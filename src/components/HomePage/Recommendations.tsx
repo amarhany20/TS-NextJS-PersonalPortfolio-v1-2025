@@ -1,6 +1,6 @@
 import SectionHeader from "@/components/UI/SectionHeader";
 import SectionCard from "@/components/UI/SectionCard";
-import { recommendations as loadRecommendations } from "@/temp-data/loaders/recommendationsLoader";
+import { recommendations } from "@/temp-data";
 import { formatMonthYear } from "@/utils/helpers";
 import { Linkedin, Quote } from "lucide-react";
 import Image from "next/image";
@@ -13,8 +13,7 @@ function formatDisplayDate(value: string | Date): string {
   return formatMonthYear(value);
 }
 
-export default async function Recommendations() {
-  const recommendations = await loadRecommendations();
+export default function Recommendations() {
 
   return (
     <section id="recommendations" className="scroll-mt-8">

@@ -2,7 +2,6 @@
 import SectionHeader from '@/components/UI/SectionHeader';
 import SectionCard from '@/components/UI/SectionCard';
 import { skillGroups } from '@/temp-data/skills';
-import { SkillIcon } from '@/components/UI/SkillIcon';
 
 export default function SkillsSection() {
 	const order = ['backend','frontend','databases','ai-cv','cloud-devops','languages','soft-skills'];
@@ -26,9 +25,8 @@ function SkillGroupCard({ group }: { group: { id: string; title: string; summary
 			</div>
 			<ul className="flex flex-wrap mt-auto">
 				{group.skills.map(s => (
-					<li key={s.name} className="group select-none inline-flex items-center gap-2 mr-1 mb-1 rounded-md border border-[color-mix(in_srgb,var(--border),transparent_40%)] bg-[linear-gradient(var(--panel),var(--panel-alt))] px-3 py-2 text-sm font-medium text-[var(--foreground)] shadow-sm hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/15 hover:shadow transition-colors">
-						<SkillIcon name={s.name} icon={s.icon} />
-						<span>{s.name}</span>
+					<li key={s.name} className="mr-1 mb-1 rounded-md bg-[var(--panel)] px-3 py-2 text-sm font-medium text-[var(--foreground)]">
+						{s.name}
 					</li>
 				))}
 			</ul>

@@ -4,7 +4,7 @@
   "tagline": "One-page WordPress site in EN/TR/AR",
   "intro": "A sleek, multilingual one-page website to showcase premium olive oil products.",
   "summary": "Built with WordPress and Avada, customized with CSS, and deployed on a VPS (WHM/cPanel). Supports English, Turkish, and Arabic with responsive presentation.",
-  "featured": true,
+  "featured": false,
   "visibility": "public",
   "access": "client-owned",
   "status": "live",

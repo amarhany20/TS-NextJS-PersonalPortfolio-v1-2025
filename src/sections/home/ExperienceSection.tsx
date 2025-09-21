@@ -3,19 +3,11 @@ import React from 'react';
 import SectionHeader from '@/components/UI/SectionHeader';
 import AccentBar from '@/components/UI/AccentBar';
 import SectionCard from '@/components/UI/SectionCard';
-import { experience as loadExperience } from '@/temp-data/loaders/experienceLoader';
-import { Briefcase, MapPin, Calendar, Star, Loader2 } from 'lucide-react';
+import { experience } from '@/temp-data';
+import { Briefcase, MapPin, Calendar, Star } from 'lucide-react';
 
 export default function ExperienceSection() {
-	const [expData, setExpData] = React.useState<ReturnType<typeof Array.prototype.slice>>([]);
-	const [loading, setLoading] = React.useState(true);
-	React.useEffect(() => { (async () => { try { setExpData(await loadExperience()); } finally { setLoading(false); } })(); }, []);
-	if (loading) return (
-		<section id="experience" className="scroll-mt-8">
-			<SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />
-			<div className="flex items-center justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-[var(--accent-primary)]" /></div>
-		</section>
-	);
+	const expData = experience;
 	if (!expData.length) return (
 		<section id="experience" className="scroll-mt-8">
 			<SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />
