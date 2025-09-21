@@ -1,0 +1,47 @@
+{
+  "slug": "domogreen-research-platform",
+  "title": "Domogreen Research Platform",
+  "tagline": "Research collaboration backend (Flask V1 → DRF V2)",
+  "intro": "Two backend iterations for a European research company: an initial Flask backend (V1) later migrated and re-architected into a DRF-based V2.",
+  "summary": "V1 delivered a working Flask REST API with Firebase Auth and a Firestore → PostgreSQL migration. V2 re-architected the platform using Django REST Framework, JWT auth, and a modular, layered design. The project was deprecated before production; architectural lessons were retained.",
+  "featured": false,
+  "visibility": "private",
+  "access": "proprietary",
+  "status": "archived",
+  "domain": "research-collab",
+  "company": "Domogreen EU",
+  "client": "Domogreen EU",
+  "website": null,
+  "repository": null,
+  "role": "Backend Developer (V1 & V2)",
+  "start": "2023-01",
+  "end": "2024-12",
+  "stack": [
+    "Python",
+    "Flask",
+    "Django REST Framework",
+    "PostgreSQL",
+    "Firebase Auth",
+    "Firestore",
+    "JWT Auth",
+    "Docker"
+  ],
+  "features": [
+    "Flask REST API with Firebase Auth → PostgreSQL migration",
+    "Role-based authorization & permission model",
+    "Chat creation, editing, and collaboration flows",
+    "V2: DRF with JWT, modular apps, repository/service layering"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "Two successive backend iterations for a European research company. V1 (Flask) delivered the first workable backend using Firebase Auth and Firestore and migrated to PostgreSQL; V2 (DRF) introduced a modular architecture with JWT auth and service/repository layers.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Provide a secure collaboration backend with role-based access, messaging, and integration points for AI-assisted workflows.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Led backend work across both versions: designed API endpoints, performed data migrations, implemented RBAC and chat features (V1); re-architected into DRF with JWT, serializers, and layered services (V2).", "order": 3 },
+    { "id": "features-impl", "title": "Features / Implementation", "body": "Flask API and migration paths (V1); DRF modular apps, JWT auth, layered repositories/services, and serializers/views (V2). Containerized with Docker for deployability.", "order": 4 },
+    { "id": "challenges", "title": "Challenges & Solutions", "body": "Addressed datastore scalability by moving from Firestore to PostgreSQL; managed code complexity with strict layering and modularization in V2.", "order": 5 },
+    { "id": "impact", "title": "Impact / Results", "body": "Delivered an initial functional backend and a stronger architectural blueprint. Platform later deprecated; lessons carried into newer backends.", "order": 6 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "Deprecated project; retain only architectural takeaways.",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "persona-x-saas",
+  "title": "Persona X – Dynamic Resume & Portfolio SaaS Platform",
+  "tagline": "Multi-tenant, API-first resumes, CVs, and portfolio sites",
+  "intro": "A subscription SaaS that centralizes career data and generates resumes, CVs, and portfolio websites on demand.",
+  "summary": "Co-founded under A Squared Tech. Backend-first architecture with Express.js and PostgreSQL, Clerk auth, and REST APIs powering a Next.js front. Built for scalability, extensibility, and secure multi-user access.",
+  "featured": false,
+  "visibility": "public",
+  "access": "proprietary",
+  "status": "in-progress",
+  "domain": "saas",
+  "company": "A Squared Tech",
+  "client": "A Squared Tech",
+  "role": "Co-founder & Backend Lead",
+  "start": "2025-05",
+  "stack": [
+    "Next.js",
+    "Express.js",
+    "PostgreSQL",
+    "Clerk Auth",
+    "REST API"
+  ],
+  "features": [
+    "Multi-tenant, role-based access control",
+    "User data store for education, work, projects, skills",
+    "Automated CV/portfolio generation with downloadable PDFs",
+    "Hosted portfolio sites with customizable themes",
+    "API-first design for integrations and AI agents",
+    "Clerk-powered authentication and secure session handling",
+    "Modular backend for incremental feature delivery"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A SaaS that helps professionals maintain a single source of truth for career data and generate resumes, CVs, and portfolio sites on demand.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Replace fragmented CV editing with a dynamic, data-driven system. Serve as a professional identity hub accessible by users and AI agents.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Backend architecture with Express.js and PostgreSQL; REST endpoints for generation flows; collaborate on Next.js front; Clerk auth integration; design multi-tenant RBAC.", "order": 3 },
+    { "id": "features-impl", "title": "Features / Implementation", "body": "Data models for profiles; PDF pipelines; themeable portfolio hosting; API-first separation for future third-party integrations; strict auth/authorization boundaries.", "order": 4 },
+    { "id": "challenges", "title": "Challenges & Solutions", "body": "Scalability addressed with API-first boundaries and clean modularity; steady co-founder cadence enabled by isolating domains and CI-enforced contracts.", "order": 5 },
+    { "id": "impact", "title": "Impact / Results", "body": "Early validation shows faster, more consistent resume/portfolio creation; foundation is enterprise-capable.", "order": 6 },
+    { "id": "future", "title": "Future Plans", "body": "AI resume optimization and job matching; team/enterprise tiers with analytics; Stripe billing and full production launch.", "order": 7 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

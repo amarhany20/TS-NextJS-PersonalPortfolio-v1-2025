@@ -1,0 +1,42 @@
+{
+  "slug": "real-estate-website",
+  "title": "Real Estate Website",
+  "tagline": "Multilingual Wix Velo site with SEO and lead capture",
+  "intro": "First freelance project: a cost-efficient real estate site with multilingual support and SEO optimization.",
+  "summary": "Built with Wix CMS and Velo (JavaScript customizations). Featured multilingual pages, SEO metadata, and lead email forwarding. Hosted on Wix cloud.",
+  "featured": false,
+  "visibility": "private",
+  "access": "client-owned",
+  "status": "completed",
+  "domain": "web-app",
+  "company": "Freelance",
+  "client": "Real Estate Developers (UAE)",
+  "website": null,
+  "repository": null,
+  "role": "Full-stack Developer",
+  "start": "2021-11",
+  "end": "2021-12",
+  "stack": [
+    "JavaScript",
+    "Wix Velo",
+    "Wix CMS"
+  ],
+  "features": [
+    "Multilingual support",
+    "CMS-driven property listings",
+    "Email lead forwarding",
+    "SEO optimization",
+    "Responsive design"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A multilingual Wix Velo real estate site showcasing properties with SEO optimization and lead generation flows.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Provide a cost-efficient professional online platform to display properties and capture buyer leads.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Implemented CMS structure, Velo scripts, multilingual design, SEO optimization, and lead email flow.", "order": 3 },
+    { "id": "features-impl", "title": "Features / Implementation", "body": "Multilingual pages, property listing CMS, lead capture forms, SEO metadata, responsive layout.", "order": 4 },
+    { "id": "impact", "title": "Impact / Results", "body": "Generated early property leads in UAE. Marked first professional freelance delivery.", "order": 5 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "Client-owned Wix project; not open-source.",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

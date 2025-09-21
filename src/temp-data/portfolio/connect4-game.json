@@ -1,0 +1,42 @@
+{
+  "slug": "connect4-game",
+  "title": "Connect 4 Game — Browser-Based Interactive Game",
+  "tagline": "Interactive Connect 4 game built with HTML, CSS, and JavaScript",
+  "intro": "A browser-based Connect 4 game showcasing dynamic gameplay and responsive design.",
+  "summary": "Developed across three iterations with jQuery and Bootstrap. Demonstrates DOM manipulation, state management, and responsive UI design. Hosted on GitHub Pages with a public repo.",
+  "featured": false,
+  "visibility": "public",
+  "access": "open-source",
+  "status": "live",
+  "domain": "game-dev",
+  "company": null,
+  "client": null,
+  "website": "https://<your-gh-username>.github.io/connect4/",
+  "repository": "https://github.com/<your-gh-username>/connect4",
+  "role": "Full-stack Developer",
+  "start": "2020-01",
+  "end": null,
+  "stack": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "jQuery",
+    "Bootstrap"
+  ],
+  "features": [
+    "Three versions with incremental improvements",
+    "Win detection logic (basic → 2D array optimization)",
+    "Responsive design with Bootstrap",
+    "Hosted on GitHub Pages"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "Interactive Connect 4 game built for browsers, demonstrating progression in frontend logic and design.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Showcase DOM manipulation, state management, and UI design through an enjoyable mini-game.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Coded game logic, designed responsive UI, and iterated improvements across three versions.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Serves as a showcase project for portfolio and learning, demonstrating steady growth in frontend skills.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

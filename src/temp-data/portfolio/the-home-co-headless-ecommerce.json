@@ -1,0 +1,45 @@
+{
+  "slug": "the-home-co-headless-ecommerce",
+  "title": "The Home Co. EG – Headless Furniture E-Commerce",
+  "tagline": "Premium Next.js storefront on Shopify Storefront API",
+  "intro": "Headless e-commerce for a luxury furniture brand, pairing a premium Next.js frontend with Shopify’s Storefront API.",
+  "summary": "GraphQL-powered storefront with collection browsing, filters, multilingual SEO, and pixel-perfect, high-performance UI.",
+  "featured": true,
+  "visibility": "public",
+  "access": "client-owned",
+  "status": "in-progress",
+  "domain": "ecommerce",
+  "company": "The Home Co EG",
+  "client": "The Home Co EG",
+  "website": "https://thehomecoeg.com",
+  "repository": null,
+  "role": "IT Manager & Lead Developer",
+  "start": "2025-05",
+  "end": null,
+  "stack": [
+    "Next.js (Frontend)",
+    "TypeScript",
+    "Tailwind CSS",
+    "Shopify Storefront API (GraphQL)"
+  ],
+  "features": [
+    "Auth, cart, checkout & payments (headless flow)",
+    "Collection pages with dynamic filters",
+    "Shopify metaobjects for marketing/portfolio content",
+    "Multilingual support & SEO essentials (OG, structured data)",
+    "Responsive, showroom-quality UI"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A headless storefront for The Home Co EG that blends a premium, performance-oriented Next.js frontend with Shopify Storefront API.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Deliver a flexible, high-performance e-commerce experience that internal teams can manage without developer intervention.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Owned architecture and implementation; integrated Storefront API (GraphQL); configured multilingual SEO; managed VPS security & deployments; delivered pixel-perfect layouts.", "order": 3 },
+    { "id": "features-impl", "title": "Features / Implementation", "body": "Full e-commerce workflow; GraphQL product/collection data; collection filters; metaobjects-driven marketing content; SEO-first structure; performance-focused frontend.", "order": 4 },
+    { "id": "challenges", "title": "Challenges & Solutions", "body": "Balanced rich visuals and animations with strict optimization budgets to keep load times low on all devices.", "order": 5 },
+    { "id": "impact", "title": "Impact / Results", "body": "Modern headless architecture ready for launch; enables teams to manage content and campaigns; elevates digital brand presence.", "order": 6 },
+    { "id": "future", "title": "Future Plans", "body": "Production launch; project-based showcases; personalization & analytics; marketing automation extensions.", "order": 7 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

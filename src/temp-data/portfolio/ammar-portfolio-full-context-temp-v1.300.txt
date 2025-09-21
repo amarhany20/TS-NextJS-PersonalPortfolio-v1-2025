@@ -1,0 +1,1695 @@
+Version 1: AI Context (Detailed)
+Project Title: Personal Portfolio – Open Source (In Development)
+Website/Repo: ammarhany.com - github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025
+Technology Stack: Next.js (App Router), TypeScript, Tailwind CSS, MDX/Structured Data, Resend (Contact API), Docker-ready
+Hosting & Deployment: Vercel (CI/CD)
+Status: In Development (public repo, configurable for others)
+Date: Started 2025-07 – Ongoing (as of 21/09/2025)
+Last Updated: 21/09/2025
+________________________________________
+Description
+An open-source personal portfolio system for developers to showcase projects, blogs, and case studies with SEO-first architecture. Currently developed as a static site using temporary TypeScript data, with a roadmap to evolve into a full-stack solution including backend services and authentication.
+Objective / Aim
+To provide a reusable, modular portfolio framework that developers can fork, customize, and deploy quickly. The goal is to eliminate repetitive setup while ensuring clean architecture, SEO optimization, and extensibility.
+Role & Responsibilities
+•	Full-stack design and implementation
+•	Frontend: Next.js (App Router) + Tailwind CSS
+•	Planned backend: API, auth, database integration
+•	Deployment automation: Vercel 
+•	Contact pipeline with Resend API
+•	Applied Controller → Service → Repository patterns
+Features / Implementation
+•	Modular structure (Projects + Blogs via MDX/structured data)
+•	Rich content support (code embeds, markdown)
+•	Typed env configuration and reusable UI components
+•	Responsive Tailwind CSS design
+•	Contact form with secure email delivery (Resend API)
+•	Configurable metadata layer for entries
+•	Ready for both static hosting and Dockerized deployment
+Challenges & Solutions
+•	Static vs Dynamic: Started with static TypeScript-driven content for speed, with migration path to backend-powered data + auth.
+•	SEO with Modern Frameworks: Leveraged Next.js App Router + MDX for static rendering with rich metadata.
+Impact / Results
+•	Provides a professional open-source starter for developers.
+•	Demonstrates best practices (SSR, typed services, container-ready).
+•	Already usable as a static template; backend roadmap ensures extensibility.
+Future Plans
+•	Backend integration (Postgres/Prisma)
+•	Authentication + user management
+•	Admin dashboard for content management
+•	Visual showcase gallery
+•	CI/CD templates for enterprise contributors
+
+ 
+Project Title: FormoreCo – Company Website (Static)
+Website/Repo: formoreco.com
+Technology Stack: Next.js (Static Export), TypeScript, Tailwind CSS
+Hosting & Deployment: Vercel
+Status: Live
+Date: 2025-09
+Last Updated: 21/09/2025
+________________________________________
+Description
+A static company website built to showcase FormoreCo’s services, portfolio, and contact channels. Designed as a lightweight, low-maintenance marketing platform with performance and SEO at its core.
+Objective / Aim
+To provide FormoreCo with a professional online presence that communicates services clearly, optimizes discoverability, and ensures easy maintenance without the complexity of a dynamic backend.
+Role & Responsibilities
+•	Full-stack development of the static site
+•	Designed responsive, branded UI using Tailwind CSS
+•	Built modular Next.js components for sections (Home, Services, Projects, About, Contact)
+•	Configured SEO essentials (meta, OG, sitemap, robots)
+•	Set up deployment workflow via Vercel for zero-maintenance hosting
+•	Implemented contact flow with validation and spam filtering
+Features / Implementation
+•	Component-based Next.js pages for consistent branding
+•	Static export with pre-rendered routes for speed
+•	Image optimization and lightweight UI
+•	SEO-first setup with structured data
+•	Simple contact form routing to team inbox
+•	Content organized in data-driven sections for easy updates
+Challenges & Solutions
+•	Scalability vs Simplicity: Balanced between a minimal static setup and keeping the site extensible for future additions.
+•	SEO: Implemented structured metadata and Open Graph to ensure discoverability despite static export.
+Impact / Results
+•	Delivered a fast, reliable, and cost-effective online presence.
+•	Improved brand credibility and client reach with a professional digital touchpoint.
+•	Achieved minimal ongoing maintenance costs while retaining flexibility.
+ 
+Project Title: The Home Co – Pricing System (Production)
+Website/Repo: pricingsystem.thehomecoeg.com (internal)
+Technology Stack: TypeScript, Next.js, Docker, PostgreSQL/Prisma, Caddy, Linux (VPS)
+Hosting & Deployment: DigitalOcean VPS (Dockerized services, multi-environment setup: dev, staging, production)
+Status: Live (in daily use)
+Date: 2025-07 – Present
+Last Updated: 21/09/2025
+________________________________________
+Description
+A production-ready internal pricing platform designed to standardize and accelerate furniture cost estimation workflows. Supports bilingual PDF generation, robust role-based access, and enterprise-grade reliability features.
+Objective / Aim
+To replace manual, inconsistent pricing workflows with a centralized, auditable, and scalable system that can handle complex margin, cost, and project-based calculations across teams.
+Role & Responsibilities
+•	Architected, developed, and deployed the full-stack system end-to-end.
+•	Implemented multi-environment setup (dev, staging, prod) with containerized DB and app services.
+•	Designed responsive admin UI for multi-device usage.
+•	Integrated automated weekly backup, import/export, and disaster recovery safeguards.
+•	Delivered ongoing enhancements (resource management, crawling integrations, project-based pricing).
+Features / Implementation
+•	Core Calculation Engine: Deterministic logic for cost rules with precedence handling.
+•	User & Role Management: Admin CRUD for users; roles include admin,engineers.
+•	Quote Lifecycle: Draft → Finalize → Export PDF.
+•	Reusable Presets: Export/import presets for recurring calculations; resource library with images and editable attributes.
+•	Data Management: Import/export CSV and Excel, full backup/restore pipeline.
+•	Responsive UI: Works seamlessly on desktop, tablet, and mobile.
+•	Integrations: Live crawling of materials from Egyptian vendor websites.
+•	Audit & Logs: Full activity logging, weekly database backups.
+Challenges & Solutions
+•	Scalability vs Maintainability: Built a modular structure (Prisma schema, Next.js API routes) to support both rapid iteration and enterprise reliability.
+•	User Experience: Balanced complex pricing rules with a colorful, production-friendly UI that’s accessible for non-technical staff.
+Impact / Results
+•	Reduced quote preparation time from hours to minutes.
+•	Improved accuracy and consistency across all pricing outputs.
+•	Enabled cross-team alignment with standardized resources and presets.
+•	Enhanced resilience with backups and disaster recovery.
+Future Plans
+•	Project-based and room-based calculations.
+•	Advanced crawling integrations for live material cost updates.
+•	Expanded reporting dashboards for management insights.
+ 
+Version 1: AI Context (Detailed)
+Project Title: The Home Co. EG – Headless Furniture E-Commerce Website
+Website/Repo: thehomecoeg.com
+Technology Stack: Next.js (Frontend), Shopify Storefront API, TypeScript
+Hosting & Deployment: DigitalOcean VPS (managed by Ammar)
+Status: In Development
+Date: 2025-05 – Present
+Last Updated: 21/09/2025
+________________________________________
+Description
+A headless e-commerce platform built for The Home Co EG, a luxury furniture brand in Egypt. Combines a premium, performance-oriented Next.js frontend with Shopify’s Storefront API to deliver a showroom-quality digital experience. The system is designed for scalability, responsiveness across devices, and seamless integration of marketing features.
+Objective / Aim
+To create a flexible, high-performance e-commerce platform that reflects the premium identity of the brand, while enabling internal teams to manage products, collections, and marketing content without relying on developers.
+Role & Responsibilities
+•	IT Manager & Lead Developer overseeing full project lifecycle.
+•	Architected and implemented the Next.js frontend with Tailwind CSS.
+•	Integrated Shopify Storefront API and GraphQL for dynamic product management.
+•	Configured multilingual support and SEO essentials (structured data, OG tags).
+•	Managed DigitalOcean VPS hosting, security, and deployments.
+•	Designed responsive, pixel-perfect layouts to align with brand aesthetics.
+Features / Implementation
+•	Full e-commerce workflow: user authentication, cart, checkout, payments.
+•	Shopify Storefront API with GraphQL for product, collection, and inventory data.
+•	Collection-based product browsing with dynamic filters.
+•	Portfolio section powered by Shopify metaobjects for marketing campaigns.
+•	SEO-first structure: meta tags, structured data, sitemap, robots.
+•	Optimized frontend for showroom-quality performance across devices.
+Challenges & Solutions
+•	Performance vs Flexibility: Balanced rich visuals and animations with strict optimization to keep load times low.
+Impact / Results
+•	Delivered a scalable, modern headless architecture for future growth.
+•	Enabled non-technical staff to manage content, products, and campaigns.
+•	Enhanced the brand’s digital presence with a premium, showroom-quality website.
+Future Plans
+•	Complete production launch.
+•	Add project-based product showcases.
+•	Integrate personalization features and analytics dashboards.
+•	Expand marketing automation and customer engagement tools.
+ 
+Project Title: Persona X – Dynamic Resume & Portfolio SaaS Platform
+Website/Repo: Coming Soon
+Technology Stack: Next.js, Express.js, PostgreSQL, Clerk Auth, REST API
+Hosting & Architecture: Full-Stack SaaS (multi-tenant, role-based access)
+Status: In Development
+Date: 2025-05 – Present
+Last Updated: 21/09/2025
+________________________________________
+Description
+A subscription-based SaaS platform being co-founded under A Squared Tech. Persona X allows professionals to centralize their career data (experience, education, projects, and skills) and dynamically generate resumes, CVs, and portfolio websites on demand. The system is being developed gradually, with a focus on scalability, extensibility, and secure multi-user access.
+Objective / Aim
+To simplify personal branding and job application workflows by replacing fragmented CV editing with a dynamic, data-driven system. Persona X positions itself as a professional identity hub that users or AI agents can query and use.
+Role & Responsibilities
+•	Co-founder at A Squared Tech, working primarily on the backend side.
+•	Implementing modular backend architecture with Express.js and PostgreSQL.
+•	Developing REST API endpoints for portfolio and resume generation.
+•	Collaborating on frontend integration with Next.js and Clerk authentication.
+•	Contributing to SaaS design: multi-tenant structure, role-based access, and API-first development.
+Features / Implementation
+•	User data store: education, work, projects, skills.
+•	Automated CV/portfolio generation with downloadable PDFs.
+•	Portfolio website hosting with customizable themes.
+•	REST API for integrations and AI-driven use cases.
+•	Clerk-based authentication with secure access controls.
+•	Modular backend design for extensibility.
+Challenges & Solutions
+•	Scalability: Built around API-first separation to support future integrations and third-party access.
+•	Slow-paced Development: Balanced between co-founders’ workloads; modular design ensures progress remains incremental but clean.
+Impact / Results
+•	Establishing a SaaS platform capable of serving individuals and enterprises.
+•	Early validation suggests streamlined workflows for resume/portfolio creation.
+Future Plans
+•	AI-based resume optimization and job-matching features.
+•	Team and enterprise subscriptions with analytics.
+•	Full production launch with Stripe billing integration.
+ 
+Project Title: Eggersmann UAE – Luxury Kitchen Website
+Website/Repo: eggersmann.ae
+Technology Stack: WordPress, Elementor Pro, Pods, Custom PHP
+Hosting & Deployment: Cloudways (DigitalOcean)
+Status: Live
+Date: 2025-03 – 2025-04
+Last Updated: 21/09/2025
+________________________________________
+Description
+A high-end multilingual website developed for Eggersmann UAE, representing a global luxury kitchen brand. Built with Elementor Pro, custom PHP, and Pods to balance visual storytelling, performance, and dynamic content management.
+Objective / Aim
+To establish a premium digital presence in the UAE market, showcasing Eggersmann’s luxury kitchens and enabling the team to manage projects, finishes, and content without developer involvement.
+Role & Responsibilities
+•	Sole developer responsible for architecture, implementation, and deployment.
+•	Built dynamic content system with Pods (Projects, Materials, Finishes).
+•	Customized Elementor layouts with advanced styling, interactivity, and responsiveness.
+•	Integrated caching and performance strategies (Varnish, Object Cache Pro).
+•	Optimized SEO, multilingual structure, and responsive design.
+Features / Implementation
+•	Elementor Pro + custom PHP enhancements for layouts.
+•	Pods-based custom post types and relationships.
+•	Dynamic content updates for Projects and Finishes.
+•	Multilingual support for English/Arabic.
+•	Optimized performance: caching layers, lightweight assets.
+•	Design fidelity: hover effects, responsive layouts.
+Challenges & Solutions
+•	Performance on Cloudways: Tuned caching (Varnish + Object Cache Pro) and optimized queries for fast TTFB.
+•	Brand Consistency: Translated global Eggersmann design identity into responsive, web-friendly components.
+Impact / Results
+•	Delivered a premium digital presence aligning with Eggersmann’s global luxury image.
+•	Enabled the UAE team to independently manage projects and finishes.
+•	Improved performance and SEO visibility for regional luxury market searches.
+ 
+Project Title: Kingfisher Logistics – Shipment Tracking System
+Website/Repo: kfl-sy.com
+Technology Stack: WordPress, PHP (Custom Plugin)
+Hosting & Domain Management: WHM/cPanel (GoDaddy)
+GitHub Repository: Private – KiwifyTech-Php-WordpressPlugin-ManualShipmentTrackerPlugin
+Status: Live
+Date: 2025-01 – 2025-02
+Last Updated: 21/09/2025
+________________________________________
+Description
+Custom WordPress-based shipment tracking system developed for Kingfisher Logistics. Delivered as a private plugin with role-based access, CRUD functionality, and document management, integrated into a fully designed corporate website.
+Objective / Aim
+To enable employees and managers to manage shipments efficiently and provide clients with secure, real-time tracking and documentation access.
+Role & Responsibilities
+•	Developed a custom WordPress plugin from scratch with PHP.
+•	Implemented CRUD for shipments with role-based access (Managers, Employees, Guests).
+•	Designed complete website layout using Elementor.
+•	Integrated secure APIs for shipment updates across multiple locations.
+•	Added document management for attachments (proofs, policies, shipment docs).
+•	Managed hosting, domain setup, and deployment via WHM/cPanel.
+Features / Implementation
+•	Role-based shipment tracking with access levels.
+•	Live shipment updates with progress history.
+•	Document upload and management system.
+•	Custom Elementor design for corporate branding.
+•	API integration for real-time logistics data.
+Challenges & Solutions
+•	Role Segmentation: Ensured secure, tiered access to sensitive shipment data.
+•	Scalability on Shared Hosting: Optimized plugin queries and caching for cost-efficient performance.
+Impact / Results
+•	Streamlined logistics operations with centralized digital shipment tracking.
+•	Improved transparency and accountability for managers and employees.
+•	Enhanced customer trust through real-time shipment visibility.
+ 
+Project Title: Al Serif Company – Multilingual Business Website
+Website/Repo: alserifcompany.com.tr
+Technology Stack: WordPress, Elementor, Custom CSS
+Hosting & Email Management: GoDaddy WHM/cPanel
+Status: Live
+Date: 2025-01 - 2025-02
+Last Updated: 21/09/2025
+________________________________________
+Description
+A multilingual business website for Al Serif Company, completed within just 12 hours to meet urgent launch requirements. Designed with Elementor and custom CSS, the site supports English, Turkish, and Arabic, delivering a professional brand presence.
+Objective / Aim
+To rapidly deliver a global-facing business website that supports multiple languages, professional branding, and efficient communication setup.
+Role & Responsibilities
+•	Sole developer responsible for design, development, and deployment.
+•	Built one-page structure with three languages.
+•	Applied custom fonts, color schemes, and light/dark mode support.
+•	Implemented performance optimizations for speed and mobile usability.
+•	Configured company emails for professional communication.
+•	Managed hosting and infrastructure via GoDaddy WHM/cPanel.
+Features / Implementation
+•	Multilingual support: English, Turkish, Arabic.
+•	One-page responsive structure for simplicity.
+•	Custom CSS for fine-tuned aesthetics and responsiveness.
+•	Full dark/light mode design profile.
+•	High performance with optimized loading speeds.
+Challenges & Solutions
+•	Time Constraint: Delivered a fully working website in 12 hours by leveraging Elementor templates + rapid CSS customization.
+Impact / Results
+•	Provided the company with a professional, global-facing website in record time.
+•	Established consistent brand identity with modern design.
+•	Improved communication via configured company emails.
+Future Plans
+•	Expand beyond one-page to multi-section corporate site.
+•	Add CMS-driven news or updates section.
+•	Integrate basic SEO and analytics.
+ 
+Version 1: AI Context (Detailed)
+Project Title: Kiwify Tech – Hani Wa Mari Orders Tracking App & Backend
+Website/Repo: Internal (Client Project)
+Technology Stack (Frontend): Dart, Flutter
+Technology Stack (Backend): C#, ASP.NET, PostgreSQL
+Hosting & Deployment: VPS deployment using Docker (multi-service setup)
+Status: Live
+Date: 2024-11 – 2025-01
+Last Updated: 21/09/2025
+________________________________________
+Description
+A complete restaurant order tracking system developed for Hani Wa Mari, consisting of a Flutter-based Arabic mobile app and an ASP.NET backend. The solution streamlines restaurant operations by managing roles, tracking orders, and providing a multilingual-ready, scalable system deployed on a VPS with Docker.
+Objective / Aim
+To digitize restaurant order management across departments (reception, kitchen, delivery) and ensure traceability, scalability, and ease of use for Arabic-speaking staff.
+Role & Responsibilities
+•	Co-founder at Kiwify Tech, responsible for full development of both frontend and backend.
+•	Designed and implemented Flutter mobile app with localization and dynamic page generation.
+•	Developed ASP.NET backend with PostgreSQL database, REST APIs, and JWT authentication.
+•	Built role-based authorization workflows for order lifecycle management.
+•	Deployed containerized system on VPS with Docker for scalability and maintainability.
+•	Implemented DTOs, repositories, services, and middleware following clean architecture principles.
+Features / Implementation (Frontend)
+•	Arabic-first Flutter mobile app with localization/timezone support.
+•	Dynamic page generation from backend requests for scalability.
+•	Modular architecture (core, lib, screens, widgets, services, models).
+•	Unified settings system for consistent UI generation.
+•	Custom dialogs and dynamic widgets for usability.
+Features / Implementation (Backend)
+•	RESTful ASP.NET API with secure JWT authentication.
+•	Role-based authorization: Order Takers, Kitchen Managers, Kitchen Workers, Delivery Persons, Owner.
+•	Comprehensive order tracking with role-specific workflows.
+•	Archiving system for older orders.
+•	Stateless design for cost optimization and scalability.
+•	DTOs, Identity User, repositories, middleware, controllers for clean architecture.
+Challenges & Solutions
+•	Localization: Designed the mobile app fully in Arabic, setting groundwork for future multilingual expansion.
+•	Scalability: Built a stateless backend and modular frontend to handle future growth.
+•	Departmental Workflows: Implemented clear role-based flows to avoid operational conflicts (e.g., order locking in kitchen).
+Impact / Results
+•	Digitized restaurant order management across all roles.
+•	Reduced operational friction by replacing manual processes with real-time tracking.
+•	Provided a scalable system architecture ready for future features.
+Future Plans
+•	Add multi-language support (English, Turkish).
+•	Build analytics dashboards for restaurant performance.
+•	Extend mobile app with push notifications for order updates.
+ 
+Project Title: Domogreen Research Platform (Flask, V1)
+Website/Repo: Private GitHub Repository
+Technology Stack: Python, Flask, Firebase Auth, Firestore → later PostgreSQL
+Status: Incomplete / Migrated
+Date: 2023 – 2024
+Last Updated: 21/09/2025
+________________________________________
+Description
+The first backend iteration for Domogreen’s research platform, developed in Flask. Initially integrated with Firebase Auth and Firestore, later migrated to PostgreSQL to support scalability and performance. Built for role-based access, user management, and collaborative chat functionality with chatbot integration.
+Objective / Aim
+To provide a lightweight backend for a European research company, enabling user roles, chat-based collaboration, and interaction with an AI chatbot.
+Role & Responsibilities
+•	Backend developer responsible for architecture, API, and database migration.
+•	Implemented user management with role-based authorization and permission-based actions.
+•	Developed collaboration and chat systems integrated with an AI chatbot (built by a colleague).
+•	Migrated database logic from Firestore to PostgreSQL for performance.
+•	Prepared for stateless deployment on GCP with Docker.
+Features / Implementation
+•	Flask REST API with Firebase Auth → PostgreSQL migration.
+•	Role-based authorization & permission system.
+•	Chat creation, editing, and collaboration flows.
+•	Account and role management.
+•	Stateless Docker-ready deployment for GCP.
+Challenges & Solutions
+•	Scalability Limits in Firestore: Migrated to PostgreSQL with ORM logic for improved performance.
+•	Collaboration Features: Introduced role-based actions and chat workflows.
+Impact / Results
+•	Provided first working backend for internal research collaboration.
+•	Highlighted architectural needs for later DRF migration.
+•	Deprecated in favor of DRF-based V2.
+ 
+Project Title: Domogreen Research Platform — Backend (V1 Flask → V2 DRF) (Deprecated)
+Website/Repo: Private GitHub repositories (internal)
+Technology Stack:
+•	V1: Python, Flask, Firebase Auth, Firestore → migrated to PostgreSQL
+•	V2: Python, Django REST Framework (DRF), PostgreSQL, JWT auth
+Hosting & Deployment: Docker-ready; V1 prepared for stateless deployment on GCP
+Status: Deprecated (V1 and V2)
+Date: 2024
+Last Updated: 21/09/2025
+________________________________________
+Description
+Two successive backend iterations for a European research company (advanced particle physics focus). V1 (Flask) delivered the first workable backend with Firebase Auth + Firestore, later migrated to PostgreSQL. V2 (DRF) was a redesign emphasizing modular apps, JWT-based auth, and clearer separation of concerns (repositories/services), but the overall platform was deprecated before reaching production.
+Objective / Aim
+Provide a secure collaboration backend supporting role-based access, user/account management, and chat/messaging features, with integration points for an AI agent developed by a colleague.
+Role & Responsibilities
+•	Backend developer across both iterations (AI agent handled by a colleague).
+•	V1: Implemented auth/roles, chat & collaboration flows; migrated data logic from Firestore to PostgreSQL; prepared Dockerized, stateless deployment targeting GCP.
+•	V2: Re-architected core into DRF with JWT auth, role-based authorization, modular apps per domain, repositories for DB ops and services for business logic; authored serializers and views for consistent APIs.
+Features / Implementation
+•	Common goals: role-based authorization, user/account management, chat & collaboration modules.
+•	V1 (Flask): Firebase Auth + Firestore (initial) → PostgreSQL migration; REST endpoints; permission-based actions; Docker-ready.
+•	V2 (DRF): JWT auth; modular Django apps; repository/service layers; DRF serializers & views; expanded messaging/collaboration systems.
+Challenges & Solutions
+•	Datastore scalability (V1): Firestore limitations → migrated to PostgreSQL for relational modeling and better performance.
+•	Scope & maintainability (V2): Multiple subsystems (messaging, collaboration, user management) increased complexity → applied modular DRF architecture with strict layering (repos/services) to keep codebase maintainable.
+Impact / Results
+•	Produced an initial collaboration backend (V1) and a stronger architectural blueprint (V2).
+•	Informed future designs with lessons on data modeling, auth/roles, and modular service boundaries.
+•	Final status: Platform deprecated before production; learnings carried into later work.
+Future Plans
+None — project retired. Architectural lessons reused in newer backends.
+ 
+Project Title: aceitunaoil.com — Multilingual Olive Oil Website 
+Website/Repo: aceitunaoil.com (public) 
+Technology Stack: WordPress, Avada Theme, Custom CSS, Multi-language Support (EN/TR/AR) 
+Hosting & Deployment: VPS with WHM/cPanel (on-premises) 
+Status: Live 
+Date: 2024-09 – Present 
+Last Updated: 21/09/2025
+________________________________________
+Description
+A fully custom one-page WordPress website created for a client to showcase olive oil products across multiple languages: English, Turkish, and Arabic. Designed to highlight the products with a clean, professional layout and responsive design.
+Objective / Aim
+To deliver a multilingual, professional digital presence that allows the client to reach international audiences and present products effectively.
+Role & Responsibilities
+•	Co-developed under Kiwify Tech, leading full WordPress customization using Avada theme.
+•	Implemented multilingual functionality (EN/TR/AR) with seamless switching.
+•	Designed and customized responsive one-page structure.
+•	Managed deployment on VPS with WHM/cPanel hosting.
+Features / Implementation
+•	Three-language support (EN/TR/AR).
+•	Single-page design showcasing products and brand.
+•	Responsive and mobile-friendly layouts.
+•	Custom CSS for design refinements.
+•	VPS hosting with WHM/cPanel for stability and management.
+Impact / Results
+•	Delivered a sleek, multilingual platform for the client’s brand.
+•	Expanded accessibility to regional and international users.
+•	Built a professional, maintainable site that reflects product quality.
+Future Plans
+•	Consider e-commerce integration for direct online sales.
+ 
+Project Title: goldenhillsfood.com — Multilingual Food Company Website 
+Website/Repo: goldenhillsfood.com (public) 
+Technology Stack: WordPress, Custom CSS, Multi-language Support (EN/AR) 
+Hosting & Deployment: VPS with WHM/cPanel (on-premises) 
+Status: Live 
+Date: 2024-10
+Last Updated: 21/09/2025
+________________________________________
+Description
+A bilingual one-page WordPress website built for a food company, showcasing its products and services in English and Arabic. Designed to emphasize sleek presentation and accessibility across devices.
+Objective / Aim
+To create a professional online presence that supports both English- and Arabic-speaking audiences, reflecting the brand’s credibility and product quality.
+Role & Responsibilities
+•	Co-developed under Kiwify Tech, focusing on full design and build execution.
+•	Implemented multilingual functionality with seamless switching between English and Arabic.
+•	Customized design and content to align with the company’s brand identity.
+•	Managed deployment and hosting on WHM/cPanel VPS.
+Features / Implementation
+•	Two-language support (EN/AR).
+•	Single-page professional design.
+•	Responsive, mobile-friendly layouts.
+•	Custom CSS styling for brand fit.
+•	Hosted and maintained on a VPS for performance and stability.
+Impact / Results
+•	Delivered a professional, sleek digital presence for the food company.
+•	Enabled bilingual access to expand audience reach.
+•	Built a low-maintenance site aligned with brand positioning.
+
+ 
+Project Title: aanahtar.com — E Commerce WordPress Website
+Website/Repo: aanahtar.com (public)
+Technology Stack: WordPress (Woodmart theme), PHP, Linux (terminal-level maintenance)
+Hosting & Deployment: cPanel on GoDaddy VPS
+Status: Live (with continuous maintenance)
+Date: 2023-07 – Present
+Last Updated: 21/09/2025
+________________________________________
+Description
+An e-commerce WordPress platform focused on selling products online. The site experienced major performance issues and functional gaps, requiring long-term technical assistance, optimization, and bug fixing.
+Objective / Aim
+To ensure a stable, efficient, and responsive e-commerce experience by addressing deep-rooted performance bottlenecks and fixing usability issues.
+Role & Responsibilities
+•	Assisted in ongoing development and bug fixes across multiple sessions.
+•	Conducted deep performance optimizations in the WordPress admin dashboard.
+•	Applied UI/UX enhancements and product filter improvements.
+•	Performed server-level interventions through Linux terminal commands.
+•	Maintained WordPress, PHP, and plugin updates.
+Features / Implementation
+•	WordPress/Woodmart theme-based storefront.
+•	Performance tuning: Reduced dashboard load time from ~1 minute to ~3 seconds.
+•	UI/UX improvements to product browsing and filters.
+•	Continuous maintenance and bug fixing across 2023–2025.
+•	Direct server-level support (Linux terminal, cPanel).
+Impact / Results
+•	Improved admin dashboard performance dramatically.
+•	Enhanced usability for product filtering and browsing.
+•	Maintained uptime and stability for the business.
+•	Demonstrated long-term reliability through continuous support cycles.
+Future Plans
+•	Continue iterative bug fixing and performance optimization.
+ 
+Project Title: a4keys.com — Wholesale Pricing Management Website
+Website/Repo: a4keys.com (public)
+Technology Stack: WordPress, PHP
+Hosting & Deployment: cPanel hosting
+Status: Live
+Date: 2024-09 – Present
+Last Updated: 21/09/2025
+________________________________________
+Description
+A WordPress-powered wholesale and retail website optimized for seamless migration and enhanced pricing functionality.
+Objective / Aim
+To migrate the client’s site to a new host with zero downtime and introduce custom wholesale pricing logic tailored to bulk orders.
+Role & Responsibilities
+•	Migrated the full website and database to new hosting infrastructure with no downtime.
+•	Built a custom WordPress plugin for managing wholesale pricing rules.
+•	Provided long-term maintenance and client support.
+Features / Implementation
+•	Custom wholesale pricing plugin enabling bulk order pricing management.
+•	Database and site migration across hosts with zero downtime.
+•	WordPress/PHP based extensibility for future scaling.
+Impact / Results
+•	Ensured smooth migration without business disruption.
+•	Simplified client workflow for managing wholesale orders.
+•	Enhanced reliability and performance of the platform.
+ 
+Project Title: sezonco.com.tr — Hosting & Maintenance
+Website/Repo: sezonco.com.tr (public)
+Technology Stack: WordPress (existing), Hosting Management (cPanel/Email)
+Hosting & Deployment: Full email + website hosting services
+Status: Live
+Date: 2024 – Present
+Last Updated: 21/09/2025
+Description
+Provided hosting, email setup, and maintenance for an existing client website. Focused on stability, bug fixes, and ongoing support to improve performance and ensure seamless operations.
+Objective / Aim
+To establish reliable hosting and email infrastructure while maintaining and improving the performance of the client’s WordPress website.
+Role & Responsibilities
+•	Migrated and configured email and hosting services.
+•	Debugged existing WordPress issues and applied performance fixes.
+•	Ensured secure, scalable hosting infrastructure.
+•	Provided continuous support and client collaboration.
+Features / Implementation
+•	Full hosting and email service setup.
+•	Ongoing bug fixes and technical support.
+•	Performance enhancements to existing WordPress site.
+•	Direct client collaboration for issue resolution.
+Impact / Results
+•	Improved stability and reliability of website hosting.
+•	Enhanced performance and responsiveness of the existing website.
+•	Provided the client with a long-term support pipeline.
+ 
+Project Title: Connect 4 Game — Browser-Based Interactive Game
+Website/Repo: GitHub Repo | Live Demo
+Technology Stack: HTML, CSS, JavaScript (jQuery, Bootstrap)
+Hosting & Deployment: GitHub Pages
+Status: Live (open-source demo)
+Date: 2020 – Present
+Last Updated: 21/09/2025
+Description
+An interactive Connect 4 game built for browsers, showcasing dynamic gameplay, responsive design, and iterative improvements across three major versions.
+Objective / Aim
+To create a fun, interactive project demonstrating practical use of DOM manipulation, state management, and responsive UI design.
+Role & Responsibilities
+•	Built the entire game logic and UI.
+•	Applied iterative improvements through multiple versions.
+•	Managed GitHub repo and hosted live demo on GitHub Pages.
+Features / Implementation
+•	Version 1: Basic jQuery implementation with color-based win detection.
+•	Version 2: Enhanced UI with game history, status display, and reset functionality.
+•	Version 3: Optimized logic with a 2D array for efficient win detection.
+•	Responsive design using Bootstrap for cross-device support.
+Impact / Results
+•	Demonstrated progression in front-end development skills.
+•	Delivered a stable, enjoyable mini-game with incremental feature improvements.
+•	Served as a showcase project for portfolio and learning.
+ 
+Project Title: Older Personal Website — Digital Portfolio
+Website/Repo: GitHub Repo
+Technology Stack: HTML, CSS, JavaScript, Bootstrap
+Hosting & Deployment: GitHub Pages
+Status: Archived (Replaced by new portfolio)
+Date: Early 2024
+Description
+A personal portfolio website built to showcase Ammar’s professional background, projects, and credentials in a comprehensive one-page layout.
+Objective / Aim
+To establish a professional digital presence consolidating skills, education, certificates, recommendation letters, projects, and resume into a single portfolio.
+Role & Responsibilities
+•	Designed and coded full site with HTML, CSS, and Bootstrap.
+•	Structured site with partials and modular sections (navbar, landing page, footer, education, skills, etc.).
+•	Published on GitHub Pages for accessibility.
+Features / Implementation
+•	Responsive design using Bootstrap.
+•	Organized content with sectioned partials.
+•	Included professional background, education, skills, projects, and resume.
+•	Multisection layout with certificates and recommendation letters.
+Impact / Results
+•	Delivered a clean, functional online portfolio.
+•	Replaced later by a more advanced Next.js-based portfolio project.
+ 
+Project Title
+Farm-API
+Website/Repo
+Internal service; repository private (Kiwify Tech)
+Technology Stack
+•	Languages & Frameworks: Python, Flask (REST)
+•	Data & Storage: Google Cloud Firestore, Google Cloud Storage (Buckets)
+•	Auth: Token-based auth, Basic auth
+•	CI/CD & Tooling: Docker, GitHub Actions
+Hosting & Deployment
+•	Platform: Google Cloud Run (containerized)
+•	Infra: GCP-managed (Firestore, Storage)
+•	Pipeline: Dockerized builds with GitHub Actions → deploy to Cloud Run
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+A scalable RESTful API built with Flask to expose and manage farm-related data, integrated with Google Cloud Firestore for structured data and Google Cloud Storage for file/binary assets. Designed for stateless, containerized deployment on Google Cloud Run.
+Objective / Aim
+Provide a secure, maintainable data-access layer that other internal systems and AI components could consume—serving as a backbone service in the company’s AI ecosystem.
+Role & Responsibilities
+•	Backend design and implementation (Flask REST endpoints)
+•	Data integration with Firestore and Cloud Storage
+•	Authentication setup (token-based, Basic auth)
+•	CI/CD (Docker images, GitHub Actions) and GCP deployment (Cloud Run)
+Features / Implementation
+•	RESTful endpoints for CRUD-style operations
+•	Firestore as primary database; object assets via Cloud Storage
+•	Token-based and Basic authentication for controlled access
+•	Containerized service deployed to Cloud Run for auto-scaling
+•	CI/CD with Docker and GitHub Actions for repeatable releases
+Impact / Results (qualitative)
+•	Served as the backbone API for AI workflows and internal consumers
+•	Enabled secure, standardized access to farm data and assets
+Future Plans
+None (project cancelled in 2024-04)
+Last Updated
+2024-04
+Visibility
+Internal service; code repository private
+Access
+By request only (internal stakeholders)
+ 
+Project Title
+Estrus ID Scoring API
+Website/Repo
+Internal service; repository private
+Technology Stack
+•	Languages & Frameworks: Python, Flask (REST)
+•	ML & AI: Ultralytics YOLOv8 (feature detection, scoring)
+•	CI/CD & Tooling: GitHub Actions, Docker
+Hosting & Deployment
+•	Platform: Google Cloud Run (containerized)
+•	Infra: GCP-managed services for model hosting & testing
+•	Pipeline: Model training/testing workflows, Dockerized builds, GitHub Actions → Cloud Run
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+A RESTful API for livestock data processing that applied a multi-model ID approach. Included YOLOv8-based feature detection and a scoring system to evaluate detection accuracy, optimized for serverless deployment on Google Cloud Run.
+Objective / Aim
+Automate estrus detection and scoring in livestock datasets using computer vision, providing reliable outputs for downstream analytics.
+Role & Responsibilities
+•	Built REST API endpoints in Python for livestock data processing
+•	Trained and integrated YOLOv8 detection models
+•	Designed scoring algorithm to evaluate model accuracy
+•	Configured CI/CD workflows and containerized deployments on Cloud Run
+Features / Implementation
+•	REST endpoints for uploading and processing livestock images/data
+•	Integrated YOLOv8 inference pipelines
+•	Scoring system to benchmark model predictions
+•	Dockerized service, deployed on Cloud Run
+•	CI/CD workflows for continuous training/testing integration
+Impact / Results (qualitative)
+•	Enabled structured model evaluation through API-based workflows
+•	Provided a scalable deployment pipeline for experimentation and testing
+Future Plans
+None (project cancelled in 2024-05)
+Last Updated
+2024-05
+Visibility
+Internal service; code repository private
+Access
+By request only (internal stakeholders)
+ 
+Project Title
+Estrus Jetson Pipeline
+Website/Repo
+Internal service; repository private
+Technology Stack
+•	Languages & Frameworks: Python
+•	Hardware & AI: NVIDIA Jetson devices (hardware-accelerated inference)
+•	Data & Storage: Firebase, Google Cloud Storage
+•	Tooling: RTSP camera integration, real-time processing stack
+Hosting & Deployment
+•	Platform: On-premises deployment on NVIDIA Jetson edge devices
+•	Infra: Farm environments with multiple RTSP IP cameras
+•	Pipeline: Real-time inference, tuned for low-latency predictions
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+An AI-powered estrus alert pipeline designed and optimized for NVIDIA Jetson devices. Connected to multiple RTSP cameras to perform real-time predictions with hardware acceleration, delivering alerts in production farm environments.
+Objective / Aim
+Provide an efficient and reliable estrus detection system directly at the edge, reducing reliance on cloud-only infrastructure and improving speed of decision-making in livestock farms.
+Role & Responsibilities
+•	Designed and implemented the Jetson-based inference pipeline
+•	Integrated multiple RTSP camera streams into the system
+•	Optimized model performance for hardware acceleration on Jetson
+•	Ensured robustness and efficiency for real-world farm use
+Features / Implementation
+•	Multi-camera RTSP ingestion and synchronization
+•	Real-time inference optimized for Jetson hardware acceleration
+•	On-device alerts and prediction outputs
+•	Firebase integration for structured data
+•	Google Cloud Storage for archiving and backup
+Impact / Results (qualitative)
+•	Demonstrated feasibility of running estrus detection at the edge
+•	Improved latency and reliability of detection in real farm scenarios
+Future Plans
+None (project cancelled in 2024-05)
+Last Updated
+2024-05
+Visibility
+Internal service; code repository private
+Access
+By request only (internal stakeholders)
+ 
+Project Title
+IoT Gate Pipeline
+Website/Repo
+Internal service; repository private
+Technology Stack
+•	Languages & Frameworks: Python
+•	Data & Storage: Firebase, Google Cloud Storage
+•	Hardware & Integrations: EU RFID tag readers, RTSP cameras, USB cameras
+•	OS Support: Linux, Windows
+•	Concurrency: Python multithreading for real-time streams
+Hosting & Deployment
+•	Platform: On-premises and hybrid deployments (farm environments)
+•	Infra: Multi-camera ingestion (RTSP + USB), cross-platform compatibility
+•	Pipeline: Multithreaded data ingestion → structured storage in Firebase/Cloud Storage
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+An IoT data collection pipeline designed for farm environments, integrating EU RFID tag readers and supporting RTSP and USB cameras across Linux and Windows platforms. Served as a backbone for collecting real-time multimodal data to feed AI/vision models.
+Objective / Aim
+Automate livestock identification and streamline multi-camera data collection to create a reliable foundation for AI-powered estrus detection and monitoring.
+Role & Responsibilities
+•	Engineered IoT pipeline supporting RFID integration
+•	Implemented RTSP/USB camera compatibility on Linux and Windows
+•	Built multithreaded architecture to handle multiple camera connections
+•	Structured data collection for Firebase and Cloud Storage
+Features / Implementation
+•	Integration with EU RFID tag readers
+•	Real-time RTSP and USB camera input
+•	Cross-platform deployment (Linux + Windows)
+•	Multithreaded architecture for concurrent streams
+•	Firebase + Cloud Storage integration for persistence
+Impact / Results (qualitative)
+•	Established backbone pipeline for AI model training and testing
+•	Reduced manual overhead in data collection across diverse hardware setups
+Future Plans
+None (project cancelled in 2024-05)
+Last Updated
+2024-05
+Visibility
+Internal service; code repository private
+Access
+By request only (internal stakeholders)
+ 
+Project Title
+Data Checker Pipeline
+Website/Repo
+Internal service; repository private
+Technology Stack
+•	Languages & Frameworks: Python
+•	Integrations: Designed to complement IoT Gate Pipeline
+•	Data Processing: Automated frame extraction, tagging, and filtering
+Hosting & Deployment
+•	Platform: Local and hybrid farm environments
+•	Pipeline: Video frame ingestion → filtering/tagging → dataset preparation
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+A supporting pipeline built to automate video frame processing and filtering for the IoT Gate system. Focused on tagging frames with IDs to prepare structured datasets for model training and analysis.
+Objective / Aim
+Reduce manual overhead in dataset creation by automating video frame extraction, filtering, and tagging for AI/vision model training.
+Role & Responsibilities
+•	Built Python scripts for automated frame extraction and filtering
+•	Designed ID-based tagging pipeline for dataset preparation
+•	Integrated with IoT Gate outputs to ensure seamless data flow
+Features / Implementation
+•	Automated video frame extraction
+•	Filtering to remove irrelevant/noisy frames
+•	Tagging frames with IDs for training sets
+•	Structured outputs aligned with IoT Gate pipeline
+Impact / Results (qualitative)
+•	Reduced manual labor in dataset preparation
+•	Created consistent, high-quality datasets for AI model training
+Future Plans
+None (project cancelled in 2024-05)
+Last Updated
+2024-05
+Visibility
+Internal service; code repository private
+Access
+By request only (internal stakeholders)
+ 
+Project Title
+Computer Vision Training Suite
+Website/Repo
+Internal toolkit; repository private
+Technology Stack
+•	Languages & Frameworks: Python
+•	ML & AI: Ultralytics YOLOv8
+•	Utilities: Dataset preparation, augmentation, YAML-based configuration, benchmarking tools
+Hosting & Deployment
+•	Platform: Local training environments, GPU-enabled servers
+•	Pipeline: Data preparation → augmentation → YOLOv8 training → evaluation
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+A modular Python toolkit built to support training and testing of computer vision models. Included dataset preparation, augmentation, YAML configuration, and performance benchmarking, with primary integration around YOLOv8.
+Objective / Aim
+Accelerate iteration cycles in applied computer vision projects by automating dataset handling, configuration, and evaluation workflows.
+Role & Responsibilities
+•	Built modular scripts for dataset preparation and augmentation
+•	Configured YOLOv8 models via YAML pipelines
+•	Implemented benchmarking tools for evaluating model performance
+Features / Implementation
+•	Dataset preparation and cleaning workflows
+•	Automated augmentation (rotation, flip, noise)
+•	YAML configuration for flexible model training setups
+•	Integrated benchmarking for detection performance
+•	Modular toolkit design for reuse across projects
+Impact / Results (qualitative)
+•	Reduced iteration time in training/evaluating models
+•	Enabled consistent, repeatable experiments across different datasets
+Future Plans
+None (project cancelled in 2024-06)
+Last Updated
+2024-06
+Visibility
+Internal toolkit; code repository private
+Access
+By request only (internal stakeholders)
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Computer Vision Training Suite
+Website/Repo: Private (internal)
+Technology Stack: Python, YOLOv8, dataset prep & augmentation
+Hosting & Deployment: Local/GPU training environments
+Status: Archived (Cancelled)
+Date: 2023-07 – 2024-04
+Description: Modular Python toolkit for training/testing vision models with YOLOv8, including dataset prep, augmentation, YAML configs, and benchmarking.
+Role: Built modular scripts, dataset workflows, and benchmarking tools.
+Features: Dataset prep/augmentation, YAML configs, benchmarking suite, modular design.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+AI Analysis Application
+Website/Repo
+Internal tool; repository private
+Technology Stack
+•	Languages & Frameworks: Python
+•	UI/UX: GUI-based (desktop application)
+•	Data & Integration: Database connectivity, Microsoft Excel export
+Hosting & Deployment
+•	Platform: Local desktop environments
+•	Pipeline: Data retrieval → model validation → Excel export
+Status
+Archived (Project cancelled)
+Date
+2023-07 – 2024-04
+Description
+A GUI-based validation application designed to assess the accuracy of ID models. Integrated with databases for direct data retrieval and Microsoft Excel for post-analysis, enabling non-technical users to test and evaluate models seamlessly.
+Objective / Aim
+Provide a user-friendly desktop tool for validating and analyzing model outputs without requiring technical scripts or manual data handling.
+Role & Responsibilities
+•	Built GUI interface for user-driven testing
+•	Integrated database connectors for retrieving datasets
+•	Implemented Excel export for structured post-analysis
+•	Developed validation routines for assessing model accuracy
+Features / Implementation
+•	GUI-driven workflows for model testing
+•	Direct database integration for input retrieval
+•	Excel-based export of evaluation results
+•	Automated accuracy scoring of ID models
+Impact / Results (qualitative)
+•	Simplified testing workflows for non-technical users
+•	Reduced manual overhead in evaluating model performance
+Future Plans
+None (project cancelled in 2024-04)
+Last Updated
+2024-04
+Visibility
+Internal tool; repository private
+Access
+By request only (internal stakeholders)
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: AI Analysis Application
+Website/Repo: Private (internal)
+Technology Stack: Python, GUI, DB integration, Excel export
+Hosting & Deployment: Local desktop environments
+Status: Archived (Cancelled)
+Date: 2023-07 – 2024-04
+Description: GUI-based validation tool for ID models with database integration and Excel export.
+Role: Built GUI workflows, database integration, and Excel export routines.
+Features: GUI interface, DB retrieval, Excel output, automated model accuracy scoring.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Live Object Counter
+Website/Repo
+Internship project; repository private
+Technology Stack
+•	Languages & Frameworks: Python
+•	Computer Vision: OpenCV, Ultralytics, Supervision
+•	Hardware & AI: NVIDIA Jetson (edge deployment)
+Hosting & Deployment
+•	Platform: On-device (Jetson edge devices)
+•	Pipeline: Real-time object detection and annotation
+Status
+Archived (Internship project completed)
+Date
+2023-06 – 2023-08
+Description
+A computer vision project created during an internship to count and annotate objects in real-time. Combined OpenCV, Ultralytics, and Supervision libraries with Python to deliver efficient detection optimized for NVIDIA Jetson devices.
+Objective / Aim
+Provide an edge-ready object counting solution capable of running smoothly in real-time on limited hardware resources.
+Role & Responsibilities
+•	Developed Python-based real-time object detection pipeline
+•	Integrated Ultralytics models with OpenCV for frame processing
+•	Used Supervision for annotation and display
+•	Optimized deployment on Jetson hardware
+Features / Implementation
+•	Real-time object counting and annotation
+•	High-performance detection pipeline
+•	Optimized for Jetson edge deployment
+•	Modular Python scripts for reusability
+Impact / Results (qualitative)
+•	Delivered a functional edge-deployed vision tool within internship timeframe
+•	Demonstrated capability to run high-performance CV on constrained hardware
+Future Plans
+None (internship project concluded)
+Last Updated
+2023-08
+Visibility
+Internship project; repository private
+Access
+By request only (internal stakeholders)
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Live Object Counter
+Website/Repo: Private (internship project)
+Technology Stack: Python, OpenCV, Ultralytics, Supervision
+Hosting & Deployment: NVIDIA Jetson edge devices
+Status: Archived (Internship project)
+Date: 2023-06 – 2023-08
+Description: Internship CV project for real-time object counting/annotation optimized for Jetson.
+Role: Built detection pipeline, integrated OpenCV + Ultralytics, optimized for edge hardware.
+Features: Real-time counting, annotations, Jetson optimization, modular Python scripts.
+ 
+Project Documentation (AI Context – Detailed)
+Project Title
+Forums Web Application
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Toros-University-ASP.NET-MVC-FORUMS-APP
+Technology Stack
+•	Languages & Frameworks: C#, ASP.NET MVC
+•	Database & ORM: MSSQL, Entity Framework
+•	Auth & Security: ASP.NET Identity, role-based authorization
+Hosting & Deployment
+•	Platform: Local/IIS deployment (university project)
+•	Pipeline: Manual deployment for coursework
+Status
+Completed (University Project)
+Date
+2023-01
+Description
+A university project web application developed using ASP.NET MVC and Entity Framework, designed as a forum platform where users can create posts, comment, and engage in discussions. The project demonstrated full-stack development capabilities including secure authentication and database management.
+Objective / Aim
+Build a community-style web platform that fosters user interaction through posts and comments, while implementing best practices in authentication, authorization, and data persistence.
+Role & Responsibilities
+•	Developed full-stack forum application in ASP.NET MVC
+•	Designed and implemented MSSQL database schema with Entity Framework
+•	Built authentication and authorization flows for secure sign-in/up
+•	Designed user-friendly UI for navigation and posting
+•	Applied security measures to protect user data and ensure application integrity
+Features / Implementation
+•	User authentication and authorization (sign-up, sign-in, roles)
+•	Forum post creation and commenting system
+•	Interactive community discussion workflows
+•	MSSQL with Entity Framework for persistence
+•	User-friendly, responsive UI design
+Impact / Results (qualitative)
+•	Delivered a robust forum platform as a complete university project
+•	Demonstrated end-to-end web development including backend, frontend, and database management
+Future Plans
+None (project concluded as part of coursework)
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Forums Web Application
+Website/Repo: GitHub
+Technology Stack: C#, ASP.NET MVC, MSSQL, Entity Framework
+Hosting & Deployment: Local/IIS (university project)
+Status: Completed (University Project)
+Date: 2023-01
+Description: ASP.NET MVC forum app with secure auth, posts, and comments using Entity Framework and MSSQL.
+Role: Developed full-stack app, database schema, and secure auth flows.
+Features: Auth & roles, posts/comments, MSSQL persistence, responsive UI.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Teknofest 2023 Contest – Computer Vision Project
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Teknofest-Autonomous-Harvesting-Robot-Computer-Vision-Backend
+Technology Stack
+•	Languages & Frameworks: Python, Flask (UI/backend integration)
+•	Computer Vision: Ultralytics YOLOv8, OpenCV
+•	Supporting Tools: Custom dataset preparation, object cropping, color detection
+Hosting & Deployment
+•	Platform: Local GPU-enabled training + demo environments
+•	Pipeline: YOLOv8 model training → Flask integration → live demonstration
+Status
+Completed (Teknofest 2023 submission)
+Date
+2023-05
+Description
+A collaborative project developed with Toros University’s Smart Lab for Teknofest 2023. The system focused on an Autonomous Harvesting Robot powered by computer vision, designed to detect and classify fruits and vegetables in real time. Integrated YOLOv8-based detection with a Flask-driven interface to showcase usability in practical harvesting scenarios.
+Objective / Aim
+Leverage advanced computer vision to automate the detection, classification, and localization of crops, thereby improving harvesting efficiency and reducing reliance on manual labor.
+Role & Responsibilities
+•	Co-developed vision backend using Python and YOLOv8
+•	Designed dataset preparation workflows with OpenCV
+•	Implemented automatic cropping and color-based classification of produce
+•	Integrated vision backend with Flask for testing and demonstration
+•	Optimized training and evaluation cycles for Teknofest deadlines
+Features / Implementation
+•	YOLOv8 detection model trained on agricultural datasets
+•	Automatic object cropping for precision harvesting
+•	Color detection pipeline for ripeness and quality analysis
+•	Flask-based user interface for live demonstration
+•	Modular training/testing scripts for fast iteration
+Challenges & Solutions
+•	Dataset complexity: Agricultural datasets varied widely → addressed with augmentation and custom preprocessing pipelines.
+•	Real-time performance: Optimized YOLOv8 configs and GPU usage to achieve reliable detection speed during live demos.
+Impact / Results (qualitative)
+•	Ranked 25th place in Teknofest 2023 out of numerous teams
+•	Showcased in front of 2.5 million visitors
+•	Validated feasibility of vision-driven autonomous harvesting
+Future Plans
+Potential extensions included full robotic arm integration, multi-camera fusion, and scaling beyond proof-of-concept, but project was concluded after contest.
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Teknofest 2023 Contest – Computer Vision Project
+Website/Repo: GitHub
+Technology Stack: Python, YOLOv8, OpenCV, Flask
+Hosting & Deployment: Local GPU-enabled training/demo
+Status: Completed (Contest Project)
+Date: 2023-05
+Description: Teknofest 2023 entry with Toros University’s Smart Lab. Built a YOLOv8 + OpenCV pipeline for autonomous fruit/vegetable detection with cropping, color analysis, and a Flask demo UI. Ranked 25th and showcased to 2.5M+ visitors.
+Role: Co-developed vision backend, dataset workflows, cropping/color pipelines, Flask demo integration.
+Features: YOLOv8 detection, cropping & color analysis, dataset prep, Flask demo UI.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Self-Driving Car Using Behavioral Cloning (Graduation Project)
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Private-Self-Driving-Car
+Technology Stack
+•	Languages & Frameworks: Python, TensorFlow/Keras
+•	Computer Vision & ML: Convolutional Neural Networks (CNNs)
+•	Hardware: RTX 2060 GPU (training), PC-based environment
+•	Data Handling: Manual driving → dataset collection → preprocessing → model training
+Hosting & Deployment
+•	Platform: Local training and testing on PC with GPU acceleration
+•	Pipeline: Data collection → preprocessing/augmentation → CNN training → behavioral cloning evaluation
+Status
+Completed (Graduation Project)
+Date
+2023-05
+Description
+This graduation project focused on developing an autonomous driving model using behavioral cloning. By capturing driving data from manual sessions, a CNN was trained to mimic human driving behavior. The system achieved smooth autonomous navigation without crashes, validating the feasibility of computer vision-based self-driving systems in controlled environments.
+Objective / Aim
+Explore and demonstrate how deep learning (CNNs) can replicate human driving behavior through behavioral cloning, enabling a car to autonomously navigate based on visual input.
+Role & Responsibilities
+•	Collected and curated driving datasets via manual driving
+•	Preprocessed and augmented data to balance driving scenarios
+•	Designed and trained CNN architectures with TensorFlow/Keras
+•	Conducted performance tuning using RTX 2060 GPU for faster training cycles
+•	Validated results through real-world-like autonomous driving tests
+Features / Implementation
+•	Behavioral Cloning Pipeline: Manual driving data used to generate labeled steering commands
+•	CNN Model: Trained end-to-end from image inputs to driving decisions
+•	Data Augmentation: Improved robustness with flipping, brightness adjustments, and cropping
+•	Autonomous Driving: Replicated human-like control without crashes in test environments
+•	Scalable Design: Modular training scripts to iterate and adjust architectures quickly
+Challenges & Solutions
+•	Data Imbalance: Straight driving dominated the dataset → solved via augmentation and careful balancing of steering angles.
+•	Overfitting Risks: Applied dropout layers and tuning to generalize beyond training data.
+•	Hardware Limitations: Leveraged RTX 2060 GPU to accelerate CNN training and experimentation.
+Impact / Results (qualitative)
+•	Delivered a fully functional autonomous driving model as a graduation project.
+•	Demonstrated feasibility of behavioral cloning for end-to-end self-driving in controlled conditions.
+•	Strengthened expertise in CNN architectures, dataset engineering, and GPU-accelerated training.
+Future Plans
+•	Integrate with real car hardware for on-road testing
+•	Expand dataset variety (different roads, weather, lighting)
+•	Explore reinforcement learning for adaptive driving behavior
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Self-Driving Car Using Behavioral Cloning (Graduation Project)
+Website/Repo: GitHub
+Technology Stack: Python, TensorFlow/Keras, CNNs, RTX 2060 GPU
+Hosting & Deployment: Local training & testing (GPU-accelerated)
+Status: Completed (Graduation Project)
+Date: 2023-05
+Description: Graduation project on self-driving cars using behavioral cloning. Trained CNNs on manual driving data to replicate human behavior, achieving crash-free autonomous navigation.
+Role: Collected data, trained CNNs, tuned performance with RTX 2060, validated autonomous driving.
+Features: Behavioral cloning pipeline, CNN model, data augmentation, GPU-accelerated training, autonomous driving tests.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Engineering Firm Website
+Website/Repo
+•	GitHub Repo V2
+•	GitHub Repo V1 → V2 in Progress
+Technology Stack
+•	Languages & Frameworks: HTML, CSS, JavaScript, PHP, Laravel 9, Bootstrap
+•	Database & ORM: MySQL, Eloquent ORM
+•	UI Frameworks: Bootstrap-based responsive frontend
+•	Security: Role-based access control
+Hosting & Deployment
+•	Platform: Local/IIS and demo hosting during development
+•	Pipeline: Manual deployments from GitHub repos
+Status
+Completed (First Freelance + University Project)
+Date
+2022 – 2023-01
+Description
+A full-featured company website built to showcase engineering firm projects, integrating an admin panel for project and user management. Developed with Laravel 9 and Bootstrap, this was both a first freelance project and a university project, blending coursework with real-world application. SEO compatibility was achieved with dynamic meta tag generation from the admin area.
+Objective / Aim
+Provide the engineering firm with a professional digital platform to present projects publicly while empowering staff to manage content and user roles internally.
+Role & Responsibilities
+•	Designed and implemented Laravel-based backend with Eloquent ORM
+•	Built project/user management modules in admin panel
+•	Developed responsive Bootstrap-based frontend with custom styling
+•	Implemented authentication and role-based authorization
+•	Added SEO compatibility via dynamic metadata
+Features / Implementation
+•	Admin panel for project and user management
+•	Role-based access with secure auth flows
+•	Responsive Bootstrap frontend
+•	SEO-optimized with dynamic meta generation
+•	Structured MySQL schema for scalability
+Impact / Results (qualitative)
+•	Delivered a professional, CMS-like site that blended academic and freelance experience
+•	Served as the foundation for later Laravel and freelance projects
+•	Demonstrated ability to deliver full-stack solutions beyond coursework
+Future Plans
+•	Potential migration to Laravel 10 with REST API support
+•	Expand admin features with dashboards and reporting
+Visibility
+Public GitHub repositories
+Access
+Accessible via GitHub links
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Engineering Firm Website
+Website/Repo: GitHub V2, GitHub V1
+Technology Stack: HTML, CSS, JS, PHP, Laravel 9, Bootstrap, MySQL
+Hosting & Deployment: Local/IIS + demo hosting
+Status: Completed (First Freelance + University Project)
+Date: 2022 – 2023-01
+Description: First freelance + university Laravel website for engineering firm projects with admin/user management and SEO meta tags.
+Role: Built Laravel backend, MySQL integration, Bootstrap frontend, and role-based auth.
+Features: Admin panel, role-based access, project/user management, SEO-ready meta tags.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Real Estate Website
+Website/Repo
+Private (Wix Velo project)
+Technology Stack
+•	Languages & Frameworks: JavaScript, Wix Velo (custom scripts)
+•	Platform: Wix CMS with Velo extensions
+•	Integrations: Email lead forwarding
+•	UI: Multilingual responsive design
+Hosting & Deployment
+•	Platform: Wix (cloud-hosted)
+•	Pipeline: CMS-driven pages + Velo custom scripting
+Status
+Completed (First Freelance Project)
+Date
+Late 2021
+Description
+A multilingual real estate website built with Wix Velo and JavaScript, designed to showcase newly built properties in the UAE. The site was developed with a strong focus on SEO optimization and lead generation, supporting multiple languages to target a wider audience.
+Objective / Aim
+Provide a cost-efficient yet professional online platform for real estate developers to display properties and capture buyer leads effectively.
+Role & Responsibilities
+•	Built multilingual Wix CMS site with JavaScript customizations
+•	Integrated lead submission flow with email notifications
+•	Implemented SEO-friendly design with metadata and structured content
+•	Designed responsive layouts optimized for property showcases
+Features / Implementation
+•	Multilingual support for broader reach
+•	CMS-driven property listings
+•	Lead capture forms sending directly to email
+•	SEO optimization to improve visibility
+•	Responsive design tailored for property images and details
+Impact / Results (qualitative)
+•	Helped generate early leads for property sales in the UAE
+•	Marked first professional freelance delivery, paving the way for future web projects
+Visibility
+Private Wix project (not open-source)
+Access
+Accessible via client-managed Wix account
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Real Estate Website
+Website/Repo: Private (Wix project)
+Technology Stack: JavaScript, Wix Velo, Wix CMS
+Hosting & Deployment: Wix cloud hosting
+Status: Completed (First Freelance Project)
+Date: Late 2021
+Description: SEO-friendly multilingual real estate site for UAE properties, built with Wix Velo and JavaScript. Included lead email integration.
+Role: Built Wix CMS structure, lead flow, and SEO features.
+Features: Multilingual site, CMS property listings, lead capture forms, SEO optimization.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+IStone Company Software
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/IStone-Company-Management
+Technology Stack
+•	Languages & Frameworks: C#, XAML (WPF)
+•	Database: MSSQL (server database)
+•	UI/UX: Windows Presentation Foundation (WPF)
+•	Architecture: Role-based desktop application
+Hosting & Deployment
+•	Platform: Windows desktop application
+•	Database Deployment: MSSQL server on local network
+•	Pipeline: Manual deployment for company use
+Status
+Completed (First Solo Development Project)
+Date
+2020
+Description
+A desktop management software developed with C#, XAML, and WPF, tailored to the operations of IStone Company. The application provided functionality for managing customers, tracking work status, handling inventory, and processing payments, all connected to a centralized MSSQL server database. Role-based authorization was implemented to ensure secure access for employees, managers, and owners.
+Objective / Aim
+Deliver a custom-built company management system that improved operational efficiency, enabled secure multi-role access, and provided real-time project and payment tracking.
+Role & Responsibilities
+•	Sole developer responsible for full project lifecycle
+•	Designed and implemented MSSQL server schema
+•	Built WPF interface with XAML for user interaction
+•	Implemented role-based authorization system (employee, manager, owner)
+•	Developed modules for customer management, inventory tracking, payments, and project status
+Features / Implementation
+•	Role-based access with tiered permissions
+•	Customer and project management modules
+•	Real-time work status tracking
+•	Inventory and payment handling
+•	MSSQL-backed data persistence
+•	Accessible across devices on the local server
+Impact / Results (qualitative)
+•	Marked first complete solo development project
+•	Provided IStone with a secure, tailored management tool
+•	Improved visibility and efficiency in daily operations
+Future Plans
+Potential for extension with remote access and reporting dashboards, but project concluded after delivery.
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: IStone Company Software
+Website/Repo: GitHub
+Technology Stack: C#, XAML (WPF), MSSQL
+Hosting & Deployment: Windows desktop app with MSSQL server
+Status: Completed (First Solo Development Project)
+Date: 2020
+Description: Role-based WPF desktop application for customer, inventory, project, and payment management.
+Role: Sole developer handling full-stack design, WPF UI, MSSQL schema, and role-based auth.
+Features: Customer/project modules, inventory/payments, real-time tracking, role-based access.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Inventory System
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Personal-CSharp-WPF-InventorySystem
+Technology Stack
+•	Languages & Frameworks: C#, XAML (WPF)
+•	Database: SQLite
+•	UI/UX: Windows Presentation Foundation (WPF)
+•	Architecture: Role-based desktop inventory system
+Hosting & Deployment
+•	Platform: Windows desktop application
+•	Database Deployment: SQLite (local DB), optional server deployment for multi-user access
+•	Pipeline: Automatic deployment and database build for seamless setup
+Status
+Completed (University Project)
+Date
+2021
+Description
+A university project developed as a WPF desktop inventory application with C#, XAML, and SQLite. Designed for organizations to manage inventory securely and efficiently, the system featured role-based login, CRUD functionality, change history tracking, and optional server deployment for multi-user setups. Security measures such as DDOS protection and comprehensive logging were implemented to ensure robustness.
+Objective / Aim
+Build a secure and reliable inventory management application with role-based access, multi-user support, and audit logging, tailored for Windows environments.
+Role & Responsibilities
+•	Sole developer for the full application lifecycle
+•	Designed SQLite schema and integrated it with WPF
+•	Implemented user-based login/authentication system
+•	Built CRUD operations for inventory items with full history tracking
+•	Added server deployment support for multiple users
+•	Implemented security features (logging, DDOS protection)
+•	Automated deployment and database initialization
+Features / Implementation
+•	User-based login and role-specific access
+•	CRUD functionality for inventory management
+•	Change history and audit logs for transparency
+•	Multi-user support via local server deployment
+•	DDOS protection and logging system
+•	Automatic deployment and database build
+Impact / Results (qualitative)
+•	Simplified inventory workflows for organizations
+•	Provided a secure, auditable solution with history tracking
+•	Showcased ability to develop scalable WPF apps with database integration
+Future Plans
+Potential enhancements included cloud database integration and web-based dashboards, but the project was concluded as a university coursework.
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Inventory System
+Website/Repo: GitHub
+Technology Stack: C#, XAML (WPF), SQLite
+Hosting & Deployment: Windows desktop app (local or server mode)
+Status: Completed (University Project)
+Date: 2021
+Description: WPF desktop app for secure inventory management with user logins, CRUD operations, and history tracking. Supports both standalone and multi-user setups.
+Role: Sole developer responsible for UI, database, authentication, and security.
+Features: User login, CRUD operations, history logs, multi-user support, DDOS protection, auto-deployment.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Robust Multithreaded Web Crawler
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Toros-University-WebCrawler-CSHARP-WPF-MSSQL
+Technology Stack
+•	Languages & Frameworks: C#, XAML (WPF)
+•	Database: MSSQL
+•	UI/UX: WPF for GUI responsiveness
+•	Concurrency: Multithreading for performance
+Hosting & Deployment
+•	Platform: Windows desktop application
+•	Database Deployment: MSSQL server for crawled data storage
+•	Pipeline: Manual deployment for university use
+Status
+Completed (University Project)
+Date
+2022
+Description
+A major university project: a robust multithreaded web crawler built with C# and WPF, using MSSQL for structured data persistence. Designed to traverse websites, extract anchor links from HTML structures, and recursively crawl entire domains while keeping the GUI smooth and responsive through multithreading.
+Objective / Aim
+Develop a scalable and efficient crawler application capable of extracting structured data from websites, demonstrating OOP practices, concurrency, and integration with databases.
+Role & Responsibilities
+•	Designed and implemented crawler engine in C# with object-oriented design
+•	Integrated MSSQL database for storing crawled data
+•	Built WPF-based GUI for interactive crawling sessions
+•	Implemented multithreading to avoid GUI blocking during intensive operations
+•	Added domain filters to restrict crawling to specified domains
+Features / Implementation
+•	Recursive link crawling within domain boundaries
+•	Extraction of anchor tags (URLs) from HTML
+•	MSSQL database storage for crawled links
+•	Multithreaded architecture for smooth GUI performance
+•	Filtering logic to exclude external links
+•	User-friendly interface for configuring crawl targets
+Impact / Results (qualitative)
+•	Delivered as a significant university project demonstrating advanced OOP and threading skills
+•	Provided a reusable crawling framework for academic and experimental use
+Future Plans
+Potential to extend with advanced parsing (images, metadata) and distributed crawling, but project concluded after coursework.
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Robust Multithreaded Web Crawler
+Website/Repo: GitHub
+Technology Stack: C#, XAML (WPF), MSSQL
+Hosting & Deployment: Windows desktop app with MSSQL backend
+Status: Completed (University Project)
+Date: 2022
+Description: WPF-based multithreaded web crawler extracting anchor links and recursively traversing domains with MSSQL storage.
+Role: Built crawler engine, WPF UI, and MSSQL integration with multithreading.
+Features: Recursive domain crawling, anchor extraction, MSSQL storage, multithreaded GUI responsiveness.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Windows Notes App
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/csharp_wpf_notesapp
+Technology Stack
+•	Languages & Frameworks: C#, XAML (WPF)
+•	Database: SQL (local database integration)
+•	UI/UX: Windows Presentation Foundation (WPF)
+•	Architecture: Role-based note management with OOP principles
+Hosting & Deployment
+•	Platform: Windows desktop application
+•	Database Deployment: SQL for storing user-specific notes
+•	Pipeline: Manual deployment for Windows machines
+Status
+Completed (University Project)
+Date
+2020
+Description
+A university project developed as a WPF desktop notes application with C#, XAML, and SQL database integration. Built to allow users to securely create, edit, search, and delete notes in real time, the app featured login-based user accounts and applied object-oriented principles with background threading for responsiveness.
+Objective / Aim
+To design a secure, efficient notes application for Windows that provides real-time functionality, persistent storage, and user-specific access.
+Role & Responsibilities
+•	Sole developer for the entire application lifecycle
+•	Implemented authentication system to assign notes to specific users
+•	Designed and integrated SQL database for persistent note storage
+•	Built note CRUD operations with real-time search and background threading
+•	Applied extensive validation rules to ensure a bug-free experience
+Features / Implementation
+•	Login-based multi-user system
+•	Create, read, update, delete notes
+•	Real-time note searching
+•	Background threading for responsive UI
+•	SQL database for user-specific persistence
+•	Extensive validation for data integrity
+Impact / Results (qualitative)
+•	Delivered a functional, responsive, and secure notes app
+•	Demonstrated strong skills in OOP, SQL integration, and WPF application development
+•	Served as an early milestone project showcasing practical application design
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Windows Notes App
+Website/Repo: GitHub
+Technology Stack: C#, XAML (WPF), SQL
+Hosting & Deployment: Windows desktop app
+Status: Completed (University Project)
+Date: 2020
+Description: WPF notes app with login-based multi-user support, CRUD note management, and SQL persistence.
+Role: Sole developer responsible for authentication, database, and UI.
+Features: Multi-user login, CRUD operations, real-time search, responsive UI with threading, SQL-backed storage.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+School Library System
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Toros-University-Library-System-CSHARP-WPF-MSSQL
+Technology Stack
+•	Languages & Frameworks: C#, XAML (WPF)
+•	Database: MSSQL
+•	UI/UX: Windows Presentation Foundation (WPF)
+•	Architecture: Role-based library management system
+Hosting & Deployment
+•	Platform: Windows desktop application
+•	Database Deployment: MSSQL local database with optional server deployment for multi-device access
+•	Pipeline: Manual deployment
+Status
+Completed (University Project)
+Date
+2019
+Description
+A comprehensive library management system developed as a university project using C#, WPF, and MSSQL. The system supported role-based access for Students, Lecturers, and Admins, providing inventory tracking, stock management, and a notification system for due or returned books.
+Objective / Aim
+To design a scalable, role-based application for efficient management of books, rentals, and stock in a university library context.
+Role & Responsibilities
+•	Sole developer across the full application lifecycle
+•	Built role-based access for Students, Lecturers, and Admins
+•	Integrated MSSQL database for book inventory and stock tracking
+•	Implemented rental time tracking and notification system
+•	Designed admin features for stock control and role confirmations
+•	Applied validation rules to ensure smooth and error-free operation
+Features / Implementation
+•	Role-based authorization (Students, Lecturers, Admins)
+•	Inventory and stock management
+•	Book rental lifecycle with time tracking
+•	Notifications for returns and overdue items
+•	Admin privileges for role confirmation and approvals
+•	Validation rules for robust usability
+•	Server deployment support for multi-device access
+Impact / Results (qualitative)
+•	Simplified library management and reduced manual overhead
+•	Provided secure and scalable solution with role-based workflows
+•	Demonstrated early competency in WPF, SQL integration, and OOP principles
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: School Library System
+Website/Repo: GitHub
+Technology Stack: C#, XAML (WPF), MSSQL
+Hosting & Deployment: Windows desktop app with MSSQL backend
+Status: Completed (University Project)
+Date: 2019
+Description: WPF-based role-driven library system with inventory tracking, rentals, and notifications.
+Role: Sole developer for database, WPF UI, and role-based access.
+Features: Role-based login, inventory management, rental time tracking, notifications, admin stock controls.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+School Management System
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/TOROS-UNIVERSITY-PROJECTS/tree/main/Java%20School%20Management%20Project/AmmarHanyEzeldinAbdelrazik195050902Java/SchoolManagementSystem
+Technology Stack
+•	Language: Java
+•	Database: SQLite
+•	Architecture: Role-based management system
+Hosting & Deployment
+•	Platform: Windows desktop application (Java runtime)
+•	Database Deployment: SQLite (local database)
+•	Pipeline: Manual build and run
+Status
+Completed (University Project)
+Date
+2020
+Description
+A university project developed in Java with SQLite for persistent data storage. The system served as a versatile management tool for academic institutions, enabling role-based operations for both students and lecturers, including course selection, exam scheduling, and weekly activity management.
+Objective / Aim
+To create a scalable school management system supporting academic workflows such as scheduling, grading, and communication, while ensuring secure role-based access.
+Role & Responsibilities
+•	Designed and implemented Java-based application with role-specific workflows
+•	Integrated SQLite database for storing student, lecturer, and course data
+•	Built features for scheduling, announcements, and grade management
+•	Applied OOP principles for maintainability and scalability
+Features / Implementation
+•	Role-based authorization for Students and Lecturers
+•	Course selection and enrollment features
+•	Exam scheduling with lecturer management
+•	Weekly schedule management for academic activities
+•	Lecturer tools for managing grades, announcements, and exams
+•	SQLite database integration for efficient local storage
+Impact / Results (qualitative)
+•	Provided a complete, functional system for managing academic processes
+•	Demonstrated ability to design role-based management systems in Java
+•	Served as a milestone project showcasing Java + database integration skills
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: School Management System
+Website/Repo: GitHub
+Technology Stack: Java, SQLite
+Hosting & Deployment: Windows desktop app (Java runtime)
+Status: Completed (University Project)
+Date: 2020
+Description: Java-based school management system with SQLite backend supporting courses, exams, and weekly scheduling.
+Role: Sole developer for architecture, database, and role-based workflows.
+Features: Role-based access, course management, exam scheduling, lecturer announcements, grade management.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Cashier System
+Website/Repo
+GitHub Repo: https://github.com/amarhany20/Toros-University-Cashier-System-CSHARP-WPF
+Technology Stack
+•	Languages & Frameworks: C#, XAML (WPF)
+•	Database: MSSQL
+•	UI/UX: WPF desktop application
+•	Architecture: Role-based cashier and inventory management system
+Hosting & Deployment
+•	Platform: Windows desktop application
+•	Database Deployment: MSSQL local database with optional server deployment for multi-user setups
+•	Pipeline: Manual deployment
+Status
+Completed (University Project)
+Date
+2019
+Description
+A robust cashier system developed as a university project using C#, WPF, and MSSQL. The system provided inventory management, order history, and real-time stock tracking. Role-based access ensured secure operations for admins and cashiers, with admin users managing inventory and transaction records.
+Objective / Aim
+To design a secure, efficient cashier and inventory management solution suitable for supermarkets or POS environments, supporting multiple simultaneous users.
+Role & Responsibilities
+•	Sole developer for application design and implementation
+•	Created role-based authorization for admins and cashiers
+•	Integrated MSSQL database for persistent inventory and transaction data
+•	Implemented auto-stock tracking and order history management
+•	Designed WPF-based UI for fast and reliable cashier operations
+Features / Implementation
+•	Role-based authorization: Admin and Cashier
+•	Inventory management with automatic stock tracking
+•	Order history with admin oversight
+•	MSSQL backend for structured data storage
+•	Multi-user support via server deployment
+•	Responsive, user-friendly WPF interface
+Impact / Results (qualitative)
+•	Delivered a fully functional POS-style system with inventory reliability
+•	Demonstrated skills in WPF UI development, MSSQL integration, and role-based security
+•	Suitable for real-world deployment in supermarket-style environments
+Visibility
+Public GitHub repository
+Access
+Accessible via GitHub link
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Cashier System
+Website/Repo: GitHub
+Technology Stack: C#, XAML (WPF), MSSQL
+Hosting & Deployment: Windows desktop app with MSSQL backend
+Status: Completed (University Project)
+Date: 2019
+Description: POS-style cashier and inventory system with order history and role-based access for admins and cashiers.
+Role: Sole developer for backend, UI, and authorization system.
+Features: Inventory tracking, order history, MSSQL storage, multi-user server deployment support.
+ 
+🔑 Project Documentation (AI Context – Detailed)
+Project Title
+Notes and Tasks Android App
+Website/Repo
+GitHub Repo: Not Provided
+Technology Stack
+•	Languages & Frameworks: Java (Android Studio)
+•	Database: RoomsDB (SQLite-based)
+•	UI/UX: Native Android app design
+•	Architecture: Notes and tasks management with CRUD operations
+Hosting & Deployment
+•	Platform: Android application
+•	Database Deployment: RoomsDB (SQLite local database)
+•	Pipeline: Built and deployed via Android Studio
+Status
+Completed (University Project)
+Date
+2020
+Description
+A university project developed as a native Android app using Java in Android Studio. The application allowed users to manage notes and tasks with a clean, responsive interface. Built with RoomsDB (SQLite), it provided full CRUD functionality, pinning, and search features to improve productivity.
+Objective / Aim
+To design a versatile and efficient Android application for managing notes and tasks, combining usability, performance, and database persistence.
+Role & Responsibilities
+•	Sole developer handling full application design and implementation
+•	Integrated RoomsDB (SQLite) for structured local storage
+•	Built CRUD operations for notes and tasks
+•	Implemented real-time search, pinning, and task state management
+•	Designed UI within Android Studio for a smooth user experience
+Features / Implementation
+•	Create, read, update, delete (CRUD) notes
+•	Pinning of notes for prioritization
+•	Task creation, editing, marking as done, and deletion
+•	Real-time search for fast note retrieval
+•	SQLite-based persistence using RoomsDB
+•	Native Android interface for optimized usability
+Impact / Results (qualitative)
+•	Delivered a functional notes and tasks management system for Android
+•	Demonstrated Android development skills with Java and RoomsDB integration
+•	Provided practical experience in building mobile applications with database support
+Visibility
+Private project (available on request)
+Access
+APK and source code accessible via GitHub (if shared)
+________________________________________
+🔎 Project Documentation (Concise – Portfolio View)
+Project Title: Notes and Tasks Android App
+Website/Repo: GitHub (private/unlisted)
+Technology Stack: Java (Android Studio), RoomsDB (SQLite)
+Hosting & Deployment: Android application (built in Android Studio)
+Status: Completed (University Project)
+Date: 2020
+Description: Android notes and tasks app with CRUD operations, pinning, and real-time search using RoomsDB (SQLite).
+Role: Sole developer responsible for full design, database integration, and UI.
+Features: Notes CRUD, pinning, task management, search functionality, SQLite persistence.
+

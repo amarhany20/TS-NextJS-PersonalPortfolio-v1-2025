@@ -1,0 +1,44 @@
+{
+  "slug": "engineering-firm-website",
+  "title": "Engineering Firm Website",
+  "tagline": "Laravel 9 CMS-like site with admin and SEO metadata",
+  "intro": "First freelance + university project: a Laravel site with admin panel for projects and users.",
+  "summary": "Laravel 9 + Bootstrap with MySQL (Eloquent). Features admin modules, role-based auth, responsive UI, and dynamic SEO meta generation. Deployed via local/demo hosting from GitHub repos.",
+  "featured": false,
+  "visibility": "public",
+  "access": "open-source",
+  "status": "archived",
+  "domain": "cms",
+  "company": "Freelance + University",
+  "client": "Engineering Firm",
+  "website": "https://github.com/amarhany20",
+  "repository": "https://github.com/amarhany20",
+  "role": "Full-stack Developer",
+  "start": "2022-01",
+  "end": "2023-01",
+  "stack": [
+    "PHP",
+    "Laravel 9",
+    "MySQL",
+    "Eloquent ORM",
+    "Bootstrap"
+  ],
+  "features": [
+    "Admin panel for project & user management",
+    "Role-based access with secure auth",
+    "Responsive Bootstrap frontend",
+    "SEO meta tags generated from admin data"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A company site with a Laravel-powered admin panel that manages projects and users, blending academic and freelance work.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Provide a professional public presence with internal content and role management.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Built Laravel backend with Eloquent, developed Bootstrap UI, implemented auth/roles, and added dynamic SEO metadata.", "order": 3 },
+    { "id": "features-impl", "title": "Features / Implementation", "body": "Modular admin modules, structured MySQL schema, responsive layouts, and SEO-friendly meta generation.", "order": 4 },
+    { "id": "impact", "title": "Impact / Results", "body": "Foundation for later Laravel and freelance work; demonstrated capability to deliver full-stack solutions.", "order": 5 },
+    { "id": "future", "title": "Future Plans", "body": "Potential Laravel 10 upgrade with REST APIs and dashboards.", "order": 6 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "Repos split V1/V2; link roots used here for brevity—replace with specific repo URLs if desired.",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

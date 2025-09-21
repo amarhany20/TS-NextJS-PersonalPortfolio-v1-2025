@@ -1,0 +1,41 @@
+{
+  "slug": "hani-wa-mari-orders-tracking",
+  "title": "Hani & Mari – Orders Tracking Portal",
+  "tagline": "Order management and customer updates for small-scale retailers",
+  "intro": "Built a simple order tracking and management portal to improve customer visibility and reduce support overhead.",
+  "summary": "Implemented a lightweight dashboard for store owners to track orders, update statuses, and notify customers via email/SMS integrations.",
+  "featured": false,
+  "visibility": "private",
+  "access": "client",
+  "status": "live",
+  "domain": "ecommerce",
+  "company": "Hani & Mari",
+  "client": "Hani & Mari",
+  "website": null,
+  "repository": null,
+  "role": "Developer",
+  "start": "2024-04",
+  "end": "2024-06",
+  "stack": [
+    "Next.js",
+    "Prisma",
+    "Postgres",
+    "Tailwind",
+    "SendGrid"
+  ],
+  "features": [
+    "Order timeline and status updates",
+    "Notifications via email and SMS",
+    "Simple admin UI for order updates",
+    "Export orders for accounting"
+  ],
+  "sections": [
+    { "id": "overview", "title": "Overview", "body": "A small-scale internal portal to reduce support load and improve customer communication.", "order": 1 },
+    { "id": "features", "title": "Features", "body": "Order filters, status automation, notification templates, and export tools.", "order": 2 },
+    { "id": "results", "title": "Results", "body": "Improved customer satisfaction and decreased manual order status inquiries.", "order": 3 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

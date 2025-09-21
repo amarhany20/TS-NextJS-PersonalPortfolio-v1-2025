@@ -1,0 +1,41 @@
+{
+  "slug": "goldenhillsfood-website",
+  "title": "goldenhillsfood.com — Multilingual Food Company Website",
+  "tagline": "Bilingual one-page site in EN/AR",
+  "intro": "A professional one-page website for a food company with English and Arabic content.",
+  "summary": "WordPress with custom CSS, responsive design, and bilingual support. Deployed and maintained on a VPS with WHM/cPanel.",
+  "featured": false,
+  "visibility": "public",
+  "access": "client-owned",
+  "status": "live",
+  "domain": "website",
+  "company": "Client",
+  "client": "Golden Hills Food",
+  "website": "https://goldenhillsfood.com",
+  "repository": null,
+  "role": "Co-developer (Design & Build)",
+  "start": "2024-10",
+  "end": null,
+  "stack": [
+    "WordPress",
+    "Custom CSS",
+    "WHM/cPanel (VPS)"
+  ],
+  "features": [
+    "Two-language support (EN/AR)",
+    "Single-page layout for clarity and speed",
+    "Responsive, mobile-friendly sections",
+    "Custom CSS to match brand identity",
+    "Stable VPS hosting and maintenance"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A bilingual landing site emphasizing product presentation and accessibility.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Provide a credible, sleek online presence for both English- and Arabic-speaking audiences.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Executed the design and build, configured bilingual content, and handled deployment.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Improved brand credibility and reach with minimal ongoing overhead.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

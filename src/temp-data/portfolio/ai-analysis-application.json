@@ -1,0 +1,41 @@
+{
+  "slug": "ai-analysis-application",
+  "title": "AI Analysis Application",
+  "tagline": "GUI desktop app for model validation & Excel export",
+  "intro": "A Python GUI-based tool to validate ID models with database integration and Excel export.",
+  "summary": "Enabled non-technical users to test model outputs and export results for analysis, reducing manual overhead. Cancelled in 2024-04.",
+  "featured": false,
+  "visibility": "internal",
+  "access": "proprietary",
+  "status": "archived",
+  "domain": "desktop-tool",
+  "company": "Internal",
+  "client": "Internal",
+  "website": null,
+  "repository": null,
+  "role": "Software Engineer",
+  "start": "2023-07",
+  "end": "2024-04",
+  "stack": [
+    "Python",
+    "GUI",
+    "Database Integration",
+    "Microsoft Excel"
+  ],
+  "features": [
+    "GUI interface for non-technical users",
+    "Database connectors for retrieving datasets",
+    "Automated accuracy scoring",
+    "Excel export for structured results"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A desktop GUI tool to validate ID models and export evaluation results directly into Excel.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Simplify testing for non-technical users while ensuring consistent validation and reporting.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Developed the GUI, integrated DB connectors, implemented validation routines, and Excel export.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Streamlined evaluation workflows and reduced manual analysis overhead.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "Cancelled in 2024-04.",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2024-04-01T00:00:00"
+}

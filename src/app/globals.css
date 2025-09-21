@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  /* Palette */
+  --background: #111216;
+  --foreground: #fff;
+  /* Aliases used by some components */
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
+  --sidebar: #181a1b;
+  --accent-primary: #ffd600; /* yellow */
+  --accent-secondary: #058ddb; /* teal/cyan */
+  --accent-muted: #22242b;
+  --text-secondary: #bdbdbd;
+  --card-bg: #22242b;
+  --border: #242424;
+  --success: #38d996;
+  --danger: #fa5252;
+  --warning: #fcc419;
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans, "Geist", Arial, sans-serif);
+  --font-mono: var(--font-geist-mono, "Geist Mono", monospace);
+
+  /* Typography scale */
+  --fs-2xs: 0.65rem;
+  --fs-xs: 0.70rem;
+  --fs-sm: 0.78rem;
+  --fs-base: 0.88rem; /* slightly larger base for better readability */
+  --fs-md: 0.95rem;
+  --fs-lg: 1.15rem;
+  --fs-xl: 1.38rem;
+  --fs-2xl: 1.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #111216;
+    --foreground: #fff;
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
+    --sidebar: #181a1b;
+    --accent-primary: #ffd600;
+    --accent-secondary: #058ddb;
+    --accent-muted: #22242b;
+    --text-secondary: #bdbdbd;
+    --card-bg: #22242b;
+    --border: #242424;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  margin: 0;
+  padding: 0;
+  /* Removed overflow-x hidden to allow sidebar tooltips to overflow */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global hover text color normalization to avoid abrupt white->black flash */
+.hover-text-invert, a.hover-text-invert, .tag-chip {
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+.hover-text-invert:hover {
+  color: #000 !important;
+}
+
+/* Utility for gradient chips to ensure text color transitions smoothly */
+.chip-gradient {
+  transition: background 220ms ease, color 160ms ease;
+  will-change: background, color;
+}
+
+/* Helpers for Tailwind usage */
+.bg-background {
+  background: var(--background);
+}
+.bg-sidebar {
+  background: var(--sidebar);
+}
+.bg-accent {
+  background: var(--accent-primary);
+}
+.bg-primary {
+  background: var(--accent-secondary);
+}
+.bg-muted {
+  background: var(--accent-muted);
+}
+.bg-card {
+  background: var(--card-bg);
+}
+
+.text-accent {
+  color: var(--accent-primary);
+}
+.text-primary {
+  color: var(--accent-secondary);
+}
+.text-muted {
+  color: var(--text-secondary);
+}
+.text-card {
+  color: var(--card-bg);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+/* Ensure tooltips are always on top */
+.group:hover [class*="z-[9999]"] {
+  z-index: 9999 !important;
+}

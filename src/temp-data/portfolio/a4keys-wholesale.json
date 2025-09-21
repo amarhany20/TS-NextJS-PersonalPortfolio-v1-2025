@@ -1,0 +1,40 @@
+{
+  "slug": "a4keys-wholesale",
+  "title": "a4keys.com — Wholesale Pricing Management Website",
+  "tagline": "Zero-downtime migration with custom wholesale pricing plugin",
+  "intro": "WordPress site migrated with no downtime and enhanced with a custom pricing plugin for bulk orders.",
+  "summary": "Delivered a host migration across providers without service disruption. Implemented a WordPress plugin to manage wholesale pricing logic and maintained the platform long term.",
+  "featured": false,
+  "visibility": "public",
+  "access": "client-owned",
+  "status": "live",
+  "domain": "wholesale",
+  "company": "Client",
+  "client": "a4keys.com",
+  "website": "https://a4keys.com",
+  "repository": null,
+  "role": "Full-stack WordPress Developer",
+  "start": "2024-09",
+  "end": null,
+  "stack": [
+    "WordPress",
+    "PHP",
+    "cPanel hosting"
+  ],
+  "features": [
+    "Zero-downtime site & DB migration",
+    "Custom wholesale pricing plugin",
+    "Improved reliability and maintainability",
+    "Ongoing maintenance and support"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A wholesale/retail WordPress platform enhanced for bulk pricing and migrated seamlessly to a new host.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Introduce robust wholesale pricing and complete a risk-free migration with no business disruption.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Executed the full migration, authored the wholesale pricing plugin, and provided long-term maintenance.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Simplified bulk order management and improved platform stability.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}
