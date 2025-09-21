@@ -21,17 +21,19 @@ export const allSkills = async () => {
 };
 
 export const coreSkills = async (): Promise<Skill[]> => {
+  // Normalize to match skillGroups names exactly (ensure any substring forms still match)
   const desired = new Set<string>([
-    'Python (Django, DRF)',
-    'C# (ASP.NET Core)',
-    'GCP',
-    'WordPress',
+    'Python (Django, DRF, Flask, FastAPI)',
+    'C# (ASP.NET Core, EF Core)',
+    'Google Cloud (Compute Engine, Cloud Run, Pub/Sub)',
+    'Go (Gin)',
+    'WordPress (Elementor, Pods)',
     'Next.js (App Router)'
   ]);
   const flat: Skill[] = [];
   skillGroups.forEach(g => {
     g.skills.forEach(s => {
-      if (!desired.has(s.name)) return;
+  if (!desired.has(s.name)) return;
       flat.push({
         id: flat.length + 1,
         name: s.name,

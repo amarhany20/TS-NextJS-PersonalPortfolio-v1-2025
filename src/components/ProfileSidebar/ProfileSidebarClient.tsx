@@ -62,7 +62,7 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         <div className="mb-4">
             <div className="flex items-center gap-3 text-[var(--text-secondary)]">
             <MapPin size={18} />
-            <span className="text-base">{primaryLocation}</span>
+            <span className="text-sm">{primaryLocation}</span>
           </div>
         </div>
 

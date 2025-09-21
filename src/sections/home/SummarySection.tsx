@@ -1,9 +1,13 @@
+"use client";
 import { ArrowRight, Download, FolderOpen } from 'lucide-react';
 import { heroContent as loadHeroContent } from '@/temp-data/loaders/personal';
+import type { HeroContent } from '@/types/database';
 import MetaContent from '@/components/MetaContent';
+import { useEffect, useState } from 'react';
 
-export default async function SummarySection() {
-	const heroContent = await loadHeroContent();
+export default function SummarySection() {
+	const [heroContent, setHeroContent] = useState<HeroContent | null>(null);
+	useEffect(() => { (async () => { setHeroContent(await loadHeroContent()); })(); }, []);
 	const cvInfo = { downloadUrl: '/Ammar%202025%20CV%20Website%20V1.45.pdf' };
 	if (!heroContent) return null;
 	return (
@@ -15,7 +19,25 @@ export default async function SummarySection() {
 				<p className="mt-2">{heroContent.callToAction}</p>
 			</div>
 			<div className="flex flex-wrap gap-4 mt-2">
-				<a href={heroContent.primaryButton.href || '/contact'} className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-primary)] text-black hover:bg-yellow-300 shadow-md transition">
+				<a
+					href={heroContent.primaryButton.href || '/contact'}
+					className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-primary)] text-black hover:bg-yellow-300 shadow-md transition"
+					onClick={(e) => {
+						const href = heroContent.primaryButton.href || '';
+						if (href.startsWith('#')) {
+							e.preventDefault();
+							// Scroll within the main scroll container for layout
+							const target = document.querySelector(href);
+							const container = document.querySelector('main');
+							if (target && container) {
+								const rect = (target as HTMLElement).getBoundingClientRect();
+								const cRect = container.getBoundingClientRect();
+								const offset = rect.top - cRect.top + container.scrollTop - 12; // slight offset
+								container.scrollTo({ top: offset, behavior: 'smooth' });
+							}
+						}
+					}}
+				>
 					{heroContent.primaryButton.text?.trim() || 'Get in Touch'} <ArrowRight className="ml-2" size={20} />
 				</a>
 				{cvInfo && (
