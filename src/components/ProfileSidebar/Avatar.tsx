@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Avatar() {
-  const [name, setName] = useState<string>("Profile");
-  const [imageUrl, setImageUrl] = useState<string>("/2024 Ammar Personal Photo.jpg");
+  const [name] = useState<string>("Profile");
+  const [imageUrl] = useState<string>("/2024 Ammar Personal Photo.jpg");
 
   // In static mode you may later hydrate from CMS or file-based config.
   useEffect(() => {

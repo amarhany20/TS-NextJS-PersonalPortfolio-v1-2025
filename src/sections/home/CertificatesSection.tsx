@@ -3,7 +3,7 @@ import SectionHeader from '@/components/UI/SectionHeader';
 import SectionCard from '@/components/UI/SectionCard';
 import { useCertificates } from '@/hooks/useStaticData';
 import { formatMonthYear } from '@/utils/helpers';
-import { ExternalLink, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 export default function CertificatesSection() {
 	const { data: certificates, loading, error } = useCertificates();

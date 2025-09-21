@@ -1,10 +1,9 @@
 "use client";
 import { personalInfo as loadPersonalInfo } from '@/temp-data/loaders/personal';
 import { metadata } from '@/temp-data/metadata';
-import { Mail, MessageCircle, MapPin, Globe, Smartphone, Link as LinkIcon, Github, Linkedin, Youtube, Globe2 } from 'lucide-react';
-import GlobeBackground from '@/components/UI/GlobeBackground';
-import { contactLeads, globalCtas } from '@/temp-data/presentation';
-import dynamic from 'next/dynamic';
+import { Mail, MessageCircle, MapPin, Smartphone, Link as LinkIcon, Github, Linkedin, Youtube, Globe2 } from 'lucide-react';
+import EarthCanvas from '@/components/UI/EarthCanvas';
+import { contactLeads } from '@/temp-data/presentation';
 import { useEffect, useState } from 'react';
 
 interface PersonalInfoShape { fullName: string; legalName: string; title: string; email: string; location: string; heroGreeting: string; heroSubtitle: string }
@@ -77,7 +76,7 @@ export default function ContactSection() {
 						<div className="mt-4 flex flex-wrap items-center gap-3">
 							{metadata.links.map((l) => {
 								const key = l.label.toLowerCase();
-								let IconComp: any = LinkIcon;
+								let IconComp: React.ComponentType<React.SVGProps<SVGSVGElement>> = LinkIcon;
 								if (key.includes('github')) IconComp = Github;
 								else if (key.includes('linkedin')) IconComp = Linkedin;
 								else if (key.includes('youtube')) IconComp = Youtube;
@@ -93,9 +92,9 @@ export default function ContactSection() {
 						</div>
 					</div>
 				</div>
-				<div className="relative h-[460px] md:h-[520px] lg:h-[600px] overflow-hidden">
-					<GlobeBackground className="absolute inset-0" />
-				</div>
+					<div className="relative h-[460px] md:h-[520px] lg:h-[600px] overflow-hidden">
+						<EarthCanvas />
+					</div>
 			</div>
 		</section>
 	);

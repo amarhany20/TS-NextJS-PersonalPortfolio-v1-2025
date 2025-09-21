@@ -1,0 +1,45 @@
+{
+  "slug": "farm-api",
+  "title": "Farm-API",
+  "tagline": "Flask REST API on Cloud Run for farm data & assets",
+  "intro": "A scalable Flask API exposing farm data via Firestore and file assets via Cloud Storage.",
+  "summary": "Stateless, containerized REST service with token/Basic auth, Firestore as the primary DB, and GCS for binaries. Built with Docker + GitHub Actions and deployed to Google Cloud Run.",
+  "featured": true,
+  "visibility": "internal",
+  "access": "proprietary",
+  "status": "archived",
+  "domain": "api",
+  "company": "Kiwify Tech",
+  "client": "Internal",
+  "website": null,
+  "repository": null,
+  "role": "Backend Engineer",
+  "start": "2023-07",
+  "end": "2024-04",
+  "stack": [
+    "Python",
+    "Flask (REST)",
+    "Google Cloud Firestore",
+    "Google Cloud Storage",
+    "Docker",
+    "GitHub Actions",
+    "Google Cloud Run"
+  ],
+  "features": [
+    "CRUD-style REST endpoints",
+    "Token-based and Basic authentication",
+    "Firestore for structured data",
+    "Cloud Storage for object/binary assets",
+    "Dockerized CI/CD via GitHub Actions → Cloud Run"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A RESTful API built with Flask to manage farm-related data, integrating Firestore and Google Cloud Storage, designed for stateless deployment on Cloud Run.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Provide a secure data-access layer for internal systems and AI components within the company’s ecosystem.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Designed and implemented Flask endpoints, integrated Firestore/GCS, configured token/Basic auth, and set up CI/CD and Cloud Run deployments.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Served as a backbone API enabling standardized access to farm data and assets across internal consumers.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "Project cancelled in 2024-04; repository private.",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2024-04-01T00:00:00"
+}

@@ -14,13 +14,14 @@ type Props = { className?: string; initialRotationDeg?: number };
 export default function GlobeBackground({ className = 'pointer-events-none absolute inset-0', initialRotationDeg = -30 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!ref.current) return;
+    const el = ref.current;
+    if (!el) return;
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
-    renderer.setClearColor(0x000000, 0);
-    ref.current.appendChild(renderer.domElement);
+  renderer.setClearColor(0x000000, 0);
+  el!.appendChild(renderer.domElement);
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
     camera.position.set(0, 0, 4.2);
     const root = new THREE.Group();
@@ -44,16 +45,17 @@ export default function GlobeBackground({ className = 'pointer-events-none absol
       if (cloudsTex) { (clouds.material as THREE.MeshLambertMaterial).map = cloudsTex; (clouds.material as THREE.MeshLambertMaterial).needsUpdate = true; } else { clouds.visible = false; }
       earthMat.needsUpdate = true;
     })();
-    const resize = () => { const el = ref.current!; const { clientWidth: w, clientHeight: h } = el; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }; resize(); const ro = new ResizeObserver(resize); ro.observe(ref.current);
+  const resize = () => { const curr = el; const { clientWidth: w, clientHeight: h } = curr; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); };
+  resize(); const ro = new ResizeObserver(resize); ro.observe(el);
     let auto = true, rotationY = earth.rotation.y, velocity = 0, dragging = false, lastX = 0; let parX = 0, parY = 0;
-    const pd = (e: PointerEvent) => { dragging = true; auto = false; lastX = e.clientX; };
-    const pm = (e: PointerEvent) => { if (dragging){ const dx=(e.clientX-lastX)/200; lastX=e.clientX; velocity=dx; } };
-    const pu = () => { dragging=false; setTimeout(()=>auto=true,2200); };
-    renderer.domElement.addEventListener('pointerdown', pd); window.addEventListener('pointermove', pm); window.addEventListener('pointerup', pu);
-    const mm = (e: MouseEvent) => { const el = ref.current!; const r = el.getBoundingClientRect(); const mx=(e.clientX-r.left)/r.width; const my=(e.clientY-r.top)/r.height; parX=(mx-0.5)*0.25; parY=(my-0.5)*0.2; }; window.addEventListener('mousemove', mm);
+  const pd = (e: PointerEvent) => { dragging = true; auto = false; lastX = e.clientX; };
+  const pm = (e: PointerEvent) => { if (dragging){ const dx=(e.clientX-lastX)/200; lastX=e.clientX; velocity=dx; } };
+  const pu = () => { dragging=false; setTimeout(()=>auto=true,2200); };
+  renderer.domElement.addEventListener('pointerdown', pd); window.addEventListener('pointermove', pm); window.addEventListener('pointerup', pu);
+  const mm = (e: MouseEvent) => { const r = el.getBoundingClientRect(); const mx=(e.clientX-r.left)/r.width; const my=(e.clientY-r.top)/r.height; parX=(mx-0.5)*0.25; parY=(my-0.5)*0.2; }; window.addEventListener('mousemove', mm);
     const clock = new THREE.Clock(); let raf=0; const tick=()=>{ clock.getDelta(); if (auto && !dragging) velocity += 0.0006; velocity*=0.94; rotationY+=velocity; earth.rotation.y=rotationY; clouds.rotation.y=rotationY*1.03; root.rotation.x += (parY-root.rotation.x)*0.08; root.rotation.y += (parX-root.rotation.y)*0.08; renderer.render(scene,camera); raf=requestAnimationFrame(tick); }; raf=requestAnimationFrame(tick);
-    return ()=>{ cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener('pointermove', pm); window.removeEventListener('pointerup', pu); window.removeEventListener('mousemove', mm); renderer.domElement.removeEventListener('pointerdown', pd); ref.current?.removeChild(renderer.domElement); scene.traverse(obj=>{ // @ts-ignore
-      if (obj.geometry) obj.geometry.dispose?.(); // @ts-ignore
+    return ()=>{ cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener('pointermove', pm); window.removeEventListener('pointerup', pu); window.removeEventListener('mousemove', mm); renderer.domElement.removeEventListener('pointerdown', pd); el.removeChild(renderer.domElement); scene.traverse(obj=>{ // @ts-expect-error - cleanup: geometry may be unknown at runtime
+      if (obj.geometry) obj.geometry.dispose?.(); // @ts-expect-error - cleanup: material may be unknown/complex
       if (obj.material){ const m=obj.material; if(Array.isArray(m)) m.forEach(x=>x.dispose?.()); else m.dispose?.(); }}); renderer.dispose(); };
   }, [initialRotationDeg]);
   return <div ref={ref} className={`${className} -z-10 w-full h-full`} aria-hidden />;

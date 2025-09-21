@@ -1,6 +1,6 @@
 import { allProjects } from '@/temp-data/loaders/projectsLoader';
 import type { Project } from '@/types/portfolio';
-import Image from 'next/image';
+// `Image` import removed (unused)
 
 function Badge({ children, variant = 'neutral' }: { children: React.ReactNode; variant?: 'neutral' | 'accent' | 'warning' | 'success' }) {
   const base = 'px-2 py-0.5 rounded-md text-[10px] font-medium tracking-wide uppercase border';

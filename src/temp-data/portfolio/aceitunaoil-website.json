@@ -1,0 +1,42 @@
+{
+  "slug": "aceitunaoil-website",
+  "title": "aceitunaoil.com — Multilingual Olive Oil Website",
+  "tagline": "One-page WordPress site in EN/TR/AR",
+  "intro": "A sleek, multilingual one-page website to showcase premium olive oil products.",
+  "summary": "Built with WordPress and Avada, customized with CSS, and deployed on a VPS (WHM/cPanel). Supports English, Turkish, and Arabic with responsive presentation.",
+  "featured": true,
+  "visibility": "public",
+  "access": "client-owned",
+  "status": "live",
+  "domain": "website",
+  "company": "Client",
+  "client": "aceitunaoil.com",
+  "website": "https://aceitunaoil.com",
+  "repository": null,
+  "role": "Co-developer (Customization & Deployment)",
+  "start": "2024-09",
+  "end": null,
+  "stack": [
+    "WordPress",
+    "Avada Theme",
+    "Custom CSS",
+    "WHM/cPanel (VPS)"
+  ],
+  "features": [
+    "Three-language support (EN/TR/AR) with seamless switching",
+    "Single-page layout highlighting products and brand",
+    "Responsive, mobile-friendly design",
+    "Custom CSS refinements for polished visuals",
+    "VPS hosting with WHM/cPanel for stability"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "A multilingual landing experience focused on clarity, speed, and product presentation.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Reach international audiences and present products professionally with minimal maintenance overhead.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Led theme customization, CSS refinement, language toggling, and VPS deployment.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Expanded accessibility and delivered a maintainable, brand-aligned presence.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

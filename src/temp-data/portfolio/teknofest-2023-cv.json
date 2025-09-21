@@ -1,0 +1,44 @@
+{
+  "slug": "teknofest-2023-cv",
+  "title": "Teknofest 2023 Contest – Computer Vision Project",
+  "tagline": "YOLOv8 + OpenCV for autonomous harvesting (contest entry)",
+  "intro": "Collaborative vision backend for an Autonomous Harvesting Robot, showcased at Teknofest 2023.",
+  "summary": "Python + YOLOv8 + OpenCV with a Flask demo UI. Included dataset prep, object cropping, and color detection for ripeness/quality. Trained locally with GPU and demonstrated live.",
+  "featured": false,
+  "visibility": "public",
+  "access": "open-source",
+  "status": "archived",
+  "domain": "computer-vision",
+  "company": "Toros University Smart Lab",
+  "client": "Teknofest 2023",
+  "website": "https://github.com/amarhany20/Teknofest-Autonomous-Harvesting-Robot-Computer-Vision-Backend",
+  "repository": "https://github.com/amarhany20/Teknofest-Autonomous-Harvesting-Robot-Computer-Vision-Backend",
+  "role": "Computer Vision Engineer (Co-developer)",
+  "start": "2023-05",
+  "end": "2023-05",
+  "stack": [
+    "Python",
+    "Flask",
+    "Ultralytics YOLOv8",
+    "OpenCV"
+  ],
+  "features": [
+    "YOLOv8 object detection for fruits/vegetables",
+    "Automatic cropping for precision harvesting",
+    "Color detection for ripeness/quality",
+    "Flask-based demo interface",
+    "Dataset prep and training scripts"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "Contest project integrating YOLOv8 detection with a Flask UI to demonstrate autonomous harvesting scenarios.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Automate detection, classification, and localization to improve harvesting efficiency.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Co-developed the vision backend, built dataset workflows, implemented cropping/color pipelines, and integrated Flask UI.", "order": 3 },
+    { "id": "features-impl", "title": "Features / Implementation", "body": "GPU-trained YOLOv8 models; custom preprocessing/augmentation; real-time demo via Flask.", "order": 4 },
+    { "id": "challenges", "title": "Challenges & Solutions", "body": "Heterogeneous datasets handled with augmentation and preprocessing; tuned YOLOv8/GPU for live demo performance.", "order": 5 },
+    { "id": "impact", "title": "Impact / Results", "body": "Ranked 25th; showcased to 2.5M+ visitors; validated feasibility of vision-driven harvesting.", "order": 6 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

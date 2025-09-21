@@ -1,0 +1,40 @@
+{
+  "slug": "sezonco-hosting-maintenance",
+  "title": "sezonco.com.tr — Hosting & Maintenance",
+  "tagline": "Hosting, email setup, and long-term WordPress maintenance",
+  "intro": "Provided hosting, email setup, and maintenance for an existing client WordPress website.",
+  "summary": "Migrated and configured hosting + email, debugged WordPress issues, applied performance fixes, and established long-term maintenance for stability and scalability.",
+  "featured": false,
+  "visibility": "public",
+  "access": "client-owned",
+  "status": "live",
+  "domain": "hosting",
+  "company": "Client",
+  "client": "sezonco.com.tr",
+  "website": "https://sezonco.com.tr",
+  "repository": null,
+  "role": "Hosting & Maintenance Lead",
+  "start": "2024-01",
+  "end": null,
+  "stack": [
+    "WordPress",
+    "cPanel",
+    "Email Hosting"
+  ],
+  "features": [
+    "Full hosting and email setup",
+    "Debugged and fixed WordPress issues",
+    "Performance optimizations",
+    "Continuous technical support and collaboration"
+  ],
+  "sections": [
+    { "id": "description", "title": "Description", "body": "Hosting, email configuration, and maintenance for an existing WordPress site.", "order": 1 },
+    { "id": "objective", "title": "Objective / Aim", "body": "Ensure stable hosting, reliable email, and improved WordPress performance.", "order": 2 },
+    { "id": "role", "title": "Role & Responsibilities", "body": "Migrated hosting and email, debugged site issues, applied fixes, and provided continuous support.", "order": 3 },
+    { "id": "impact", "title": "Impact / Results", "body": "Improved website stability and responsiveness while delivering a reliable long-term support pipeline.", "order": 4 }
+  ],
+  "gallery": [],
+  "confidentialNotes": "",
+  "createdAt": "2025-09-21T00:00:00",
+  "updatedAt": "2025-09-21T00:00:00"
+}

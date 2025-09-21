@@ -33,6 +33,7 @@ export interface Project {
   tagline: string;
   intro: string;              // Short description
   summary: string;            // Slightly longer description
+  featured?: boolean;         // If true, prioritized & listed in Featured group
   visibility: ProjectVisibility;
   access: ProjectAccess;
   status: ProjectStatus;

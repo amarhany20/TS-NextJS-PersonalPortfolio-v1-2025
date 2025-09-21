@@ -6,8 +6,8 @@ import { useState } from "react";
 type SocialMeta = Record<string, unknown>;
 
 export default function ContactLinks() {
-  const [social, setSocial] = useState<SocialMeta | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
+  const [social] = useState<SocialMeta | null>(null);
+  const [email] = useState<string | null>(null);
 
   // Static fallback only; edit src/data/index.ts for real values.
 
