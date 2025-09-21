@@ -59,6 +59,10 @@ body {
   /* Removed overflow-x hidden to allow sidebar tooltips to overflow */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Global hover text color normalization to avoid abrupt white->black flash */
 .hover-text-invert, a.hover-text-invert, .tag-chip {
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
