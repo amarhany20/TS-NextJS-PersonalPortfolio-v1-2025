@@ -4,6 +4,7 @@ import SectionHeader from "@/components/UI/SectionHeader";
 import AccentBar from "@/components/UI/AccentBar";
 import SectionCard from "@/components/UI/SectionCard";
 import { useEducation } from "@/hooks/useStaticData";
+import type { Education as EducationType } from '@/temp-data/education';
 import { GraduationCap, MapPin, Calendar, Award, Trophy } from "lucide-react";
 
 export default function Education() {
@@ -24,7 +25,7 @@ export default function Education() {
       <SectionHeader title="Education" subtitle="My academic background and achievements" />
 
       <div className="space-y-8">
-        {education.map((edu, index) => (
+  {education.map((edu: EducationType, index) => (
           <SectionCard key={index} hover className="group relative overflow-hidden">
             {/* Decorative elements */}
             <AccentBar direction="secondary-to-primary" />
@@ -45,13 +46,13 @@ export default function Education() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      {edu.duration}
+                      {edu.end ? `${edu.start} - ${edu.end}` : `${edu.start} - Present`}
                     </div>
                   </div>
                   <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center gap-1">
                       <Award size={16} className="text-[var(--success)]" />
-                      <span className="text-[var(--success)] font-medium text-sm">{edu.gpa}</span>
+                      {edu.gpa && <span className="text-[var(--success)] font-medium text-sm">{edu.gpa}</span>}
                     </div>
                     <div className="flex items-center gap-1">
                       <Trophy size={16} className="text-[var(--accent-primary)]" />
@@ -62,7 +63,7 @@ export default function Education() {
 
                 {/* Status badge */}
                 <div className="mt-4 lg:mt-0">
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-[var(--accent-secondary)] text-white">Completed</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${edu.end ? 'bg-[var(--accent-secondary)] text-white' : 'bg-[var(--accent-primary)] text-black'}`}>{edu.end ? 'Completed' : 'Ongoing'}</span>
                 </div>
               </div>
 
@@ -72,7 +73,7 @@ export default function Education() {
                   <span className="w-2 h-2 bg-[var(--accent-primary)] rounded-full"></span>
                   Academic Focus
                 </h4>
-                <p className="text-[var(--text-secondary)] text-sm">{edu.description}</p>
+                {edu.project && <p className="text-[var(--text-secondary)] text-sm">{edu.project}</p>}
               </div>
 
               {/* Achievements */}

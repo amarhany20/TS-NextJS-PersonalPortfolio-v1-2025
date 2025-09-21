@@ -21,7 +21,7 @@ export default function NavLinks() {
   const fallback: NavItem[] = useMemo(
     () => [
       { href: "/", label: "Home", icon: "Home" },
-      { href: "/projects", label: "Projects", icon: "Folder" },
+  { href: "/portfolio", label: "Portfolio", icon: "Folder" },
       { href: "/services", label: "Services", icon: "Package" },
       { href: "/blogs", label: "Blogs", icon: "Book" },
   // Contact page removed
@@ -32,7 +32,7 @@ export default function NavLinks() {
   // Normalize and enforce desired order & labels
   const desiredOrder = [
     { key: "home", label: "Home", href: "/", icon: "Home" },
-    { key: "portfolio", label: "Portfolio", href: "/projects", icon: "Folder" },
+  { key: "portfolio", label: "Portfolio", href: "/portfolio", icon: "Folder" },
     { key: "blog", label: "Blog", href: "/blogs", icon: "Book" },
     { key: "services", label: "Services", href: "/services", icon: "Package" },
   ];

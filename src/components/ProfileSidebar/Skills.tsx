@@ -12,7 +12,7 @@ export default function Skills() {
         <div className="flex flex-wrap justify-center">
           {(core || []).slice(0, 12).map((skill) => (
             <span
-              key={skill.id}
+              key={skill.name}
               className="px-3 py-1 mr-1 mb-1 rounded-full text-sm font-semibold text-white bg-[var(--accent-secondary)]/80 hover:scale-105 transition-transform"
               style={{ boxShadow: "0 2px 8px 0 rgba(0,0,0,0.2)" }}
             >

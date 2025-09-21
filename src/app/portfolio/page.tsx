@@ -23,14 +23,14 @@ function statusVariant(status: Project['status']): 'accent' | 'warning' | 'succe
   }
 }
 
-export default function ProjectsPage() {
+export default function PortfolioPage() {
   const featuredProjects: Project[] = featured;
   const otherProjects: Project[] = others;
   
   const ProjectGrid = ({ projects }: { projects: Project[] }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {projects.map(p => (
-        <a key={p.slug} href={`/projects/${p.slug}`} className="group bg-[var(--card-bg)] border border-[var(--border)] rounded-lg overflow-hidden flex flex-col hover:border-[var(--accent-primary)]/40 transition">
+  <a key={p.slug} href={`/portfolio/${p.slug}`} className="group bg-[var(--card-bg)] border border-[var(--border)] rounded-lg overflow-hidden flex flex-col hover:border-[var(--accent-primary)]/40 transition">
           <div className="h-40 w-full bg-gradient-to-br from-[var(--border)]/20 to-transparent" />
           <div className="p-4 flex flex-col gap-3 flex-1">
             <div className="flex flex-wrap gap-1">

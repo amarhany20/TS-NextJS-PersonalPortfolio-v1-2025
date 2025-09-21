@@ -83,7 +83,7 @@ export default function ContactSection() {
 									key.includes('github') ? Github :
 									key.includes('linkedin') ? Linkedin :
 									key.includes('youtube') ? Youtube :
-									(key.includes('website') || key.includes('portfolio')) ? Globe2 : LinkIcon;
+									LinkIcon;
 								return (
 												<a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-[var(--accent-muted)] hover:bg-[var(--accent-primary)] hover:text-black transition-colors shadow-sm">
 										<IconComp className="w-4 h-4" />

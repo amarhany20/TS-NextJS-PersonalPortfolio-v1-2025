@@ -42,7 +42,7 @@ export default function SummarySection() {
 						Download CV
 					</a>
 				)}
-				<a href="https://ammarhany.com/portfolio" className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-muted)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-black transition" target="_blank" rel="noopener noreferrer">
+				<a href="/portfolio" className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-muted)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-black transition" target="_blank" rel="noopener noreferrer">
 					<FolderOpen className="mr-2" size={20} /> Portfolio
 				</a>
 			</div>

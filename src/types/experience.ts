@@ -1,13 +1,18 @@
+// Unified display-ready Experience shape (consolidated from previous DB + seed variants)
 export interface Experience {
-  id: string;
-  title: string;
+  id: number | string;
   company: string;
+  title: string;
   location: string;
-  startDate: string;
-  endDate: string | null; // null for current position
-  description: string[];
-  technologies: string[];
-  achievements: string[];
+  start: string;          // YYYY-MM
+  end?: string;           // YYYY-MM (absent => present)
+  present: boolean;       // derived convenience flag
+  impact: string;         // primary summary / impact statement
+  achievements: string[]; // bullet highlights (trimmed selection)
+  skills: string[];       // technology / stack display
+  companyUrl?: string | null;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 }
 
 // Lightweight static seed format (no ids) used in temp-data

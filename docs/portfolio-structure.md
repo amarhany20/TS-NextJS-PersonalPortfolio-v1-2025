@@ -27,8 +27,8 @@ Loaders added to `src/data/index.ts`:
 - `projectBySlug(slug)` → lookup
 
 ## Routes
-- Listing: `app/projects/page.tsx` (uses `projectList()`)
-- Detail: `app/projects/[slug]/page.tsx` (uses `projectBySlug()` + static params)
+- Listing: `app/portfolio/page.tsx` (uses `projectList()`)
+- Detail: `app/portfolio/[slug]/page.tsx` (uses `projectBySlug()` + static params)
 
 ## Reusable Components
 Located under `src/components/Portfolio/`:

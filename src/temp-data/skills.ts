@@ -103,26 +103,18 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
 ];
 
 // Flattened categories similar to previous loader output
-import type { Skill as DBSkill } from '@/types/database';
+import type { SkillItem } from '@/types/skill';
 
-export const allSkills: Record<string, { title: string; icon: string; skills: DBSkill[] }> = skillGroups.reduce((acc, g) => {
+export const allSkills: Record<string, { title: string; icon: string; skills: SkillItem[] }> = skillGroups.reduce((acc, g) => {
   acc[g.id] = {
     title: g.title,
     icon: g.id,
-    skills: g.skills.map((s, idx) => ({
-      id: idx + 1,
-      name: s.name,
-      level: 0,
-      experience: '',
-      categoryId: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    })) as unknown as DBSkill[]
+    skills: g.skills.map((s) => ({ name: s.name }))
   };
   return acc;
-}, {} as Record<string, { title: string; icon: string; skills: DBSkill[] }>);
+}, {} as Record<string, { title: string; icon: string; skills: SkillItem[] }>);
 
-export const coreSkills: DBSkill[] = (() => {
+export const coreSkills: SkillItem[] = (() => {
   const desired = new Set<string>([
     'Python (Django, DRF, Flask, FastAPI)',
     'C# (ASP.NET Core, EF Core)',
@@ -131,19 +123,11 @@ export const coreSkills: DBSkill[] = (() => {
     'WordPress (Elementor, Pods)',
     'Next.js (App Router)'
   ]);
-  const flat: DBSkill[] = [];
+  const flat: SkillItem[] = [];
   skillGroups.forEach(g => {
     g.skills.forEach(s => {
       if (!desired.has(s.name)) return;
-      flat.push({
-        id: flat.length + 1,
-        name: s.name,
-        level: 0,
-        experience: '',
-        categoryId: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      } as unknown as DBSkill);
+      flat.push({ name: s.name });
     });
   });
   return flat;
