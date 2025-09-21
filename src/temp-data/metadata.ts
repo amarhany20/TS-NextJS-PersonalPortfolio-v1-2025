@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     'English (C2)',
     'Arabic (Native)',
     'Turkish (B2)',
-    'Swedish (A1)',
-    'French (A1)',
+    // 'Swedish (A1)',
+    // 'French (A1)',
   ],
   // Condensed, CV-aligned bullet points used in hero summary list
   highlights: [
