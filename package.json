@@ -1,6 +1,6 @@
 {
   "name": "ts-nextjs-personalportfolio-v1-2025",
-  "version": "00.50.02",
+  "version": "00.50.03",
   "private": true,
   "scripts": {
     "dev": "next dev",

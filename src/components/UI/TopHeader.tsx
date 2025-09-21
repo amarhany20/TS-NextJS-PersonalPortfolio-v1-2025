@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Share2 } from "lucide-react";
+import { User, Menu } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 
 export default function TopHeader() {
@@ -30,7 +30,7 @@ export default function TopHeader() {
           rounded-full p-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent-secondary)]
           ${rightSidebarOpen ? "bg-[var(--accent-secondary)] text-black" : "hover:bg-[var(--accent-muted)] text-[var(--accent-secondary)]"}
         `}>
-        <Share2 size={24} />
+        <Menu size={24} />
       </button>
     </header>
   );
