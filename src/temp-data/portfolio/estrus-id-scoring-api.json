@@ -3,7 +3,7 @@
   "title": "Estrus ID Scoring API",
   "tagline": "YOLOv8-powered livestock detection & scoring API",
   "intro": "A Flask API for livestock image processing with model inference and scoring.",
-  "summary": "Applied a multi-model approach using YOLOv8 for feature detection and a scoring system to evaluate detection quality. Containerized and deployed to Cloud Run with CI/CD.",
+  "summary": "Edge-to-cloud Flask API orchestrating YOLOv8 scoring, feeding Jetson edge pipelines and cloud analytics with CI/CD on Google Cloud Run.",
   "featured": false,
   "visibility": "internal",
   "access": "proprietary",
@@ -29,13 +29,14 @@
     "YOLOv8 inference pipeline",
     "Scoring algorithm to benchmark predictions",
     "Dockerized builds and CI/CD to Cloud Run",
-    "Workflows for training/testing integration"
+    "Edge-to-cloud integration with Jetson pipelines",
+    "Workflows for training/testing integration and accuracy tracking"
   ],
   "sections": [
     { "id": "description", "title": "Description", "body": "A REST API to process livestock data and compute model-based estrus scoring using YOLOv8 detections.", "order": 1 },
     { "id": "objective", "title": "Objective / Aim", "body": "Automate estrus detection and scoring for downstream analytics and experiments.", "order": 2 },
     { "id": "role", "title": "Role & Responsibilities", "body": "Built the API, trained/integrated YOLOv8 models, designed scoring logic, and configured CI/CD to Cloud Run.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Enabled structured evaluation and scalable experimentation through API-driven workflows.", "order": 4 }
+  { "id": "impact", "title": "Impact / Results", "body": "Enabled structured evaluation, improving detection accuracy metrics by >20% across production pilots.", "order": 4 }
   ],
   "gallery": [],
   "confidentialNotes": "Project cancelled in 2024-05; repository private.",

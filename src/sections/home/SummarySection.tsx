@@ -4,7 +4,7 @@ import { heroContent } from '@/temp-data/personal';
 import MetaContent from '@/components/MetaContent';
 
 export default function SummarySection() {
-	const cvInfo = { downloadUrl: '/cv/Ammar%202025%20CV%20Website%20V1.500.pdf' };
+	const cvInfo = { downloadUrl: '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf' };
 	if (!heroContent) return null;
 	return (
 		<section id="summary" className="relative flex flex-col items-start gap-6 py-8 md:py-14 scroll-mt-8">

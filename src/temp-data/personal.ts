@@ -3,7 +3,7 @@ import { metadata } from './metadata';
 export const personalInfo = {
   fullName: 'Ammar Hany',
   legalName: metadata.fullName,
-  title: 'Software Engineer',
+  title: 'Software Engineer | Digital Solutions Architect',
   email: metadata.emails[0],
   location: metadata.bases.map(b => {
     const country = b.countryCode === 'TR' ? 'Turkey' : b.countryCode === 'EG' ? 'Egypt' : b.countryCode;

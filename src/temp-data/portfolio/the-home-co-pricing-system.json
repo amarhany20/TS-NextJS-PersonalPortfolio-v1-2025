@@ -3,7 +3,7 @@
   "title": "The Home Co – Pricing System (Production)",
   "tagline": "Standardized furniture pricing with auditability",
   "intro": "Production-grade internal platform to standardize furniture pricing with bilingual PDFs and role-based access.",
-  "summary": "Dockerized Next.js + Postgres/Prisma stack on a VPS, with deterministic calculation engine, presets, backups, and import/export pipelines.",
+  "summary": "Next.js + Neon/PostgreSQL + Prisma platform on DigitalOcean (Linux/KDE) with GitHub Actions CI/CD, RBAC/audit trails, resource presets, and daily competitor-price intelligence.",
   "featured": true,
   "visibility": "internal",
   "access": "proprietary",
@@ -19,20 +19,25 @@
   "stack": [
     "TypeScript",
     "Next.js",
-    "PostgreSQL/Prisma",
+    "Neon (PostgreSQL)",
+    "Prisma",
     "Docker",
-    "Caddy",
-    "Linux (VPS)"
+    "GitHub Actions",
+    "DigitalOcean VPS (Linux/KDE)",
+    "AWS (EC2/S3)",
+    "Web Crawling (Node/Python)",
+    "Excel/PDF Automation"
   ],
   "features": [
     "Deterministic calculation engine with precedence rules",
-    "RBAC (admin, engineers) & activity logs",
-    "Quote lifecycle: draft → finalize → PDF",
-    "Reusable presets & resource library (with images)",
-    "CSV/Excel import & export, full backup/restore",
-    "Weekly automated backups & disaster recovery",
-    "Responsive UI across devices",
-    "Live crawling of material prices (Egypt vendors)"
+    "RBAC (admin, engineers) with audit logs and approvals",
+    "Quote lifecycle: draft → finalize → Excel/PDF outputs",
+    "Reusable presets & resource inventory (with media)",
+    "CSV/Excel import & export, full backup/restore workflows",
+    "GitHub Actions CI/CD gating dev/stage/prod",
+    "DigitalOcean infrastructure with supplemental AWS (EC2/S3)",
+    "Daily competitor price web crawling for Egypt & GCC",
+    "Responsive UI across devices"
   ],
   "sections": [
     { "id": "description", "title": "Description", "body": "A production-ready internal pricing platform to unify and accelerate furniture cost estimation workflows.", "order": 1 },

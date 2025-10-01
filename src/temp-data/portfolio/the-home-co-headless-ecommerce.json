@@ -3,7 +3,7 @@
   "title": "The Home Co. EG – Headless Furniture E-Commerce",
   "tagline": "Premium Next.js storefront on Shopify Storefront API",
   "intro": "Headless e-commerce for a luxury furniture brand, pairing a premium Next.js frontend with Shopify’s Storefront API.",
-  "summary": "GraphQL-powered storefront with collection browsing, filters, multilingual SEO, and pixel-perfect, high-performance UI.",
+  "summary": "Shopify Storefront/Admin APIs powering a Next.js frontend with ISR/SSR, multilingual SEO, and DigitalOcean-hosted infrastructure.",
   "featured": true,
   "visibility": "public",
   "access": "client-owned",
@@ -13,21 +13,27 @@
   "client": "The Home Co EG",
   "website": "https://thehomecoeg.com",
   "repository": null,
-  "role": "IT Manager & Lead Developer",
+  "role": "Digital Solutions Architect",
   "start": "2025-05",
   "end": null,
   "stack": [
     "Next.js (Frontend)",
     "TypeScript",
     "Tailwind CSS",
-    "Shopify Storefront API (GraphQL)"
+    "Shopify Storefront API (GraphQL)",
+    "Shopify Admin API",
+    "ISR / SSR",
+    "DigitalOcean (Linux)",
+    "Squarespace Domains/DNS"
   ],
   "features": [
     "Auth, cart, checkout & payments (headless flow)",
     "Collection pages with dynamic filters",
     "Shopify metaobjects for marketing/portfolio content",
-    "Multilingual support & SEO essentials (OG, structured data)",
-    "Responsive, showroom-quality UI"
+    "Multilingual SEO with ISR/SSR caching strategies",
+    "Responsive, showroom-quality UI",
+    "DigitalOcean deployment pipeline with GitHub Actions",
+    "Squarespace domain management & DNS routing"
   ],
   "sections": [
     { "id": "description", "title": "Description", "body": "A headless storefront for The Home Co EG that blends a premium, performance-oriented Next.js frontend with Shopify Storefront API.", "order": 1 },

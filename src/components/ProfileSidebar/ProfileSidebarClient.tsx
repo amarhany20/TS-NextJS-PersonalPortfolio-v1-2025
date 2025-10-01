@@ -73,8 +73,8 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         <div className="mb-4">
           <h3 className="text-base font-semibold text-[var(--accent-primary)] mb-2">Core Skills</h3>
           <div className="flex flex-wrap gap-2">
-            {coreSkills?.slice(0, 5).map((skill) => (
-              <span key={skill.id} className="bg-[var(--accent-muted)] text-sm rounded px-3 py-1 text-[var(--foreground)]">
+            {coreSkills?.map((skill, idx) => (
+              <span key={skill.id ?? `${skill.name}-${idx}`} className="bg-[var(--accent-muted)] text-sm rounded px-3 py-1 text-[var(--foreground)]">
                 {skill.name}
               </span>
             ))}

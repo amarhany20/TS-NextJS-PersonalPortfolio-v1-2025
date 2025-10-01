@@ -1,7 +1,7 @@
 "use client";
 import { personalInfo } from '@/temp-data/personal';
 import { metadata } from '@/temp-data/metadata';
-import { Mail, MessageCircle, MapPin, Smartphone, Link as LinkIcon, Github, Linkedin, Youtube, Globe2 } from 'lucide-react';
+import { Mail, MessageCircle, MapPin, Smartphone, Link as LinkIcon, Github, Linkedin, Youtube } from 'lucide-react';
 import { contactLeads } from '@/temp-data/presentation';
 
 export default function ContactSection() {
@@ -76,22 +76,24 @@ export default function ContactSection() {
 
 								<div className="mt-6">
 									<p className="text-[var(--text-secondary)] text-sm italic max-w-prose">{rightLead}</p>
-									<div className="mt-4 flex flex-wrap items-center gap-3">
-							{metadata.links.map(l => {
-								const key = l.label.toLowerCase();
-								const IconComp: React.ComponentType<React.SVGProps<SVGSVGElement>> =
-									key.includes('github') ? Github :
-									key.includes('linkedin') ? Linkedin :
-									key.includes('youtube') ? Youtube :
-									LinkIcon;
-								return (
-												<a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-[var(--accent-muted)] hover:bg-[var(--accent-primary)] hover:text-black transition-colors shadow-sm">
-										<IconComp className="w-4 h-4" />
-										<span className="text-sm font-medium">{l.label}</span>
-									</a>
-								);
-							})}
-						</div>
+																		<div className="mt-4 flex flex-wrap items-center gap-3">
+														{metadata.links
+															.filter(l => !/website|portfolio/i.test(l.label))
+															.map(l => {
+																const key = l.label.toLowerCase();
+																const IconComp: React.ComponentType<React.SVGProps<SVGSVGElement>> =
+																	key.includes('github') ? Github :
+																	key.includes('linkedin') ? Linkedin :
+																	key.includes('youtube') ? Youtube :
+																	LinkIcon;
+																return (
+																	<a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-[var(--accent-muted)] hover:bg-[var(--accent-primary)] hover:text-black transition-colors shadow-sm">
+																		<IconComp className="w-4 h-4" />
+																		<span className="text-sm font-medium">{l.label}</span>
+																	</a>
+																);
+															})}
+												</div>
 					</div>
 				</div>
 			</div>

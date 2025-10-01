@@ -11,7 +11,7 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
       { name: 'C# (ASP.NET Core, EF Core)' },
       { name: 'Go (Gin)' },
       { name: 'Node.js (Express)' },
-      { name: 'Shopify API (GraphQL/REST)' },
+      { name: 'Shopify Storefront/Admin API' },
     ],
   },
   {
@@ -25,6 +25,7 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
       { name: 'WordPress (Elementor, Pods)' },
       { name: 'C# WPF (XAML)' },
       { name: 'Flutter' },
+      { name: 'Shopify Frontend (Storefront/Admin API)' },
     ],
   },
   {
@@ -47,6 +48,8 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
     summary: 'Deployment, automation, observability, and infra efficiency.',
     skills: [
       { name: 'Google Cloud (Compute Engine, Cloud Run, Pub/Sub)' },
+      { name: 'AWS (EC2, S3, Lambda)' },
+      { name: 'Microsoft Azure (App Service, Functions)' },
       { name: 'Firebase' },
       { name: 'DigitalOcean / VPS' },
       { name: 'Docker' },
@@ -67,7 +70,7 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
       { name: 'OpenCV' },
       { name: 'YOLO (Ultralytics v8)' },
       { name: 'scikit-learn' },
-      { name: 'NVIDIA Jetson (Edge/IoT)' },
+      { name: 'NVIDIA Jetson (Edge/Cloud deployments)' },
     ],
   },
   {
@@ -79,7 +82,6 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
       { name: 'Arabic (Native)' },
       { name: 'Turkish (B2)' },
       { name: 'Swedish (A1)' },
-      { name: 'French (A1)' },
     ],
   },
   {
@@ -102,6 +104,7 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
   },
 ];
 
+
 // Flattened categories similar to previous loader output
 import type { SkillItem } from '@/types/skill';
 
@@ -115,14 +118,15 @@ export const allSkills: Record<string, { title: string; icon: string; skills: Sk
 }, {} as Record<string, { title: string; icon: string; skills: SkillItem[] }>);
 
 export const coreSkills: SkillItem[] = (() => {
-  const desired = new Set<string>([
-    'Python (Django, DRF, Flask, FastAPI)',
-    'C# (ASP.NET Core, EF Core)',
-    'Google Cloud (Compute Engine, Cloud Run, Pub/Sub)',
-    'Go (Gin)',
+  // Limit core skills to exactly these five (order matters)
+  const desiredOrder = [
+    'Python (Django, DRF, Flask)',
+    'ASP.NET Core',
+    'Next.js (App Router)',
     'WordPress (Elementor, Pods)',
-    'Next.js (App Router)'
-  ]);
+    'PostgreSQL'
+  ] as const;
+  const desired = new Set<string>(desiredOrder);
   const flat: SkillItem[] = [];
   skillGroups.forEach(g => {
     g.skills.forEach(s => {
@@ -130,6 +134,6 @@ export const coreSkills: SkillItem[] = (() => {
       flat.push({ name: s.name });
     });
   });
-  return flat;
+  return flat.sort((a, b) => desiredOrder.indexOf(a.name as typeof desiredOrder[number]) - desiredOrder.indexOf(b.name as typeof desiredOrder[number]));
 })();
 
