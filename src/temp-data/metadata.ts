@@ -2,8 +2,8 @@ import type { Metadata } from '@/types/metadata';
 
 export const metadata: Metadata = {
   fullName: 'Ammar Hany Ezeldin Abdelrazik',
-  // Friendlier, concise professional tagline derived from CV summary
-  tagline: 'Dynamic Software Engineer — backend, full‑stack & system architecture',
+  // Short professional tagline (condensed)
+  tagline: 'Software Engineer · Digital Solutions Architect',
   emails: ['ammarhanyezeldin@gmail.com'],
   phones: [
     { label: 'Egypt', e164: '+201061888476' },
@@ -18,33 +18,32 @@ export const metadata: Metadata = {
     { label: 'YouTube', href: 'https://www.youtube.com/@TheChillTechgineer' },
   ],
   bases: [
+    { city: 'New Cairo', countryCode: 'EG' },
     { city: 'Mersin', countryCode: 'TR' },
-    { city: 'Cairo', countryCode: 'EG' },
   ],
-  relocation: 'Married to a Swedish citizen • frequent long stays in Sweden • eligible to work in Egypt & Turkey • open to global remote/hybrid/onsite roles.',
+  // relocation: 'Married to a Swedish citizen • frequent long stays in Sweden • eligible to work in Egypt & Turkey • open to global remote/hybrid/onsite roles.',
   languages: [
     'English (C2)',
     'Arabic (Native)',
     'Turkish (B2)',
-    // 'Swedish (A1)',
-    // 'French (A1)',
+    'Swedish (A1)',
   ],
   // Condensed, CV-aligned bullet points used in hero summary list
   highlights: [
-    '4 years full‑stack & backend engineering (approaching senior level)',
-    'Architected scalable APIs & cloud infrastructure (GCP, Docker, Kubernetes)',
-    'Python (Django, DRF), C# (ASP.NET Core), JavaScript/TypeScript (Next.js, Express)',
-    'Deployed AI / computer vision models & optimized cloud workloads',
-    'Databases: PostgreSQL · MySQL · Firebase/Firestore · Redis',
-    'CI/CD & DevOps: GitHub Actions · Containers · Infrastructure optimization',
-    'Cross‑platform delivery including WordPress & headless commerce',
+    '4+ years delivering production software across backend, full-stack, and product engineering roles',
+    'Architected cloud-native systems on AWS, Azure, GCP, and DigitalOcean with measured cost optimization',
+    'Designed Shopify headless commerce with Next.js Storefront/Admin API integrations and SEO-first delivery',
+    'Implemented CI/CD pipelines with GitHub Actions, Docker, and multi-environment governance',
+    'Specialized in Python (Django, DRF), C# (ASP.NET Core), TypeScript/Next.js, and Go (Gin)',
+    'Led Jetson edge-to-cloud computer vision deployments with real-time monitoring and analytics',
+    'Built data-rich pricing, ERP, and analytics platforms on PostgreSQL, Neon, Redis, and Firebase',
   ],
   // Hero content configuration
   hero: {
     greeting: 'Hi, I\'m Ammar 👋',
     callToAction: 'Let\'s build something amazing together.',
     primaryButton: { text: 'Get in Touch', href: '#contact' },
-    secondaryButton: { text: 'Download CV', href: '/cv/Ammar%202025%20CV%20Website%20V1.500.pdf' },
+  secondaryButton: { text: 'Download CV', href: '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf' },
   },
   // Contact information
   contact: {

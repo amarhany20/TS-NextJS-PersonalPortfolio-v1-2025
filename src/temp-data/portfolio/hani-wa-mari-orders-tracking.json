@@ -3,7 +3,7 @@
   "title": "Hani & Mari – Orders Tracking Portal",
   "tagline": "Order management and customer updates for small-scale retailers",
   "intro": "Built a simple order tracking and management portal to improve customer visibility and reduce support overhead.",
-  "summary": "Implemented a lightweight dashboard for store owners to track orders, update statuses, and notify customers via email/SMS integrations.",
+  "summary": "Flutter + ASP.NET Core solution with PostgreSQL and DigitalOcean VPS hosting, streamlining order tracking and customer updates.",
   "featured": false,
   "visibility": "private",
   "access": "client",
@@ -17,16 +17,18 @@
   "start": "2024-04",
   "end": "2024-06",
   "stack": [
-    "Next.js",
-    "Prisma",
-    "Postgres",
-    "Tailwind",
+    "Flutter (Android)",
+    "ASP.NET Core",
+    "PostgreSQL",
+    "DigitalOcean VPS",
+    "Linux",
     "SendGrid"
   ],
   "features": [
     "Order timeline and status updates",
     "Notifications via email and SMS",
-    "Simple admin UI for order updates",
+    "Flutter admin UI for order updates",
+    "DigitalOcean/Linux VPS deployment & monitoring",
     "Export orders for accounting"
   ],
   "sections": [

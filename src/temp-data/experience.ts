@@ -4,91 +4,89 @@ import type { Experience, ExperienceItem } from '@/types/experience';
 const rawExperience: readonly ExperienceItem[] = [
   {
     company: 'The Home Co EG',
-    title: 'IT Manager & Full-Stack Developer',
+    title: 'Digital Solutions Architect',
     location: 'Cairo, Egypt (Remote)',
     start: '2025-04',
     present: true,
     bullets: [
-      'Led the company’s digital transformation: rolled out Google Workspace across all departments, standardized ERP/CRM processes, and formalized IT governance.',
-      'Designed and deployed an enterprise Pricing & Quotation System (Next.js + PostgreSQL/Prisma) with RBAC, audit trails, and presets—cutting quotation turnaround time by ~40% and ensuring accuracy.',
-      'Defined the company’s e-commerce roadmap and implemented a Next.js storefront integrated with Shopify Storefront API for scalable headless commerce.',
-      'Provisioned and managed DigitalOcean VPS infrastructure; implemented Docker-based deployments and CI/CD pipelines with dev/staging/prod environments.',
-      'Created and curated a Google Drive template library for Finance, HR, Projects, Design, Admin, Marketing, IT, and Workshop operations, standardizing documentation across teams.',
-      'Acted as de facto CTO: advised executives on IT strategy, infrastructure investment, and digital growth opportunities.'
+      'Owned end-to-end IT and systems: rolled out Google Workspace, standardized device provisioning, and managed Squarespace domains/DNS for all teams.',
+      'Architected the Pricing & Costing System (Next.js + Neon/PostgreSQL + Prisma) with RBAC, audit logs, resource presets, and Excel/PDF exports—improving quote speed/accuracy by 40%+.',
+      'Built headless commerce with Shopify Storefront/Admin APIs on a Next.js frontend, pairing SEO-first delivery with scalable merchandising workflows.',
+      'Ran infrastructure on DigitalOcean VMs (Linux/KDE) with CI/CD via GitHub Actions, multi-environment governance, and supplemental AWS (EC2/S3) integrations.',
+      'Automated daily market-price web crawling and compiled Excel/PowerPoint intelligence for Egypt and GCC leadership decisions.',
+      'Acted as de facto CTO, aligning executives on IT strategy, cost optimization, and digital transformation roadmaps.'
     ],
     stack: [
-      'TypeScript', 'React', 'Next.js', 'PostgreSQL', 'Prisma',
-      'Shopify Storefront API', 'Docker', 'GitHub Actions', 'DigitalOcean',
-      'Google Workspace', 'Linux'
+      'TypeScript', 'Next.js', 'Neon (PostgreSQL)', 'Prisma', 'Shopify Storefront API', 'Shopify Admin API',
+      'GitHub Actions', 'DigitalOcean', 'AWS (EC2/S3)', 'Linux (KDE)', 'Google Workspace', 'Web Crawling'
     ],
     impact:
-      'Modernized IT and digital operations, enabling scalable quoting, streamlined collaboration, and a high-performance e-commerce foundation.',
+      'Modernized IT and digital operations with auditable pricing, scalable headless commerce, and cost-efficient hybrid cloud infrastructure.',
   },
   {
     company: 'Kiwify Tech Company',
-    title: 'Co-Founder / CTO',
+    title: 'Part-time Technical Lead',
     location: 'Mersin, Turkey',
     start: '2024-06',
     present: true,
     bullets: [
-      'Co-founded a consultancy delivering 10+ client projects across ASP.NET Core, WordPress, and Flutter in e-commerce, logistics, and services.',
-      'Engineered custom ASP.NET Core APIs backed by PostgreSQL, enforcing DTO/Repository/Service patterns and JWT-based authentication.',
-      'Built and published Flutter mobile applications with role-based flows and localized UIs.',
-      'Managed hosting, DNS, domain registrations, server administration, and business email infrastructure for SMEs.',
-      'Set up CI/CD pipelines, containerized deployments, and implemented repeatable delivery patterns.',
-      'Directed a small engineering team, establishing coding standards, documentation practices, and delivery timelines.'
+      'Part-time engagement (5–10 hrs/week) leading cross-stack delivery for SMEs in F&B, logistics, and services.',
+      'Built Flutter Android ordering apps backed by ASP.NET Core APIs and PostgreSQL, deployed on DigitalOcean VPS (Linux).',
+      'Handled manual release management: Linux server hardening, migrations, monitoring, and incident response.',
+      'Managed hosting portfolios across cPanel/WHM, CyberPanel, and GoDaddy DNS/email with custom automation scripts.',
+      'Delivered WordPress/Elementor sites with bespoke PHP snippets, analytics integrations, and speed optimisation.',
+      'Codified delivery playbooks, code reviews, and documentation to keep distributed contractors aligned.'
     ],
     stack: [
-      'C#', 'ASP.NET Core', 'Entity Framework', 'PostgreSQL',
-      'Flutter (Dart)', 'WordPress', 'Docker', 'CI/CD', 'Nginx', 'Linux'
+      'Flutter (Android)', 'ASP.NET Core', 'PostgreSQL', 'DigitalOcean VPS', 'Linux',
+      'cPanel/WHM', 'CyberPanel', 'GoDaddy DNS & Email', 'WordPress', 'Elementor', 'PHP'
     ],
     impact:
-      'Provided SMEs with stable, maintainable software systems while building repeatable delivery frameworks that improved client satisfaction.',
+      'Delivered reliable, cost-conscious digital platforms for SMEs while maintaining high-touch operations in a lean, part-time model.',
   },
   {
     company: 'Domogreen',
-    title: 'Backend & Application Engineer',
+    title: 'Product Engineer',
     location: 'Lund, Sweden',
     start: '2024-07',
     end: '2025-04',
     bullets: [
-      'Developed a secure Django REST API (PostgreSQL + Redis) with WebSocket streaming for large-scale physics research collaboration.',
-      'Implemented JWT authentication via Firebase Auth, modular micro-app architecture, and repository/service layer separation.',
-      'Built a cross-platform .NET MAUI client for collaboration and chatbot features, integrating seamlessly with backend APIs.',
-      'Containerized services with Docker and deployed to Google Cloud Platform, reducing latency and improving cost per interaction.',
-      'Collaborated with researchers and engineers to translate experimental needs into scalable software systems.'
+      'Acted as product engineer reporting to the CEO, translating research needs into product requirements and delivery roadmaps.',
+      'Delivered a secure Flutter desktop app (Windows/macOS) paired with a Django REST backend and collaboration tooling.',
+      'Implemented JWT auth, encryption, and hardening across repositories/service-layer architecture with Redis and WebSockets.',
+      'Deployed a hybrid stack: on-prem Linux servers for data handling with GCP services hosting public APIs and monitoring.',
+      'Led backlog, stakeholder demos, and documentation to keep R&D teams aligned despite project deprecation.'
     ],
     stack: [
-      'Python', 'Django', 'Django REST Framework', 'PostgreSQL', 'Redis',
-      'WebSockets', '.NET MAUI', 'Docker', 'Google Cloud Platform', 'Firebase Auth'
+      'Flutter (Desktop)', 'Django REST Framework', 'Python', 'PostgreSQL', 'Redis',
+      'WebSockets', 'JWT', 'Google Cloud Platform', 'On-prem Linux', 'Docker'
     ],
     impact:
-      'Delivered ~75% of the research platform before discontinuation, demonstrating ability to own full-stack and cloud deployments in high-stakes R&D projects.',
+      'Shipped secure hybrid deployments and product direction under tight timelines, with architecture reused in successor initiatives.',
   },
   {
     company: 'Animals.ai',
-    title: 'Computer Vision & Backend Engineer',
+    title: 'Product Engineer',
     location: 'Helsingborg, Sweden',
     start: '2023-08',
     end: '2024-04',
     bullets: [
-      'Advanced from CV Intern to full-time engineer; cleared a backlog of delayed projects ahead of schedule.',
-      'Delivered 30+ computer vision models and 50+ image-processing pipelines for livestock monitoring and precision agriculture.',
-      'Designed and deployed a Flask REST backend on Google Cloud Platform with Firebase, containerized for CI/CD pipelines (reduced delivery time from weeks to minutes).',
-      'Built NVIDIA Jetson IoT camera systems (RTSP streaming, multi-camera inference) and managed 10k+ annotated images.',
-      'Reduced detection error rates by ~20% through model optimization and pipeline improvements.',
-      'Mentored interns, collaborated with PhD researchers and farmers, and participated in board-level meetings with CEO and CTO.'
+      'Progressed from intern to product engineer, coordinating edge-to-cloud CV roadmaps with leadership and field teams.',
+      'Ran a distributed NVIDIA Jetson camera network with multi-site RTSP ingestion and resilient offline-first syncing.',
+      'Delivered Flask + Firebase + GCP backends with GitHub Actions CI/CD and dataset management for 10k+ annotated images.',
+      'Optimized YOLO/Deep learning pipelines, cutting livestock detection error rates by ~20%.',
+      'Established QA/playbooks, mentored interns, and surfaced product insights for board reviews.'
     ],
     stack: [
-      'Python', 'PyTorch', 'TensorFlow', 'YOLOv8', 'OpenCV',
-      'Flask', 'GCP', 'Firebase', 'Docker', 'NVIDIA Jetson', 'RTSP'
+      'Python', 'Flask', 'Firebase', 'Google Cloud Platform', 'GitHub Actions',
+      'NVIDIA Jetson (Edge)', 'RTSP', 'PyTorch', 'YOLO (Ultralytics v8)', 'Docker'
     ],
     impact:
-      'Turned research into production-grade pipelines and edge-to-cloud systems, earning a formal CTO recommendation letter.',
+      'Delivered production edge-to-cloud CV systems that earned a formal CTO recommendation and measurable accuracy gains.',
   },
   {
     company: 'Toros University',
-    title: 'IT Intern',
+    title: 'IT Infrastructure Intern',
     location: 'Mersin, Turkey',
     start: '2022-07',
     end: '2023-07',
