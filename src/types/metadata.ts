@@ -22,11 +22,11 @@ export interface SiteMetadata {
   phones: readonly Phone[];
   links: readonly Link[];
   bases: readonly BaseLocation[];
-  relocation: string;
-  languages: readonly string[];
+  // relocation: string;
   highlights: readonly string[];
   hero: HeroConfig;
   contact: ContactConfig;
+  languages: readonly string[];
 }
 
 export type { SiteMetadata as Metadata };

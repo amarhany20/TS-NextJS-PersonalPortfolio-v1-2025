@@ -12,7 +12,7 @@ export default function SummarySection() {
 			<h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[var(--accent-secondary)]">{heroContent.subtitle}</h2>
 			<div className="max-w-2xl text-[var(--text-secondary)] text-lg mb-2 prose prose-invert">
 				<MetaContent keyName="heroDescription" as="div" />
-				<p className="mt-2">{heroContent.callToAction}</p>
+				{/* <p className="mt-2">{heroContent.callToAction}</p> */}
 			</div>
 			<div className="flex flex-wrap gap-4 mt-2">
 				<a

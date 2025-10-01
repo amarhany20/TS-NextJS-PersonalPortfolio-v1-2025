@@ -117,23 +117,14 @@ export const allSkills: Record<string, { title: string; icon: string; skills: Sk
   return acc;
 }, {} as Record<string, { title: string; icon: string; skills: SkillItem[] }>);
 
-export const coreSkills: SkillItem[] = (() => {
-  // Limit core skills to exactly these five (order matters)
-  const desiredOrder = [
-    'Python (Django, DRF, Flask)',
-    'ASP.NET Core',
-    'Next.js (App Router)',
-    'WordPress (Elementor, Pods)',
-    'PostgreSQL'
-  ] as const;
-  const desired = new Set<string>(desiredOrder);
-  const flat: SkillItem[] = [];
-  skillGroups.forEach(g => {
-    g.skills.forEach(s => {
-      if (!desired.has(s.name)) return;
-      flat.push({ name: s.name });
-    });
-  });
-  return flat.sort((a, b) => desiredOrder.indexOf(a.name as typeof desiredOrder[number]) - desiredOrder.indexOf(b.name as typeof desiredOrder[number]));
-})();
+export const coreSkills: SkillItem[] = [
+  { name: 'Python (Django, DRF, Flask, FastAPI)' },
+  { name: 'C# (ASP.NET Core, EF Core)' },
+  { name: 'Next.js' },
+  { name: 'WordPress' },
+  { name: 'PostgreSQL' },
+  { name: 'Google Cloud' },
+  { name: 'Azure' }
+  
+];
 

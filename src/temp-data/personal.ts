@@ -32,7 +32,7 @@ export const contactInfo = {
   email: metadata.emails[0],
   phone: metadata.phones.map(p => `${p.label}: ${p.e164}`).join(' / '),
   location: metadata.bases.map(b => b.city).join(' / '),
-  availability: metadata.relocation,
+  // availability: metadata.relocation,
   createdAt: new Date(),
   updatedAt: new Date(),
 };

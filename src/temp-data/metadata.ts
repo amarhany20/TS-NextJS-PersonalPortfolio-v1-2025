@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     { city: 'New Cairo', countryCode: 'EG' },
     { city: 'Mersin', countryCode: 'TR' },
   ],
-  relocation: 'Married to a Swedish citizen • frequent long stays in Sweden • eligible to work in Egypt & Turkey • open to global remote/hybrid/onsite roles.',
+  // relocation: 'Married to a Swedish citizen • frequent long stays in Sweden • eligible to work in Egypt & Turkey • open to global remote/hybrid/onsite roles.',
   languages: [
     'English (C2)',
     'Arabic (Native)',
