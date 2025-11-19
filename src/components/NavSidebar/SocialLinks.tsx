@@ -1,48 +1,90 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ComponentType } from "react";
 import * as Icons from "lucide-react";
+import type { LinkItem } from "@/types/settings";
 
-type QuickLink = { href: string; icon: string; label?: string };
+type IconComponent = ComponentType<{ size?: number; className?: string }>;
+type IconLibrary = Record<string, IconComponent>;
 
-type IconLib = Record<string, React.ComponentType<{ size?: number; className?: string }>>;
-const iconOr = (name?: string) => (Icons as unknown as IconLib)[name || ""] || (Icons as unknown as IconLib)["Link"];
+const iconOr = (name?: string): IconComponent => (Icons as unknown as IconLibrary)[name || ""] || (Icons as unknown as IconLibrary)["Link"];
 
-export default function SocialLinks() {
+const ICON_HINTS: Array<{ pattern: RegExp; icon: string }> = [
+  { pattern: /github/i, icon: "Github" },
+  { pattern: /linkedin/i, icon: "Linkedin" },
+  { pattern: /youtube|video/i, icon: "Youtube" },
+  { pattern: /whatsapp|wa\.me/i, icon: "MessageCircle" },
+  { pattern: /mail|email/i, icon: "Mail" },
+  { pattern: /medium|blog/i, icon: "PenSquare" },
+  { pattern: /twitter|x\.com/i, icon: "Twitter" },
+  { pattern: /instagram/i, icon: "Instagram" },
+  { pattern: /facebook/i, icon: "Facebook" },
+  { pattern: /dribbble/i, icon: "Dribbble" },
+];
 
-  const fallback = useMemo<QuickLink[]>(
-    () => [
-      { href: "https://wa.me/905395775990", icon: "MessageCircle", label: "WhatsApp" },
-      { href: "mailto:ammarhanyezeldin@gmail.com", icon: "Mail", label: "Email" },
-      { href: "https://github.com/amarhany20", icon: "Github", label: "GitHub" },
-      { href: "https://www.linkedin.com/in/ammar-hany/", icon: "Linkedin", label: "LinkedIn" },
-      { href: "https://www.youtube.com/@TheChillTechgineer", icon: "Youtube", label: "YouTube" },
-    ],
-    []
-  );
+const COLOR_HINTS: Record<string, string> = {
+  github: "#fff",
+  linkedin: "#0A66C2",
+  youtube: "#FF0000",
+  whatsapp: "#25D366",
+  email: "#ffb400",
+  twitter: "#1DA1F2",
+  x: "#fff",
+};
 
-  const data = fallback;
+interface SocialLinksProps {
+  links: LinkItem[];
+}
+
+function guessIconName(link: LinkItem): string {
+  const label = link.label ?? "";
+  const href = link.href ?? "";
+  for (const hint of ICON_HINTS) {
+    if (hint.pattern.test(label) || hint.pattern.test(href)) {
+      return hint.icon;
+    }
+  }
+  if (/^mailto:/i.test(href)) return "Mail";
+  if (/^tel:/i.test(href)) return "Phone";
+  return "Link";
+}
+
+function resolveBrandColor(label?: string): string {
+  if (!label) return "var(--text-secondary)";
+  const key = label.toLowerCase();
+  if (COLOR_HINTS[key]) return COLOR_HINTS[key];
+  if (key.includes("github")) return COLOR_HINTS.github;
+  if (key.includes("linkedin")) return COLOR_HINTS.linkedin;
+  if (key.includes("youtube")) return COLOR_HINTS.youtube;
+  if (key.includes("whatsapp")) return COLOR_HINTS.whatsapp;
+  if (key.includes("mail")) return COLOR_HINTS.email;
+  if (key.includes("twitter") || key === "x") return COLOR_HINTS.twitter;
+  return "var(--text-secondary)";
+}
+
+export default function SocialLinks({ links }: SocialLinksProps) {
+  const data = useMemo(() => links.filter((link) => Boolean(link?.href)), [links]);
+
+  if (!data.length) {
+    return null;
+  }
 
   return (
     <div className="space-y-2">
       <h3 className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase tracking-wider text-center mb-3">Connect</h3>
       <div className="flex flex-col items-center gap-2">
-        {data.map((l, idx) => {
-          const Icon = iconOr(l.icon);
-          const aria = l.label || "link";
-          const isExternal = /^https?:/i.test(l.href) || l.href.startsWith("mailto:") || l.href.startsWith("wa.me") || l.href.startsWith("tel:");
-          const colorMap: Record<string,string> = {
-            WhatsApp: '#25D366',
-            Email: '#ffb400',
-            GitHub: '#fff',
-            LinkedIn: '#0A66C2',
-            YouTube: '#FF0000'
-          };
-          const brand = colorMap[l.label || ''] || 'var(--text-secondary)';
+        {data.map((link) => {
+          const iconName = guessIconName(link);
+          const Icon = iconOr(iconName);
+          const aria = link.label || "link";
+          const href = link.href;
+          const isExternal = /^https?:/i.test(href) || href.startsWith("mailto:") || href.includes("wa.me") || href.startsWith("tel:");
+          const brand = resolveBrandColor(link.label);
+
           return (
             <a
-              key={`${l.href}-${idx}`}
-              href={l.href}
+              key={href}
+              href={href}
               aria-label={aria}
               target={isExternal ? "_blank" : undefined}
               rel={isExternal ? "noopener noreferrer" : undefined}

@@ -1,0 +1,345 @@
+// Prisma schema defining the data model for the Portfolio Creator platform.
+// SQLite is the default for local development; Neon/PostgreSQL supported via DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------
+// Core Models
+// ----------------------------------------
+
+model User {
+  id           String      @id @default(cuid())
+  username     String      @unique
+  email        String      @unique
+  displayName  String
+  passwordHash String
+  role         String      @default("admin")
+  status       String      @default("active")
+  bio          String?
+  avatarUrl    String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  media             Media[]
+  contentVersions   ContentVersion[]
+}
+
+model Settings {
+  id                 String    @id @default(cuid())
+  siteTitle          String
+  siteSubtitle       String?
+  heroGreeting       String?
+  heroSubtitle       String?
+  heroDescription    String?
+  primaryEmail       String?
+  secondaryEmail     String?
+  location           String?
+  timezone           String?   @default("UTC")
+  theme              String    @default("default")
+  maintenanceMode    Boolean   @default(false)
+  maintenanceMessage String?
+  socialLinks        String?
+  heroButtons        String?
+  contactConfig      String?
+  seoDefaults        String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@map("settings")
+}
+
+model Portfolio {
+  id                String             @id @default(cuid())
+  slug              String             @unique
+  title             String
+  tagline           String
+  intro             String
+  summary           String
+  featured          Boolean            @default(false)
+  visibility        String             @default("public")
+  access            String             @default("client-owned")
+  status            String             @default("live")
+  domain            String?
+  company           String?
+  client            String?
+  website           String?
+  repository        String?
+  role              String
+  startDate         DateTime?
+  endDate           DateTime?
+  stack             String?
+  features          String?
+  sections          String?
+  gallery           String?
+  confidentialNotes String?
+  displayOrder      Int                @default(0)
+  published         Boolean            @default(true)
+  publishedAt       DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  @@index([published, displayOrder])
+  @@index([slug])
+  @@map("portfolio")
+}
+
+model Blog {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  title       String
+  summary     String?
+  content     String
+  coverImage  String?
+  status      String      @default("draft")
+  publishedAt DateTime?
+  readingTime Int?
+  seo         String?
+  meta        String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  categories BlogCategory[]
+  tags       BlogTag[]
+  @@index([status, publishedAt])
+  @@map("blog")
+}
+
+model Category {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  name        String
+  description String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  posts BlogCategory[]
+
+  @@map("categories")
+}
+
+model Tag {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  posts BlogTag[]
+
+  @@map("tags")
+}
+
+model BlogCategory {
+  blogId     String
+  categoryId String
+  assignedAt DateTime @default(now())
+
+  blog     Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, categoryId])
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  blogId  String
+  tagId   String
+  taggedAt DateTime @default(now())
+
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, tagId])
+  @@map("blog_tags")
+}
+
+model Experience {
+  id            String    @id @default(cuid())
+  company       String
+  title         String
+  location      String?
+  startDate     DateTime
+  endDate       DateTime?
+  present       Boolean   @default(false)
+  impact        String?
+  achievements  String?
+  skills        String?
+  companyUrl    String?
+  displayOrder  Int       @default(0)
+  published     Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([published, displayOrder])
+  @@map("experience")
+}
+
+model Education {
+  id            String    @id @default(cuid())
+  institution   String
+  degree        String
+  field         String?
+  location      String?
+  startDate     DateTime
+  endDate       DateTime?
+  present       Boolean   @default(false)
+  gpa           String?
+  achievements  String?
+  project       String?
+  displayOrder  Int       @default(0)
+  published     Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([published, displayOrder])
+  @@map("education")
+}
+
+model SkillGroup {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  summary      String?
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  skills Skill[]
+
+  @@map("skill_groups")
+}
+
+model Skill {
+  id           String     @id @default(cuid())
+  name         String
+  icon         String?
+  level        String?
+  keywords     String?
+  displayOrder Int        @default(0)
+  groupId      String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  group SkillGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@map("skills")
+  @@unique([name, groupId])
+}
+
+model Service {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  description    String
+  longDescription String?
+  features       String?
+  technologies   String?
+  icon           String?
+  image          String?
+  active         Boolean  @default(true)
+  displayOrder   Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Certificate {
+  id             String   @id @default(cuid())
+  name           String
+  issuer         String
+  issuedOn       DateTime
+  credentialId   String?
+  description    String?
+  skills         String?
+  image          String?
+  verifyUrl      String?
+  displayOrder   Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("certificates")
+}
+
+model Recommendation {
+  id                     String   @id @default(cuid())
+  name                   String
+  position               String?
+  company                String?
+  relationship           String?
+  content                String
+  rating                 Int?
+  linkedin               String?
+  recommendationLetterUrl String?
+  photo                  String?
+  receivedOn             DateTime?
+  published              Boolean  @default(true)
+  displayOrder           Int      @default(0)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@map("recommendations")
+}
+
+model Media {
+  id           String    @id @default(cuid())
+  filename     String
+  originalName String?
+  path         String
+  url          String?
+  mimeType     String
+  size         Int
+  width        Int?
+  height       Int?
+  checksum     String?
+  createdById  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  createdBy User? @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([createdById])
+  @@map("media")
+}
+
+model ContactSubmission {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  status    String        @default("new")
+  meta      String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, createdAt])
+  @@map("contact_submissions")
+}
+
+model ContentVersion {
+  id          String   @id @default(cuid())
+  contentType String
+  contentId   String
+  version     Int
+  data        String
+  notes       String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  createdBy User? @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@unique([contentType, contentId, version])
+  @@index([contentType, contentId])
+  @@map("content_versions")
+}

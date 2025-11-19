@@ -3,8 +3,13 @@
 import { User, Menu } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 
-export default function TopHeader() {
+interface TopHeaderProps {
+  brandLabel?: string;
+}
+
+export default function TopHeader({ brandLabel }: TopHeaderProps) {
   const { toggleLeftSidebar, toggleRightSidebar, leftSidebarOpen, rightSidebarOpen } = useSidebar();
+  const label = brandLabel && brandLabel.trim().length > 0 ? brandLabel : "AH";
 
   return (
     <header className="fixed top-0 left-0 w-full h-14 bg-[var(--sidebar)] border-b border-[var(--border)] flex items-center justify-between px-4 z-[1001] shadow-lg lg:hidden">
@@ -20,7 +25,7 @@ export default function TopHeader() {
       </button>
 
       {/* Center: Brand/Logo/Initials */}
-      <div className="text-xl font-bold tracking-widest text-[var(--accent-primary)]">AH</div>
+  <div className="text-xl font-bold tracking-widest text-[var(--accent-primary)]">{label}</div>
 
       {/* Right: NavSidebar/social toggle */}
       <button

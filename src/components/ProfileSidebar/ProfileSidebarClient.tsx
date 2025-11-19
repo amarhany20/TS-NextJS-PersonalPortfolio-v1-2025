@@ -5,22 +5,24 @@ import { MapPin, Globe, X } from "lucide-react";
 import { useSidebar } from "@/components/UI/SidebarProvider";
 // Import package.json to read the project version for display in the sidebar footer
 import { APP_VERSION } from '@/lib/version';
+import type { ProfileInfo } from '@/types/settings';
 
 interface ProfileSidebarProps {
-  personalInfo: Record<string, string | number | boolean | object> | null;
-  coreSkills: Array<{ id: number; name: string }> | null;
+  profile: ProfileInfo;
+  coreSkills: string[];
   languages: readonly string[];
 }
 
-export default function ProfileSidebarClient({ personalInfo, coreSkills, languages }: ProfileSidebarProps) {
+export default function ProfileSidebarClient({ profile, coreSkills, languages }: ProfileSidebarProps) {
   const { leftSidebarOpen, closeAllSidebars } = useSidebar();
 
-  if (!personalInfo) return null;
+  if (!profile?.fullName) return null;
 
   // Extract data from metadata structure
-  const displayName = (personalInfo.fullName as string) || (personalInfo.personal_display_name as string) || "";
-  const primaryLocation = ((personalInfo.location as string) || "").toString();
-  const profileTitle = ((personalInfo.title as string) || "").toString();
+  const displayName = profile.fullName || "";
+  const primaryLocation = profile.location || "";
+  const profileTitle = profile.title || "";
+  const photo = profile.photoUrl || "/2024 Ammar Personal Photo.jpg";
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         {/* Photo */}
         <div className="flex-shrink-0 w-28 h-28 rounded-full border-4 border-[var(--accent-primary)] overflow-hidden shadow-lg mb-4 mx-auto">
           <Image
-            src="/2024 Ammar Personal Photo.jpg"
+            src={photo}
             alt={displayName}
             width={112}
             height={112}
@@ -73,9 +75,9 @@ export default function ProfileSidebarClient({ personalInfo, coreSkills, languag
         <div className="mb-4">
           <h3 className="text-base font-semibold text-[var(--accent-primary)] mb-2">Core Skills</h3>
           <div className="flex flex-wrap gap-2">
-            {coreSkills?.map((skill, idx) => (
-              <span key={skill.id ?? `${skill.name}-${idx}`} className="bg-[var(--accent-muted)] text-sm rounded px-3 py-1 text-[var(--foreground)]">
-                {skill.name}
+            {coreSkills?.slice(0, 16).map((skill, idx) => (
+              <span key={`${skill}-${idx}`} className="bg-[var(--accent-muted)] text-sm rounded px-3 py-1 text-[var(--foreground)]">
+                {skill}
               </span>
             ))}
           </div>

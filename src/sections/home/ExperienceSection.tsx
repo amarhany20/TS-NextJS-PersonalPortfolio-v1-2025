@@ -1,14 +1,17 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { Experience } from '@/types/experience';
 import SectionHeader from '@/components/UI/SectionHeader';
 import AccentBar from '@/components/UI/AccentBar';
 import SectionCard from '@/components/UI/SectionCard';
-import { experience } from '@/temp-data';
 import { Briefcase, MapPin, Calendar, Star, ChevronDown, ExternalLink } from 'lucide-react';
 
-export default function ExperienceSection() {
-	const expData = experience;
+interface ExperienceSectionProps {
+  items?: Experience[];
+}
+
+export default function ExperienceSection({ items }: ExperienceSectionProps) {
+	const expData = useMemo(() => items?.filter(Boolean) ?? [], [items]);
 	if (!expData.length) return (
 		<section id="experience" className="scroll-mt-8">
 			<SectionHeader title="Experience" subtitle="My professional journey and key accomplishments" />

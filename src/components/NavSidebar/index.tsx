@@ -4,8 +4,13 @@ import NavLinks from "./NavLinks";
 import SocialLinks from "./SocialLinks";
 import { useSidebar } from "@/components/UI/SidebarProvider";
 import { X } from "lucide-react";
+import type { LinkItem } from "@/types/settings";
 
-export default function NavSidebar() {
+interface NavSidebarProps {
+  socialLinks: LinkItem[];
+}
+
+export default function NavSidebar({ socialLinks }: NavSidebarProps) {
   const { rightSidebarOpen, closeAllSidebars } = useSidebar();
 
   return (
@@ -33,7 +38,7 @@ export default function NavSidebar() {
 
           {/* Social Links */}
           <div className="mt-auto pb-2">
-            <SocialLinks />
+            <SocialLinks links={socialLinks} />
           </div>
         </div>
       </aside>

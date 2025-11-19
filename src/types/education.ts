@@ -1,16 +1,20 @@
 export interface Education {
   id: string;
-  degree: string;
   institution: string;
-  location: string;
-  startDate: string;
-  endDate: string;
+  degree: string;
+  field?: string;
+  location?: string;
+  start: string;
+  end?: string;
+  present: boolean;
   gpa?: string;
-  description: string[];
   achievements: string[];
+  project?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-// Flat temp-data shape used before mapping into database-style Education objects
+// Flat static-content shape used before mapping into database and UI-ready Education objects
 export interface EducationItem {
   institution: string;
   degree: string;

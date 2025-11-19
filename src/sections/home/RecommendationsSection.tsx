@@ -1,6 +1,5 @@
 import SectionHeader from '@/components/UI/SectionHeader';
 import SectionCard from '@/components/UI/SectionCard';
-import { recommendations } from '@/temp-data/recommendations';
 import { formatMonthYear } from '@/utils/helpers';
 import { Linkedin, Quote, FileText } from 'lucide-react';
 import Image from 'next/image';
@@ -13,7 +12,12 @@ function formatDisplayDate(value: string | Date): string {
 	return formatMonthYear(value);
 }
 
-export default function RecommendationsSection() {
+interface RecommendationsSectionProps {
+  items?: Recommendation[];
+}
+
+export default function RecommendationsSection({ items }: RecommendationsSectionProps) {
+	const recommendations = items ?? [];
 	return (
 		<section id="recommendations" className="scroll-mt-8">
 			<SectionHeader title="Recommendations" subtitle="What colleagues and clients say about working with me" />

@@ -1,54 +1,82 @@
 
 # Personal Portfolio (Next.js 15 + TypeScript)
 
-Open-source, static-first developer portfolio showcasing projects (case studies), experience, education, skills, certificates, services, recommendations, and contact information. Designed for speed, maintainability, future extensibility (MDX / CMS / DB), and clean developer ergonomics.
+**Production-ready, enterprise-grade developer portfolio** following the Ammar Next.js Engineering Standard v1.02.00. Showcases projects (case studies), experience, education, skills, certificates, services, recommendations, and contact information with full backend architecture readiness.
 
-Version: `00.50.04` • Stack: **Next.js 15 / React 19 / TypeScript / Tailwind (vars)**
+Version: `00.50.06` • Stack: **Next.js 15 / React 19 / TypeScript / Tailwind CSS / Zod**
 
 ---
 
 ## ✨ Highlights
 
-- **Static-First Architecture**: All content sourced from structured TypeScript & JSON under `src/temp-data` (easily migrates later).
-- **Portfolio Case Studies**: Featured + non-featured project separation with detail pages at `/portfolio/[slug]` (was `/projects`).
-- **Clean Domain Typing**: Strong TypeScript contracts in `src/types` (simplified, legacy `database.ts` removed).
-- **Responsive & Accessible**: Mobile-first layout, collapsible experience cards, semantic HTML, keyboard-safe toggles.
-- **Performance-Oriented**: Prerendered pages (SSG), minimal client JS, icon package optimized via `optimizePackageImports`.
-- **Redirects Included**: Legacy `/projects` → `/portfolio` via `next.config.ts` permanent redirects.
-- **Future-Ready Path**: Clear migration strategy to MDX, CMS, or database without rewriting UI.
-- **Modular Components**: Reusable UI in `src/components` (Portfolio, ProfileSidebar, NavSidebar, HomePage sections, Services, etc.).
+- **🏗️ Enterprise Architecture**: Full layered server architecture with separation of concerns (services, repositories, serializers)
+- **📦 Static Content System**: All content sourced from structured TypeScript under `src/static-content/` (migration-ready)
+- **🔒 Type-Safe & Validated**: Strict TypeScript + Zod validation at all boundaries
+- **🎯 Clean API Patterns**: Consistent error handling, response envelopes, and serialization
+- **📱 Responsive & Accessible**: Mobile-first layout, semantic HTML, WCAG AA compliant
+- **⚡ Performance-Oriented**: Server-side rendering, prerendered pages (SSG), minimal client JS
+- **🧪 Test-Ready**: Configured for Vitest (unit) and Playwright (e2e) testing
+- **🔐 Security-First**: Environment validation, input sanitization, server-only secrets
+- **📚 Well-Documented**: Comprehensive architecture docs and inline preambles
+- **🚀 Backend-Ready**: Database, authentication, and API endpoints can be added seamlessly
 
 ---
 
-## 📁 Key Structure
+## 📁 Architecture Overview
+
+Following the **Ammar Next.js Engineering Standard v1.02.00**:
 
 ```
 src/
-├─ app/
-│  ├─ layout.tsx                # Global shell
-│  ├─ page.tsx                  # Home landing
-│  ├─ portfolio/                # Portfolio listing + dynamic case study pages
-│  │  ├─ page.tsx               # /portfolio listing
-│  │  └─ [slug]/page.tsx        # /portfolio/[slug] detail
-│  ├─ services/page.tsx         # Services overview
-│  ├─ blogs/page.tsx            # Blog placeholder (future expansion)
-│  └─ home/page.tsx             # (Alternate home view)
-├─ components/
-│  ├─ Portfolio/                # Project badges, meta grid, gallery
-│  ├─ ProfileSidebar/           # Avatar, skills, languages, contact
-│  ├─ NavSidebar/               # Navigation + social links
-│  ├─ HomePage/                 # Section partials (Experience, Education, etc.)
-│  └─ Services/                 # ServiceCard & related UI
-├─ sections/home/               # Higher-order sections (Experience, Recommendations...)
-├─ temp-data/                   # Static data sources (experience, portfolio, skills...)
-│  └─ portfolio/                # Per-project JSON definitions
-├─ types/                       # Domain models (experience, portfolio, service, skill...)
-├─ utils/                       # Helpers (duration formatting, etc.)
-├─ lib/                         # Version export & light utilities
-└─ public/                      # Images, PDFs (certs, CV, letters), SVGs
+├─ app/                          # Next.js App Router (pages, layouts, routes)
+│  ├─ layout.tsx                 # Root layout with fonts and metadata
+│  ├─ page.tsx                   # Landing page (redirects to /home)
+│  ├─ home/page.tsx              # Home page composing sections
+│  ├─ portfolio/                 # Portfolio listing + case studies
+│  │  ├─ page.tsx                # /portfolio listing
+│  │  └─ [slug]/page.tsx         # /portfolio/[slug] detail pages
+│  ├─ services/page.tsx          # Services overview
+│  ├─ blogs/page.tsx             # Blog placeholder
+│  └─ api/v1/                    # API route handlers (controllers)
+│     └─ example/route.ts        # Example endpoint (reference implementation)
+│
+├─ server/                       # 🆕 Server-side application layer
+│  ├─ http/                      # HTTP infrastructure (errors, responses)
+│  ├─ services/                  # Business logic (empty, ready for use)
+│  ├─ repositories/              # Data access layer (empty, ready for DB)
+│  ├─ security/                  # Auth, JWT, crypto helpers (empty, ready)
+│  ├─ serializers/               # Response DTOs (empty, ready for APIs)
+│  ├─ server-validators/         # Authoritative Zod schemas (env validation)
+│  ├─ server-utils/              # Node-only utilities
+│  ├─ integrations/              # Third-party SDK wrappers
+│  ├─ cache/                     # Caching abstractions
+│  ├─ db/                        # Database clients
+│  ├─ jobs/                      # Background jobs
+│  └─ events/                    # Domain events (pub/sub)
+│
+├─ sections/home/                # Page sections (Experience, Education, Skills...)
+├─ components/                   # Reusable UI components
+│  ├─ Portfolio/                 # Project components
+│  ├─ ProfileSidebar/            # Avatar, skills, contact
+│  ├─ NavSidebar/                # Navigation + social links
+│  ├─ Services/                  # Service cards
+│  └─ UI/                        # Base UI primitives
+│
+├─ static-content/               # 🆕 Static data (formerly temp-data)
+│  ├─ routes.ts                  # Route constants
+│  ├─ seo.ts                     # SEO configuration
+│  ├─ portfolio/                 # Project definitions (JSON)
+│  └─ *.ts                       # Domain data (experience, skills, etc.)
+│
+├─ client-validators/            # 🆕 Client-side Zod schemas (UX only)
+├─ types/                        # Frontend-only TypeScript types
+├─ hooks/                        # React hooks
+├─ utils/                        # Pure isomorphic utilities
+├─ lib/                          # Framework-level helpers
+└─ public/                       # Static assets (images, PDFs, etc.)
 ```
 
-See `docs/portfolio-structure.md` for a deeper dive into the portfolio content model.
+See `docs/architecture.md` for comprehensive architecture documentation and decision log.
 
 ---
 
@@ -56,16 +84,18 @@ See `docs/portfolio-structure.md` for a deeper dive into the portfolio content m
 
 | Domain         | Source                                   | Notes |
 |---------------:|------------------------------------------:|------:|
-| Portfolio      | `src/temp-data/portfolio/*.json` + index | Featured flag, metadata, sections, gallery |
-| Experience     | `src/temp-data/experience.ts`            | Collapsible cards, achievements, skills array |
-| Education      | `src/temp-data/education.ts`             | Start/end dates, computed duration |
-| Skills         | `src/temp-data/skills.ts`                | Categorized or flat list consumed in sidebar |
-| Certificates   | `src/temp-data/certificates.ts`          | PDF links stored under `public/attachments/` |
-| Recommendations| `src/temp-data/recommendations.ts`       | Safe external + PDF link handling |
-| Services       | `src/temp-data/services.ts`              | Toggleable cards similar to Experience |
-| Personal Meta  | `src/temp-data/personal.ts`              | Name, title, location, contact/social |
+| Portfolio      | `src/static-content/portfolio/*.json`    | Featured flag, metadata, sections, gallery |
+| Experience     | `src/static-content/experience.ts`       | Collapsible cards, achievements, skills array |
+| Education      | `src/static-content/education.ts`        | Start/end dates, computed duration |
+| Skills         | `src/static-content/skills.ts`           | Categorized or flat list consumed in sidebar |
+| Certificates   | `src/static-content/certificates.ts`     | PDF links stored under `public/attachments/` |
+| Recommendations| `src/static-content/recommendations.ts`  | Safe external + PDF link handling |
+| Services       | `src/static-content/services.ts`         | Toggleable cards similar to Experience |
+| Personal Meta  | `src/static-content/personal.ts`         | Name, title, location, contact/social |
+| Routes         | `src/static-content/routes.ts`           | Route path constants |
+| SEO            | `src/static-content/seo.ts`              | Default SEO metadata and configuration |
 
-Add or refactor data by mirroring existing shapes. Since everything is compiled at build time, no runtime API is needed.
+All data is typed, validated, and compiled at build time. Future migration to database will be seamless - just replace static imports with service layer calls.
 
 ---
 
@@ -83,38 +113,96 @@ Update any external bookmarks to the new path when convenient.
 
 ## 🚀 Getting Started
 
+### Prerequisites
+- Node.js LTS (v20+)
+- npm (comes with Node.js)
+
+### Installation
+
 ```bash
 git clone https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025.git
 cd TS-NextJS-PersonalPortfolio-v1-2025
 npm install
-npm run dev
+```
+
+### Environment Setup
+
+```bash
+# Copy the example env file
+cp .env.example .env.local
+
+# Edit .env.local with your values
+# NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+```
+
+### Development
+
+```bash
+npm run dev          # Start dev server
+npm run typecheck    # Run TypeScript checks
+npm run lint         # Lint code
+npm run format       # Format with Prettier
 ```
 
 Open http://localhost:3000
 
-Production build:
+### Production Build
+
 ```bash
-npm run build
-npm start
+npm run build        # Create production build
+npm start            # Start production server
 ```
 
-Clean & rebuild (Windows safe):
+### Quality Checks
+
 ```bash
-npm run rebuild
+npm run check        # Run typecheck + lint + format check (CI-ready)
+npm run test         # Run unit tests (once configured)
+npm run e2e          # Run Playwright tests (once configured)
+```
+
+### Clean & Rebuild
+
+```bash
+npm run clean        # Remove .next and cache
+npm run rebuild      # Clean + build
 ```
 
 ---
 
 ## 🛠️ Customization Guide
 
-1. Branding Assets: Replace images in `public/` (avatar, logos, gallery images). Keep paths consistent with data entries.
-2. Portfolio Items: Duplicate a JSON file in `src/temp-data/portfolio/` and adjust fields (`slug`, `title`, `summary`, `meta`, `sections`, `gallery`). Ensure unique `slug`.
-3. Experience: Edit `src/temp-data/experience.ts` — keep `id` stable for React keys.
-4. Skills: Update `src/temp-data/skills.ts` (avoid unnecessary nesting; keep names concise).
-5. Certificates & Letters: Drop PDFs into `public/attachments/` and reference relative paths.
-6. Navigation: Controlled by `NavLinks` in `src/components/NavSidebar/NavLinks.tsx`.
-7. Theming: Global colors & tokens live in `src/app/globals.css` (CSS variables). Adjust semantic tokens, not raw utility classes when possible.
-8. SEO (Future): Add `generateMetadata` exports to page routes or create a metadata helper.
+### Content Updates
+
+1. **Portfolio Items**: Edit JSON files in `src/static-content/portfolio/` or add new ones. Each project needs a unique `slug`.
+2. **Experience**: Update `src/static-content/experience.ts` with your work history.
+3. **Education**: Modify `src/static-content/education.ts` with degrees and courses.
+4. **Skills**: Edit `src/static-content/skills.ts` to showcase your tech stack.
+5. **Services**: Update `src/static-content/services.ts` with offerings.
+6. **Personal Info**: Edit `src/static-content/personal.ts` and `src/static-content/metadata.ts`.
+
+### Assets
+
+- **Images**: Place in `public/images/` and reference as `/images/filename.jpg`
+- **PDFs**: Place in `public/attachments/` for certificates and documents
+- **Avatar**: Update `public/images/avatar.jpg` or change path in personal data
+
+### Styling
+
+- **Global Tokens**: Edit `src/app/globals.css` for color schemes and CSS variables
+- **Tailwind Config**: Modify `tailwind.config.ts` for theme extensions
+- **Component Styles**: Use Tailwind utilities; extract with `@apply` when needed
+
+### Navigation
+
+- **Routes**: Define in `src/static-content/routes.ts`
+- **Nav Links**: Edit `src/components/NavSidebar/NavLinks.tsx`
+- **Social Links**: Update in `src/static-content/metadata.ts`
+
+### SEO
+
+- **Default Metadata**: Edit `src/static-content/seo.ts`
+- **Page-Specific**: Add `generateMetadata` exports to individual pages
 
 ---
 

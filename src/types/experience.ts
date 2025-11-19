@@ -15,7 +15,7 @@ export interface Experience {
   updatedAt?: string | Date;
 }
 
-// Lightweight static seed format (no ids) used in temp-data
+// Lightweight static seed format (no ids) used in static-content
 export interface ExperienceItem {
   company: string;
   title: string;

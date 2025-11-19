@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
-import { findProject as projectBySlug, portfolio as allProjects } from '@/temp-data';
-import type { Project } from '@/types/portfolio';
 import React from 'react';
+
+import { PortfolioService } from '@/server/services/PortfolioService';
+import type { Project } from '@/types/portfolio';
 import { ProjectBadges } from '@/components/Portfolio/ProjectBadges';
 import { ProjectMetaGrid } from '@/components/Portfolio/ProjectMetaGrid';
 import { ProjectGallery } from '@/components/Portfolio/ProjectGallery';
@@ -17,13 +18,16 @@ function Section({ title, body }: { title: string; body: string }) {
 
 
 export async function generateStaticParams() {
-  return allProjects.map(p => ({ slug: p.slug }));
+  const slugs = await PortfolioService.getProjectSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ProjectPage({ params }: { params: any }) {
-  const slug = params?.slug as string;
-  const project: Project | null = projectBySlug(slug);
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
+  if (!slug) return notFound();
+
+  const project: Project | null = await PortfolioService.getProjectBySlug(slug);
   if (!project) return notFound();
 
   return (
@@ -36,7 +40,7 @@ export default function ProjectPage({ params }: { params: any }) {
       <section className="grid gap-10 md:grid-cols-[2fr_1fr]">
         <div className="space-y-10">
           <div className="space-y-6">
-            {(project.sections || []).sort((a,b)=>a.order-b.order).map(s => (
+            {(project.sections || []).map((s) => (
               <Section key={s.id} title={s.title} body={s.body} />
             ))}
           </div>

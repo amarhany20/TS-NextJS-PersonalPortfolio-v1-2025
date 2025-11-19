@@ -21,7 +21,10 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/server/*": ["./src/server/*"],
+      "@/static-content/*": ["./src/static-content/*"],
+      "@/client-validators/*": ["./src/client-validators/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

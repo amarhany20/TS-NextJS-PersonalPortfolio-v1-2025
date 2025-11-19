@@ -1,11 +1,16 @@
 "use client";
 import SectionHeader from '@/components/UI/SectionHeader';
 import SectionCard from '@/components/UI/SectionCard';
-import { skillGroups } from '@/temp-data/skills';
+import type { SkillGroupDisplay } from '@/types/skill';
 
-export default function SkillsSection() {
-	const order = ['backend','frontend','databases','ai-cv','cloud-devops','languages','soft-skills'];
-	const ordered = skillGroups.slice().sort((a,b)=> order.indexOf(a.id)-order.indexOf(b.id));
+interface SkillsSectionProps {
+  groups?: SkillGroupDisplay[];
+}
+
+const SORT_ORDER = ['backend','frontend','databases','ai-cv','cloud-devops','languages','soft-skills'];
+
+export default function SkillsSection({ groups }: SkillsSectionProps) {
+	const ordered = (groups ?? []).slice().sort((a,b)=> SORT_ORDER.indexOf(a.id) - SORT_ORDER.indexOf(b.id));
 	return (
 		<section id="skills" className="scroll-mt-8">
 			<SectionHeader title="Skills" subtitle="Technologies, tools & strengths" />
@@ -16,7 +21,7 @@ export default function SkillsSection() {
 	);
 }
 
-function SkillGroupCard({ group }: { group: { id: string; title: string; summary?: string; skills: { name: string; icon?: string }[] } }) {
+function SkillGroupCard({ group }: { group: SkillGroupDisplay }) {
 	return (
 		<SectionCard className="flex flex-col shadow-sm hover:shadow-md transition-shadow">
 			<div className="mb-4 pr-4">

@@ -1,6 +1,5 @@
-import { featuredProjects as featured, nonFeaturedProjects as others } from '@/temp-data';
 import type { Project } from '@/types/portfolio';
-// `Image` import removed (unused)
+import { PortfolioService } from '@/server/services/PortfolioService';
 
 function Badge({ children, variant = 'neutral' }: { children: React.ReactNode; variant?: 'neutral' | 'accent' | 'warning' | 'success' }) {
   const base = 'px-2 py-0.5 rounded-md text-[10px] font-medium tracking-wide uppercase border';
@@ -23,9 +22,10 @@ function statusVariant(status: Project['status']): 'accent' | 'warning' | 'succe
   }
 }
 
-export default function PortfolioPage() {
-  const featuredProjects: Project[] = featured;
-  const otherProjects: Project[] = others;
+export default async function PortfolioPage() {
+  const projects = await PortfolioService.getPublishedProjects();
+  const featuredProjects = projects.filter((project) => project.featured);
+  const otherProjects = projects.filter((project) => !project.featured);
   
   const ProjectGrid = ({ projects }: { projects: Project[] }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
