@@ -127,24 +127,62 @@ npm install
 
 ### Environment Setup
 
-```bash
-# Copy the example env file
-cp .env.example .env.local
+Edit your `.env` file to include these required variables:
 
-# Edit .env.local with your values
-# NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+```env
+# 🔐 Session Secret (required for admin authentication)
+AUTH_SECRET=your-32-character-minimum-secret-key-change-this-NOW
+
+# 🌐 Public Site URL
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# 📦 Database (SQLite for local development)
+DATABASE_URL="file:./dev.db"
+
+# 👤 Seed Script Credentials
+SEED_ADMIN_USERNAME=admin
+SEED_ADMIN_PASSWORD=change-me-now
+SEED_ADMIN_EMAIL=admin@example.com
+SEED_ADMIN_DISPLAY_NAME=Portfolio Admin
+```
+
+**⚠️ Important:** Generate a secure `AUTH_SECRET` for production:
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+Then replace `your-32-character-minimum-secret-key-change-this-NOW` with the generated value.
+
+### Database Setup (Required)
+
+**First time only:**
+```bash
+# 1. Apply Prisma migrations to create schema
+npm run prisma:migrate
+
+# 2. Seed the database with initial data
+#    This creates an admin user + portfolio/experience/education/skills from static-content
+npm run db:seed
+
+# 3. (Optional) Explore the database
+npm run prisma:studio    # Opens http://localhost:5555 in browser
 ```
 
 ### Development
 
 ```bash
-npm run dev          # Start dev server
+npm run dev          # Start dev server at http://localhost:3000
 npm run typecheck    # Run TypeScript checks
 npm run lint         # Lint code
 npm run format       # Format with Prettier
 ```
 
-Open http://localhost:3000
+**First start checklist:**
+1. ✅ `.env` file exists with `AUTH_SECRET` + `DATABASE_URL`
+2. ✅ `npm run prisma:migrate` completed successfully
+3. ✅ `npm run db:seed` completed (watch for "Database seed complete.")
+4. ✅ `npm run dev` running without "Site settings have not been initialised" errors
+
+Open http://localhost:3000 in your browser. **Admin dashboard** at http://localhost:3000/admin (login with `admin` / `change-me-now`).
 
 ### Production Build
 
@@ -157,9 +195,21 @@ npm start            # Start production server
 
 ```bash
 npm run check        # Run typecheck + lint + format check (CI-ready)
-npm run test         # Run unit tests (once configured)
-npm run e2e          # Run Playwright tests (once configured)
+npm run test         # Run Vitest suite (unit tests)
+npm run test:watch   # Watch mode for tests
+npm run e2e          # Run Playwright e2e tests (requires dev server running)
 ```
+
+**E2E Testing Requirements:**
+```bash
+# Terminal 1: Start the dev server
+npm run dev
+
+# Terminal 2: Run Playwright tests
+npm run e2e -- --project=chromium
+```
+
+Tests log in via the API using credentials from `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD`.
 
 ### Clean & Rebuild
 
@@ -217,18 +267,31 @@ npm run rebuild      # Clean + build
 
 ## ⚙️ Scripts (package.json)
 
-| Script            | Purpose |
-|-------------------|---------|
-| `dev`             | Start development server |
-| `dev:turbopack`   | Dev using Turbopack experiment |
-| `dev:webpack`     | Explicit Webpack dev (fallback) |
-| `build`           | Production build (SSG) |
-| `start`           | Serve production build |
-| `lint`            | ESLint + type-aware rules |
-| `clean`           | Remove build + cache artifacts |
-| `rebuild`         | Clean then build |
+| Script              | Purpose |
+|---------------------|---------:|
+| `dev`               | Start development server at http://localhost:3000 |
+| `dev:turbopack`     | Dev using Turbopack experiment (faster) |
+| `dev:webpack`       | Explicit Webpack dev (fallback) |
+| `build`             | Production build |
+| `start`             | Serve production build |
+| `typecheck`         | Run TypeScript type checking |
+| `lint`              | ESLint + type-aware rules |
+| `lint:fix`          | Auto-fix linting errors |
+| `format`            | Format with Prettier |
+| `format:check`      | Check formatting without changes |
+| `check`             | typecheck + lint + format check (CI-ready) |
+| `test`              | Run Vitest suite once |
+| `test:watch`        | Run Vitest in watch mode |
+| `e2e`               | Run Playwright e2e tests |
+| `clean`             | Remove `.next` and caches |
+| `rebuild`           | Clean then build |
+| `prisma:generate`   | Generate Prisma client |
+| `prisma:migrate`    | Apply Prisma migrations |
+| `prisma:studio`     | Open Prisma Studio UI |
+| `db:push`           | Push schema to database (prototyping only) |
+| `db:seed`           | Seed database with initial content |
 
-No database, seed, or auth scripts are present in this static iteration.
+For complete database setup on first run, execute: `npm run prisma:migrate && npm run db:seed`
 
 ---
 
@@ -279,12 +342,13 @@ All can be reintroduced modularly later (data layer → repository → UI untouc
 
 ---
 
-## 🧪 Testing Strategy (Future Suggestion)
+## 🧪 Testing Strategy
 
-Currently manual + visual verification. Suggested next steps:
-- Add unit tests for helpers in `src/utils`.
-- Snapshot test portfolio rendering.
-- Validate JSON schema for portfolio items using `zod` at build time.
+- **Unit**: `npm run test` executes the Vitest suite (use `npm run test -- path/to/file` for a single spec).
+- **E2E**: `npm run e2e -- --project=chromium` boots the app via Playwright, logs in through the API, and runs admin smoke tests.
+	- Requires seeded content (`npm run db:seed`) and a valid `AUTH_SECRET`.
+	- Override credentials with `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD` when needed.
+- **Tips**: Keep the database in sync with `static-content` so seeded fixtures match UI assertions, and prefer `npm run dev` locally while iterating on Playwright tests for faster reloads.
 
 ---
 

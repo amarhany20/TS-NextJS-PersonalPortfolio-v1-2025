@@ -8,12 +8,19 @@ import {
   BriefcaseBusiness,
   GraduationCap,
   Blocks,
+  BookOpenCheck,
   Award,
   Quote,
   Wrench,
+  Images,
+  Inbox,
+  Palette,
+  Menu,
+  X
 } from 'lucide-react';
-import { useMemo, type ReactNode, type ComponentType } from 'react';
+import { useEffect, useMemo, useState, type ReactNode, type ComponentType } from 'react';
 import type { SessionUser } from '@/server/security/session';
+import { ToastProvider } from '@/components/ui/ToastProvider';
 
 interface AdminLayoutShellProps {
   user: SessionUser;
@@ -32,10 +39,15 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/admin/experience', label: 'Experience', icon: BriefcaseBusiness },
   { href: '/admin/education', label: 'Education', icon: GraduationCap },
   { href: '/admin/services', label: 'Services', icon: Blocks },
+  { href: '/admin/blogs', label: 'Blog', icon: BookOpenCheck },
+  { href: '/admin/media', label: 'Media', icon: Images },
+  { href: '/admin/contact', label: 'Contact', icon: Inbox },
   { href: '/admin/certificates', label: 'Certificates', icon: Award },
   { href: '/admin/recommendations', label: 'Testimonials', icon: Quote },
   { href: '/admin/skills', label: 'Skills', icon: Wrench },
+  { href: '/admin/settings/theme', label: 'Theme', icon: Palette },
 ];
+
 
 function getInitials(displayName?: string) {
   if (!displayName) {
@@ -43,13 +55,13 @@ function getInitials(displayName?: string) {
   }
 
   const matches = displayName
-  .split(/\s+/)
+    .split(/\s+/)
     .filter(Boolean)
     .map((word) => word[0]?.toUpperCase())
     .filter(Boolean);
 
   if (!matches.length) {
-  return displayName[0]?.toUpperCase() ?? '?';
+    return displayName[0]?.toUpperCase() ?? '?';
   }
 
   return matches.slice(0, 2).join('');
@@ -57,19 +69,47 @@ function getInitials(displayName?: string) {
 
 export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
   const pathname = usePathname();
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // Close mobile sidebar on route change
+    setMobileSidebarOpen(false);
+  }, [pathname]);
 
   const initials = useMemo(() => getInitials(user.displayName || user.username), [user.displayName, user.username]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-foreground">
-      <div className="flex min-h-screen">
-        <aside className="hidden lg:flex lg:w-60 xl:w-72 flex-col border-r border-[var(--border)] bg-[var(--card-bg)]/40">
-          <div className="flex items-center gap-2 px-6 py-6 border-b border-[var(--border)]/60">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-semibold">
+    <ToastProvider>
+        <div className="min-h-screen bg-[var(--background)] text-foreground">
+          <div className="flex min-h-screen">
+            {/* Mobile header */}
+            <header className="lg:hidden fixed top-0 left-0 w-full bg-[var(--background)] border-b border-[var(--border)] px-4 py-3 flex items-center justify-between z-30">
+              <button
+                onClick={() => setMobileSidebarOpen(true)}
+                aria-label="Open sidebar"
+                className="p-2 rounded-md hover:bg-[var(--accent-muted)] transition-colors"
+              >
+                <Menu size={20} className="text-[var(--text-secondary)]" />
+              </button>
+              <span className="text-sm font-semibold truncate">Admin Console</span>
+              <div className="h-8 w-8 rounded-full bg-[var(--accent-muted)] flex items-center justify-center text-xs font-medium text-[var(--text-secondary)] flex-shrink-0">
+                {initials}
+              </div>
+            </header>
+        <aside
+          className={`fixed top-[56px] left-0 h-[calc(100vh-56px)] w-64 max-w-[85vw] sm:w-72 bg-[var(--card-bg)]/95 border-r border-[var(--border)] z-50 transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 lg:w-60 lg:max-w-none ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} py-4 overflow-y-auto`}>
+          <div className="lg:hidden flex items-center justify-between p-4 border-b border-[var(--border)]/60">
+            <span className="text-lg font-semibold">Admin Menu</span>
+            <button onClick={() => setMobileSidebarOpen(false)} className="p-2 rounded-md hover:bg-[var(--accent-muted)] transition-colors">
+              <X size={20} className="text-[var(--text-secondary)]" />
+            </button>
+          </div>
+          <div className="flex items-center gap-3 px-4 sm:px-6 border-b border-[var(--border)]/60 py-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-semibold flex-shrink-0">
               {initials}
             </div>
-            <div>
-              <p className="text-sm font-semibold">{user.displayName || user.username}</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold truncate">{user.displayName || user.username}</p>
               <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Admin</p>
             </div>
           </div>
@@ -95,40 +135,20 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
               );
             })}
           </nav>
-
-          <div className="px-6 py-4 border-t border-[var(--border)]/60 text-xs text-[var(--text-secondary)]">
-            <p className="font-medium text-foreground">Quick tip</p>
-            <p>Use the navigation to manage portfolio content and supporting copy.</p>
-          </div>
         </aside>
 
-        <div className="flex-1 flex flex-col">
-          <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[var(--background)]/90 backdrop-blur px-4 md:px-6 py-4 flex items-center justify-between">
-            <div className="flex flex-col">
-              <span className="text-xs uppercase text-[var(--text-secondary)] tracking-wide">Admin Console</span>
-              <span className="text-lg font-semibold">{user.displayName || user.username}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:inline-flex rounded-full bg-[var(--accent-muted)] px-3 py-1 text-xs text-[var(--text-secondary)]">
-                {user.email}
-              </span>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)]">
-                {initials}
-              </div>
-            </div>
-          </header>
-
-          <div className="lg:hidden border-b border-[var(--border)] bg-[var(--background)]/95 px-3 py-2 flex gap-2 overflow-x-auto">
+          <div className="flex-1 flex flex-col pt-[56px] lg:pt-0">
+          <div className="border-b border-[var(--border)] bg-[var(--background)]/95 px-3 py-2 flex gap-2 overflow-x-auto lg:hidden scrollbar-hide">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-colors flex-shrink-0 ${
                     isActive
                       ? "bg-[var(--accent-primary)] text-black"
-                      : "border border-[var(--border)] text-[var(--text-secondary)]"
+                      : "border border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)] hover:text-foreground"
                   }`}
                 >
                   {item.label}
@@ -137,11 +157,22 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
             })}
           </div>
 
-          <main className="flex-1 overflow-y-auto px-4 md:px-6 lg:px-10 py-6 md:py-8">
-            <div className="mx-auto w-full max-w-5xl space-y-6">{children}</div>
-          </main>
+          <div className="flex-1 flex flex-col">
+            {mobileSidebarOpen && (
+              <div
+                className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+                onClick={() => setMobileSidebarOpen(false)}
+                aria-hidden="true"
+              />
+            )}
+            <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 lg:py-8 pt-0 lg:pt-0">
+              <div className="mx-auto w-full max-w-7xl space-y-6">{children}</div>
+            </main>
+
+          </div>
         </div>
       </div>
     </div>
+  </ToastProvider>
   );
 }

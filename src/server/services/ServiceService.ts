@@ -1,6 +1,6 @@
 import { ServiceRepository } from '@/server/repositories/ServiceRepository';
 import { serializeService } from '@/server/serializers/service';
-import { ConflictError, NotFoundError } from '@/server/http/errors';
+import { BadRequestError, ConflictError, NotFoundError } from '@/server/http/errors';
 import { nullIfEmpty } from '@/server/server-utils/dates';
 import type {
   CreateServiceInput,
@@ -81,6 +81,31 @@ export const ServiceService = {
     if (!deleted) {
       throw new NotFoundError('Service not found');
     }
+  },
+
+  async reorderServices(slugs: string[]) {
+    if (!slugs.length) {
+      throw new BadRequestError('At least one service must be provided');
+    }
+
+    const existing = await ServiceRepository.findAll();
+    const knownSlugs = new Set(existing.map((service) => service.slug));
+    const missing = slugs.filter((slug) => !knownSlugs.has(slug));
+
+    if (missing.length > 0) {
+      throw new NotFoundError(`Unknown services: ${missing.join(', ')}`);
+    }
+
+    const remainder = existing
+      .filter((service) => !slugs.includes(service.slug))
+      .sort((a, b) => a.displayOrder - b.displayOrder)
+      .map((service) => service.slug);
+
+    const finalOrder = [...slugs, ...remainder];
+    const updates = finalOrder.map((slug, index) => ({ slug, displayOrder: index + 1 }));
+
+    await ServiceRepository.reorderDisplayOrder(updates);
+    return updates;
   },
 };
 

@@ -50,6 +50,9 @@ export interface Project {
   sections?: ProjectSection[]; // Optional deep-dive sections
   gallery?: ProjectGalleryItem[]; // Optional visuals
   confidentialNotes?: string; // Only shown internally if needed
+  displayOrder?: number;
+  published?: boolean;
+  publishedAt?: string | null;
   createdAt: string;
   updatedAt: string;
 }

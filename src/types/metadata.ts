@@ -18,10 +18,16 @@ export interface ContactConfig {
 export interface SiteMetadata {
   fullName: string;
   tagline: string;
+  description: string;
+  keywords: readonly string[];
   emails: readonly string[];
   phones: readonly Phone[];
   links: readonly Link[];
   bases: readonly BaseLocation[];
+  siteUrl?: string;
+  titleTemplate?: string;
+  openGraphImage?: string;
+  twitterHandle?: string;
   // relocation: string;
   highlights: readonly string[];
   hero: HeroConfig;

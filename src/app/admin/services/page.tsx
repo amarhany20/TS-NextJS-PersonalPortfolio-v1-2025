@@ -1,13 +1,20 @@
-export default function AdminServicesPage() {
+import { ServiceReorderBoard } from '@/components/Admin/Services/ServiceReorderBoard';
+import { ServiceService } from '@/server/services/ServiceService';
+
+export default async function AdminServicesPage() {
+  const services = await ServiceService.getAllServices();
+
   return (
-    <section className="space-y-3">
-      <header>
+    <section className="space-y-6 py-6">
+      <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Services</h1>
-        <p className="text-sm text-[var(--text-secondary)]">Adjust service offerings, pricing notes, and supporting copy.</p>
+        <p className="text-sm text-[var(--text-secondary)]">
+          Adjust ordering to influence how offerings appear on the public site. Drag cards or use the keyboard for
+          accessible reordering.
+        </p>
       </header>
-      <div className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-6 text-sm text-[var(--text-secondary)]">
-        Service CRUD tables will slot in here during the upcoming implementation.
-      </div>
+
+      <ServiceReorderBoard services={services} />
     </section>
   );
 }

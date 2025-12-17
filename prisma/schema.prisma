@@ -50,6 +50,9 @@ model Settings {
   heroButtons        String?
   contactConfig      String?
   seoDefaults        String?
+  setupCompletedAt   DateTime?
+  setupVersion       String?
+  databaseProvider   String?   @default("sqlite")
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
@@ -210,11 +213,13 @@ model SkillGroup {
   title        String
   summary      String?
   displayOrder Int      @default(0)
+  published    Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   skills Skill[]
 
+  @@index([published, displayOrder])
   @@map("skill_groups")
 }
 

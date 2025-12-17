@@ -2,7 +2,7 @@
 
 import NavLinks from "./NavLinks";
 import SocialLinks from "./SocialLinks";
-import { useSidebar } from "@/components/UI/SidebarProvider";
+import { useSidebar } from "@/components/ui/SidebarProvider";
 import { X } from "lucide-react";
 import type { LinkItem } from "@/types/settings";
 

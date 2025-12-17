@@ -1,6 +1,7 @@
 export * from './PortfolioRepository';
 export * from './ExperienceRepository';
 export * from './EducationRepository';
+export * from './BlogRepository';
 export * from './ServiceRepository';
 export * from './CertificateRepository';
 export * from './RecommendationRepository';

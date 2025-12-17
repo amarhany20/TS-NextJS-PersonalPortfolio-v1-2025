@@ -33,8 +33,59 @@
   --fs-2xl: 1.75rem;
 }
 
+:root[data-theme='professional-dark'] {
+  --background: #111216;
+  --foreground: #f5f5f7;
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
+  --sidebar: #181a1b;
+  --accent-primary: #ffd600;
+  --accent-secondary: #058ddb;
+  --accent-muted: #22242b;
+  --text-secondary: #bdbdbd;
+  --card-bg: #22242b;
+  --border: #242424;
+  --success: #38d996;
+  --danger: #fa5252;
+  --warning: #fcc419;
+}
+
+:root[data-theme='modern-gradient'] {
+  --background: #050818;
+  --foreground: #fdf4ff;
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
+  --sidebar: #080c1f;
+  --accent-primary: #905cff;
+  --accent-secondary: #ff6ea9;
+  --accent-muted: #111432;
+  --text-secondary: #d9d6f0;
+  --card-bg: #0f1733;
+  --border: #1b1f3a;
+  --success: #47e6b1;
+  --danger: #ff5f87;
+  --warning: #ffd166;
+}
+
+:root[data-theme='minimal-light'] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --text-primary: var(--foreground);
+  --bg-primary: var(--background);
+  --sidebar: #ffffff;
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #6366f1;
+  --accent-muted: #e2e8f0;
+  --text-secondary: #64748b;
+  --card-bg: #ffffff;
+  --border: #d0d8e8;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --background: #111216;
     --foreground: #fff;
   --text-primary: var(--foreground);
@@ -118,4 +169,29 @@ html {
 /* Ensure tooltips are always on top */
 .group:hover [class*="z-[9999]"] {
   z-index: 9999 !important;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-muted);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--background);
 }

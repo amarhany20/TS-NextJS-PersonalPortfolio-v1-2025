@@ -24,7 +24,8 @@ describe('serializeSkillGroup', () => {
       id: 'backend',
       title: 'Backend',
       summary: undefined,
-      skills: [{ name: 'Node.js' }],
+      displayOrder: 1,
+      skills: [{ id: '1', name: 'Node.js', displayOrder: 0 }],
     });
   });
 });

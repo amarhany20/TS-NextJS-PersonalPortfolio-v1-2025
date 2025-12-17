@@ -1,7 +1,7 @@
 import { PortfolioRepository } from '@/server/repositories/PortfolioRepository';
 import { serializeProject } from '@/server/serializers/portfolio';
 import { nullIfEmpty, parseISODate, parseYearMonth } from '@/server/server-utils/dates';
-import { ConflictError, NotFoundError } from '@/server/http/errors';
+import { BadRequestError, ConflictError, NotFoundError } from '@/server/http/errors';
 import type { CreateProjectInput, UpdateProjectInput } from '@/server/server-validators/api/portfolio';
 import { slugify } from '@/utils/helpers';
 
@@ -129,6 +129,31 @@ export const PortfolioService = {
     if (!deleted) {
       throw new NotFoundError('Project not found');
     }
+  },
+
+  async reorderProjects(slugs: string[]) {
+    if (!slugs.length) {
+      throw new BadRequestError('At least one project must be provided');
+    }
+
+    const existing = await PortfolioRepository.findAll();
+    const knownSlugs = new Set(existing.map((project) => project.slug));
+    const missing = slugs.filter((slug) => !knownSlugs.has(slug));
+
+    if (missing.length > 0) {
+      throw new NotFoundError(`Unknown projects: ${missing.join(', ')}`);
+    }
+
+    const remainder = existing
+      .filter((project) => !slugs.includes(project.slug))
+      .sort((a, b) => a.displayOrder - b.displayOrder)
+      .map((project) => project.slug);
+
+    const finalOrder = [...slugs, ...remainder];
+    const updates = finalOrder.map((slug, index) => ({ slug, displayOrder: index + 1 }));
+
+    await PortfolioRepository.reorderDisplayOrder(updates);
+    return updates;
   },
 };
 

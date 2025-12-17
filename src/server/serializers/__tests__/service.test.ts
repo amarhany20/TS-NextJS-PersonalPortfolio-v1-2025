@@ -34,6 +34,7 @@ describe('serializeService', () => {
       icon: undefined,
       image: '/service.png',
       active: true,
+      displayOrder: 1,
     });
   });
 });

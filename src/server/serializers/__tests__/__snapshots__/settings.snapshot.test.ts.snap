@@ -1,0 +1,218 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`serializeSettings snapshots > matches minimal settings snapshot 1`] = `
+{
+  "contact": {
+    "description": undefined,
+    "emails": [],
+    "leads": {
+      "left": undefined,
+      "right": undefined,
+    },
+    "location": undefined,
+    "phones": [],
+    "socialLinks": [],
+    "subtitle": undefined,
+    "title": "Get In Touch",
+  },
+  "coreSkills": [],
+  "hero": {
+    "descriptionHtml": undefined,
+    "greeting": "Untitled Profile",
+    "highlights": [],
+    "primaryButton": undefined,
+    "secondaryButton": undefined,
+    "subtitle": undefined,
+  },
+  "highlights": [],
+  "languages": [],
+  "profile": {
+    "fullName": "Untitled Profile",
+    "location": undefined,
+    "title": undefined,
+  },
+  "seo": {
+    "description": "Untitled Profile",
+    "keywords": [],
+    "metadataBase": undefined,
+    "openGraphImage": undefined,
+    "siteUrl": undefined,
+    "title": "Untitled Profile",
+    "titleTemplate": undefined,
+    "twitterHandle": undefined,
+  },
+  "socialLinks": [],
+  "theme": {
+    "accent": "#ffd600",
+    "description": "High-contrast dark theme tuned for dashboards and hero copy.",
+    "id": "professional-dark",
+    "name": "Professional Dark",
+    "previewGradient": "linear-gradient(135deg, #14171f 0%, #0f1118 65%, #272b38 100%)",
+    "tags": [
+      "dark",
+      "professional",
+      "default",
+    ],
+    "version": "1.0.0",
+  },
+}
+`;
+
+exports[`serializeSettings snapshots > matches seeded settings snapshot 1`] = `
+{
+  "contact": {
+    "description": "Let's build something amazing together.",
+    "emails": [
+      "ammarhanyezeldin@gmail.com",
+    ],
+    "leads": {
+      "left": undefined,
+      "right": undefined,
+    },
+    "location": "New Cairo, Egypt / Mersin, Turkey",
+    "phones": [
+      {
+        "e164": "+201061888476",
+        "label": "Egypt",
+      },
+      {
+        "e164": "+905395775990",
+        "label": "Turkey",
+      },
+      {
+        "e164": "+46739793588",
+        "label": "Sweden",
+      },
+    ],
+    "socialLinks": [
+      {
+        "href": "https://ammarhany.com",
+        "label": "Website",
+      },
+      {
+        "href": "https://ammarhany.com/portfolio",
+        "label": "Portfolio",
+      },
+      {
+        "href": "https://www.linkedin.com/in/ammarhany",
+        "label": "LinkedIn",
+      },
+      {
+        "href": "https://github.com/amarhany20",
+        "label": "GitHub",
+      },
+      {
+        "href": "https://www.youtube.com/@TheChillTechgineer",
+        "label": "YouTube",
+      },
+    ],
+    "subtitle": "Software Engineer · Digital Solutions Architect",
+    "title": "Get In Touch",
+  },
+  "coreSkills": [
+    "Python (Django, DRF, Flask, FastAPI)",
+    "C# (ASP.NET Core, EF Core)",
+    "Next.js",
+    "WordPress",
+    "PostgreSQL",
+    "Google Cloud",
+    "Azure",
+  ],
+  "hero": {
+    "descriptionHtml": "<ul><li>4+ years delivering production software across backend, full-stack, and product engineering roles</li><li>Architected cloud-native systems on AWS, Azure, GCP, and DigitalOcean with measured cost optimization</li><li>Designed Shopify headless commerce with Next.js Storefront/Admin API integrations and SEO-first delivery</li><li>Implemented CI/CD pipelines with GitHub Actions, Docker, and multi-environment governance</li><li>Specialized in Python (Django, DRF), C# (ASP.NET Core), TypeScript/Next.js, and Go (Gin)</li><li>Led Jetson edge-to-cloud computer vision deployments with real-time monitoring and analytics</li></ul>",
+    "greeting": "Hi, I'm Ammar 👋",
+    "highlights": [
+      "4+ years delivering production software across backend, full-stack, and product engineering roles",
+      "Architected cloud-native systems on AWS, Azure, GCP, and DigitalOcean with measured cost optimization",
+      "Designed Shopify headless commerce with Next.js Storefront/Admin API integrations and SEO-first delivery",
+      "Implemented CI/CD pipelines with GitHub Actions, Docker, and multi-environment governance",
+      "Specialized in Python (Django, DRF), C# (ASP.NET Core), TypeScript/Next.js, and Go (Gin)",
+      "Led Jetson edge-to-cloud computer vision deployments with real-time monitoring and analytics",
+      "Built data-rich pricing, ERP, and analytics platforms on PostgreSQL, Neon, Redis, and Firebase",
+    ],
+    "primaryButton": {
+      "href": "#contact",
+      "text": "Get in Touch",
+    },
+    "secondaryButton": {
+      "href": "/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf",
+      "text": "Download CV",
+    },
+    "subtitle": "Software Engineer · Digital Solutions Architect",
+  },
+  "highlights": [
+    "4+ years delivering production software across backend, full-stack, and product engineering roles",
+    "Architected cloud-native systems on AWS, Azure, GCP, and DigitalOcean with measured cost optimization",
+    "Designed Shopify headless commerce with Next.js Storefront/Admin API integrations and SEO-first delivery",
+    "Implemented CI/CD pipelines with GitHub Actions, Docker, and multi-environment governance",
+    "Specialized in Python (Django, DRF), C# (ASP.NET Core), TypeScript/Next.js, and Go (Gin)",
+    "Led Jetson edge-to-cloud computer vision deployments with real-time monitoring and analytics",
+    "Built data-rich pricing, ERP, and analytics platforms on PostgreSQL, Neon, Redis, and Firebase",
+  ],
+  "languages": [
+    "English (C2)",
+    "Arabic (Native)",
+    "Turkish (B2)",
+    "Swedish (A1)",
+  ],
+  "profile": {
+    "fullName": "Ammar Hany Ezeldin Abdelrazik",
+    "location": "New Cairo, Egypt / Mersin, Turkey",
+    "title": "Software Engineer · Digital Solutions Architect",
+  },
+  "seo": {
+    "description": "Staff engineer and solutions architect delivering production-grade platforms, admin experiences, and cloud-native automation.",
+    "keywords": [
+      "Ammar Hany",
+      "Staff Engineer",
+      "Solutions Architect",
+      "Full-Stack Developer",
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "Portfolio",
+    ],
+    "metadataBase": "https://ammarhany.com/",
+    "openGraphImage": "/2024%20Ammar%20Personal%20Photo.jpg",
+    "siteUrl": "https://ammarhany.com/",
+    "title": "Ammar Hany Ezeldin Abdelrazik",
+    "titleTemplate": "%s | Ammar Hany",
+    "twitterHandle": "@ammarhany20",
+  },
+  "socialLinks": [
+    {
+      "href": "https://ammarhany.com",
+      "label": "Website",
+    },
+    {
+      "href": "https://ammarhany.com/portfolio",
+      "label": "Portfolio",
+    },
+    {
+      "href": "https://www.linkedin.com/in/ammarhany",
+      "label": "LinkedIn",
+    },
+    {
+      "href": "https://github.com/amarhany20",
+      "label": "GitHub",
+    },
+    {
+      "href": "https://www.youtube.com/@TheChillTechgineer",
+      "label": "YouTube",
+    },
+  ],
+  "theme": {
+    "accent": "#ffd600",
+    "description": "High-contrast dark theme tuned for dashboards and hero copy.",
+    "id": "professional-dark",
+    "name": "Professional Dark",
+    "previewGradient": "linear-gradient(135deg, #14171f 0%, #0f1118 65%, #272b38 100%)",
+    "tags": [
+      "dark",
+      "professional",
+      "default",
+    ],
+    "version": "1.0.0",
+  },
+}
+`;

@@ -45,6 +45,27 @@ export interface ProfileInfo {
   photoUrl?: string;
 }
 
+export interface SeoConfig {
+  title: string;
+  titleTemplate?: string;
+  description: string;
+  keywords: string[];
+  metadataBase?: string;
+  siteUrl?: string;
+  openGraphImage?: string;
+  twitterHandle?: string;
+}
+
+export interface SiteTheme {
+  id: string;
+  name: string;
+  description: string;
+  accent: string;
+  previewGradient: string;
+  version: string;
+  tags: string[];
+}
+
 export interface SiteContent {
   hero: HeroContent;
   contact: ContactDetails;
@@ -53,4 +74,6 @@ export interface SiteContent {
   coreSkills: string[];
   highlights: string[];
   socialLinks: LinkItem[];
+  seo: SeoConfig;
+  theme: SiteTheme;
 }

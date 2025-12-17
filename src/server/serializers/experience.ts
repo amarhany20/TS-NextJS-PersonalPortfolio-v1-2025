@@ -19,6 +19,8 @@ export function serializeExperience(record: DbExperience): Experience {
     achievements: record.achievements,
     skills: record.skills,
     companyUrl: record.companyUrl,
+    displayOrder: record.displayOrder,
+    published: record.published,
     createdAt: record.createdAt.toISOString(),
     updatedAt: record.updatedAt.toISOString(),
   };

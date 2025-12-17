@@ -34,6 +34,13 @@ describe('serializeSettings', () => {
         languages: ['English'],
         highlights: ['Impact'],
         coreSkills: ['TypeScript'],
+        title: 'Ammar Hany | Portfolio',
+        titleTemplate: '%s | Ammar Hany',
+        description: 'Impact-driven engineer',
+        keywords: ['Next.js'],
+        siteUrl: 'https://ammarhany.com',
+        openGraphImage: '/og.png',
+        twitterHandle: '@ammarhany',
       },
       createdAt: new Date('2024-01-01T00:00:00Z'),
       updatedAt: new Date('2024-01-02T00:00:00Z'),
@@ -49,6 +56,16 @@ describe('serializeSettings', () => {
     expect(content.coreSkills).toEqual(['TypeScript']);
     expect(content.languages).toEqual(['English']);
     expect(content.socialLinks).toEqual([{ label: 'GitHub', href: 'https://github.com/amarhany20' }]);
+    expect(content.seo).toEqual({
+      title: 'Ammar Hany | Portfolio',
+      titleTemplate: '%s | Ammar Hany',
+      description: 'Impact-driven engineer',
+      keywords: ['Next.js'],
+      metadataBase: 'https://ammarhany.com/',
+      siteUrl: 'https://ammarhany.com/',
+      openGraphImage: '/og.png',
+      twitterHandle: '@ammarhany',
+    });
   });
 
   it('omits malformed hero buttons', () => {
@@ -79,5 +96,6 @@ describe('serializeSettings', () => {
     const content = serializeSettings(record);
 
     expect(content.hero.primaryButton).toBeUndefined();
+    expect(content.seo.title).toBe('Ammar');
   });
 });

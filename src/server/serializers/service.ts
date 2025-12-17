@@ -13,5 +13,6 @@ export function serializeService(record: DbService): Service {
     icon: record.icon ?? undefined,
     image: record.image ?? undefined,
     active: record.active,
+    displayOrder: record.displayOrder,
   };
 }

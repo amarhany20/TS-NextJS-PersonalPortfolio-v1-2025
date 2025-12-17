@@ -10,6 +10,7 @@ vi.mock('@/server/repositories/PortfolioRepository', () => ({
     create: vi.fn(),
     update: vi.fn(),
     delete: vi.fn(),
+    reorderDisplayOrder: vi.fn(),
   },
 }));
 
@@ -144,5 +145,35 @@ describe('PortfolioService', () => {
     vi.mocked(PortfolioRepository.delete).mockResolvedValue(false);
 
     await expect(PortfolioService.deleteProject('missing')).rejects.toBeInstanceOf(NotFoundError);
+  });
+
+  it('reorders projects and appends unspecified slugs', async () => {
+    const existing = [
+      { slug: 'alpha', displayOrder: 1 },
+      { slug: 'beta', displayOrder: 2 },
+      { slug: 'gamma', displayOrder: 3 },
+    ] as any;
+    vi.mocked(PortfolioRepository.findAll).mockResolvedValue(existing);
+
+    const result = await PortfolioService.reorderProjects(['beta', 'alpha']);
+
+    expect(PortfolioRepository.reorderDisplayOrder).toHaveBeenCalledWith([
+      { slug: 'beta', displayOrder: 1 },
+      { slug: 'alpha', displayOrder: 2 },
+      { slug: 'gamma', displayOrder: 3 },
+    ]);
+    expect(result).toEqual([
+      { slug: 'beta', displayOrder: 1 },
+      { slug: 'alpha', displayOrder: 2 },
+      { slug: 'gamma', displayOrder: 3 },
+    ]);
+  });
+
+  it('throws when unknown slugs are provided to reorder', async () => {
+    const existing = [{ slug: 'alpha', displayOrder: 1 }] as any;
+    vi.mocked(PortfolioRepository.findAll).mockResolvedValue(existing);
+
+    await expect(PortfolioService.reorderProjects(['beta'])).rejects.toBeInstanceOf(NotFoundError);
+    expect(PortfolioRepository.reorderDisplayOrder).not.toHaveBeenCalled();
   });
 });

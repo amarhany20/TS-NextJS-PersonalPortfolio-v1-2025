@@ -1,8 +1,8 @@
 "use client";
 import { useMemo } from 'react';
-import SectionHeader from '@/components/UI/SectionHeader';
-import AccentBar from '@/components/UI/AccentBar';
-import SectionCard from '@/components/UI/SectionCard';
+import SectionHeader from '@/components/ui/SectionHeader';
+import AccentBar from '@/components/ui/AccentBar';
+import SectionCard from '@/components/ui/SectionCard';
 import { GraduationCap, MapPin, Calendar, Award, Trophy } from 'lucide-react';
 import type { Education } from '@/types/education';
 

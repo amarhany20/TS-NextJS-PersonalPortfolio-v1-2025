@@ -1,6 +1,6 @@
 "use client";
-import SectionHeader from '@/components/UI/SectionHeader';
-import SectionCard from '@/components/UI/SectionCard';
+import SectionHeader from '@/components/ui/SectionHeader';
+import SectionCard from '@/components/ui/SectionCard';
 import { formatMonthYear } from '@/utils/helpers';
 import type { Certificate } from '@/types/certificate';
 

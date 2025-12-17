@@ -53,6 +53,9 @@ describe('serializeProject', () => {
     expect(result.sections?.map((section) => section.id)).toEqual(['one', 'two']);
     expect(result.gallery).toHaveLength(1);
     expect(result.gallery?.[0].image).toBe('/hero.png');
+    expect(result.displayOrder).toBe(1);
+    expect(result.published).toBe(true);
+    expect(result.publishedAt).toBe('2022-02-01T00:00:00.000Z');
     expect(result.createdAt).toBe('2022-03-01T00:00:00.000Z');
   });
 });

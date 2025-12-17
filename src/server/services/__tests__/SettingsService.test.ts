@@ -36,6 +36,12 @@ vi.mock('@/server/serializers/settings', () => ({
     languages: record.languages ?? [],
     highlights: record.highlights ?? [],
     socialLinks: record.socialLinks ?? [],
+    seo: record.seo ?? {
+      title: 'Ammar',
+      description: 'Portfolio',
+      keywords: [],
+    },
+    theme: record.theme ?? { id: 'professional-dark' },
   })),
 }));
 

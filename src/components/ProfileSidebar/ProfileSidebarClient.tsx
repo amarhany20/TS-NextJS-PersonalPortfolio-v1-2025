@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { MapPin, Globe, X } from "lucide-react";
-import { useSidebar } from "@/components/UI/SidebarProvider";
+import { useSidebar } from "@/components/ui/SidebarProvider";
 // Import package.json to read the project version for display in the sidebar footer
 import { APP_VERSION } from '@/lib/version';
 import type { ProfileInfo } from '@/types/settings';

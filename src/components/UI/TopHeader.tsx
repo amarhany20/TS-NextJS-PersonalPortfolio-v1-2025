@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { User, Menu } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 
@@ -13,7 +14,6 @@ export default function TopHeader({ brandLabel }: TopHeaderProps) {
 
   return (
     <header className="fixed top-0 left-0 w-full h-14 bg-[var(--sidebar)] border-b border-[var(--border)] flex items-center justify-between px-4 z-[1001] shadow-lg lg:hidden">
-      {/* Left: ProfileSidebar toggle */}
       <button
         onClick={toggleLeftSidebar}
         aria-label={leftSidebarOpen ? "Close profile menu" : "Open profile menu"}
@@ -24,10 +24,14 @@ export default function TopHeader({ brandLabel }: TopHeaderProps) {
         <User size={24} />
       </button>
 
-      {/* Center: Brand/Logo/Initials */}
-  <div className="text-xl font-bold tracking-widest text-[var(--accent-primary)]">{label}</div>
+      <Link
+        href="/"
+        className="text-xl font-bold tracking-widest text-[var(--accent-primary)] hover:opacity-80 transition-opacity"
+        aria-label="Go to home"
+      >
+        {label}
+      </Link>
 
-      {/* Right: NavSidebar/social toggle */}
       <button
         onClick={toggleRightSidebar}
         aria-label={rightSidebarOpen ? "Close navigation menu" : "Open navigation menu"}

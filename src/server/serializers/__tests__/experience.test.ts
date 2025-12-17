@@ -32,6 +32,8 @@ describe('serializeExperience', () => {
     expect(result.impact).toBe('Delivered results');
     expect(result.achievements).toEqual(['Delivered results']);
     expect(result.companyUrl).toBe('https://example.com');
+    expect(result.displayOrder).toBe(1);
+    expect(result.published).toBe(true);
     expect(result.createdAt).toBe('2023-02-01T00:00:00.000Z');
   });
 
@@ -58,5 +60,6 @@ describe('serializeExperience', () => {
 
     expect(result.end).toBe('2022-06');
     expect(result.companyUrl).toBeNull();
+    expect(result.displayOrder).toBe(2);
   });
 });

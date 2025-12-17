@@ -11,7 +11,7 @@ import { education as educationData } from '../src/static-content/education';
 import { services as serviceData } from '../src/static-content/services';
 import { certificates as certificateData } from '../src/static-content/certificates';
 import { recommendations as recommendationData } from '../src/static-content/recommendations';
-import { skillGroups } from '../src/static-content/skills';
+import { skillGroups, coreSkills } from '../src/static-content/skills';
 
 const prisma = new PrismaClient();
 
@@ -29,8 +29,30 @@ const yearMonthToDate = (value?: string | null) => {
   return new Date(value);
 };
 
+const detectDatabaseProvider = (url?: string) => {
+  if (!url) return 'unknown';
+  if (url.startsWith('file:')) return 'sqlite';
+  if (url.startsWith('postgres')) return 'postgresql';
+  if (url.startsWith('mysql')) return 'mysql';
+  return 'unknown';
+};
+
 async function seedSettings() {
   const id = 'settings-singleton';
+  const setupVersion = '00.50.07';
+  const databaseProvider = detectDatabaseProvider(process.env.DATABASE_URL);
+  const seoDefaultsPayload = {
+    languages: metadata.languages,
+    highlights: metadata.highlights,
+    coreSkills: coreSkills.map((skill) => skill.name),
+    title: metadata.fullName,
+    titleTemplate: metadata.titleTemplate,
+    description: metadata.description,
+    keywords: metadata.keywords,
+    siteUrl: metadata.siteUrl,
+    openGraphImage: metadata.openGraphImage,
+    twitterHandle: metadata.twitterHandle,
+  };
 
   await prisma.settings.upsert({
     where: { id },
@@ -52,10 +74,10 @@ async function seedSettings() {
         title: contactInfo.title,
         subtitle: contactInfo.subtitle,
       }),
-      seoDefaults: JSON.stringify({
-        languages: metadata.languages,
-        highlights: metadata.highlights,
-      }),
+      seoDefaults: JSON.stringify(seoDefaultsPayload),
+      setupCompletedAt: new Date(),
+      setupVersion,
+      databaseProvider,
     },
     create: {
       id,
@@ -76,10 +98,10 @@ async function seedSettings() {
         title: contactInfo.title,
         subtitle: contactInfo.subtitle,
       }),
-      seoDefaults: JSON.stringify({
-        languages: metadata.languages,
-        highlights: metadata.highlights,
-      }),
+      seoDefaults: JSON.stringify(seoDefaultsPayload),
+      setupCompletedAt: new Date(),
+      setupVersion,
+      databaseProvider,
     },
   });
 }

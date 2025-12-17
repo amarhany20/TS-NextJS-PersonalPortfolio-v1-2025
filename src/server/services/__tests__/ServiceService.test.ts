@@ -10,6 +10,7 @@ vi.mock('@/server/repositories/ServiceRepository', () => ({
     create: vi.fn(),
     update: vi.fn(),
     delete: vi.fn(),
+    reorderDisplayOrder: vi.fn(),
   },
 }));
 
@@ -100,5 +101,29 @@ describe('ServiceService', () => {
     vi.mocked(ServiceRepository.isSlugTaken).mockResolvedValue(true);
 
     await expect(ServiceService.createService(buildService({ title: 'X' }))).rejects.toBeInstanceOf(ConflictError);
+  });
+
+  it('reorders services and normalizes displayOrder values', async () => {
+    vi.mocked(ServiceRepository.findAll).mockResolvedValue([
+      { slug: 'service-a', displayOrder: 1 } as any,
+      { slug: 'service-b', displayOrder: 2 } as any,
+      { slug: 'service-c', displayOrder: 3 } as any,
+    ]);
+
+    await ServiceService.reorderServices(['service-c', 'service-a', 'service-b']);
+
+    expect(ServiceRepository.reorderDisplayOrder).toHaveBeenCalledWith([
+      { slug: 'service-c', displayOrder: 1 },
+      { slug: 'service-a', displayOrder: 2 },
+      { slug: 'service-b', displayOrder: 3 },
+    ]);
+  });
+
+  it('throws when unknown slugs are provided for reorder', async () => {
+    vi.mocked(ServiceRepository.findAll).mockResolvedValue([
+      { slug: 'known-service', displayOrder: 1 } as any,
+    ]);
+
+    await expect(ServiceService.reorderServices(['missing-service'])).rejects.toBeInstanceOf(NotFoundError);
   });
 });

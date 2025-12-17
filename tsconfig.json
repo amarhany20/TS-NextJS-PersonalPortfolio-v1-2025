@@ -28,5 +28,14 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "src/components/UI/**",
+    "prisma/**",
+    "src/server/serializers/__tests__/**",
+    "src/server/services/__tests__/**",
+    "src/app/admin/**",
+    "src/components/Admin/**",
+    "src/app/blogs/**"
+  ]
 }

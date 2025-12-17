@@ -1,5 +1,6 @@
+import { getThemeSummary } from '@/themes';
 import type { DbSettings } from '@/server/repositories/SettingsRepository';
-import type { ContactDetails, ContactPhone, ContactLeads, HeroButton, HeroContent, LinkItem, ProfileInfo, SiteContent } from '@/types/settings';
+import type { ContactDetails, ContactPhone, ContactLeads, HeroButton, HeroContent, LinkItem, ProfileInfo, SeoConfig, SiteContent } from '@/types/settings';
 
 interface HeroButtonsShape {
   primary?: HeroButtonLike;
@@ -23,6 +24,14 @@ interface SeoDefaultsShape {
   languages?: unknown;
   highlights?: unknown;
   coreSkills?: unknown;
+  title?: unknown;
+  titleTemplate?: unknown;
+  description?: unknown;
+  keywords?: unknown;
+  siteUrl?: unknown;
+  metadataBase?: unknown;
+  openGraphImage?: unknown;
+  twitterHandle?: unknown;
 }
 
 const toButton = (value?: HeroButtonLike | null): HeroButton | undefined => {
@@ -78,6 +87,41 @@ const toStringArray = (value?: unknown): string[] => {
   return value.filter((item): item is string => typeof item === 'string');
 };
 
+const toNonEmptyString = (value?: unknown): string | undefined => {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+};
+
+const toAbsoluteUrl = (value?: unknown): string | undefined => {
+  const stringValue = toNonEmptyString(value);
+  if (!stringValue) {
+    return undefined;
+  }
+
+  try {
+    return new URL(stringValue).toString();
+  } catch (error) {
+    console.warn('[settings] Invalid URL in seoDefaults:', stringValue, error);
+    return undefined;
+  }
+};
+
+const toPublicPath = (value?: unknown): string | undefined => {
+  const stringValue = toNonEmptyString(value);
+  if (!stringValue) {
+    return undefined;
+  }
+
+  if (stringValue.startsWith('http')) {
+    return toAbsoluteUrl(stringValue);
+  }
+
+  return stringValue.startsWith('/') ? stringValue : `/${stringValue}`;
+};
+
 export function serializeSettings(record: DbSettings): SiteContent {
   const buttons = (record.heroButtons as HeroButtonsShape | null) ?? undefined;
   const contactConfig = (record.contactConfig as ContactConfigShape | null) ?? undefined;
@@ -116,6 +160,8 @@ export function serializeSettings(record: DbSettings): SiteContent {
   const languages = toStringArray(seoDefaults?.languages);
   const socialLinks = toLinkArray(record.socialLinks);
 
+  const seo = buildSeoConfig(record, seoDefaults);
+
   return {
     hero,
     contact,
@@ -124,5 +170,29 @@ export function serializeSettings(record: DbSettings): SiteContent {
     languages,
     highlights: hero.highlights,
     socialLinks,
+    seo,
+    theme: getThemeSummary(record.theme),
   };
+}
+
+function buildSeoConfig(record: DbSettings, seoDefaults?: SeoDefaultsShape | null): SeoConfig {
+  const fallbackTitle = record.siteTitle;
+  const fallbackDescription =
+    record.heroDescription ?? record.heroSubtitle ?? record.siteSubtitle ?? record.heroGreeting ?? record.siteTitle;
+
+  const keywords = toStringArray(seoDefaults?.keywords);
+
+  const metadataBase = toAbsoluteUrl(seoDefaults?.metadataBase) ?? toAbsoluteUrl(seoDefaults?.siteUrl);
+  const siteUrl = metadataBase ?? toAbsoluteUrl(seoDefaults?.siteUrl);
+
+  return {
+    title: toNonEmptyString(seoDefaults?.title) ?? fallbackTitle,
+    titleTemplate: toNonEmptyString(seoDefaults?.titleTemplate) ?? undefined,
+    description: toNonEmptyString(seoDefaults?.description) ?? fallbackDescription,
+    keywords,
+    metadataBase,
+    siteUrl,
+    openGraphImage: toPublicPath(seoDefaults?.openGraphImage),
+    twitterHandle: toNonEmptyString(seoDefaults?.twitterHandle),
+  } satisfies SeoConfig;
 }

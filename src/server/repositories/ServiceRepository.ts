@@ -144,6 +144,21 @@ export const ServiceRepository = {
       throw error;
     }
   },
+
+  async reorderDisplayOrder(updates: { slug: string; displayOrder: number }[]): Promise<void> {
+    if (updates.length === 0) {
+      return;
+    }
+
+    await prisma.$transaction(
+      updates.map((update) =>
+        prisma.service.update({
+          where: { slug: update.slug },
+          data: { displayOrder: update.displayOrder },
+        }),
+      ),
+    );
+  },
 };
 
 function toCreateData(data: ServiceCreateData) {

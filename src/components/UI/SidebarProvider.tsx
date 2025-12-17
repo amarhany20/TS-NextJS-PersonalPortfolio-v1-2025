@@ -18,12 +18,12 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 
   const toggleLeftSidebar = () => {
     setLeftSidebarOpen((prev) => !prev);
-    setRightSidebarOpen(false); // Close right sidebar when opening left
+    setRightSidebarOpen(false);
   };
 
   const toggleRightSidebar = () => {
     setRightSidebarOpen((prev) => !prev);
-    setLeftSidebarOpen(false); // Close left sidebar when opening right
+    setLeftSidebarOpen(false);
   };
 
   const closeAllSidebars = () => {
@@ -31,11 +31,9 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     setRightSidebarOpen(false);
   };
 
-  // Close sidebars on window resize to desktop size
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
-        // lg breakpoint
         closeAllSidebars();
       }
     };
@@ -44,7 +42,6 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close sidebars on escape key press
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {

@@ -88,3 +88,12 @@ export const updateProjectSchema = baseProjectSchema
 
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
+
+export const reorderProjectsSchema = z.object({
+  slugs: z
+    .array(slugSchema)
+    .min(1, 'At least one project is required')
+    .refine((value) => new Set(value).size === value.length, 'Duplicate slugs detected'),
+});
+
+export type ReorderProjectsInput = z.infer<typeof reorderProjectsSchema>;

@@ -28,6 +28,7 @@ export const SkillService = {
       summary: input.summary,
       displayOrder:
         input.displayOrder ?? (await SkillRepository.getNextDisplayOrder()),
+      published: input.published ?? true,
       skills: input.skills?.map((skill, index) => ({
         id: skill.id,
         name: skill.name,
@@ -54,6 +55,7 @@ export const SkillService = {
       title: input.title,
       summary: input.summary,
       displayOrder: input.displayOrder,
+      published: input.published,
       skills: input.skills?.map((skill, index) => ({
         id: skill.id,
         name: skill.name,

@@ -22,8 +22,10 @@ const { getSession, destroySession } = await import('@/server/security/session')
 import { POST as loginHandler } from '../login/route';
 import { POST as logoutHandler } from '../logout/route';
 
+type NextRequestInitCompat = Omit<RequestInit, 'signal'> & { signal?: AbortSignal };
+
 function createRequest(url: string, method: string, body?: unknown): NextRequest {
-  const init: RequestInit = {
+  const init: NextRequestInitCompat = {
     method,
     headers: {
       'content-type': 'application/json',

@@ -1,0 +1,52 @@
+# 6. Infrastructure & Operations
+
+## 6.1 Environment Configuration
+- Copy `.env.example` to `.env.local` (local) or `.env` (production) and edit values there—never in
+  source files. Commit `.env.example` only; keep secrets out of git history.
+- Core variables:
+
+| Variable | Required | Scope | Description |
+|----------|----------|-------|-------------|
+| `DATABASE_URL` | Yes | Server | Connection string for SQLite (file path) or Neon PostgreSQL. Wizard writes this automatically when possible. |
+| `SESSION_SECRET` | Yes | Server | 32+ char secret for iron-session encryption. Rotate when compromised; store in env only. |
+| `NEXT_PUBLIC_SITE_URL` | Yes (prod) | Shared | Canonical URL for SEO tags, social previews, and contact links. |
+| `RATE_LIMIT_WINDOW` / `RATE_LIMIT_MAX` | Optional | Server | Tunable throttling for auth/contact endpoints. Defaults live in config but can be overridden via env. |
+| `MEDIA_STORAGE_DRIVER` | Optional | Server | Future flag for local vs. cloud storage. Defaults to `local` until Phase 5 completes. |
+| `SMTP_*` / `RESEND_API_KEY` | Optional | Server | Email provider credentials for contact notifications (planned). |
+
+- `tsconfig.json` defines path aliases for `@/components`, `@/server`, and `@/static-content`. Keep
+  import hygiene aligned with Next.js App Router conventions.
+- `next.config.ts` houses experimental flags; update when enabling features such as
+  `serverActions` or custom headers.
+
+## 6.2 Setup Wizard Automations
+- `/setup` flow persistently redirects until `Settings` row exists and `.setup-complete` is present.
+- Steps: database selection -> DB configuration -> admin account creation -> theme selection -> basic
+  profile + SEO data. Each step calls dedicated API endpoints invoking `SetupService` helpers.
+- Neon deployments rely on connection string tests before migrations run, preventing destructive
+  operations on existing databases.
+- Wizard completion will soon stamp `setupCompletedAt`, `setupVersion`, and `databaseProvider` in
+  `Settings`, enabling `/admin/settings/setup` to show history, allow controlled re-run, and expose
+  toggles for advanced modules (media storage, blog, contact integrations).
+
+## 6.3 Tooling & Scripts
+- `npm run dev` (Next.js), `npm run lint`, `npm run test`, `npm run test:e2e` (Vitest + Playwright
+  configs ready per migration summary), `npm run db:studio`, `npm run db:seed`, `npm run db:reset`.
+- `scripts/setup-database.sh` orchestrates Prisma generate -> migrate -> seed, used for CI or local
+  bootstrap.
+- Future CI/CD (Phase 7) will add GitHub Actions covering typecheck, lint, unit tests, Playwright, and
+  Next.js build before deploying to Vercel or alternative infrastructure.
+
+## 6.4 Backup & Troubleshooting
+- SQLite backups: copy `prisma/dev.db` or run `sqlite3 prisma/dev.db .dump > backup/<file>.sql`.
+- Restore by copying back the `.db` file or piping SQL back into SQLite (see `.github/instructions.md`).
+- Common fixes: `npx prisma migrate dev` for missing DB files, `npx prisma generate` when the client
+  is stale, `npx prisma migrate reset` (dev only) when schema drift occurs.
+
+## 6.5 Observability & Operations Roadmap
+- Phase 5+ will introduce logging/monitoring hooks (e.g., Sentry) plus media storage abstractions for
+  cloud buckets.
+- Maintenance mode toggle already lives in settings; Phase 6 will wire it into setup wizard
+  completion guards and public-site gating.
+- Operational scripts (seed refresh, content parity audit) must be documented under `docs/` as they
+  mature to keep alignment with Ammar Documentation Guideline.

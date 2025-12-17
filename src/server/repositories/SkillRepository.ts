@@ -24,6 +24,7 @@ export interface DbSkillGroup {
   title: string;
   summary?: string | null;
   displayOrder: number;
+  published: boolean;
   createdAt: Date;
   updatedAt: Date;
   skills: DbSkill[];
@@ -40,6 +41,7 @@ export interface SkillGroupCreateData {
   title: string;
   summary?: string | null;
   displayOrder: number;
+  published?: boolean;
   skills?: SkillInput[];
 }
 
@@ -100,6 +102,7 @@ export const SkillRepository = {
         title: data.title,
         summary: data.summary ?? null,
         displayOrder: data.displayOrder,
+        published: data.published ?? true,
         skills: data.skills?.length
           ? {
               create: data.skills.map((skill, index) => ({
@@ -130,6 +133,7 @@ export const SkillRepository = {
             ...(data.title !== undefined ? { title: data.title } : {}),
             ...(data.summary !== undefined ? { summary: data.summary ?? null } : {}),
             ...(data.displayOrder !== undefined ? { displayOrder: data.displayOrder } : {}),
+            ...(data.published !== undefined ? { published: data.published } : {}),
           },
         });
 
@@ -203,6 +207,7 @@ function mapSkillGroupRecord(group: {
   title: string;
   summary: string | null;
   displayOrder: number;
+  published: boolean;
   createdAt: Date;
   updatedAt: Date;
   skills: {
@@ -221,6 +226,7 @@ function mapSkillGroupRecord(group: {
     title: group.title,
     summary: group.summary,
     displayOrder: group.displayOrder,
+    published: group.published,
     createdAt: group.createdAt,
     updatedAt: group.updatedAt,
     skills: group.skills.map((skill) => ({

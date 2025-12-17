@@ -1,6 +1,6 @@
 {
   "name": "ts-nextjs-personalportfolio-v1-2025",
-  "version": "00.50.06",
+  "version": "00.50.07",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,19 +17,27 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
+    
     "e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run format:check",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "seed:ammar": "tsx prisma/reset-and-seed-ammar.ts",
+    "setup:first-run": "tsx scripts/setup/first-run.ts",
+    "setup:first-run:ps": "powershell -ExecutionPolicy Bypass -File scripts/setup/first-run.ps1"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "@prisma/client": "^5.22.0",
     "@react-three/fiber": "^9.3.0",
+    "@types/image-size": "^0.7.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
+    "image-size": "^2.0.2",
     "iron-session": "^8.0.4",
     "lucide-react": "^0.525.0",
     "next": "15.4.1",
@@ -40,6 +48,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

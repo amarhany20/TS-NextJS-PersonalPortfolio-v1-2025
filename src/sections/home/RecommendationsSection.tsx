@@ -1,5 +1,5 @@
-import SectionHeader from '@/components/UI/SectionHeader';
-import SectionCard from '@/components/UI/SectionCard';
+import SectionHeader from '@/components/ui/SectionHeader';
+import SectionCard from '@/components/ui/SectionCard';
 import { formatMonthYear } from '@/utils/helpers';
 import { Linkedin, Quote, FileText } from 'lucide-react';
 import Image from 'next/image';

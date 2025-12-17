@@ -6,8 +6,12 @@ export function serializeSkillGroup(group: DbSkillGroup): SkillGroupDisplay {
     id: group.slug,
     title: group.title,
     summary: group.summary ?? undefined,
+    displayOrder: group.displayOrder,
+    published: group.published ?? true,
     skills: group.skills.map((skill) => ({
+      id: skill.id,
       name: skill.name,
+      displayOrder: skill.displayOrder,
     })),
   };
 }

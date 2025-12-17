@@ -10,4 +10,5 @@ export interface Service {
   icon?: string;
   image?: string;
   active?: boolean;
+  displayOrder?: number;
 }

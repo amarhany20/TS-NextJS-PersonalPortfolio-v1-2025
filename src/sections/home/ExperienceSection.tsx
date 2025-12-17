@@ -1,9 +1,9 @@
 "use client";
 import React, { useMemo, useState } from 'react';
 import type { Experience } from '@/types/experience';
-import SectionHeader from '@/components/UI/SectionHeader';
-import AccentBar from '@/components/UI/AccentBar';
-import SectionCard from '@/components/UI/SectionCard';
+import SectionHeader from '@/components/ui/SectionHeader';
+import AccentBar from '@/components/ui/AccentBar';
+import SectionCard from '@/components/ui/SectionCard';
 import { Briefcase, MapPin, Calendar, Star, ChevronDown, ExternalLink } from 'lucide-react';
 
 interface ExperienceSectionProps {

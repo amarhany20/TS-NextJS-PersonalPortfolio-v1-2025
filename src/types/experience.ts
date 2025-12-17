@@ -11,6 +11,8 @@ export interface Experience {
   achievements: string[]; // bullet highlights (trimmed selection)
   skills: string[];       // technology / stack display
   companyUrl?: string | null;
+  displayOrder?: number;
+  published?: boolean;
   createdAt?: string | Date;
   updatedAt?: string | Date;
 }

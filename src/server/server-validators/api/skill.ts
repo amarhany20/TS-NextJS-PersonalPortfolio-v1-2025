@@ -16,6 +16,7 @@ const baseGroupSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   summary: z.string().optional(),
   displayOrder: z.number().int().min(0).optional(),
+  published: z.boolean().optional(),
   skills: z.array(skillItemSchema).optional(),
 });
 

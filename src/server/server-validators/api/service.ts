@@ -37,3 +37,12 @@ export const updateServiceSchema = baseServiceSchema
 
 export type CreateServiceInput = z.infer<typeof createServiceSchema>;
 export type UpdateServiceInput = z.infer<typeof updateServiceSchema>;
+
+export const reorderServicesSchema = z.object({
+  slugs: z
+    .array(slugSchema)
+    .min(1, 'At least one service is required')
+    .refine((value) => new Set(value).size === value.length, 'Duplicate slugs detected'),
+});
+
+export type ReorderServicesInput = z.infer<typeof reorderServicesSchema>;
