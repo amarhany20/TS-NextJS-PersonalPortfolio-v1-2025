@@ -52,19 +52,19 @@ Related:
 - [x] `docs/architecture/codebase-alignment.md` — Agent A alignment report with minimal changes applied
 
 #### Runbooks (Operations)
-- [x] `docs/runbooks/first-run.md` — automated setup wizard + manual fallback (supports SQLite & Neon)
-- [x] `docs/runbooks/seeding.md` — seed entry point and workflows
-- [x] `docs/runbooks/seed-ammar.md` — **Agent F seeding from static-content archive with fallback** ✅ 
-- [x] `docs/runbooks/admin-usage.md` — feature overview and tips
-- [x] `docs/runbooks/deployment.md` — Vercel and CI/CD steps
-- [x] `docs/runbooks/theming.md` — theme selection and registry
+- [x] `instructions/FIRST-RUN.md` — automated setup wizard + manual fallback (supports SQLite & Neon)
+- [x] `instructions/SEEDING.md` — seed entry point and workflows
+- [x] `docs/runbooks/seed-ammar.md` — **Owner seeding from private `data/ammar/*` dataset** ✅ 
+- [x] `instructions/ADMIN-USAGE.md` — feature overview and tips
+- [x] `instructions/DEPLOYMENT.md` — Vercel and CI/CD steps
+- [x] `instructions/THEMING.md` — theme selection and registry
 - [x] `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/sections/09-implementation-checklist.md` — migration status and remaining work
 
 #### Code Implementation (Agent F - Seed Generator)
-- [x] `prisma/reset-and-seed-ammar.ts` — **Fully implemented** — reads archived manifest and seeds with fallback to static content
+- [x] `prisma/reset-and-seed-ammar.ts` — **Fully implemented** — seeds from `data/ammar/*` (private owner dataset)
 - [x] `pnpm seed:ammar` — wired and documented in `package.json` as script target
 - [x] Idempotent seeding — safe to run multiple times; covers portfolio, experience, education, skills, certificates, recommendations
-- [x] Archive detection — auto-finds newest `backups/static-content-archive/<YYYY-MM-DD>/manifest.json`
+- [x] Optional dataset detection — skips seeding if `data/ammar/` is missing
 
 ### Remaining Documentation Gaps (Follow-Up Items)
 - [ ] Multi-database selection UX guidance (deferred per Phase plan)
@@ -87,7 +87,7 @@ Related:
 ### Key Implementation Details
 
 #### Setup & First Run
-The `docs/runbooks/first-run.md` provides:
+The `instructions/FIRST-RUN.md` provides:
 - Interactive first-run setup via `pnpm setup:first-run` (TypeScript) or PowerShell
 - Support for SQLite (default) and Neon PostgreSQL databases
 - Automated `.env` generation with validation
@@ -97,8 +97,8 @@ The `docs/runbooks/first-run.md` provides:
 Two complementary seeders:
 1. **`prisma/seed.ts`** — Default seeder using `src/static-content/*` modules
 2. **`prisma/reset-and-seed-ammar.ts`** — Advanced seeder (Agent F) with:
-   - Archive-first detection: Reads `backups/static-content-archive/<YYYY-MM-DD>/manifest.json`
-   - Fallback behavior: Falls back to static content if no archive exists
+   - Private dataset source: Reads `data/ammar/*` modules
+   - Safe no-op: Skips if `data/ammar/` is not present
    - Database detection: Auto-configures for SQLite or PostgreSQL
    - Full content reset: Idempotent; safe for repeated execution in dev environments
 
@@ -111,7 +111,7 @@ pnpm prisma:migrate       # Migrations
 pnpm db:seed              # Default seed
 
 # Advanced seeding (Agent F)
-pnpm seed:ammar           # Archive-aware seeding with fallback
+pnpm seed:ammar           # Private owner dataset seeding (`data/ammar/*`)
 
 # Development
 pnpm dev                  # Start dev server

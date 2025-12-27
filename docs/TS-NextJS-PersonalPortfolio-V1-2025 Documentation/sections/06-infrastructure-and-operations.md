@@ -8,7 +8,7 @@
 | Variable | Required | Scope | Description |
 |----------|----------|-------|-------------|
 | `DATABASE_URL` | Yes | Server | Connection string for SQLite (file path) or Neon PostgreSQL. Wizard writes this automatically when possible. |
-| `SESSION_SECRET` | Yes | Server | 32+ char secret for iron-session encryption. Rotate when compromised; store in env only. |
+| `AUTH_SECRET` | Yes | Server | 32+ char secret for iron-session encryption (admin auth). Rotate when compromised; store in env only. |
 | `NEXT_PUBLIC_SITE_URL` | Yes (prod) | Shared | Canonical URL for SEO tags, social previews, and contact links. |
 | `RATE_LIMIT_WINDOW` / `RATE_LIMIT_MAX` | Optional | Server | Tunable throttling for auth/contact endpoints. Defaults live in config but can be overridden via env. |
 | `MEDIA_STORAGE_DRIVER` | Optional | Server | Future flag for local vs. cloud storage. Defaults to `local` until Phase 5 completes. |
@@ -20,20 +20,21 @@
   `serverActions` or custom headers.
 
 ## 6.2 Setup Wizard Automations
-- `/setup` flow persistently redirects until `Settings` row exists and `.setup-complete` is present.
-- Steps: database selection -> DB configuration -> admin account creation -> theme selection -> basic
-  profile + SEO data. Each step calls dedicated API endpoints invoking `SetupService` helpers.
-- Neon deployments rely on connection string tests before migrations run, preventing destructive
-  operations on existing databases.
-- Wizard completion will soon stamp `setupCompletedAt`, `setupVersion`, and `databaseProvider` in
-  `Settings`, enabling `/admin/settings/setup` to show history, allow controlled re-run, and expose
-  toggles for advanced modules (media storage, blog, contact integrations).
+This repo supports a simple, open-source friendly bootstrap:
+- If the database is missing tables or the Settings singleton row is missing, the app renders a
+  **Setup required** screen (and exposes a `/setup` page) explaining how to initialise the install.
+- Initialisation is done via:
+  - `pnpm run setup:first-run` (recommended, interactive)
+  - or manual Prisma migration + `pnpm run db:seed`
+
+Once seeded, the Settings row records `setupCompletedAt`, `setupVersion`, and `databaseProvider`, and
+the Admin panel can display this under `/admin/settings/setup`.
 
 ## 6.3 Tooling & Scripts
 - `npm run dev` (Next.js), `npm run lint`, `npm run test`, `npm run test:e2e` (Vitest + Playwright
   configs ready per migration summary), `npm run db:studio`, `npm run db:seed`, `npm run db:reset`.
-- `scripts/setup-database.sh` orchestrates Prisma generate -> migrate -> seed, used for CI or local
-  bootstrap.
+- `pnpm run setup:first-run` updates `.env`, switches Prisma provider in `prisma/schema.prisma`, runs
+  Prisma generate + migrations + seed.
 - Future CI/CD (Phase 7) will add GitHub Actions covering typecheck, lint, unit tests, Playwright, and
   Next.js build before deploying to Vercel or alternative infrastructure.
 

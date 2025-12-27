@@ -1,0 +1,34 @@
+{
+    "slug": "demo-saas",
+    "title": "Demo SaaS Dashboard",
+    "tagline": "A sample project included with the template",
+    "intro": "A demo SaaS dashboard showing common UI patterns.",
+    "summary": "Includes authentication flow placeholders, dashboard layout, and component examples. Replace this with your real project.",
+    "featured": true,
+    "visibility": "public",
+    "access": "open-source",
+    "status": "live",
+    "domain": "web",
+    "company": null,
+    "client": null,
+    "website": "https://example.com",
+    "repository": "https://github.com/yourname/demo-saas",
+    "role": "Full-Stack Developer",
+    "start": "2025-01",
+    "end": null,
+    "stack": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS"
+    ],
+    "features": [
+        "Responsive UI",
+        "Accessible components",
+        "SSR-first"
+    ],
+    "sections": [],
+    "gallery": [],
+    "confidentialNotes": null,
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z"
+}

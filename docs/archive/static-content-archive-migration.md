@@ -3,6 +3,9 @@
 Date: 2025-12-17
 Status: Completed
 
+> NOTE (2025-12-24): The `backups/static-content-archive/` approach has been decommissioned.
+> `src/static-content/*` is now the generic template content (repo-safe defaults), and private owner data lives under `data/ammar/*`.
+
 ## Summary
 All static, hand-authored portfolio/profile content previously under `src/static-content/**` has been relocated to a dated archive at:
 
@@ -19,7 +22,7 @@ See the full file list in the manifest.
 
 ## How it works now
 - Runtime imports like `@/static-content/*` still resolve via thin re-export stubs that forward to the archived files.
-- New content edits should target the archived files inside `backups/static-content-archive/2025-12-17/` to keep a stable baseline for Agent F seeding.
+- Historical note: this document originally advised editing `backups/static-content-archive/...`. That approach is now removed; edit `src/static-content/*` (template) or `data/ammar/*` (private) instead.
 
 ## Why
 - We’re transitioning to a seed-driven database model. Static content acts as a canonical source for initial seed data and reproducible environments.
@@ -34,4 +37,4 @@ See the full file list in the manifest.
 - Remove the compatibility stubs when all consumers are migrated.
 
 ## Rollback
-- If needed, move files from `backups/static-content-archive/2025-12-17/` back to `src/static-content/` and remove the re-export stubs.
+- Historical note: rollback steps referenced the removed archive folder. Current rollback is simply to revert Git changes affecting `src/static-content/*` and/or `data/ammar/*`.

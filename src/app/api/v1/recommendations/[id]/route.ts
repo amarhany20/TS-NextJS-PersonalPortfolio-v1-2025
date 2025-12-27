@@ -6,15 +6,16 @@ import { RecommendationService } from '@/server/services/RecommendationService';
 import { updateRecommendationSchema } from '@/server/server-validators/api/recommendation';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function GET(_: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
-    const recommendation = await RecommendationService.getRecommendationById(params.id);
+    const { id } = await params;
+    const recommendation = await RecommendationService.getRecommendationById(id);
 
     if (!recommendation) {
       return notFoundResponse('Recommendation not found');
@@ -29,6 +30,7 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
+    const { id } = await params;
     const body = await request.json();
     const result = updateRecommendationSchema.safeParse(body);
 
@@ -36,7 +38,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const recommendation = await RecommendationService.updateRecommendation(params.id, result.data);
+    const recommendation = await RecommendationService.updateRecommendation(id, result.data);
     return successResponse({ recommendation });
   } catch (error) {
     return errorResponse(error);
@@ -46,7 +48,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(_: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
-    await RecommendationService.deleteRecommendation(params.id);
+    const { id } = await params;
+    await RecommendationService.deleteRecommendation(id);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

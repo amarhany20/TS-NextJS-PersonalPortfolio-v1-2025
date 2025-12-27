@@ -13,6 +13,8 @@
 ## Purpose
 Get the app running locally in minutes using the interactive first-run setup. Supports SQLite and Neon PostgreSQL. Complements [QUICKSTART.md](../../QUICKSTART.md) and adds troubleshooting and rollback.
 
+If the database is not initialised (missing tables or missing Settings row), the app will show a **Setup required** screen and `/setup` will provide the same instructions.
+
 ---
 
 ## Prerequisites

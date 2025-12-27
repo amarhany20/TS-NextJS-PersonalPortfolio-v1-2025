@@ -6,22 +6,24 @@ import { ExperienceForm } from '@/components/Admin/Experience/ExperienceForm';
 import { ExperienceService } from '@/server/services/ExperienceService';
 
 interface AdminExperienceEditPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const loadExperience = cache((id: string) => ExperienceService.getExperienceById(id));
 
 export async function generateMetadata({ params }: AdminExperienceEditPageProps): Promise<Metadata> {
-  const experience = await loadExperience(params.id);
+  const { id } = await params;
+  const experience = await loadExperience(id);
   return {
     title: experience ? `Edit ${experience.company} | Admin Experience` : 'Experience not found',
   };
 }
 
 export default async function AdminExperienceEditPage({ params }: AdminExperienceEditPageProps) {
-  const experience = await loadExperience(params.id);
+  const { id } = await params;
+  const experience = await loadExperience(id);
 
   if (!experience) {
     notFound();

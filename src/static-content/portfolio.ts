@@ -1,1 +1,2 @@
-export * from '../../backups/static-content-archive/2025-12-17/portfolio';
+// Backward compatibility re-export after migrating to per-project JSON files inside ./portfolio
+export * from './portfolio/index';

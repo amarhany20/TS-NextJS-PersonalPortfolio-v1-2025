@@ -113,6 +113,13 @@ Update any external bookmarks to the new path when convenient.
 
 ## 🚀 Getting Started
 
+**📖 Detailed Instructions:** See the `instructions/` folder for comprehensive guides:
+- [FIRST-RUN.md](instructions/FIRST-RUN.md) — Local setup and database configuration
+- [DEPLOYMENT.md](instructions/DEPLOYMENT.md) — Production deployment to Vercel
+- [SEEDING.md](instructions/SEEDING.md) — Database seeding workflows
+- [ADMIN-USAGE.md](instructions/ADMIN-USAGE.md) — Admin dashboard guide
+- [THEMING.md](instructions/THEMING.md) — Theme customization
+
 ### Prerequisites
 - Node.js LTS (v20+)
 - npm (comes with Node.js)

@@ -1,1 +1,10 @@
-export * from '../../backups/static-content-archive/2025-12-17/page-metadata';
+import type { Metadata } from 'next';
+
+// Central page/site metadata (SEO + OpenGraph) kept in data layer.
+// Extend this as needed (twitter, openGraph, alternates, icons, etc.).
+export const siteMetadata: Metadata = {
+  title: 'Portfolio',
+  description: 'A modern portfolio template.',
+};
+
+export default siteMetadata;

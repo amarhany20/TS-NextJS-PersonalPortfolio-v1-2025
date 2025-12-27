@@ -57,12 +57,12 @@ This plan defines parallel workstreams ("agents"), their scopes, sequencing, dep
 - Update layout in `src/app/admin/layout.tsx` and related components; ensure keyboard and a11y compliance.
 - Visual parity with screenshot theme, with a clean separation of nav vs. context.
 
-### Agent E — Archive Static Content
-- Move `src/static-content/**` to `backups/static-content-archive/<YYYY-MM-DD>/` with an index manifest.
-- Add migration note explaining the new seed-driven approach.
+### Agent E — Content Separation
+- Keep `src/static-content/**` as generic, repo-safe template content.
+- Store owner-specific content under `data/<owner>/**` (e.g., `data/ammar/**`) for private deployments.
 
 ### Agent F — Seed Generator
-- Implement `prisma/reset-and-seed-ammar.ts` that reads the archived manifest and seeds database accordingly.
+- Implement `prisma/reset-and-seed-ammar.ts` that seeds from `data/ammar/*` when present.
 - Idempotent: safe to run multiple times; covers portfolio, experience, skills, certificates, etc.
 - Wire as `pnpm seed:ammar` and document in runbook.
 

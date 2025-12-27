@@ -19,7 +19,8 @@ src/server/       → Backend logic (services, repositories, serializers)
   └─ security/    → Auth, password hashing, sessions
 src/components/   → Reusable UI (separate from page-specific sections)
 src/sections/     → Page-specific section components
-src/static-content/→ Fallback TypeScript data (archived snapshots)
+src/static-content/→ Generic template content (safe defaults)
+data/ammar/       → Private owner dataset (local/deployment only)
 ```
 
 **Rule:** Server imports (`@/server/*`) are forbidden in client components. Mark `"use client"` only for interactivity (forms, dropdowns, React state).
@@ -54,8 +55,8 @@ src/static-content/→ Fallback TypeScript data (archived snapshots)
 **Seeding:**
 - `npm run db:seed` → Standard seed using `src/static-content/*`
 - `npm run seed:ammar` → Advanced archive-aware seeder ([prisma/reset-and-seed-ammar.ts](../prisma/reset-and-seed-ammar.ts))
-  - Auto-detects newest `backups/static-content-archive/<YYYY-MM-DD>/manifest.json`
-  - Falls back to static content if no archive exists
+  - Seeds from `data/ammar/*` (private owner dataset)
+  - Skips seeding if `data/ammar/` is not present
   - Idempotent (safe to re-run)
 
 **Schema changes:**
@@ -141,10 +142,10 @@ npm run check          # All of the above
 |-------|------|
 | Architecture Overview | [docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/architecture.md](../docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/architecture.md) |
 | Server Layer Principles | [src/server/README.md](../src/server/README.md) |
-| First Run Guide | [docs/runbooks/first-run.md](../docs/runbooks/first-run.md) |
-| Database Seeding | [docs/runbooks/seeding.md](../docs/runbooks/seeding.md) |
+| First Run Guide | [instructions/FIRST-RUN.md](../instructions/FIRST-RUN.md) |
+| Database Seeding | [instructions/SEEDING.md](../instructions/SEEDING.md) |
 | Theme Customization | [docs/themes/theme-registry.md](../docs/themes/theme-registry.md) |
-| Deployment | [docs/runbooks/deployment.md](../docs/runbooks/deployment.md) |
+| Deployment | [instructions/DEPLOYMENT.md](../instructions/DEPLOYMENT.md) |
 
 ## Anti-Patterns to Avoid
 
@@ -176,7 +177,7 @@ npm run prisma:migrate reset  # Dev only: Drops DB, reruns migrations + seeds
 **Static content vs DB:**
 - Production uses database (Prisma)
 - Development can use static fallback (`src/static-content/*`)
-- Archive system maintains content snapshots in `backups/static-content-archive/`
+- Optional private dataset can live under `data/ammar/` for owner-specific deployments
 
 ---
 

@@ -6,22 +6,24 @@ import { SkillGroupForm } from '@/components/Admin/Skills/SkillGroupForm';
 import { SkillService } from '@/server/services/SkillService';
 
 interface AdminSkillGroupEditPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 const loadGroup = cache((slug: string) => SkillService.getSkillGroupBySlug(slug));
 
 export async function generateMetadata({ params }: AdminSkillGroupEditPageProps): Promise<Metadata> {
-  const group = await loadGroup(params.slug);
+  const { slug } = await params;
+  const group = await loadGroup(slug);
   return {
     title: group ? `Edit ${group.title} | Admin Skills` : 'Skill group not found',
   };
 }
 
 export default async function AdminSkillGroupEditPage({ params }: AdminSkillGroupEditPageProps) {
-  const group = await loadGroup(params.slug);
+  const { slug } = await params;
+  const group = await loadGroup(slug);
 
   if (!group) {
     notFound();

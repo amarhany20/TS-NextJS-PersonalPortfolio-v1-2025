@@ -17,7 +17,7 @@ All documentation and implementation tasks from the **Agents Execution Plan** ha
 | **Agent B** | Documentation Overhaul | ✅ Complete | All runbooks + architecture sections delivered |
 | **Agent C** | First-Run Setup | ✅ Complete | TypeScript setup wizard + PowerShell wrapper ready |
 | **Agent D** | Admin Panel Layout | ✅ Complete | Dual sidebars consolidated; a11y compliant |
-| **Agent E** | Archive Static Content | ✅ Complete | Backup structure created; manifest-based |
+| **Agent E** | Content Separation | ✅ Complete | Generic template content + private owner dataset split |
 | **Agent F** | Seed Generator | ✅ Complete | `reset-and-seed-ammar.ts` fully implemented |
 | **Agent G** | Auth Simplification | ✅ Complete | Login, security, session management hardened |
 | **Agent H** | Architecture Review | ✅ Complete | Gap analysis completed; backlog documented |
@@ -44,14 +44,14 @@ All documentation and implementation tasks from the **Agents Execution Plan** ha
 ### ✅ Phase 2 — Admin Layout, Auth, Archive
 - [x] **Agent D**: Admin layout consolidated; nav sidebar + context panel
 - [x] **Agent G**: Auth hardened; login form functional; session cookies secure
-- [x] **Agent E**: Static content archived to `backups/static-content-archive/<YYYY-MM-DD>/`
+- [x] **Agent E**: Static content is generic template data; private owner data lives under `data/ammar/*`
 - [x] Keyboard + a11y compliance verified
 - [x] Smoke tests for admin login passing
 
 ### ✅ Phase 3 — Seed Generator
 - [x] **Agent F**: `prisma/reset-and-seed-ammar.ts` implemented
-- [x] Archive detection working (finds newest manifest)
-- [x] Fallback to `src/static-content/*` implemented
+- [x] Seeds from `data/ammar/*` when present
+- [x] Skips seeding when `data/ammar/` is missing
 - [x] Idempotent seeding: safe for repeated execution
 - [x] Wired as `pnpm seed:ammar`
 - [x] Full content coverage: settings, portfolio, experience, education, services, certificates, recommendations, skills
@@ -97,7 +97,7 @@ All documentation and implementation tasks from the **Agents Execution Plan** ha
 |------|--------|--------------|---------|
 | `docs/runbooks/first-run.md` | ✅ | 2025-12-17 | Local setup wizard (SQLite + Neon support) |
 | `docs/runbooks/seeding.md` | ✅ | 2025-12-17 | Database seeding workflows |
-| `docs/runbooks/seed-ammar.md` | ✅ | 2025-12-17 | **Agent F** — Archive-aware seed generator |
+| `docs/runbooks/seed-ammar.md` | ✅ | 2025-12-17 | **Agent F** — Private owner dataset seeding |
 | `docs/runbooks/admin-usage.md` | ✅ | 2025-12-17 | Admin dashboard feature overview |
 | `docs/runbooks/deployment.md` | ✅ | 2025-12-17 | Vercel + CI/CD deployment steps |
 | `docs/runbooks/theming.md` | ✅ | 2025-12-17 | Theme selection and registry |
@@ -134,14 +134,13 @@ All documentation and implementation tasks from the **Agents Execution Plan** ha
 ```
 
 #### Advanced Seeder (`prisma/reset-and-seed-ammar.ts`) — **Agent F**
-```typescript
-✅ Archive detection: findLatestArchiveManifest()
-✅ Fallback logic: loadArchiveOrStatic()
+````typescript
+✅ Loads Ammar-only content from data/ammar (fails gracefully with hint when folder is absent)
 ✅ Database provider detection
 ✅ Full content seeding with proper type marshalling
 ✅ Wired as pnpm seed:ammar
 ✅ Version 00.50.07 (matches package.json)
-```
+````
 
 ### Package.json Scripts Reference
 ```json

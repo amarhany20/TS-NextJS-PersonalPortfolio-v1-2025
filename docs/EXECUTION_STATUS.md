@@ -115,18 +115,16 @@ pnpm setup:first-run
 
 ---
 
-## Seed Generator — Archive Strategy
+## Seed Generator — Private Dataset Strategy
 
 ```
-Priority Order:
-1. backups/static-content-archive/<YYYY-MM-DD>/manifest.json  ← Archive (preferred)
-2. src/static-content/*.ts modules                             ← Fallback (always available)
+Source:
+- `data/ammar/*` (private owner dataset; optional)
 
-Command: pnpm seed:ammar
+Command: `pnpm seed:ammar`
 
-Features:
-✅ Auto-finds newest archive by date
-✅ Full fallback if no archive exists
+Behavior:
+✅ Skips if `data/ammar/` is missing
 ✅ Idempotent (safe to run multiple times)
 ✅ Database provider auto-detection
 ✅ Full content seeding in ~5 seconds

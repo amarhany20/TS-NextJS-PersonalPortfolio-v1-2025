@@ -53,7 +53,7 @@ GitHub Copilot executed the entire **Agents Execution Plan v1.0** successfully. 
 | **B** | Documentation Overhaul | ✅ Complete | `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/` |
 | **C** | First-Run Setup | ✅ Complete | `scripts/setup/first-run.ts` + `.ps1` |
 | **D** | Admin Panel Layout | ✅ Complete | `src/app/admin/layout.tsx` |
-| **E** | Archive Static Content | ✅ Complete | `backups/static-content-archive/` |
+| **E** | Content Separation | ✅ Complete | `src/static-content/` + `data/ammar/` |
 | **F** | Seed Generator | ✅ Complete | `prisma/reset-and-seed-ammar.ts` |
 | **G** | Auth Simplification | ✅ Complete | `src/server/security/`, `src/app/api/auth/` |
 | **H** | Architecture Review | ✅ Complete | `docs/architecture/`, sections 1-9 |
@@ -94,19 +94,13 @@ GitHub Copilot executed the entire **Agents Execution Plan v1.0** successfully. 
 The `prisma/reset-and-seed-ammar.ts` file was verified to contain:
 
 ```typescript
-✅ Archive Detection
-   - findLatestArchiveManifest()
-   - Reads backups/static-content-archive/<YYYY-MM-DD>/manifest.json
-   - Lexicographic sort for newest date
-
-✅ Fallback Logic
-   - loadArchiveOrStatic()
-   - Returns archive if found
-   - Falls back to src/static-content/* modules
+✅ Ammar-only data loader
+   - loadAmmarPayload() reads from data/ammar/* modules
+   - Logs a helpful warning and exits when data/ammar is missing
 
 ✅ Full Seeding Implementation
    - seedSettings() — Site configuration + SEO defaults
-   - seedAdminUser() — Uses SEED_ADMIN_* env vars
+   - seedAdminUser() — Uses ADMIN_* / SEED_ADMIN_* env vars
    - seedSkillGroups() — Skills with grouping
    - seedPortfolio() — Projects with all metadata
    - seedExperience() — Work history

@@ -11,7 +11,7 @@
 
 1. **[EXECUTION_STATUS.md](./EXECUTION_STATUS.md)** — 5-min quick reference
 2. **[TS-NextJS-PersonalPortfolio-V1-2025 Documentation/architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md)** — System design
-3. **[runbooks/first-run.md](./runbooks/first-run.md)** — Get running locally in 30 seconds
+3. **[FIRST-RUN.md](../instructions/FIRST-RUN.md)** — Get running locally in 30 seconds
 
 ---
 
@@ -51,12 +51,12 @@
 
 | Runbook | Purpose | Audience |
 |---------|---------|----------|
-| **[First Run](./runbooks/first-run.md)** | Local setup with SQLite or Neon | Everyone |
-| **[Seeding](./runbooks/seeding.md)** | Database workflows and strategies | Developers |
+| **[First Run](../instructions/FIRST-RUN.md)** | Local setup with SQLite or Neon | Everyone |
+| **[Seeding](../instructions/SEEDING.md)** | Database workflows and strategies | Developers |
 | **[Seed-Ammar](./runbooks/seed-ammar.md)** | **Agent F** — Advanced seeding | Developers |
-| **[Admin Usage](./runbooks/admin-usage.md)** | Dashboard features and tips | Users |
-| **[Deployment](./runbooks/deployment.md)** | Vercel + CI/CD setup | DevOps |
-| **[Theming](./runbooks/theming.md)** | Theme customization and registry | Designers |
+| **[Admin Usage](../instructions/ADMIN-USAGE.md)** | Dashboard features and tips | Users |
+| **[Deployment](../instructions/DEPLOYMENT.md)** | Vercel + CI/CD setup | DevOps |
+| **[Theming](../instructions/THEMING.md)** | Theme customization and registry | Designers |
 
 ---
 
@@ -85,7 +85,6 @@
 **Legacy documentation (reference only):**
 
 - 📦 **[archive/](./archive/)** — Older versions (roadmap, migration plans, changelog)
-- 📦 **[backups/static-content-archive/](../backups/static-content-archive/)** — Content archives
 
 ---
 
@@ -97,7 +96,7 @@
 1. [EXECUTION_STATUS.md](./EXECUTION_STATUS.md) — 5-min overview
 2. [Architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md) — System design
 3. [Code Structure](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/code-structure.md) — Folder map
-4. [First Run](./runbooks/first-run.md) — Get it running
+4. [First Run](../instructions/FIRST-RUN.md) — Get it running
 5. [Section 1-3](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/) — Data, APIs, architecture
 
 **Then:** Check [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md) for tasks
@@ -112,8 +111,8 @@
 ### 🚀 DevOps / Deployment
 
 **Reference:**
-1. [Deployment.md](./runbooks/deployment.md) — Vercel setup
-2. [First Run](./runbooks/first-run.md) — Production setup
+1. [Deployment.md](../instructions/DEPLOYMENT.md) — Vercel setup
+2. [First Run](../instructions/FIRST-RUN.md) — Production setup
 3. [Infrastructure & Operations](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/06-infrastructure-and-operations.md) — Env, setup
 
 ### 📋 Maintainer / Tech Lead
@@ -129,16 +128,16 @@
 
 ### Authentication & Security
 - [Security & Compliance](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/07-security-and-compliance.md)
-- [First Run](./runbooks/first-run.md) — ENV setup
+- [First Run](../instructions/FIRST-RUN.md) — ENV setup
 
 ### Database & Seeding
 - [Data & Persistence](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/03-data-and-persistence.md)
-- [Seeding.md](./runbooks/seeding.md)
+- [Seeding.md](../instructions/SEEDING.md)
 - [Seed-Ammar.md](./runbooks/seed-ammar.md) — Advanced seeding
 
 ### Admin Panel & CRUD
 - [Admin & Public Experience](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md)
-- [Admin Usage](./runbooks/admin-usage.md)
+- [Admin Usage](../instructions/ADMIN-USAGE.md)
 
 ### API Development
 - [API & Services](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/04-api-and-services.md)
@@ -148,11 +147,11 @@
 - [Testing & Quality](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/08-testing-and-quality.md)
 
 ### Deployment & Operations
-- [Deployment.md](./runbooks/deployment.md)
+- [Deployment.md](../instructions/DEPLOYMENT.md)
 - [Infrastructure & Operations](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/06-infrastructure-and-operations.md)
 
 ### UI & Theming
-- [Theming.md](./runbooks/theming.md)
+- [Theming.md](../instructions/THEMING.md)
 - [Admin & Public Experience](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md)
 
 ---
@@ -163,9 +162,9 @@
 |-------|-------|--------|------|
 | A | Codebase Alignment | ✅ Complete | [Gap Report](./architecture/codebase-alignment.md) |
 | B | Documentation | ✅ Complete | All sections + runbooks |
-| C | First-Run Setup | ✅ Complete | [Runbook](./runbooks/first-run.md) |
+| C | First-Run Setup | ✅ Complete | [Runbook](../instructions/FIRST-RUN.md) |
 | D | Admin Layout | ✅ Complete | [Section 5](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md) |
-| E | Archive Content | ✅ Complete | [Seeding](./runbooks/seeding.md) |
+| E | Archive Content | ✅ Complete | [Seeding](../instructions/SEEDING.md) |
 | F | Seed Generator | ✅ Complete | [Seed-Ammar](./runbooks/seed-ammar.md) |
 | G | Auth & Security | ✅ Complete | [Section 7](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/07-security-and-compliance.md) |
 | H | Architecture Review | ✅ Complete | Sections 1-9 |
@@ -206,7 +205,7 @@
 ### For Onboarding
 
 1. **Day 1**: Read [EXECUTION_STATUS.md](./EXECUTION_STATUS.md) + [Architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md)
-2. **Day 2**: Run [First Run](./runbooks/first-run.md), explore `/admin`
+2. **Day 2**: Run [First Run](../instructions/FIRST-RUN.md), explore `/admin`
 3. **Day 3**: Read [Code Structure](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/code-structure.md) + relevant section (1-9)
 4. **Ongoing**: Reference [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md)
 

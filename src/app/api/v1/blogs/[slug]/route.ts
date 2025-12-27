@@ -6,15 +6,16 @@ import { BlogService } from '@/server/services/BlogService';
 import { updateBlogSchema } from '@/server/server-validators/api/blog';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function GET(_: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
-    const post = await BlogService.getPostBySlug(params.slug);
+    const { slug } = await params;
+    const post = await BlogService.getPostBySlug(slug);
 
     if (!post) {
       return notFoundResponse('Blog post not found');
@@ -29,6 +30,7 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
+    const { slug } = await params;
     const body = await request.json();
     const result = updateBlogSchema.safeParse(body);
 
@@ -36,7 +38,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const post = await BlogService.updatePost(params.slug, result.data);
+    const post = await BlogService.updatePost(slug, result.data);
     return successResponse({ post });
   } catch (error) {
     return errorResponse(error);
@@ -46,7 +48,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(_: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
-    await BlogService.deletePost(params.slug);
+    const { slug } = await params;
+    await BlogService.deletePost(slug);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

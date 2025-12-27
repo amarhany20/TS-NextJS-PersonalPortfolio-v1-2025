@@ -6,12 +6,13 @@ import { ContactSubmissionService } from '@/server/services/ContactSubmissionSer
 import { contactStatusSchema } from '@/server/server-validators/api/contact';
 
 interface RouteParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
+    const { id } = await params;
     const body = await request.json().catch(() => null);
     const parsed = contactStatusSchema.safeParse(body);
 
@@ -20,7 +21,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const submission = await ContactSubmissionService.updateSubmissionStatus(
-      params.id,
+      id,
       parsed.data.status,
     );
 

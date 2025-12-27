@@ -34,9 +34,57 @@ export interface DbSettings {
   updatedAt: Date;
 }
 
+export type SettingsStatus =
+  | { status: 'ready'; settings: DbSettings }
+  | { status: 'missing_table' }
+  | { status: 'missing_record' };
+
 const SETTINGS_ID = 'settings-singleton';
 
 export const SettingsRepository = {
+  async getStatus(): Promise<SettingsStatus> {
+    try {
+      const record = await prisma.settings.findUnique({ where: { id: SETTINGS_ID } });
+      if (!record) {
+        return { status: 'missing_record' };
+      }
+
+      const settings: DbSettings = {
+        id: record.id,
+        siteTitle: record.siteTitle,
+        siteSubtitle: record.siteSubtitle,
+        heroGreeting: record.heroGreeting,
+        heroSubtitle: record.heroSubtitle,
+        heroDescription: record.heroDescription,
+        primaryEmail: record.primaryEmail,
+        secondaryEmail: record.secondaryEmail,
+        location: record.location,
+        timezone: record.timezone,
+        theme: record.theme,
+        maintenanceMode: record.maintenanceMode,
+        maintenanceMessage: record.maintenanceMessage,
+        socialLinks: parseJson(record.socialLinks, [] as Array<Record<string, unknown>>),
+        heroButtons: parseJson<Record<string, unknown> | null>(record.heroButtons, null),
+        contactConfig: parseJson<Record<string, unknown> | null>(record.contactConfig, null),
+        seoDefaults: parseJson<Record<string, unknown> | null>(record.seoDefaults, null),
+        setupCompletedAt: record.setupCompletedAt,
+        setupVersion: record.setupVersion,
+        databaseProvider: record.databaseProvider,
+        createdAt: record.createdAt,
+        updatedAt: record.updatedAt,
+      };
+
+      return { status: 'ready', settings };
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === 'P2021') {
+        console.warn('Settings table missing. Run `npx prisma migrate dev` (local) or `npx prisma migrate deploy` (prod) to initialise the database.');
+        return { status: 'missing_table' };
+      }
+
+      throw error;
+    }
+  },
+
   async get(): Promise<DbSettings | null> {
     let record;
     try {

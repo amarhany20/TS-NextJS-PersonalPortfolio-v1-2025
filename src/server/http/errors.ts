@@ -64,6 +64,12 @@ export class BadRequestError extends AppError {
   }
 }
 
+export class SetupRequiredError extends AppError {
+  constructor(message: string, details?: unknown) {
+    super(message, 503, 'SETUP_REQUIRED', details);
+  }
+}
+
 /**
  * Map unknown errors to AppError instances
  */

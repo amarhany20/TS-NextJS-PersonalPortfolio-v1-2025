@@ -4,13 +4,14 @@ import { BlogService } from '@/server/services/BlogService';
 import { BlogPostClient } from './BlogPostClient';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await BlogService.getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await BlogService.getPostBySlug(slug);
 
   if (!post || post.status !== 'published') {
     notFound();

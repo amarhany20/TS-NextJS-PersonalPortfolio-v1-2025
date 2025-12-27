@@ -6,15 +6,16 @@ import { CertificateService } from '@/server/services/CertificateService';
 import { updateCertificateSchema } from '@/server/server-validators/api/certificate';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function GET(_: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
-    const certificate = await CertificateService.getCertificateById(params.id);
+    const { id } = await params;
+    const certificate = await CertificateService.getCertificateById(id);
 
     if (!certificate) {
       return notFoundResponse('Certificate not found');
@@ -29,6 +30,7 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
+    const { id } = await params;
     const body = await request.json();
     const result = updateCertificateSchema.safeParse(body);
 
@@ -36,7 +38,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const certificate = await CertificateService.updateCertificate(params.id, result.data);
+    const certificate = await CertificateService.updateCertificate(id, result.data);
     return successResponse({ certificate });
   } catch (error) {
     return errorResponse(error);
@@ -46,7 +48,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(_: NextRequest, { params }: RouteParams) {
   try {
     await requireAuth();
-    await CertificateService.deleteCertificate(params.id);
+    const { id } = await params;
+    await CertificateService.deleteCertificate(id);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

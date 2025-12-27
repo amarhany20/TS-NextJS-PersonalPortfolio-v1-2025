@@ -45,54 +45,35 @@ const detectDatabaseProvider = (url?: string) => {
   return 'unknown';
 };
 
-async function findLatestArchiveManifest(): Promise<{ manifestPath: string; data: ArchivePayload } | null> {
-  const archiveRoot = path.resolve(process.cwd(), 'backups', 'static-content-archive');
+async function directoryExists(target: string): Promise<boolean> {
   try {
-    const stats = await fs.stat(archiveRoot).catch(() => null);
-    if (!stats || !stats.isDirectory()) return null;
-
-    const entries = await fs.readdir(archiveRoot, { withFileTypes: true });
-    const dirs = entries.filter((e) => e.isDirectory()).map((d) => d.name);
-    if (!dirs.length) return null;
-    // Assuming YYYY-MM-DD naming; lexicographic sort works
-    dirs.sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
-    for (const dir of dirs) {
-      const manifestPath = path.join(archiveRoot, dir, 'manifest.json');
-      const exists = await fs.stat(manifestPath).then(() => true).catch(() => false);
-      if (exists) {
-        const json = await fs.readFile(manifestPath, 'utf-8');
-        const parsed = JSON.parse(json);
-        const data: ArchivePayload = parsed.data ?? parsed;
-        return { manifestPath, data };
-      }
-    }
+    const stats = await fs.stat(target);
+    return stats.isDirectory();
   } catch {
-    // ignore
+    return false;
   }
-  return null;
 }
 
-async function loadArchiveOrStatic(): Promise<{ source: 'archive' | 'static'; payload: ArchivePayload }>
-{
-  const archive = await findLatestArchiveManifest();
-  if (archive) {
-    return { source: 'archive', payload: archive.data };
+async function loadAmmarPayload(): Promise<{ source: 'ammar'; payload: ArchivePayload } | null> {
+  const ammarDir = path.resolve(process.cwd(), 'data', 'ammar');
+  if (!(await directoryExists(ammarDir))) {
+    return null;
   }
 
   const [metadataMod, personalMod, portfolioMod, experienceMod, educationMod, servicesMod, certificatesMod, recommendationsMod, skillsMod] = await Promise.all([
-    import('../src/static-content/metadata'),
-    import('../src/static-content/personal'),
-    import('../src/static-content/portfolio'),
-    import('../src/static-content/experience'),
-    import('../src/static-content/education'),
-    import('../src/static-content/services'),
-    import('../src/static-content/certificates'),
-    import('../src/static-content/recommendations'),
-    import('../src/static-content/skills'),
+    import('../data/ammar/metadata'),
+    import('../data/ammar/personal'),
+    import('../data/ammar/portfolio'),
+    import('../data/ammar/experience'),
+    import('../data/ammar/education'),
+    import('../data/ammar/services'),
+    import('../data/ammar/certificates'),
+    import('../data/ammar/recommendations'),
+    import('../data/ammar/skills'),
   ]);
 
   return {
-    source: 'static',
+    source: 'ammar',
     payload: {
       metadata: metadataMod.metadata,
       personalInfo: personalMod.personalInfo,
@@ -501,10 +482,10 @@ async function seedRecommendations(payload: ArchivePayload) {
 }
 
 async function seedAdminUser() {
-  const username = (process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
-  const email = (process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
-  const displayName = process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
-  const password = process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
+  const username = (process.env.ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
+  const email = (process.env.ADMIN_EMAIL ?? process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
+  const displayName = process.env.ADMIN_DISPLAY_NAME ?? process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
+  const password = process.env.ADMIN_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
 
   const passwordHash = await hashPassword(password);
 
@@ -553,7 +534,13 @@ async function main() {
     return;
   }
 
-  const { source, payload } = await loadArchiveOrStatic();
+  const ammarSeed = await loadAmmarPayload();
+  if (!ammarSeed) {
+    console.warn('Ammar data folder not found. Create data/ammar with your personal archive data to run this command.');
+    return;
+  }
+
+  const { source, payload } = ammarSeed;
   console.info(`Seed source: ${source}`);
 
   console.info('Resetting tables...');

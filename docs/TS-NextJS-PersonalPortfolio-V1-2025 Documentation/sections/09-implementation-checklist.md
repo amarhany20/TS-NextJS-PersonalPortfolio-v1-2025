@@ -35,17 +35,20 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 ---
 
 ## 3) Immediate Next Actions
+- **GUI Setup Wizard (NEW HIGH PRIORITY)**
+  - [ ] Create `/setup` route that detects uninitialized state
+  - [ ] Build multi-step wizard UI (Welcome → Database → Admin Account → Site Config → Content Setup)
+  - [ ] Implement database selection (SQLite vs PostgreSQL) with connection testing
+  - [ ] Create admin account form with validation
+  - [ ] Add theme selection during setup
+  - [ ] Implement automatic .env file creation/updates
+  - [ ] Add progress indicators and error handling
+  - [ ] Create setup completion redirect to admin dashboard
+  - [ ] Add setup guard middleware to prevent re-access
 - **Parity audit (Phase 1 tailwork)**
   - [ ] Move SEO/metadata ingestion fully to `SettingsRepository` outputs.
   - [ ] Validate empty-state fallbacks using seeded snapshots vs. legacy static-content.
   - [ ] Produce snapshot diff report before deleting static data in future release.
-- **Admin dashboard polish (Phase 4)**
-  - [x] Add optimistic draft/publish toggles with error toasts as per UX spec (portfolio + experience + skills complete).
-  - [x] Ship experience CRUD screen set (index, create, edit) with shared validator-driven form + toast feedback.
-  - [x] Backfill Playwright smoke tests for portfolio, experience, and skills CRUD flows.
-  - [x] Implement admin login UI form (replaced placeholder with functional login form).
-  - [x] Make brand logo clickable to navigate home.
-  - [x] Improve scrollbar styling for better UX.
 - **Advanced systems (Phase 5)**
   - [x] Backfill contact inbox documentation, smoke tests, and analytics wiring.
   - [x] Blog editor polish (rich text surface + scheduling UX), scheduled publish e2e tests, and public page analytics wiring complete.
@@ -76,22 +79,22 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 ## 5) Summary of Remaining Work
 
 ### Critical/High Priority (Blockers for v1.0)
-**None** - All critical features are complete! ✅
+1. **GUI Setup Wizard** - Replace terminal-based setup with web-based wizard (WordPress-style)
 
 ### Medium Priority (Enhancements)
-1. **Setup wizard guard middleware** - Redirect post-setup traffic away from `/setup` once complete
-2. **Multi-database selection UX** - Improve database selection in setup wizard (deferred to future implementation)
+2. **Setup wizard guard middleware** - Redirect post-setup traffic away from `/setup` once complete
+3. **Multi-database selection UX** - Improve database selection in setup wizard (deferred to future implementation)
 
 ### Low Priority (Nice-to-Have)
-3. **SEO/metadata migration** - Move SEO/metadata ingestion fully to `SettingsRepository` outputs
-4. **Empty-state validation** - Validate empty-state fallbacks using seeded snapshots vs. legacy static-content
-5. **Environment hygiene** - Keep `.env.example` synced, document secret rotation procedures
-6. **Migration follow-ups** - CSS import warning suppression, optional test dependencies
+4. **SEO/metadata migration** - Move SEO/metadata ingestion fully to `SettingsRepository` outputs
+5. **Empty-state validation** - Validate empty-state fallbacks using seeded snapshots vs. legacy static-content
+6. **Environment hygiene** - Keep `.env.example` synced, document secret rotation procedures
+7. **Migration follow-ups** - CSS import warning suppression, optional test dependencies
 
 ### Documentation Tasks
-7. **Tracking updates** - Update `docs/migration_plan.md`, log architecture changes, mirror migration highlights
+8. **Tracking updates** - Update `docs/migration_plan.md`, log architecture changes, mirror migration highlights
 
-**Status:** The application is production-ready. All Phase 0-7 critical features are complete. Remaining items are enhancements and documentation tasks that can be handled incrementally.
+**Status:** The application has all core features complete. The GUI setup wizard is now the primary focus to make the platform more user-friendly and framework-like.
 
 ---
 

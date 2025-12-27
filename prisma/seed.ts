@@ -402,10 +402,10 @@ async function seedRecommendations() {
 }
 
 async function seedAdminUser() {
-  const username = (process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
-  const email = (process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
-  const displayName = process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
-  const password = process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
+  const username = (process.env.ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
+  const email = (process.env.ADMIN_EMAIL ?? process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
+  const displayName = process.env.ADMIN_DISPLAY_NAME ?? process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
+  const password = process.env.ADMIN_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
 
   const passwordHash = await hashPassword(password);
 

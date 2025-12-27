@@ -5,14 +5,15 @@ import { BlogEditorForm } from "@/components/Admin/Blog/BlogEditorForm";
 import { BlogService } from "@/server/services/BlogService";
 
 interface AdminBlogEditorPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function AdminBlogEditorPage({ params }: AdminBlogEditorPageProps) {
+  const { slug } = await params;
   const [post, categories, tags] = await Promise.all([
-    BlogService.getPostBySlug(params.slug),
+    BlogService.getPostBySlug(slug),
     BlogService.listCategories(),
     BlogService.listTags(),
   ]);

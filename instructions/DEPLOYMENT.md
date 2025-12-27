@@ -16,7 +16,7 @@ Steps to deploy to a managed platform (e.g., Vercel) with Postgres and Prisma mi
 ---
 
 ## Environment Variables (Production)
-- `AUTH_SECRET` — generate a strong, unique value
+- `AUTH_SECRET` — generate a strong, unique value (32+ chars)
 - `NEXT_PUBLIC_SITE_URL` — your site URL (e.g., https://example.com)
 - `DATABASE_URL` — Postgres (e.g., Neon) connection string
 - Optional seed vars (for initial setup only): `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`

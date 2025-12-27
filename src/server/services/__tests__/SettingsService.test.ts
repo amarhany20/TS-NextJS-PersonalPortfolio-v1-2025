@@ -23,7 +23,7 @@ vi.mock('react', async () => {
 
 vi.mock('@/server/repositories/SettingsRepository', () => ({
   SettingsRepository: {
-    get: vi.fn(),
+    getStatus: vi.fn(),
   },
 }));
 
@@ -57,25 +57,31 @@ beforeEach(async () => {
 
 describe('SettingsService', () => {
   it('returns serialized site content', async () => {
-    vi.mocked(SettingsRepository.get).mockResolvedValue({ profile: { fullName: 'Ammar' } } as any);
+    vi.mocked(SettingsRepository.getStatus).mockResolvedValue({
+      status: 'ready',
+      settings: { profile: { fullName: 'Ammar' } } as any,
+    });
 
     const result = await SettingsService.getSiteContent();
 
     expect(result.profile?.fullName).toBe('Ammar');
-    expect(SettingsRepository.get).toHaveBeenCalledTimes(1);
+    expect(SettingsRepository.getStatus).toHaveBeenCalledTimes(1);
   });
 
   it('caches consecutive calls', async () => {
-    vi.mocked(SettingsRepository.get).mockResolvedValue({ profile: { fullName: 'Cached' } } as any);
+    vi.mocked(SettingsRepository.getStatus).mockResolvedValue({
+      status: 'ready',
+      settings: { profile: { fullName: 'Cached' } } as any,
+    });
 
     await SettingsService.getSiteContent();
     await SettingsService.getSiteContent();
 
-    expect(SettingsRepository.get).toHaveBeenCalledTimes(1);
+    expect(SettingsRepository.getStatus).toHaveBeenCalledTimes(1);
   });
 
   it('throws when settings missing', async () => {
-    vi.mocked(SettingsRepository.get).mockResolvedValue(null);
+    vi.mocked(SettingsRepository.getStatus).mockResolvedValue({ status: 'missing_record' });
 
     await expect(SettingsService.getSiteContent()).rejects.toThrow('Site settings have not been initialised');
   });

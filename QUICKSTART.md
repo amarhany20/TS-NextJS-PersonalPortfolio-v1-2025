@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Follow these steps to get the portfolio running locally on your machine.
+Get your portfolio running in minutes with our web-based setup wizard - no terminal commands required!
 
 ## 1️⃣ Prerequisites
 
@@ -16,43 +16,7 @@ cd TS-NextJS-PersonalPortfolio-v1-2025
 npm install
 ```
 
-## 3️⃣ Update Environment File
-
-Your `.env` file already exists. Add or verify these required variables:
-
-```env
-# 🔐 Session Secret (REQUIRED - generate new for production)
-AUTH_SECRET=local-dev-secret-32-characters-minimum-length-OK
-
-# 🌐 Public Site URL
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-
-# 📦 Database
-DATABASE_URL="file:./dev.db"
-
-# 👤 Seed Credentials
-SEED_ADMIN_PASSWORD=change-me-now
-SEED_ADMIN_EMAIL=admin@example.com
-```
-
-**To generate a production-grade `AUTH_SECRET`:**
-```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
-
-## 4️⃣ Setup Database
-
-```bash
-# Create database schema
-npm run prisma:migrate
-
-# Populate with sample data (projects, experience, education, etc.)
-npm run db:seed
-```
-
-You should see: **"Database seed complete."**
-
-## 5️⃣ Start Development Server
+## 3️⃣ Start the Application
 
 ```bash
 npm run dev
@@ -60,71 +24,117 @@ npm run dev
 
 Open **http://localhost:3000** in your browser.
 
-### 🔐 Admin Dashboard
+## 4️⃣ Complete Web-Based Setup
 
-- URL: http://localhost:3000/admin
-- Username: `admin`
-- Password: `change-me-now`
+The application will automatically detect it's not configured and show a **Setup Wizard**.
 
-## ✅ Verify Setup
+### Step 1: Welcome
+- Introduction to the portfolio platform
+- Quick overview of features
 
-All of these should work without errors:
+### Step 2: Database Configuration
+- Choose between **SQLite** (recommended for development) or **PostgreSQL**
+- For PostgreSQL: Enter your connection string
+- The wizard will automatically create the database schema
 
-```bash
-npm run typecheck    # Type checking
-npm run lint         # Code linting
-npm run test         # Unit tests
-npm run build        # Production build
-```
+### Step 3: Admin Account
+- Create your admin username and password
+- Set your display name
+- Configure basic site information
+
+### Step 4: Site Configuration
+- Choose your preferred theme
+- Set site title and description
+- Configure basic SEO settings
+
+### Step 5: Content Setup
+- Choose to start with sample content or begin empty
+- The wizard will populate your database with initial data
+
+## 5️⃣ Access Your Portfolio
+
+Once setup is complete:
+- **Public Site**: http://localhost:3000
+- **Admin Dashboard**: http://localhost:3000/admin
+- **Login**: Use the credentials you created during setup
+
+## ✅ Setup Complete!
+
+Your portfolio is now ready with:
+- ✅ Database configured and seeded
+- ✅ Admin account created
+- ✅ Sample content loaded
+- ✅ Theme applied
+- ✅ SEO settings configured
+## 🎨 Admin Features
+
+All admin CRUD operations are now complete:
+
+- ✅ **Portfolio**: Create, edit, delete, and reorder projects
+- ✅ **Experience**: Manage work experience entries
+- ✅ **Education**: Track academic achievements
+- ✅ **Skills**: Organize skills by category
+- ✅ **Certificates**: Document professional certifications
+- ✅ **Recommendations**: Collect and curate testimonials
+- ✅ **Blogs**: Full-featured blog editor with rich text
+- ✅ **Services**: Manage service offerings
+- ✅ **Media**: Upload and manage media files
+- ✅ **Contact**: View contact form submissions
+- ✅ **Settings**: Configure theme, maintenance mode, and profile
 
 ## 🆘 Troubleshooting
 
-### "Site settings have not been initialised"
+### Setup Wizard Doesn't Appear
 
-This error means the database wasn't seeded. Make sure you ran:
+If you don't see the setup wizard:
+1. Check that your `.env` file exists and has the required variables
+2. Ensure the database file isn't corrupted - delete `dev.db` and restart
+3. Check browser console for any JavaScript errors
 
-```bash
-npm run db:seed
-```
+### Admin Login Issues
 
-If the error persists, reset the database:
-```bash
-rm dev.db
-npm run prisma:migrate
-npm run db:seed
-```
+- **Wrong credentials**: Use the username and password you created during setup
+- **Session expired**: Log out and log back in
+- **Database issues**: Check that the database is properly seeded
 
-### "AUTH_SECRET must be 32+ characters"
+### Theme Not Applying
 
-Your `.env` file is missing or has an invalid `AUTH_SECRET`. Add this to `.env`:
+- **Public site**: Refresh the page after changing theme in admin
+- **Browser cache**: Hard refresh (Ctrl+F5) to clear cached styles
+- **Admin preview**: Theme changes apply immediately in admin interface
 
-```env
-AUTH_SECRET=local-dev-secret-32-characters-minimum-length-OK
-```
+### Performance Issues
 
-Or generate a secure one:
-```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
-
-### Port 3000 is already in use
-
-Change the port:
-```bash
-npm run dev -- -p 3001
-```
-
-Then open http://localhost:3001
+- **Slow loading**: Check database queries in browser dev tools
+- **Memory usage**: Restart the dev server if it becomes unresponsive
+- **Build errors**: Run `npm run build` to check for compilation issues
 
 ## 📚 Next Steps
 
-- **Admin Dashboard**: Access `/admin` to manage all content (portfolio, experience, education, skills, certificates, recommendations, blogs, services)
-- **Change theme**: Visit `/admin/settings/theme` to switch between 4 available themes:
-  - Professional Dark (default)
-  - Modern Gradient
-  - Minimal Light
-  - Ocean Blue
+- **Admin Dashboard**: Access `/admin` to manage all content
+- **Change theme**: Visit `/admin/settings/theme` to switch between themes
 - **Deploy**: Push to GitHub and deploy via Vercel (zero-config)
+- **Customize**: Edit content through the admin interface
+
+## 🚀 Advanced Usage
+
+For developers who want to extend the platform:
+
+```bash
+# Development commands
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run typecheck    # Type checking
+npm run lint         # Code linting
+npm run test         # Run tests
+
+# Database management
+npm run prisma:studio    # Open Prisma Studio
+npm run db:seed         # Reseed database
+npm run prisma:migrate  # Run migrations
+```
+
+See [README.md](README.md) for complete documentation.
 
 ## 🎨 Admin Features
 
