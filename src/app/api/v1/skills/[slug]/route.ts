@@ -5,16 +5,11 @@ import { requireAuth } from '@/server/security/session';
 import { SkillService } from '@/server/services/SkillService';
 import { updateSkillGroupSchema } from '@/server/server-validators/api/skill';
 
-interface RouteParams {
-  params: {
-    slug: string;
-  };
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
-    const skillGroup = await SkillService.getSkillGroupBySlug(params.slug);
+    const { slug } = await params;
+    const skillGroup = await SkillService.getSkillGroupBySlug(slug);
 
     if (!skillGroup) {
       return notFoundResponse('Skill group not found');
@@ -26,9 +21,10 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
+    const { slug } = await params;
     const body = await request.json();
     const result = updateSkillGroupSchema.safeParse(body);
 
@@ -36,17 +32,18 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const skillGroup = await SkillService.updateSkillGroup(params.slug, result.data);
+    const skillGroup = await SkillService.updateSkillGroup(slug, result.data);
     return successResponse({ skillGroup });
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
-    await SkillService.deleteSkillGroup(params.slug);
+    const { slug } = await params;
+    await SkillService.deleteSkillGroup(slug);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

@@ -5,29 +5,24 @@ import { requireAuth } from '@/server/security/session';
 import { BlogService } from '@/server/services/BlogService';
 import { updateBlogSchema } from '@/server/server-validators/api/blog';
 
-interface RouteParams {
-  params: Promise<{
-    slug: string;
-  }>;
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
     const { slug } = await params;
-    const post = await BlogService.getPostBySlug(slug);
+    const blogs = await BlogService.listAllPosts();
+    const blog = blogs.find(b => b.slug === slug);
 
-    if (!post) {
+    if (!blog) {
       return notFoundResponse('Blog post not found');
     }
 
-    return successResponse({ post });
+    return successResponse({ blog });
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
     const { slug } = await params;
@@ -38,14 +33,14 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const post = await BlogService.updatePost(slug, result.data);
-    return successResponse({ post });
+    const blog = await BlogService.updatePost(slug, result.data);
+    return successResponse({ blog });
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
     const { slug } = await params;

@@ -1,9 +1,12 @@
 "use client";
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import type { Blog, BlogStatus } from '@/types/blog';
+import { useToast } from '@/components/ui/ToastProvider';
+
 
 interface BlogTableProps {
   posts: Blog[];
@@ -17,16 +20,56 @@ const STATUS_FILTERS: Array<{ label: string; value: BlogStatus | 'all' }> = [
   { label: 'Archived', value: 'archived' },
 ];
 
+const formatDate = (value?: string | null) => {
+  if (!value) {
+    return '—';
+  }
+  return new Date(value).toLocaleDateString('en-US', { timeZone: 'UTC' });
+};
+
+
 export function BlogTable({ posts }: BlogTableProps) {
+  const router = useRouter();
+  const { showToast } = useToast();
   const [statusFilter, setStatusFilter] = useState<BlogStatus | 'all'>('all');
+  const [rows, setRows] = useState<Blog[]>(posts);
+
+  useEffect(() => {
+    setRows(posts);
+  }, [posts]);
 
   const filtered = useMemo(() => {
     if (statusFilter === 'all') {
-      return posts;
+      return rows;
     }
 
-    return posts.filter((post) => post.status === statusFilter);
-  }, [posts, statusFilter]);
+    return rows.filter((post) => post.status === statusFilter);
+  }, [rows, statusFilter]);
+
+  const handleDelete = async (post: Blog) => {
+    const confirmed = window.confirm(`Delete "${post.title}"? This cannot be undone.`);
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/v1/blogs/${post.slug}`, { method: 'DELETE' });
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        const message = payload?.error?.message ?? 'Unable to delete blog post.';
+        throw new Error(message);
+      }
+
+      setRows((current) => current.filter((item) => item.id !== post.id));
+      showToast({ variant: 'success', title: 'Blog post deleted', description: post.title });
+      router.refresh();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to delete blog post.';
+      showToast({ variant: 'error', title: 'Delete failed', description: message });
+    }
+  };
+
 
   return (
     <div className="space-y-4">
@@ -87,11 +130,12 @@ export function BlogTable({ posts }: BlogTableProps) {
                   <InlineList items={post.tags.map((tag) => `#${tag.name}`)} emptyLabel="None" />
                 </td>
                 <td className="py-3 text-[var(--text-secondary)]">
-                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : '—'}
+                  {formatDate(post.publishedAt)}
                 </td>
                 <td className="py-3 text-[var(--text-secondary)]">
-                  {new Date(post.updatedAt).toLocaleDateString()}
+                  {formatDate(post.updatedAt)}
                 </td>
+
                 <td className="py-3 text-right">
                   <div className="flex justify-end gap-3 text-xs">
                     <Link
@@ -103,8 +147,16 @@ export function BlogTable({ posts }: BlogTableProps) {
                     <Link href={`/blogs/${post.slug}`} className="text-[var(--text-secondary)] hover:underline" prefetch={false}>
                       View
                     </Link>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(post)}
+                      className="font-semibold text-rose-500 hover:underline"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
+
               </tr>
             ))}
           </tbody>

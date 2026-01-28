@@ -55,7 +55,7 @@ export function EducationForm({ mode, education }: EducationFormProps) {
     gpa: education?.gpa ?? '',
     achievementsInput: (education?.achievements ?? []).join('\n'),
     project: education?.project ?? '',
-    published: education?.published ?? false,
+    // published: education?.published ?? true, // Education doesn't have published field
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -101,7 +101,7 @@ export function EducationForm({ mode, education }: EducationFormProps) {
       gpa: formState.gpa.trim() || undefined,
       achievements: achievements.length > 0 ? achievements : [],
       project: formState.project.trim() || undefined,
-      published: formState.published,
+
     };
   };
 
@@ -268,13 +268,7 @@ export function EducationForm({ mode, education }: EducationFormProps) {
               helper="Optional thesis, capstone, or notable project"
             />
             <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="published"
-                checked={formState.published}
-                onChange={handleCheckboxChange('published')}
-                className="h-4 w-4 rounded border-[var(--border)] accent-accent"
-              />
+
               <label htmlFor="published" className="text-sm font-medium text-foreground">
                 Published (visible on public site)
               </label>

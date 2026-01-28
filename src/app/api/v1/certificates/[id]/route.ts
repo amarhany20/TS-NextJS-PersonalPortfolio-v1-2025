@@ -1,24 +1,19 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
+import { errorResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
+import { NotFoundError } from '@/server/http/errors';
 import { requireAuth } from '@/server/security/session';
 import { CertificateService } from '@/server/services/CertificateService';
 import { updateCertificateSchema } from '@/server/server-validators/api/certificate';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;
     const certificate = await CertificateService.getCertificateById(id);
 
     if (!certificate) {
-      return notFoundResponse('Certificate not found');
+      return errorResponse(new NotFoundError('Certificate not found'));
     }
 
     return successResponse({ certificate });
@@ -27,7 +22,7 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;
@@ -45,7 +40,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;

@@ -3,11 +3,12 @@
 ## 3.1 Database Options
 | Option | When to Use | Notes |
 |--------|-------------|-------|
-| SQLite (`prisma/dev.db`) | Default for local dev and single-user deployments | File-based, zero config, backed up via `.db` copy or `.dump`. |
-| Neon PostgreSQL | Production, staging, or shared hosting | Configure `DATABASE_URL` during setup wizard; migrations deploy via `npx prisma migrate deploy`. |
+| SQLite (`prisma/dev.db`) | Local development only | File-based, zero config, backed up via `.db` copy or `.dump`. |
+| Neon PostgreSQL | Vercel production and staging | `DATABASE_URL` is configured in Vercel Environment Variables; migrations deploy via `npx prisma migrate deploy`. |
 
 Both targets share the same Prisma schema. The wizard records the chosen provider and prevents
-re-initialization by creating a `.setup-complete` marker plus Settings row existence checks.
+re-initialization by checking the Settings row plus `SETUP_MODE` gating (no filesystem markers).
+
 
 ## 3.2 Core Entities
 - **Content:** `Portfolio`, `Blog`, `Experience`, `Education`, `Skill`, `Service`, `Certificate`,
@@ -58,13 +59,14 @@ Prisma via services. Outstanding parity tasks from `docs/migration_plan.md`:
   release.
 
 ## 3.6 First-Run Configuration & Editable Settings
-- **Setup capture:** The `/setup` wizard persists initial profile, SEO, and theme selections inside
-  the `Settings` table. Upcoming migrations add `setupCompletedAt`, `setupVersion`, and
-  `databaseProvider` fields so we can track how the instance was provisioned.
+- **Env bootstrap:** On first run, the app seeds the `Settings` table from `.env` and records
+  `setupCompletedAt`, `setupVersion`, and `databaseProvider` for audit.
+
 - **Editable configuration:** Admin users can revisit `/admin/settings` to update any values
-  collected during setup (profile bio, contact info, social links, SEO defaults, maintenance mode,
+  collected during bootstrap (profile bio, contact info, social links, SEO defaults, maintenance mode,
   theme). These forms call `SettingsService` to ensure type-safe updates and history tracking via
   `ContentVersion` when required.
+
 - **Future extension:** Planned `SetupConfig` table (or extension of `Settings`) will store advanced
   onboarding choices such as wizard completion checklist, optional modules enabled, and asset
   storage preferences, ensuring first-run decisions remain auditable and reversible without manual

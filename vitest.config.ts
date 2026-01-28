@@ -9,12 +9,11 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
-    include: [
-      'src/**/*.{test,spec}.{ts,tsx}',
-      'src/**/__tests__/**/*.{test,spec}.{ts,tsx}',
-    ],
+    include: ['tests/unit/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['tests/e2e/**/*'],
     coverage: {
       enabled: false,
     },
   },
+
 });

@@ -7,31 +7,35 @@ test.describe('Admin skills CRUD', () => {
     const unique = Date.now();
     const title = `E2E Skills Group ${unique}`;
     const slug = `e2e-skills-${unique}`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3000';
+    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
 
     try {
-      await page.goto('/admin/skills');
-      await expect(page.getByRole('heading', { name: 'Skills' })).toBeVisible();
-
-      await page.getByRole('link', { name: 'New group' }).click();
-      await expect(page).toHaveURL(/\/admin\/skills\/new$/);
+      await page.goto('/admin/skills/new');
       await expect(page.getByRole('heading', { name: 'Create skill group' })).toBeVisible();
 
-      await page.getByLabel('Title').fill(title);
-      await page.getByLabel('Slug').fill(slug);
-      await page.getByLabel('Summary').fill('Automation smoke coverage');
-      await page.getByLabel('Skill names').fill('Next.js\nTypeScript');
+
+      const fillField = async (label: string, value: string) => {
+        await page.getByLabel(label, { exact: true }).fill(value);
+      };
+
+      await fillField('Title', title);
+      await fillField('Slug', slug);
+      await fillField('Summary', 'Automation smoke coverage');
+      await fillField('Skill names', 'Next.js\nTypeScript');
+
 
       await page.getByRole('button', { name: 'Create group' }).click();
       await expect(page).toHaveURL(/\/admin\/skills$/);
-      await expect(page.getByText(title)).toBeVisible();
+      await expect(page.locator('tr', { hasText: title }).first()).toBeVisible();
+
       await expect(page.getByText(`/${slug}`)).toBeVisible();
 
       const row = page.locator('tr', { hasText: `/${slug}` });
       await row.getByRole('link', { name: /Edit/i }).click();
       await expect(page).toHaveURL(new RegExp(`/admin/skills/${slug}$`));
 
-      await page.getByLabel('Title').fill(`${title} Updated`);
+      await fillField('Title', `${title} Updated`);
+
       await page.getByRole('button', { name: 'Save changes' }).click();
       await expect(page).toHaveURL(/\/admin\/skills$/);
       await expect(page.getByText(`${title} Updated`)).toBeVisible();

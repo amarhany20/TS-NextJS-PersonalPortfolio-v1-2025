@@ -16,6 +16,6 @@ export default async function SetupSettingsPage() {
     );
   }
 
-  return <SetupSettingsPanel settings={settings} />;
+  return <SetupSettingsPanel settings={settings as any} />;
 }
 

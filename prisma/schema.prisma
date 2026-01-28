@@ -1,14 +1,16 @@
 // Prisma schema defining the data model for the Portfolio Creator platform.
-// SQLite is the default for local development; Neon/PostgreSQL supported via DATABASE_URL.
+// Neon/PostgreSQL is the default for all environments.
+
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 
 // ----------------------------------------
 // Core Models
@@ -52,7 +54,8 @@ model Settings {
   seoDefaults        String?
   setupCompletedAt   DateTime?
   setupVersion       String?
-  databaseProvider   String?   @default("sqlite")
+  databaseProvider   String?   @default("postgresql")
+
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 

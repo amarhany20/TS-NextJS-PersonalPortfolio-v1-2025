@@ -13,7 +13,7 @@ export type SetupStep = 'welcome' | 'database' | 'admin' | 'site';
 
 export interface SetupData {
   database: {
-    type: 'sqlite' | 'postgresql';
+    type: 'postgresql';
     connectionString?: string;
   };
   admin: {
@@ -28,7 +28,11 @@ export interface SetupData {
     siteSubtitle?: string;
     description?: string;
   };
+  content: {
+    includeSampleData: boolean;
+  };
 }
+
 
 const STEPS: { id: SetupStep; title: string; description: string }[] = [
   { id: 'welcome', title: 'Welcome', description: 'Get started with your portfolio' },
@@ -66,10 +70,12 @@ export default function SetupWizard() {
   const handleComplete = async () => {
     setIsSubmitting(true);
     try {
+      const defaultSeed = process.env.NEXT_PUBLIC_SEED_SAMPLE_DATA === 'true';
       const completeSetupData = {
         ...setupData,
-        content: { includeSampleData: false }, // Default to start fresh
+        content: setupData.content ?? { includeSampleData: defaultSeed },
       };
+
 
       const response = await fetch('/api/setup', {
         method: 'POST',

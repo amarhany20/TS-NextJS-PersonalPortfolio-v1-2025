@@ -13,14 +13,15 @@
 
 ## Overview
 Portfolio Creator is an enterprise-ready, self-hosted portfolio platform built on Next.js 15, Prisma,
-and Tailwind. The v1 scope delivers a database-backed CMS, admin dashboard, automated setup wizard,
+and Tailwind. The v1 scope delivers a database-backed CMS, admin dashboard, env-driven bootstrap,
 and themable public experience while preserving the structure defined in the Ammar Next.js Engineering
 Standard. This document tracks the architecture baseline, implementation status, and migration plan
 for the TS-NextJS-PersonalPortfolio-v1-2025 codebase, including:
 - Canonical data model definitions plus first-run configuration storage (Section 3).
 - End-to-end page, module, and theme plans for both public and admin surfaces (Section 5).
-- Infrastructure practices for environment variables, setup automation, and deployment hygiene
+- Infrastructure practices for environment variables, migrations, and deployment hygiene
 	(Section 6).
+
 
 ---
 
@@ -42,72 +43,72 @@ Related:
 
 ## Project Status
 
-### Documentation Completion (Agent B) ✅
-✅ **FULLY EXECUTED** — All documentation deliverables have been completed per the Agents Execution Plan:
+### Documentation Completion (Agent B) [x]
+[x] **FULLY EXECUTED** - All documentation deliverables have been completed per the Agents Execution Plan:
 
 #### Architecture & Structure
-- [x] `architecture.md` (this file) — baseline with system overview, layers, data model, APIs, admin/public experience, infrastructure, security, testing, and implementation checklist
-- [x] `code-structure.md` — canonical folder map and responsibility alignment
-- [x] Section 1–9 under `sections/` — detailed deep dives on each architectural domain
-- [x] `docs/architecture/codebase-alignment.md` — Agent A alignment report with minimal changes applied
+- [x] `architecture.md` (this file) - baseline with system overview, layers, data model, APIs, admin/public experience, infrastructure, security, testing, and implementation checklist
+- [x] `code-structure.md` - canonical folder map and responsibility alignment
+- [x] Section 1-9 under `sections/` - detailed deep dives on each architectural domain
+- [x] `docs/architecture/codebase-alignment.md` - Agent A alignment report with minimal changes applied
 
 #### Runbooks (Operations)
-- [x] `instructions/FIRST-RUN.md` — automated setup wizard + manual fallback (supports SQLite & Neon)
-- [x] `instructions/SEEDING.md` — seed entry point and workflows
-- [x] `docs/runbooks/seed-ammar.md` — **Owner seeding from private `data/ammar/*` dataset** ✅ 
-- [x] `instructions/ADMIN-USAGE.md` — feature overview and tips
-- [x] `instructions/DEPLOYMENT.md` — Vercel and CI/CD steps
-- [x] `instructions/THEMING.md` — theme selection and registry
-- [x] `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/sections/09-implementation-checklist.md` — migration status and remaining work
+- [x] `docs/runbooks/seed-ammar.md` - **Owner seeding from private `data/ammar/*` dataset** [x]
+- [x] `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/sections/09-implementation-checklist.md` - migration status and remaining work
+- [x] Env bootstrap seeds admin + Settings from `.env`
+
 
 #### Code Implementation (Agent F - Seed Generator)
-- [x] `prisma/reset-and-seed-ammar.ts` — **Fully implemented** — seeds from `data/ammar/*` (private owner dataset)
-- [x] `pnpm seed:ammar` — wired and documented in `package.json` as script target
-- [x] Idempotent seeding — safe to run multiple times; covers portfolio, experience, education, skills, certificates, recommendations
-- [x] Optional dataset detection — skips seeding if `data/ammar/` is missing
+- [x] `prisma/reset-and-seed-ammar.ts` - **Fully implemented** - seeds from `data/ammar/*` (private owner dataset)
+- [x] `pnpm seed:ammar` - wired and documented in `package.json` as script target
+- [x] Idempotent seeding - safe to run multiple times; covers portfolio, experience, education, skills, certificates, recommendations
+- [x] Optional dataset detection - skips seeding if `data/ammar/` is missing
 
 ### Remaining Documentation Gaps (Follow-Up Items)
-- [ ] Multi-database selection UX guidance (deferred per Phase plan)
+- [ ] Env bootstrap guidance (Neon-only flow)
 - [ ] `.env.example` sync reminder in environment docs
 - [ ] Production secret rotation procedures
 - [ ] Detailed logging/observability runbook (advanced topic)
 
-### Phase Implementation Status (as of 2025-12-17)
-- ✅ **Phase 0** — Baseline hardening complete; build passes, CI/CD automation in place
-- ✅ **Phase 1** — Database, seeding, repositories, serializers shipped; parity audit outstanding
-- ✅ **Phase 2** — Auth, sessions, admin layout complete
-- ✅ **Phase 3** — Core CRUD APIs end-to-end
-- ✅ **Phase 4** — Admin dashboard with drag-and-drop, draft/publish, forms
-- ✅ **Phase 5** — Media manager, contact inbox, blog editor, themes, analytics
-- ✅ **Phase 6** — Setup wizard infrastructure and settings panel
-- ✅ **Phase 7** — CI/CD, logging, documentation refresh
 
-**Application Status:** Production-ready ✅. All critical Phase 0–7 features complete. Remaining items are enhancements and documentation polish.
+### Phase Implementation Status (as of 2025-12-17)
+- [x] **Phase 0** - Baseline hardening complete; build passes, CI/CD automation in place
+- [x] **Phase 1** - Database, seeding, repositories, serializers shipped; parity audit outstanding
+- [x] **Phase 2** - Auth, sessions, admin layout complete
+- [x] **Phase 3** - Core CRUD APIs end-to-end
+- [x] **Phase 4** - Admin dashboard with drag-and-drop, draft/publish, forms
+- [x] **Phase 5** - Media manager, contact inbox, blog editor, themes, analytics
+- [x] **Phase 6** - Env bootstrap infrastructure and settings panel
+
+- [x] **Phase 7** - CI/CD, logging, documentation refresh
+
+**Application Status:** Production-ready [x]. All critical Phase 0-7 features complete. Remaining items are enhancements and documentation polish.
 
 ### Key Implementation Details
 
 #### Setup & First Run
-The `instructions/FIRST-RUN.md` provides:
-- Interactive first-run setup via `pnpm setup:first-run` (TypeScript) or PowerShell
-- Support for SQLite (default) and Neon PostgreSQL databases
-- Automated `.env` generation with validation
-- Database initialization and seeding in one command
+Setup is driven by `.env` and Vercel Environment Variables:
+- Neon PostgreSQL only in production (DATABASE_URL)
+- Admin credentials and site settings are sourced from `.env`
+- The app bootstraps the Settings row on first run if it is missing
+- Prisma migrations run during CI/build (not from the UI)
+
 
 #### Database Seeding Strategy
 Two complementary seeders:
-1. **`prisma/seed.ts`** — Default seeder using `src/static-content/*` modules
-2. **`prisma/reset-and-seed-ammar.ts`** — Advanced seeder (Agent F) with:
+1. **`prisma/seed.ts`** - Default seeder using `src/static-content/*` modules
+2. **`prisma/reset-and-seed-ammar.ts`** - Advanced seeder (Agent F) with:
    - Private dataset source: Reads `data/ammar/*` modules
    - Safe no-op: Skips if `data/ammar/` is not present
-   - Database detection: Auto-configures for SQLite or PostgreSQL
+   - Database detection: Uses DATABASE_URL (Neon in Vercel)
+
    - Full content reset: Idempotent; safe for repeated execution in dev environments
 
 #### Commands Reference
 ```sh
 # Standard setup
 pnpm i
-pnpm setup:first-run      # Interactive
-pnpm prisma:migrate       # Migrations
+pnpm prisma:migrate       # Local migrations
 pnpm db:seed              # Default seed
 
 # Advanced seeding (Agent F)
@@ -119,11 +120,12 @@ pnpm test                 # Run unit tests
 pnpm e2e                  # Run Playwright e2e
 ```
 
+
 ---
 
 ## Changelog
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
 | 1.02.00 | 2025-12-17 | Ammar Hany | **Complete verification**: Marked Agent B (docs) and Agent F (seed-ammar) as **FULLY EXECUTED**. Updated with actual implementation details, runbook completion status, and command reference. |
-| 1.01.00 | 2025-12-17 | Ammar Hany | Updated status section to reflect Agent B documentation completion and Phase 0–7 production-ready status. |
+| 1.01.00 | 2025-12-17 | Ammar Hany | Updated status section to reflect Agent B documentation completion and Phase 0-7 production-ready status. |
 | 1.00.00 | 2025-12-02 | GitHub Copilot | Initial extraction aligned with Ammar Documentation Guideline v5.01.00. |

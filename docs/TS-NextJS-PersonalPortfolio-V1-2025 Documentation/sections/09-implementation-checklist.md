@@ -1,8 +1,9 @@
 # Implementation Checklist
 
-**Version:** 1.03.00  
+**Version:** 1.04.00  
 **Created:** 2025-12-14  
-**Last Updated:** 2025-12-17  
+**Last Updated:** 2025-12-27  
+
 **Author:** GitHub Copilot  
 **Maintainer:** Ammar Hany  
 **Status:** Active  
@@ -22,7 +23,8 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 - [x] **Phase 3 – Core content APIs**: CRUD stacks wired end-to-end with repositories, serializers, validation, and unit-test scaffolding.
 - [x] **Phase 4 – Admin dashboard & CRUD UX**: Layout, nav, CRUD forms, dashboard KPIs, quick links, reorder board complete; portfolio + experience + skills ship optimistic publish/draft toggles with toasts; Playwright smoke tests complete.
 - [x] **Phase 5 – Advanced systems**: Media manager, contact inbox, theme registry shipped; blog editor enhanced with full toolbar and scheduling UX; analytics wiring complete; theme documentation and QA checklist added.
-- [x] **Phase 6 – Setup wizard & configuration**: Setup completion tracking fields added; setup settings panel created; guard middleware structure ready.
+- [x] **Phase 6 – Env bootstrap & configuration**: Setup completion tracking fields added; setup settings panel created; env bootstrap defined.
+
 - [x] **Phase 7 – Polishing, testing, release**: CI/CD automation complete; logging hooks integrated; maintenance mode utilities added; documentation refreshed.
 
 ---
@@ -35,16 +37,13 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 ---
 
 ## 3) Immediate Next Actions
-- **GUI Setup Wizard (NEW HIGH PRIORITY)**
-  - [ ] Create `/setup` route that detects uninitialized state
-  - [ ] Build multi-step wizard UI (Welcome → Database → Admin Account → Site Config → Content Setup)
-  - [ ] Implement database selection (SQLite vs PostgreSQL) with connection testing
-  - [ ] Create admin account form with validation
-  - [ ] Add theme selection during setup
-  - [ ] Implement automatic .env file creation/updates
-  - [ ] Add progress indicators and error handling
-  - [ ] Create setup completion redirect to admin dashboard
-  - [ ] Add setup guard middleware to prevent re-access
+- **Env Bootstrap (HIGH PRIORITY)**
+  - [x] Align bootstrap to Neon-only (Vercel production)
+  - [x] Persist bootstrap outputs to database only (Settings + User)
+  - [x] Add Vercel build script to run Prisma generate + migrate deploy
+  - [ ] Document required `.env` keys for bootstrap
+  - [ ] Add validation for missing critical env vars
+
 - **Parity audit (Phase 1 tailwork)**
   - [ ] Move SEO/metadata ingestion fully to `SettingsRepository` outputs.
   - [ ] Validate empty-state fallbacks using seeded snapshots vs. legacy static-content.
@@ -52,12 +51,13 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 - **Advanced systems (Phase 5)**
   - [x] Backfill contact inbox documentation, smoke tests, and analytics wiring.
   - [x] Blog editor polish (rich text surface + scheduling UX), scheduled publish e2e tests, and public page analytics wiring complete.
-  - [x] Add theme documentation, QA checklist (visual regressions), and setup wizard linkage.
-- **Setup wizard hardening (Phase 6)**
+- [x] Add theme documentation, QA checklist (visual regressions), and env bootstrap linkage.
+
+- **Env bootstrap hardening (Phase 6)**
   - [x] Setup completion tracking fields (`setupCompletedAt`, `setupVersion`, `databaseProvider`) exist in schema.
   - [x] Build `/admin/settings/setup` panel to display first-run data.
-  - [ ] Improve multi-database selection UX and validation (deferred to future setup wizard implementation).
-  - [ ] Guard middleware redirecting post-setup traffic (structure ready, needs implementation).
+  - [ ] Improve env validation and defaults for first-run bootstrap.
+
 - **Release readiness (Phase 7)**
   - [x] Add GitHub Actions workflow covering typecheck, lint, tests, and build.
   - [x] Integrate logging/monitoring hooks plus maintenance-mode handling.
@@ -79,11 +79,11 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 ## 5) Summary of Remaining Work
 
 ### Critical/High Priority (Blockers for v1.0)
-1. **GUI Setup Wizard** - Replace terminal-based setup with web-based wizard (WordPress-style)
+1. **Env bootstrap validation** - Ensure required env keys exist and fail fast when missing
 
 ### Medium Priority (Enhancements)
-2. **Setup wizard guard middleware** - Redirect post-setup traffic away from `/setup` once complete
-3. **Multi-database selection UX** - Improve database selection in setup wizard (deferred to future implementation)
+2. **Env defaults hardening** - Expand env-driven Settings defaults (SEO, social links, hero CTAs)
+
 
 ### Low Priority (Nice-to-Have)
 4. **SEO/metadata migration** - Move SEO/metadata ingestion fully to `SettingsRepository` outputs
@@ -94,14 +94,17 @@ This checklist replaces the retired "Roadmap & Migration" file (archived at `doc
 ### Documentation Tasks
 8. **Tracking updates** - Update `docs/migration_plan.md`, log architecture changes, mirror migration highlights
 
-**Status:** The application has all core features complete. The GUI setup wizard is now the primary focus to make the platform more user-friendly and framework-like.
+**Status:** The application has all core features complete. Env bootstrap hardening is the primary focus to keep first-run reliable.
+
 
 ---
 
 ## Changelog
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
+| 1.04.00 | 2025-12-27 | Codex | Switched to env-driven bootstrap, removed setup gating, and aligned docs/build steps with Vercel. |
 | 1.03.00 | 2025-12-17 | Composer | Implemented admin login UI form, made brand logo clickable, improved scrollbar styling. Updated checklist to reflect all completed work. |
 | 1.02.00 | 2025-12-17 | Composer | Completed Phase 4-7: Skills CRUD parity, Playwright tests, blog editor polish, contact API docs, theme documentation, setup settings panel, CI/CD pipeline, logging utilities. |
+
 | 1.01.00 | 2025-12-14 | GitHub Copilot | Logged experience admin CRUD rollout + toast UX updates; refreshed Phase 4 status and action items. |
 | 1.00.00 | 2025-12-14 | GitHub Copilot | Replaced legacy Roadmap & Migration doc with consolidated implementation checklist aligned to Agent Operations Guideline. |

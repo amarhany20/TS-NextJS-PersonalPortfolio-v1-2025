@@ -5,11 +5,7 @@ import { requireAuth } from '@/server/security/session';
 import { ContactSubmissionService } from '@/server/services/ContactSubmissionService';
 import { contactStatusSchema } from '@/server/server-validators/api/contact';
 
-interface RouteParams {
-  params: Promise<{ id: string }>;
-}
-
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;
@@ -31,11 +27,12 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(_request: NextRequest, { params }: RouteParams) {
+export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
-    await ContactSubmissionService.deleteSubmission(params.id);
-    return successResponse({ id: params.id });
+    const { id } = await params;
+    await ContactSubmissionService.deleteSubmission(id);
+    return successResponse({ id });
   } catch (error) {
     return errorResponse(error);
   }

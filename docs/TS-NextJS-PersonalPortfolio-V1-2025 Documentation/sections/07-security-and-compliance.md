@@ -2,17 +2,18 @@
 
 ## 7.1 Authentication & Session Handling
 - Admin login uses session-based auth powered by `iron-session` with encrypted, HttpOnly cookies.
-- `requireAuth()` guard protects `/app/admin/*` layouts and every API route except login, contact, and
-  setup.
+- `requireAuth()` guard protects `/app/admin/*` layouts and every API route except login and contact.
 - Session cookies adopt `secure` + `sameSite=lax` in production and expire after 7 days (sliding).
-- Passwords are hashed with `bcrypt` (`SALT_ROUNDS = 12`). Setup wizard enforces minimum length; V1
+- Passwords are hashed with `bcrypt` (`SALT_ROUNDS = 12`). Env bootstrap enforces minimum length; V1
   defers stronger complexity rules but tracks them in migration plan (Phase 2 complete).
+
 
 ## 7.2 Authorization & Access Control
 - Single admin role for V1. Future multi-user support will extend `User` entity and add role claims
   to the session payload.
 - Sensitive admin API routes double-check `session.userId` and optionally inspect feature flags for
-  upcoming modules (blog, media, setup wizard lock).
+  upcoming modules (blog, media, feature locks).
+
 
 ## 7.3 Input Validation & Error Taxonomy
 - Every inbound payload runs through server-side Zod schemas stored alongside route handlers or
@@ -23,7 +24,8 @@
   force and spam.
 
 ## 7.4 Data Protection & Compliance
-- SQLite databases backed up locally; Neon handles backups per cloud provider policy.
+- Neon handles backups per cloud provider policy; use `pg_dump` for manual snapshots.
+
 - Media uploads stored in `public/uploads`. Future enhancements (Phase 5) include optional storage
   provider integrations and virus scanning.
 - Maintenance mode ensures public visitors see controlled messaging during migrations or sensitive

@@ -20,6 +20,15 @@ const STATUS_BADGES: Record<ContactSubmissionStatus, { label: string; className:
   archived: { label: 'Archived', className: 'bg-slate-500/15 text-slate-600' },
 };
 
+const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+  timeZone: 'UTC',
+});
+
+const formatDateTime = (value: string) => dateTimeFormatter.format(new Date(value));
+
+
 export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
   const [submissions, setSubmissions] = useState<ContactSubmission[]>(initialSubmissions);
   const [statusFilter, setStatusFilter] = useState<'all' | ContactSubmissionStatus>('all');
@@ -165,8 +174,9 @@ export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
                     {submission.phone ? ` · ${submission.phone}` : ''}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {new Date(submission.createdAt).toLocaleString()}
+                    {formatDateTime(submission.createdAt)}
                   </p>
+
                 </div>
                 <span
                   className={`${STATUS_BADGES[submission.status].className} rounded-full px-3 py-1 text-xs font-medium`}

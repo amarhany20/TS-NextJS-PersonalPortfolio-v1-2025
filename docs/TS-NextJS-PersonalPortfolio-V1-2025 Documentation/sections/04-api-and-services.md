@@ -8,7 +8,7 @@ All APIs live under `/app/api/v1/*` and follow REST conventions with JSON bodies
 - `media`: `POST /media/upload`, `DELETE /media/{id}`
 - `contact`: `POST /contact` (public, rate-limited)
 - `settings`: `GET/PUT /settings`, `PUT /settings/theme`, `PUT /settings/maintenance`
-- `setup`: `POST /setup/database`, `POST /setup/admin`, `POST /setup/settings`
+
 
 ## 4.2 Handler Pattern (per MIGRATION_SUMMARY)
 1. **Validate input with Zod** (client + server schemas share types via `@/types`).
@@ -51,7 +51,7 @@ All APIs live under `/app/api/v1/*` and follow REST conventions with JSON bodies
 
 ## 4.5 Service Guarantees
 - Services never leak Prisma models; they either return DTOs or primitives.
-- Each service is idempotent where possible (e.g., SetupService aborts when `.setup-complete`
-  exists, reorder operations ignore unchanged sequences).
+- Each service is idempotent where possible (e.g., reorder operations ignore unchanged sequences).
+
 - Media uploads guarantee filesystem writes alongside metadata persistence; partial failures roll back
   via try/catch cleanup helpers.

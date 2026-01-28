@@ -5,19 +5,14 @@ import { requireAuth } from '@/server/security/session';
 import { ServiceService } from '@/server/services/ServiceService';
 import { updateServiceSchema } from '@/server/server-validators/api/service';
 
-interface RouteParams {
-  params: {
-    slug: string;
-  };
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
-    const service = await ServiceService.getServiceBySlug(params.slug);
+    const { slug } = await params;
+    const service = await ServiceService.getServiceBySlug(slug);
 
     if (!service) {
-      return notFoundResponse('Service not found');
+      return notFoundResponse('Service record not found');
     }
 
     return successResponse({ service });
@@ -26,9 +21,10 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
+    const { slug } = await params;
     const body = await request.json();
     const result = updateServiceSchema.safeParse(body);
 
@@ -36,17 +32,18 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const service = await ServiceService.updateService(params.slug, result.data);
+    const service = await ServiceService.updateService(slug, result.data);
     return successResponse({ service });
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
-    await ServiceService.deleteService(params.slug);
+    const { slug } = await params;
+    await ServiceService.deleteService(slug);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

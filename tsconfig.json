@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -11,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
@@ -21,13 +25,28 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/server/*": ["./src/server/*"],
-      "@/static-content/*": ["./src/static-content/*"],
-      "@/client-validators/*": ["./src/client-validators/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@/server/*": [
+        "./src/server/*"
+      ],
+      "@/static-content/*": [
+        "./src/static-content/*"
+      ],
+      "@/client-validators/*": [
+        "./src/client-validators/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    ".next/dev/dev/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "src/components/UI/**",

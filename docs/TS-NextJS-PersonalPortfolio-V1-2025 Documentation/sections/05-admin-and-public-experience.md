@@ -57,7 +57,8 @@
 ## 5.6 Page & Module Inventory
 | Area | Route(s) | Data Source | Notes |
 |------|----------|-------------|-------|
-| Setup wizard | `/setup` multi-step | `Settings`, `SetupService`, env validation | Runs until `setupCompletedAt` is set; handles DB selection, admin creation, theme + profile capture. |
+| Env bootstrap | N/A | `SettingsService`, `.env` | Creates admin + Settings row on first run after migrations. |
+
 | Home | `/` | `SettingsService`, `ExperienceService`, `EducationService`, `PortfolioService`, `RecommendationService` | Async server components feed hero, stats, carousels. |
 | Portfolio | `/portfolio`, `/portfolio/[slug]` | `PortfolioService` | Grid/list plus detail pages with galleries, badges, metadata. |
 | Services | `/services` | `ServiceService`, `SettingsService` | Cards with pricing, features, CTAs. |
@@ -69,15 +70,14 @@
 | Settings center | `/admin/settings/*` | `SettingsService` | General profile, theme, maintenance, account, and upcoming setup-history editor. |
 
 ## 5.7 First-Run Configuration & Settings Editing
-- The setup wizard captures database choice, admin credentials, theme, profile, SEO, and contact data
-  up front. All values live in `Settings` so the information is editable later.
-- After completion, `/admin/settings` presents tabs for General (profile/contact), Theme, Metadata,
-  Maintenance Mode, and Account. Editing these tabs reuses the same validators as the wizard and
-  writes back through `SettingsService` to keep parity between onboarding answers and ongoing
-  configuration.
-- Planned enhancements include a Setup History panel that surfaces timestamps, wizard version, and a
-  "Re-run wizard" action guarded by permissions. This ensures first-run configuration stays
-  traceable and revisitable without DB edits.
+- The app bootstraps admin credentials and site settings from `.env` the first time it sees an empty
+  Settings table. Values remain editable later through `/admin/settings`.
+- `/admin/settings` presents tabs for General (profile/contact), Theme, Metadata, Maintenance Mode,
+  and Account. Editing these tabs writes back through `SettingsService` to keep parity between
+  env defaults and ongoing configuration.
+- Setup history remains available via `setupCompletedAt`, `setupVersion`, and `databaseProvider` on
+  the Settings row for audit trails.
+
 
 ## 5.8 Theme QA Checklist (Phase 5+)
 1. **Registry sanity:** Load `/admin/settings/theme` and confirm each card renders the declared `previewGradient`, badge tags, and version metadata from `src/themes/index.ts`.

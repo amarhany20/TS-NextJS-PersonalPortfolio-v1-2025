@@ -109,16 +109,13 @@ export default function LoginPage() {
       </form>
 
       <div className="text-center text-sm text-muted-foreground">
-        <p>
-          Default credentials: <code className="mx-1 rounded bg-[var(--accent-muted)] px-2 py-1 text-xs">admin</code> /{' '}
-          <code className="mx-1 rounded bg-[var(--accent-muted)] px-2 py-1 text-xs">change-me-now</code>
-        </p>
         <p className="mt-2">
           <Link href="/" className="text-[var(--accent-primary)] hover:underline">
             ← Back to home
           </Link>
         </p>
       </div>
+
     </section>
   );
 }

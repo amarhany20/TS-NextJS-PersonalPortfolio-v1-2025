@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+
 import { ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
 
 interface ContentSetupStepProps {
@@ -18,7 +21,9 @@ export default function ContentSetupStep({
   onPrev,
   isSubmitting
 }: ContentSetupStepProps) {
-  const [includeSampleData, setIncludeSampleData] = React.useState(data?.includeSampleData ?? true);
+  const defaultSeed = process.env.NEXT_PUBLIC_SEED_SAMPLE_DATA === 'true';
+  const [includeSampleData, setIncludeSampleData] = React.useState(data?.includeSampleData ?? defaultSeed);
+
 
   const handleComplete = () => {
     onUpdate({ includeSampleData });

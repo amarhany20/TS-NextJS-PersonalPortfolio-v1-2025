@@ -5,14 +5,14 @@
  * Delegates to SetupController for business logic.
  */
 
-import { NextRequest } from 'next/server';
-import { SetupController } from '@/server/controllers/SetupController';
+import { NextResponse } from 'next/server';
 
-/**
- * POST /api/setup/test-database
- *
- * Test database connectivity and configuration.
- */
-export async function POST(request: NextRequest) {
-  return SetupController.testDatabase(request);
+const disabledResponse = () =>
+  NextResponse.json(
+    { error: 'Setup API has been removed. Configure .env and run migrations instead.' },
+    { status: 404 }
+  );
+
+export async function POST() {
+  return disabledResponse();
 }

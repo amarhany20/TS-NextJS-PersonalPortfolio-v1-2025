@@ -10,7 +10,8 @@ Client (Public + Admin)
     ↓ Repositories (src/server/repositories/*)
     ↓ Serializers (src/server/serializers/*)
     ↓ Prisma ORM (src/server/db)
-    ↓ Database (SQLite or Neon PostgreSQL)
+    ↓ Database (Neon PostgreSQL on Vercel/local)
+
 ```
 - **Client Layer:** Server-first React components render public pages and admin forms. Client
   components exist only for interactive widgets (sidebar toggles, drag-and-drop, form validation).
@@ -43,8 +44,9 @@ Client (Public + Admin)
 6. Admin UI receives DTO and refreshes form state; optimistic UI optional.
 
 ## 2.3 Supporting Systems
-- **Setup Wizard:** Lives under `/app/setup/*`. Each step calls dedicated API endpoints that in turn
-  invoke `SetupService` helpers for database provisioning, admin creation, and settings bootstrap.
+- **Env Bootstrap:** At runtime the app ensures a Settings row + admin user exist using `.env` values
+  once migrations have been applied.
+
 - **Theme Registry:** `src/themes/index.ts` resolves metadata and exposes helpers consumed in
   `app/layout.tsx`. Theme IDs are stored in `Settings` and injected via context providers.
 - **Static Content Bridge:** `src/static-content` mirrors historical TypeScript exports and powers the

@@ -113,12 +113,7 @@ Update any external bookmarks to the new path when convenient.
 
 ## 🚀 Getting Started
 
-**📖 Detailed Instructions:** See the `instructions/` folder for comprehensive guides:
-- [FIRST-RUN.md](instructions/FIRST-RUN.md) — Local setup and database configuration
-- [DEPLOYMENT.md](instructions/DEPLOYMENT.md) — Production deployment to Vercel
-- [SEEDING.md](instructions/SEEDING.md) — Database seeding workflows
-- [ADMIN-USAGE.md](instructions/ADMIN-USAGE.md) — Admin dashboard guide
-- [THEMING.md](instructions/THEMING.md) — Theme customization
+This repo targets **Vercel + Neon** for production. Local development can use SQLite.
 
 ### Prerequisites
 - Node.js LTS (v20+)
@@ -134,19 +129,27 @@ npm install
 
 ### Environment Setup
 
-Edit your `.env` file to include these required variables:
+Vercel is stateless, so production config must be set as **Vercel Environment Variables** (no writable `.env`).
+
+Required production variables:
 
 ```env
 # 🔐 Session Secret (required for admin authentication)
 AUTH_SECRET=your-32-character-minimum-secret-key-change-this-NOW
 
 # 🌐 Public Site URL
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
 
-# 📦 Database (SQLite for local development)
-DATABASE_URL="file:./dev.db"
+# 📦 Database (Neon PostgreSQL for production)
+DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
 
-# 👤 Seed Script Credentials
+# 🧭 Setup gate (enable /setup only when true)
+SETUP_MODE=true
+```
+
+Optional seed defaults (local/dev only):
+
+```env
 SEED_ADMIN_USERNAME=admin
 SEED_ADMIN_PASSWORD=change-me-now
 SEED_ADMIN_EMAIL=admin@example.com
@@ -161,18 +164,23 @@ Then replace `your-32-character-minimum-secret-key-change-this-NOW` with the gen
 
 ### Database Setup (Required)
 
-**First time only:**
+**Local development (SQLite):**
 ```bash
-# 1. Apply Prisma migrations to create schema
 npm run prisma:migrate
-
-# 2. Seed the database with initial data
-#    This creates an admin user + portfolio/experience/education/skills from static-content
 npm run db:seed
-
-# 3. (Optional) Explore the database
 npm run prisma:studio    # Opens http://localhost:5555 in browser
 ```
+
+**Vercel production (Neon):**
+- Set `DATABASE_URL` in Vercel
+- Run Prisma migrations during CI/build (`prisma:migrate`)
+- Prisma `generate` runs during build; it cannot be triggered from the website
+
+### First-Run Setup (Vercel)
+
+- Set `SETUP_MODE=true` to allow `/setup` when the database is empty
+- The setup flow writes admin credentials + site settings into the database
+- After setup, set `SETUP_MODE=false` to lock the wizard
 
 ### Development
 
@@ -184,12 +192,13 @@ npm run format       # Format with Prettier
 ```
 
 **First start checklist:**
-1. ✅ `.env` file exists with `AUTH_SECRET` + `DATABASE_URL`
+1. ✅ `DATABASE_URL` and `AUTH_SECRET` are set
 2. ✅ `npm run prisma:migrate` completed successfully
 3. ✅ `npm run db:seed` completed (watch for "Database seed complete.")
 4. ✅ `npm run dev` running without "Site settings have not been initialised" errors
 
-Open http://localhost:3000 in your browser. **Admin dashboard** at http://localhost:3000/admin (login with `admin` / `change-me-now`).
+Open http://localhost:3000 in your browser. **Admin dashboard** at http://localhost:3000/admin.
+
 
 ### Production Build
 
@@ -302,18 +311,26 @@ For complete database setup on first run, execute: `npm run prisma:migrate && np
 
 ---
 
-## 🌐 Deployment
+## 🌐 Deployment (Vercel + Neon)
 
-Recommended: **Vercel** (zero-config). Also works on Netlify, Cloudflare Pages, or any Node host.
+This project is Vercel-first. Production requires Neon (PostgreSQL).
 
 Steps (Vercel):
-1. Import GitHub repo
+1. Import the GitHub repo
 2. Framework detected: Next.js
 3. Build command: `npm run build`
 4. Output: `.next`
-5. (Optional) Set `NEXT_PUBLIC_APP_VERSION` manually if overriding auto version injection.
+5. Set Vercel Environment Variables:
+   - `DATABASE_URL` (Neon)
+   - `AUTH_SECRET`
+   - `NEXT_PUBLIC_SITE_URL`
+   - `SETUP_MODE` (true for first-run, then false)
 
-Redirects for `/projects` handled at application level (Next.js). For CDN-level rules, duplicate them in your hosting UI if required.
+Notes:
+- Prisma `generate` runs during build; it cannot run from the website
+- Run `prisma:migrate` during CI/build to apply schema changes
+- Redirects for `/projects` are handled in `next.config.ts`
+
 
 ---
 

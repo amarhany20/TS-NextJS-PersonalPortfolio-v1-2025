@@ -5,23 +5,18 @@
  * Delegates to SetupController for business logic.
  */
 
-import { NextRequest } from 'next/server';
-import { SetupController } from '@/server/controllers/SetupController';
+import { NextResponse } from 'next/server';
 
-/**
- * GET /api/setup
- *
- * Check the current setup status.
- */
+const disabledResponse = () =>
+  NextResponse.json(
+    { error: 'Setup API has been removed. Configure .env and run migrations instead.' },
+    { status: 404 }
+  );
+
 export async function GET() {
-  return SetupController.getStatus();
+  return disabledResponse();
 }
 
-/**
- * POST /api/setup
- *
- * Complete setup process for the portfolio application.
- */
-export async function POST(request: NextRequest) {
-  return SetupController.completeSetup(request);
+export async function POST() {
+  return disabledResponse();
 }

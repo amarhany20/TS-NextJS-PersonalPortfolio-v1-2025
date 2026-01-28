@@ -136,7 +136,8 @@ export const SettingsRepository = {
       });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
-        throw new Error('Settings record not initialised. Run the setup wizard before applying themes.');
+        throw new Error('Settings record not initialised. Ensure .env bootstrap has run and database is migrated.');
+
       }
 
       throw error;

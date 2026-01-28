@@ -5,20 +5,14 @@ import { requireAuth } from '@/server/security/session';
 import { RecommendationService } from '@/server/services/RecommendationService';
 import { updateRecommendationSchema } from '@/server/server-validators/api/recommendation';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;
     const recommendation = await RecommendationService.getRecommendationById(id);
 
     if (!recommendation) {
-      return notFoundResponse('Recommendation not found');
+      return notFoundResponse('Recommendation record not found');
     }
 
     return successResponse({ recommendation });
@@ -27,7 +21,7 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;
@@ -45,7 +39,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     const { id } = await params;

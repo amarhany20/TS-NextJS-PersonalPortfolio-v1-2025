@@ -105,7 +105,6 @@ export const DashboardService = {
       draftProjects,
       unreadContactCount,
       blogDraftCount,
-      pendingSetup: !settings?.setupCompletedAt,
       experienceCount,
       skillCount,
       activeServiceCount,
@@ -125,12 +124,13 @@ export const DashboardService = {
       meta: {
         lastUpdatedAt,
         maintenanceMode: settings?.maintenanceMode ?? false,
-        pendingSetup: !settings?.setupCompletedAt,
+        pendingSetup: false,
         siteTitle: settings?.siteTitle ?? 'Portfolio Creator',
         theme: settings?.theme ?? 'default',
         missingEnvVars,
       },
     };
+
   },
 };
 
@@ -222,8 +222,8 @@ interface BuildQuickLinksInput {
   draftProjects: number;
   unreadContactCount: number;
   blogDraftCount: number;
-  pendingSetup: boolean;
   experienceCount: number;
+
   skillCount: number;
   activeServiceCount: number;
   certificateCount: number;
@@ -251,16 +251,6 @@ function registerQuickLink(
 function buildQuickLinks(input: BuildQuickLinksInput): DashboardQuickLink[] {
   const links: QuickLinkCandidate[] = [];
 
-  if (input.pendingSetup) {
-    registerQuickLink(links, {
-      title: 'Finish setup wizard',
-      description: 'Capture profile, SEO, and database preferences to unlock all features.',
-      href: '/setup',
-      badge: 'Action required',
-      status: 'warning',
-      priority: 5,
-    });
-  }
 
   registerQuickLink(links, {
     title: 'Add a portfolio project',

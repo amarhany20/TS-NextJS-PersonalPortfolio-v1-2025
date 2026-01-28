@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+
 import {
   DndContext,
   KeyboardSensor,
@@ -96,6 +98,31 @@ export function ServiceReorderBoard({ services }: Props) {
     }
   };
 
+  const handleDelete = async (slug: string, title: string) => {
+    const confirmed = window.confirm(`Delete ${title}? This cannot be undone.`);
+    if (!confirmed) {
+      return;
+    }
+
+    setError(null);
+    try {
+      const response = await fetch(`/api/v1/services/${slug}`, { method: 'DELETE' });
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        const message = payload?.error?.message ?? 'Unable to delete service.';
+        throw new Error(message);
+      }
+
+      setItems((current) => current.filter((item) => item.slug !== slug));
+      setDirty(false);
+      setStatus('saved');
+    } catch (err) {
+      setStatus('error');
+      setError(err instanceof Error ? err.message : 'Unable to delete service.');
+    }
+  };
+
+
   if (items.length === 0) {
     return (
       <div className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-6 text-sm text-[var(--text-secondary)]">
@@ -132,8 +159,9 @@ export function ServiceReorderBoard({ services }: Props) {
         <SortableContext items={items.map((item) => item.slug)} strategy={verticalListSortingStrategy}>
           <ol className="space-y-3" aria-label="Service ordering">
             {items.map((service) => (
-              <ServiceCard key={service.slug} service={service} />
+              <ServiceCard key={service.slug} service={service} onDelete={handleDelete} />
             ))}
+
           </ol>
         </SortableContext>
       </DndContext>
@@ -147,7 +175,8 @@ export function ServiceReorderBoard({ services }: Props) {
   );
 }
 
-function ServiceCard({ service }: { service: SortableService }) {
+function ServiceCard({ service, onDelete }: { service: SortableService; onDelete: (slug: string, title: string) => void | Promise<void> }) {
+
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: service.slug });
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -171,10 +200,32 @@ function ServiceCard({ service }: { service: SortableService }) {
           <h3 className="text-lg font-semibold">{service.title}</h3>
           <p className="text-sm text-muted-foreground">{service.description}</p>
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="flex flex-col items-end gap-2 text-xs text-muted-foreground">
           <span className="rounded-full bg-muted px-2 py-0.5">{service.slug}</span>
+          <div className="flex items-center gap-2">
+            <Link
+              href={`/admin/services/${service.slug}`}
+              className="rounded-md border border-border px-2 py-1 text-xs"
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={(event) => event.stopPropagation()}
+            >
+              Edit
+            </Link>
+            <button
+              type="button"
+              className="rounded-md border border-border px-2 py-1 text-xs text-rose-500"
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+                onDelete(service.slug, service.title);
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
+
     </li>
   );
 }

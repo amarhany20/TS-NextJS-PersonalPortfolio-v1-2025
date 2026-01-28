@@ -5,16 +5,11 @@ import { requireAuth } from '@/server/security/session';
 import { PortfolioService } from '@/server/services/PortfolioService';
 import { updateProjectSchema } from '@/server/server-validators/api/portfolio';
 
-interface RouteParams {
-  params: {
-    slug: string;
-  };
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
-    const project = await PortfolioService.getProjectBySlug(params.slug);
+    const { slug } = await params;
+    const project = await PortfolioService.getProjectBySlug(slug);
 
     if (!project) {
       return notFoundResponse('Project not found');
@@ -26,9 +21,10 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
+    const { slug } = await params;
     const body = await request.json();
     const result = updateProjectSchema.safeParse(body);
 
@@ -36,17 +32,18 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const project = await PortfolioService.updateProject(params.slug, result.data);
+    const project = await PortfolioService.updateProject(slug, result.data);
     return successResponse({ project });
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await requireAuth();
-    await PortfolioService.deleteProject(params.slug);
+    const { slug } = await params;
+    await PortfolioService.deleteProject(slug);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

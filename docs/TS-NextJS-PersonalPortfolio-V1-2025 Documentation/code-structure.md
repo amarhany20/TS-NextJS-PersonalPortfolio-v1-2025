@@ -38,7 +38,8 @@ High-level map of directories and responsibilities. This reflects the current re
 ---
 
 ## Database & Prisma (`prisma/`)
-- `schema.prisma` — models; default provider: SQLite
+- `schema.prisma` — models; SQLite for local dev, Neon PostgreSQL for Vercel
+
 - `seed.ts` — seeds default admin, settings, and demo content
 
 ---

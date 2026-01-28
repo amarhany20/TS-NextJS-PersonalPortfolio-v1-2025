@@ -5,16 +5,11 @@ import { requireAuth } from '@/server/security/session';
 import { EducationService } from '@/server/services/EducationService';
 import { updateEducationSchema } from '@/server/server-validators/api/education';
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
-export async function GET(_: NextRequest, { params }: RouteParams) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
-    const education = await EducationService.getEducationById(params.id);
+    const { id } = await params;
+    const education = await EducationService.getEducationById(id);
 
     if (!education) {
       return notFoundResponse('Education record not found');
@@ -26,9 +21,10 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
+    const { id } = await params;
     const body = await request.json();
     const result = updateEducationSchema.safeParse(body);
 
@@ -36,17 +32,18 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return validationErrorResponse('Invalid request body', result.error.format());
     }
 
-    const education = await EducationService.updateEducation(params.id, result.data);
+    const education = await EducationService.updateEducation(id, result.data);
     return successResponse({ education });
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: RouteParams) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
-    await EducationService.deleteEducation(params.id);
+    const { id } = await params;
+    await EducationService.deleteEducation(id);
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

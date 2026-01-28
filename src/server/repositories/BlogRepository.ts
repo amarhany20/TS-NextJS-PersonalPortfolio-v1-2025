@@ -77,11 +77,12 @@ const BLOG_INCLUDE = {
       tag: true,
     },
   },
-} satisfies Prisma.BlogInclude;
+};
 
 type BlogWithRelations = Prisma.BlogGetPayload<{ include: typeof BLOG_INCLUDE }>;
 
 export const BlogRepository = {
+
   async findPublished(filter: { categorySlug?: string; tagSlug?: string } = {}): Promise<DbBlogPost[]> {
     const records = await prisma.blog.findMany({
       where: {

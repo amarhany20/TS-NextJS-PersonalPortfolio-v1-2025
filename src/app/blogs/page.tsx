@@ -4,7 +4,7 @@ import { BlogService } from '@/server/services/BlogService';
 import { BlogListClient } from './BlogListClient';
 
 export default async function BlogsPage() {
-  const posts = await BlogService.listPublishedPosts();
+  const posts = await BlogService.listAllPosts();
 
   return <BlogListClient posts={posts} />;
 }

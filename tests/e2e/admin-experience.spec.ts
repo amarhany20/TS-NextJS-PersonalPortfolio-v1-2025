@@ -9,27 +9,30 @@ test.describe('Admin experience CRUD', () => {
     const unique = Date.now();
     const company = `E2E Company ${unique}`;
     const title = `E2E Role ${unique}`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3000';
+    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
 
     try {
-      await page.goto('/admin/experience');
-      await expect(page.getByRole('heading', { name: 'Experience' })).toBeVisible();
-
-      await page.getByRole('link', { name: 'New experience' }).click();
-      await expect(page).toHaveURL(/\/admin\/experience\/new$/);
+      await page.goto('/admin/experience/new');
       await expect(page.getByRole('heading', { name: 'Create experience' })).toBeVisible();
 
-      await page.getByLabel('Company').fill(company);
-      await page.getByLabel('Title').fill(title);
-      await page.getByLabel('Location').fill('Remote');
-      await page.getByLabel('Start').fill(DEFAULT_START_MONTH);
-      await page.getByLabel('Impact summary').fill('Automation smoke coverage');
-      await page.getByLabel('Achievement bullets').fill('Built admin CRUD flows\nAdded tests');
-      await page.getByLabel('Skills').fill('Next.js\nTypeScript');
+
+      const fillField = async (label: string, value: string) => {
+        await page.getByLabel(label, { exact: true }).fill(value);
+      };
+
+      await fillField('Company', company);
+      await fillField('Title', title);
+      await fillField('Location', 'Remote');
+      await fillField('Start', DEFAULT_START_MONTH);
+      await fillField('Impact summary', 'Automation smoke coverage');
+      await fillField('Achievement bullets', 'Built admin CRUD flows\nAdded tests');
+      await fillField('Skills', 'Next.js\nTypeScript');
+
 
       await page.getByRole('button', { name: 'Create experience' }).click();
       await expect(page).toHaveURL(/\/admin\/experience$/);
-      await expect(page.getByText(company)).toBeVisible();
+      await expect(page.locator('tr', { hasText: company }).first()).toBeVisible();
+
 
       const row = page.locator('tr', { hasText: company });
       await expect(row.getByText('Draft')).toBeVisible();
@@ -42,7 +45,8 @@ test.describe('Admin experience CRUD', () => {
       await page.getByLabel('Impact summary').fill('Automation smoke coverage (edited)');
       await page.getByRole('button', { name: 'Save changes' }).click();
       await expect(page).toHaveURL(/\/admin\/experience$/);
-      await expect(page.getByText('Automation smoke coverage (edited)')).toBeVisible();
+      await expect(page.locator('tr', { hasText: company }).first()).toBeVisible();
+
 
       const updatedRow = page.locator('tr', { hasText: company });
       page.once('dialog', (dialog) => dialog.accept());

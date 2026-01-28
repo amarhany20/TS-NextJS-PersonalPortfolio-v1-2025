@@ -9,22 +9,13 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import ClientLayout from '@/components/ClientLayout';
 import { SettingsService } from '@/server/services/SettingsService';
-import { SetupService } from '@/server/services/SetupService';
 import './globals.css';
+
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
-  // Check if database is configured
-  const isConfigured = await SetupService.isDatabaseConfigured();
-  if (!isConfigured) {
-    return {
-      title: 'Portfolio Setup',
-      description: 'Setting up your personal portfolio website.',
-    };
-  }
-
   try {
     const content = await SettingsService.getSiteContent();
     const displayName = content.profile?.fullName ?? 'Portfolio';
@@ -73,24 +64,27 @@ export async function generateMetadata(): Promise<Metadata> {
       authors: displayName ? [{ name: displayName, url: canonical }] : undefined,
       creator: displayName,
     };
-  } catch (error) {
-    // If setup is required, return minimal metadata
-    if (error instanceof Error && error.message.includes('SETUP_REQUIRED')) {
-      return {
-        title: 'Portfolio Setup',
-        description: 'Setting up your personal portfolio website.',
-      };
-    }
-    throw error;
+  } catch {
+    return {
+      title: 'Portfolio',
+      description: 'Personal portfolio website.',
+    };
   }
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // Check if database is configured
-  const isConfigured = await SetupService.isDatabaseConfigured();
-  
-  if (!isConfigured) {
-    // Return minimal layout for setup
+  try {
+    const siteContent = await SettingsService.getSiteContent();
+    const activeTheme = siteContent.theme?.id ?? 'professional-dark';
+
+    return (
+      <html lang="en" data-theme={activeTheme} className="h-full">
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full`}>
+          <ClientLayout siteContent={siteContent}>{children}</ClientLayout>
+        </body>
+      </html>
+    );
+  } catch (error) {
     return (
       <html lang="en" data-theme="professional-dark" className="h-full">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white h-full`}>
@@ -99,29 +93,5 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </html>
     );
   }
-
-  try {
-    const siteContent = await SettingsService.getSiteContent();
-    const activeTheme = siteContent.theme?.id ?? 'professional-dark';
-
-    return (
-      <html lang="en" data-theme={activeTheme} className="h-full">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full`}>
-	<ClientLayout siteContent={siteContent}>{children}</ClientLayout>
-        </body>
-      </html>
-    );
-  } catch (error) {
-    // If setup is required, render minimal layout
-    if (error instanceof Error && error.message.includes('SETUP_REQUIRED')) {
-      return (
-        <html lang="en" data-theme="professional-dark" className="h-full">
-          <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white h-full`}>
-            {children}
-          </body>
-        </html>
-      );
-    }
-    throw error;
-  }
 }
+

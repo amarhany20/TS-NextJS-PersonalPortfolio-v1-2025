@@ -9,6 +9,15 @@ interface MediaLibraryProps {
   initialAssets: MediaAsset[];
 }
 
+const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+  timeZone: 'UTC',
+});
+
+const formatDateTime = (value: string) => dateTimeFormatter.format(new Date(value));
+
+
 export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [assets, setAssets] = useState<MediaAsset[]>(initialAssets);
@@ -192,9 +201,10 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
                   {formatFileSize(asset.size)} • {asset.mimeType}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Uploaded {new Date(asset.createdAt).toLocaleString()}
+                  Uploaded {formatDateTime(asset.createdAt)}
                   {asset.createdByName ? ` · ${asset.createdByName}` : ''}
                 </p>
+
               </div>
 
               <div className="flex items-center gap-2">

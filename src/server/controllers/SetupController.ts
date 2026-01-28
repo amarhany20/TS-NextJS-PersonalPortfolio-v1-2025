@@ -14,9 +14,10 @@ import { SetupService } from '@/server/services/SetupService';
 // Input validation schemas
 const setupSchema = z.object({
   database: z.object({
-    type: z.enum(['sqlite', 'postgresql']),
-    connectionString: z.string().optional(), // Only required for PostgreSQL
+    type: z.enum(['postgresql']),
+    connectionString: z.string().optional(),
   }),
+
   admin: z.object({
     username: z.string().min(3, 'Username must be at least 3 characters'),
     email: z.string().email('Invalid email address'),
@@ -34,9 +35,10 @@ const setupSchema = z.object({
 });
 
 const testDatabaseSchema = z.object({
-  type: z.enum(['sqlite', 'postgresql']),
-  connectionString: z.string().optional(), // Only required for PostgreSQL
+  type: z.enum(['postgresql']),
+  connectionString: z.string().optional(),
 });
+
 
 export class SetupController {
   /**
@@ -58,11 +60,16 @@ export class SetupController {
    */
   static async completeSetup(request: NextRequest) {
     try {
+      if (!SetupService.isSetupModeEnabled()) {
+        return errorResponse(new Error('Setup mode is disabled. Set SETUP_MODE=true to run setup.'));
+      }
+
       // Check if setup is already complete
       const setupStatus = await SetupService.getSetupStatus();
       if (setupStatus.isSetupComplete) {
         return errorResponse(new Error('Setup has already been completed'));
       }
+
 
       // Parse and validate input
       const body = await request.json();
@@ -117,8 +124,13 @@ export class SetupController {
    */
   static async testDatabase(request: NextRequest) {
     try {
+      if (!SetupService.isSetupModeEnabled()) {
+        return errorResponse(new Error('Setup mode is disabled. Set SETUP_MODE=true to run setup.'));
+      }
+
       // Parse and validate input
       const body = await request.json();
+
       const validationResult = testDatabaseSchema.safeParse(body);
 
       if (!validationResult.success) {

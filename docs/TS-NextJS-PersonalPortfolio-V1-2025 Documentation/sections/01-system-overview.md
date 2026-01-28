@@ -5,7 +5,9 @@ TS-NextJS-PersonalPortfolio-v1-2025 ("Portfolio Creator") is an open-source, sel
 platform that pairs a themable public site with an authenticated admin CMS. The project empowers
 engineers, freelancers, and consultants to launch a production-grade presence without ongoing SaaS
 fees while keeping full control over data, themes, and deployments. V1 targets a single-tenant
-experience with SQLite/Neon databases, drag-and-drop ordering, and guided setup.
+experience with Neon PostgreSQL on Vercel, drag-and-drop ordering, and env-driven bootstrap (no
+env bootstrap).
+
 
 ## 1.2 Key Capabilities (V1)
 - Enterprise architecture with strict separation between route handlers, services, repositories, and
@@ -14,8 +16,9 @@ experience with SQLite/Neon databases, drag-and-drop ordering, and guided setup.
   DTO-focused serializers.
 - Database-backed content for portfolio items, experience, education, skills, services, certificates,
   recommendations, blogs, and settings.
-- Guided five-step setup wizard that handles database provisioning, admin onboarding, theme
-  selection, and initial brand data without manual SQL.
+- Env-driven bootstrap that creates the admin account and Settings row on first run once the
+  database is migrated.
+
 - Admin dashboard covering CRUD, reordering, draft/publish toggles, media uploads, and quick stats.
 - Public experience aligned with Ammar Next.js Engineering Standard (three-area layout, responsive
   grid, metadata-ready pages, SEO primitives).
@@ -29,8 +32,9 @@ experience with SQLite/Neon databases, drag-and-drop ordering, and guided setup.
   uploads live on disk; CDN/off-box storage is deferred to Phase 5.
 
 ## 1.4 Core Journeys
-- **First-Time Setup:** Clone repo -> run setup wizard (/setup) -> pick database (SQLite or Neon) ->
-  create admin -> choose theme -> enter profile + SEO metadata -> redirect to `/admin/dashboard`.
+- **First-Time Setup:** Deploy to Vercel -> set `.env` values (`DATABASE_URL`, `AUTH_SECRET`, admin +
+  site settings) -> run migrations -> bootstrap creates admin + Settings row automatically.
+
 - **Daily Admin Flow:** Sign into `/admin/login` -> view dashboard KPIs and quick links -> edit
   content via CRUD pages (with Zod validation) -> publish drafts -> upload media via `MediaService` ->
   changes immediately hydrate public routes via Prisma-backed services.

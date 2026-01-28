@@ -237,7 +237,7 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
                     <td className="px-4 py-4 align-top text-xs text-muted-foreground">
                       <p>{formatRange(project.start, project.end)}</p>
                       <p>
-                        Updated {new Date(project.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                        Updated {formatShortDate(project.updatedAt)}
                       </p>
                     </td>
                     <td className="px-4 py-4 align-top">
@@ -311,7 +311,7 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
                 <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <span>{formatRange(project.start, project.end)}</span>
                   <span>•</span>
-                  <span>Updated {new Date(project.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                  <span>Updated {formatShortDate(project.updatedAt)}</span>
                 </div>
 
                 <div className="flex flex-wrap gap-1">
@@ -394,7 +394,19 @@ function Badge({ children, variant = 'muted' }: BadgeProps) {
   );
 }
 
-const monthFormatter = new Intl.DateTimeFormat(undefined, { month: 'short', year: 'numeric' });
+const shortDateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const monthFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+const formatShortDate = (value: string) => shortDateFormatter.format(new Date(value));
 
 const formatRange = (start?: string, end?: string) => {
   const startLabel = formatYearMonth(start);

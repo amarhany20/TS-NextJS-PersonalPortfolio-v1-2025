@@ -1,5 +1,5 @@
-import { SetupWizard } from '@/sections/setup';
+import { redirect } from 'next/navigation';
 
 export default function SetupPage() {
-  return <SetupWizard />;
+  redirect('/home');
 }

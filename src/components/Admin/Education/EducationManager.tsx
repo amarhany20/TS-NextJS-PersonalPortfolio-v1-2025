@@ -12,7 +12,7 @@ interface EducationManagerProps {
   initialEducation: Education[];
 }
 
-type FilterValue = 'all' | 'published' | 'draft';
+type FilterValue = 'all';
 
 export function EducationManager({ initialEducation }: EducationManagerProps) {
   const router = useRouter();
@@ -35,11 +35,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
         if (aOrder !== bOrder) return aOrder - bOrder;
         return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
       })
-      .filter((item) => {
-        if (filter === 'published') return item.published ?? false;
-        if (filter === 'draft') return !(item.published ?? false);
-        return true;
-      })
+      // Education items don't have published/draft status - all are visible
       .filter((item) => {
         if (!term) return true;
         return [item.institution, item.degree, item.field, item.location].some((field) =>
@@ -70,40 +66,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
     }
   };
 
-  const handleTogglePublish = async (record: Education) => {
-    const nextPublished = !(record.published ?? false);
-    const id = record.id;
-    if (!id) return;
 
-    setBusyId(id);
-    setItems((current) => current.map((item) => (item.id === id ? { ...item, published: nextPublished } : item)));
-
-    try {
-      const response = await fetch(`/api/v1/education/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ published: nextPublished }),
-      });
-      const payload = await response.json().catch(() => null);
-      if (!response.ok) {
-        const description = payload?.error?.message ?? 'Unable to update record.';
-        throw new Error(description);
-      }
-
-      const updated: Education = payload?.data?.education ?? { ...record, published: nextPublished };
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, ...updated } : item)));
-      showToast({
-        variant: 'success',
-        title: nextPublished ? 'Education published' : 'Education moved to draft',
-        description: record.institution,
-      });
-    } catch (error) {
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, published: record.published } : item)));
-      showToast({ variant: 'error', title: 'Update failed', description: error instanceof Error ? error.message : undefined });
-    } finally {
-      setBusyId(null);
-    }
-  };
 
   const handleDelete = async (record: Education) => {
     if (!record.id) return;
@@ -164,7 +127,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
           className="min-w-[240px] flex-1 rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-accent"
         />
         <div className="flex items-center gap-2 rounded-full border border-[var(--border)] p-1 text-xs">
-          {(['all', 'published', 'draft'] as FilterValue[]).map((option) => (
+          {(['all'] as FilterValue[]).map((option) => (
             <button
               key={option}
               type="button"
@@ -223,9 +186,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
                   </td>
                   <td className="px-4 py-4 align-top">
                     <div className="flex flex-col gap-1 text-xs">
-                      <Badge variant={item.published ? 'success' : 'warning'}>
-                        {item.published ? 'Published' : 'Draft'}
-                      </Badge>
+
                       {(item as any).displayOrder !== undefined ? (
                         <Badge variant="muted">Order #{(item as any).displayOrder}</Badge>
                       ) : null}
@@ -233,15 +194,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
                   </td>
                   <td className="px-4 py-4 align-top">
                     <div className="flex items-center justify-end gap-2 text-xs">
-                      <button
-                        type="button"
-                        aria-label={`${item.published ? 'Unpublish' : 'Publish'} ${item.institution}`}
-                        onClick={() => handleTogglePublish(item)}
-                        disabled={busyId === item.id}
-                        className="rounded-lg border border-[var(--border)] px-2 py-1 font-medium text-muted-foreground transition hover:border-accent disabled:cursor-not-allowed disabled:opacity-60"
-                      >
-                        {item.published ? 'Unpublish' : 'Publish'}
-                      </button>
+
                       <Link
                         href={`/admin/education/${item.id}`}
                         className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] px-2 py-1 font-medium text-muted-foreground transition hover:border-accent"
