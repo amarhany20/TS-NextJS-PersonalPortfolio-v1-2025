@@ -1,114 +1,130 @@
 # Agent Guidelines for TS-NextJS-PersonalPortfolio-v1-2025
 
-**Version:** 2.0.0
-**Updated:** 2025-12-27
-**Status:** Production Ready - All Agents Executed Successfully
+**Version:** 3.1.3
+**Updated:** 2026-03-26
+**Status:** Relaunch Preparation
 
 ## Project Overview
 
-TS-NextJS-PersonalPortfolio-v1-2025 is a production-ready, self-hosted portfolio platform built with Next.js 15, Prisma, and enterprise architecture patterns. It provides a themable public website with a full-featured admin CMS, supporting both SQLite and Neon PostgreSQL databases.
+TS-NextJS-PersonalPortfolio-v1-2025 is a Next.js App Router portfolio platform with:
+- a public portfolio website,
+- a database-backed admin CMS,
+- Prisma-backed persistence,
+- theme support,
+- setup/bootstrap utilities in mixed states of completion.
 
-**All 9 Agents Completed Successfully:**
-- [x] Agent A: Codebase Alignment (structure verification)
-- [x] Agent B: Documentation Overhaul (comprehensive docs)
-- [x] Agent C: First-Run Setup (automated configuration)
-- [x] Agent D: Admin Panel Layout (consolidated dashboard)
-- [x] Agent E: Content Separation (generic + private datasets)
-- [x] Agent F: Seed Generator (owner-specific seeding)
-- [x] Agent G: Auth Simplification (security hardening)
-- [x] Agent H: Architecture Review (gap analysis)
-- [x] Agent I: Test Coverage (unit + e2e testing)
+This repo is being revived for public launch. Treat the codebase as functional but not yet
+launch-verified. Documentation must describe the current implementation truthfully, including
+unfinished, disabled, or partially replaced flows.
 
-## Build/Lint/Test Commands
+## Session Startup Order
+
+Before making changes:
+1. Read this `AGENTS.md`.
+2. Read `.github/copilot-instructions.md`.
+3. Read `docs/helper_docs/ammar-agent-guideline/agent-guideline.md`.
+4. Read the local helper docs under:
+   - `docs/helper_docs/Ammar-Documentation-Guidelines/`
+   - `docs/helper_docs/Ammar-NextJS-Guideline/`
+5. Read the relevant project docs in `docs/`.
+6. Inspect the code paths you plan to touch before changing them.
+
+## Repo Reality
+
+Current verified repo characteristics:
+- Framework: Next.js App Router with TypeScript and React 19.
+- Persistence: Prisma with PostgreSQL configured in `prisma/schema.prisma`.
+- Public pages: `src/app/home`, `src/app/portfolio`, `src/app/services`, `src/app/blogs`.
+- Admin pages: `src/app/admin/**`.
+- APIs: `src/app/api/v1/**`.
+- Setup UI exists in multiple components/routes, but setup API endpoints currently return a
+  removal message and redirect users away from `/setup`.
+- Env bootstrap exists and can create settings/admin data when the settings row is missing.
+- Documentation and status files contain stale "production-ready / 100% complete" claims and must
+  not be trusted without code verification.
+
+## Commands
+
+Primary commands:
+- Install dependencies: `npm install`
+- Dev server: `npm run dev`
 - Build: `npm run build`
-- Lint: `npm run lint` (fix with `npm run lint:fix`)
 - Typecheck: `npm run typecheck`
-- Format: `npm run format` (check with `npm run format:check`)
-- Unit tests: `npm run test` (single test: `npm run test -- path/to/test.spec.ts`)
+- Lint: `npm run lint`
+- Format check: `npm run format:check`
+- Unit tests: `npm run test`
 - E2E tests: `npm run e2e`
-- All checks: `npm run check`
+- Default seed: `npm run db:seed`
+- Owner seed: `npm run seed:ammar`
 
-## Code Style Guidelines
-- **Imports**: Use path aliases (`@/*`, `@/server/*`, etc.). Type imports: `import type { } from '@/types/...'` (ESLint enforced)
-- **Formatting**: Prettier auto-formats; no semicolons, single quotes
-- **Types**: Strict TypeScript, no `any` (ESLint enforced). Use Zod for validation at boundaries
-- **Naming**: PascalCase for components, camelCase for functions/variables, UPPER_SNAKE for constants
-- **Error Handling**: Use AppError class; throw in services, catch in API routes with errorResponse()
-- **Client/Server**: `"use client"` only for interactivity; **NEVER** import `@/server/*` in client code
-- **Architecture**: Pages -> Services -> Repositories; validate -> service -> serialize -> response
+Notes:
+- Verification commands require installed dependencies in the active workspace.
+- The supported first-run path is env/bootstrap plus the documented seed flows; do not reintroduce
+  the retired `setup:first-run` script flow.
 
-## Layered Architecture Reference
+## Architecture Rules
 
-```
-src/app/          -> Next.js App Router (SSR-first, route handlers)
-src/server/       -> Enterprise backend architecture
-  -  services/    -> Business logic layer (orchestrates repositories)
-  -  repositories/-> Data access abstraction (Prisma queries)
-  -  serializers/ -> Response DTOs (DB models -> API responses)
-  -  http/        -> Error classes, response envelopes, helpers
-  -  security/    -> Auth, password hashing, sessions, rate limiting
+- Follow the layered flow used in the codebase:
+  Route/Page -> Service -> Repository -> Serializer/Response
+- Do not call repositories directly from route handlers when a service exists.
+- Do not import `@/server/*` from client components.
+- Use Zod validation at API boundaries.
+- Use typed env access patterns; avoid raw `process.env` spread across the app.
 
-src/components/   -> Reusable UI (Admin/, UI/, NavSidebar/, ProfileSidebar/)
-src/sections/     -> Page-specific sections (home/, Services/, setup/)
-src/static-content/-> Generic template content (safe defaults)
-data/ammar/       -> Private owner dataset (local/deployment only)
-```
+## Documentation Rules
 
-## Key Rules & Anti-Patterns
+- Follow the local Ammar helper-doc rules and guidance in this repo at all times.
+- Treat Ammar as the project author/owner in repo documentation and launch-facing materials unless
+  the user explicitly asks for a different attribution.
+- Keep docs concise, comprehensive, and easy to scan.
+- Prefer updating existing canonical docs over creating duplicate narratives.
+- Archive stale material instead of silently deleting history.
+- Keep documentation continuously aligned with the codebase; when code changes behavior, structure,
+  setup flow, or verification state, update the relevant active docs in the same pass.
+- Do not end a cleanup or implementation pass with code/docs drift still known and untracked; update
+  the implementation checklist and the canonical active docs before stopping.
+- Do not mark features as complete unless they were verified against current code and, when
+  relevant, current checks.
+- Keep short `README.md` files in active top-level source/test folders so folder purpose and local
+  rules remain discoverable during relaunch cleanup.
 
-**? NEVER:**
-- Import `@/server/*` in client components (build failures)
-- Bypass Zod validation schemas
-- Call repositories directly from route handlers
-- Use `any` types (strict TypeScript)
-- Hardcode colors (use theme CSS variables)
-- Access `process.env` directly (use `@/server/server-validators/env`)
+## Cleanup Rules
 
-**[x] ALWAYS:**
-- Use path aliases for all imports
-- Mark client components with `"use client"` at top
-- Follow layered architecture patterns
-- Validate -> Service -> Serialize -> Response in APIs
+- During cleanup work, prefer improving active code paths before polishing archived or legacy areas.
+- Use current best practices for the framework, TypeScript, accessibility, and maintainability when
+  making changes.
+- Add docstrings to exported modules, exported functions, and non-obvious utilities that you touch.
+- Add short explanatory comments above complex or easy-to-misread logic blocks when the code would
+  otherwise be hard to parse quickly.
+- Keep comments high-signal; do not add narration for obvious lines.
+- When cleanup changes project behavior, sync the related implementation checklist and active docs in
+  the same pass.
 
-## Setup & Development Quick Start
+## Relaunch Priorities
 
-```bash
-# First-time setup
-npm install
-npm run setup:first-run     # Interactive setup (SQLite/Neon selection)
-npm run dev                 # Start development server
+Current relaunch priorities:
+1. Reset documentation to match the codebase.
+2. Audit setup/bootstrap behavior and decide on one supported first-run path.
+3. Re-verify install, lint, typecheck, tests, and build after dependencies are restored.
+4. Fix launch blockers found during verification.
+5. Align public-facing content, metadata, assets, and release readiness docs.
+6. Run repository-wide cleanup in phases, keeping code comments/docstrings and docs in sync.
 
-# Advanced seeding (owner-specific content)
-npm run seed:ammar          # Seeds from data/ammar/* if present
+## Safety
 
-# Quality checks
-npm run check               # typecheck + lint + format + test
-```
+- Never run destructive git commands unless explicitly requested.
+- Do not remove user changes you did not make.
+- If docs and code disagree, treat code as the current behavior and update docs first.
+- If a flow is half-implemented, document that ambiguity explicitly instead of assuming intended
+  behavior.
 
-## Documentation & Reference
+## Changelog
 
-**Primary Documentation:**
-- `docs/EXECUTION_STATUS.md` - Quick project overview
-- `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/architecture.md` - System design
-- `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/code-structure.md` - Folder map
-- `instructions/FIRST-RUN.md` - Local setup guide
-- `instructions/SEEDING.md` - Database seeding workflows
-
-**All documentation follows Ammar Documentation Guideline v5.01.00 with metadata headers, versioning, and cross-references.**
-
-## Copilot Instructions
-
-**Follow `.github/copilot-instructions.md` for:**
-- Detailed layered architecture patterns
-- Data flow and API patterns
-- Anti-patterns and critical rules
-- Common workflows and debugging
-- Theme system and UI architecture
-- Database operations and seeding
-- Testing commands and quality gates
-
-The copilot instructions are the comprehensive reference for development patterns, workflows, and project conventions. Always consult them when implementing new features or debugging issues.
-
----
-
-**Status:** All phases complete, production-ready. Next priority: Implement web-based setup wizard to replace terminal configuration.
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 3.1.3 | 2026-03-26 | Codex | Added a rule to keep short README files in active top-level source and test folders so structure and local rules stay discoverable during cleanup. |
+| 3.1.2 | 2026-03-25 | Codex | Added an attribution rule to keep repo documentation aligned to Ammar as the project author/owner unless explicitly told otherwise. |
+| 3.1.1 | 2026-03-24 | Codex | Added explicit rules to keep docs continuously synced with code, follow helper docs at all times, and apply best-practice standards during implementation. |
+| 3.1.0 | 2026-03-24 | Codex | Added cleanup-phase rules covering docstrings, explanatory comments, and checklist/doc synchronization. |
+| 3.0.0 | 2026-03-24 | Codex | Rewrote the repo agent guide for relaunch mode. Removed stale completion claims and aligned instructions to the current codebase state. |
+| 2.0.0 | 2025-12-27 | Codex | Marked all agents complete and documented the previous production-ready phase. |

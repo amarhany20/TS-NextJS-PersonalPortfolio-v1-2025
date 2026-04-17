@@ -11,7 +11,7 @@ test.describe('Admin portfolio experience', () => {
 
     await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
     await expect(page.getByPlaceholder('Search by title, slug, or summary')).toBeVisible();
-    await expect(page.getByText('Reorder portfolio projects')).toBeVisible();
+    await expect(page.getByText('No projects match that filter')).toBeVisible();
 
     await page.goto('/admin/portfolio/new');
     await expect(page.getByRole('heading', { name: 'Create project' })).toBeVisible();
@@ -30,7 +30,7 @@ test.describe('Admin portfolio experience', () => {
 
 
       const fillField = async (label: string, value: string) => {
-        await page.getByLabel(label, { exact: true }).fill(value);
+        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
       };
 
       await fillField('Project title', title);

@@ -1,15 +1,9 @@
-export const certificates = [
-  {
-    id: 1,
-    name: 'Example Certification',
-    issuer: 'Example Issuer',
-    date: '2025-01-01',
-    credential: 'example-cert',
-    description: 'Replace this with your real certification details.',
-    skills: ['TypeScript', 'Web'],
-    image: null,
-    verifyUrl: null,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+import type { Certificate } from '@/types/certificate';
+
+/**
+ * Legacy static fallback certificates.
+ *
+ * Launch content should come from the seeded database and admin CMS. Keep this empty so repo-level
+ * template data does not leak example credentials into public surfaces.
+ */
+export const certificates: Certificate[] = [];

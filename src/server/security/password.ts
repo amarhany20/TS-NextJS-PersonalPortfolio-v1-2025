@@ -1,7 +1,11 @@
 import { compare, genSalt, hash } from 'bcryptjs';
+import { env } from '@/server/server-validators/env';
 
-const DEFAULT_SALT_ROUNDS = Number(process.env.AUTH_SALT_ROUNDS ?? 12);
+const DEFAULT_SALT_ROUNDS = env.AUTH_SALT_ROUNDS;
 
+/**
+ * Hashes a plain-text password using the configured salt rounds.
+ */
 export async function hashPassword(plainText: string): Promise<string> {
   if (!plainText) {
     throw new Error('Password must be provided for hashing.');
@@ -19,7 +23,7 @@ export async function verifyPassword(plainText: string, passwordHash: string): P
   try {
     return await compare(plainText, passwordHash);
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
+    if (env.NODE_ENV === 'development') {
       console.warn('Failed to verify password hash', error);
     }
     return false;

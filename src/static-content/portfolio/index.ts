@@ -1,9 +1,6 @@
 import type { Project } from '@/types/portfolio'
 
-import demoSaas from './demo-saas.json'
-import demoApi from './demo-api.json'
-
-const raw: unknown[] = [demoSaas, demoApi]
+const raw: unknown[] = []
 
 function dateKey(p: { start: string; end?: string | null }) {
   return (p.end || p.start) + '-01'
@@ -11,6 +8,12 @@ function dateKey(p: { start: string; end?: string | null }) {
 
 const now = new Date().toISOString()
 
+/**
+ * Legacy static portfolio fallback.
+ *
+ * The current launch path reads portfolio content from the database-backed service layer. Keep the
+ * static fallback empty so demo projects do not accidentally appear in template or fallback flows.
+ */
 export const portfolio: Project[] = raw
   .map((r) => {
     const o = r as Record<string, unknown>

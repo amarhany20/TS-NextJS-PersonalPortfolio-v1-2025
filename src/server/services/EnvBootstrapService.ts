@@ -1,8 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 
 import { hashPassword } from '@/server/security/password';
+import { env } from '@/server/server-validators/env';
 
 const SETTINGS_ID = 'settings-singleton';
+
+const readEnvString = (value?: string) => {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+};
 
 const detectDatabaseProvider = (url?: string) => {
   if (!url) return 'unknown';
@@ -26,25 +32,25 @@ const resolveBoolean = (value?: string, fallback = false) => {
 };
 
 const buildSeoDefaults = () => {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = env.NEXT_PUBLIC_SITE_URL;
 
   return {
-    title: process.env.SEO_TITLE || process.env.SITE_TITLE || 'Portfolio',
-    titleTemplate: process.env.SEO_TITLE_TEMPLATE || undefined,
-    description: process.env.SEO_DESCRIPTION || process.env.SITE_DESCRIPTION || undefined,
-    keywords: parseKeywords(process.env.SEO_KEYWORDS),
-    siteUrl: process.env.SEO_SITE_URL || siteUrl || undefined,
-    metadataBase: process.env.SEO_METADATA_BASE || siteUrl || undefined,
-    openGraphImage: process.env.SEO_OG_IMAGE || undefined,
-    twitterHandle: process.env.SEO_TWITTER_HANDLE || undefined,
+    title: readEnvString(env.SEO_TITLE) ?? readEnvString(env.SITE_TITLE) ?? 'Portfolio',
+    titleTemplate: readEnvString(env.SEO_TITLE_TEMPLATE),
+    description: readEnvString(env.SEO_DESCRIPTION) ?? readEnvString(env.SITE_DESCRIPTION),
+    keywords: parseKeywords(env.SEO_KEYWORDS),
+    siteUrl: readEnvString(env.SEO_SITE_URL) ?? siteUrl,
+    metadataBase: readEnvString(env.SEO_METADATA_BASE) ?? siteUrl,
+    openGraphImage: readEnvString(env.SEO_OG_IMAGE),
+    twitterHandle: readEnvString(env.SEO_TWITTER_HANDLE),
   };
 };
 
 const buildHeroButtons = () => {
-  const primaryLabel = process.env.HERO_PRIMARY_LABEL;
-  const primaryUrl = process.env.HERO_PRIMARY_URL;
-  const secondaryLabel = process.env.HERO_SECONDARY_LABEL;
-  const secondaryUrl = process.env.HERO_SECONDARY_URL;
+  const primaryLabel = readEnvString(env.HERO_PRIMARY_LABEL);
+  const primaryUrl = readEnvString(env.HERO_PRIMARY_URL);
+  const secondaryLabel = readEnvString(env.HERO_SECONDARY_LABEL);
+  const secondaryUrl = readEnvString(env.HERO_SECONDARY_URL);
 
   if (!primaryLabel && !primaryUrl && !secondaryLabel && !secondaryUrl) {
     return null;
@@ -57,8 +63,8 @@ const buildHeroButtons = () => {
 };
 
 const buildContactConfig = () => {
-  const title = process.env.CONTACT_TITLE;
-  const subtitle = process.env.CONTACT_SUBTITLE;
+  const title = readEnvString(env.CONTACT_TITLE);
+  const subtitle = readEnvString(env.CONTACT_SUBTITLE);
 
   if (!title && !subtitle) {
     return null;
@@ -68,14 +74,18 @@ const buildContactConfig = () => {
 };
 
 export const EnvBootstrapService = {
+  /**
+   * Ensures the bootstrap admin user and settings row exist for the supported
+   * env-driven first-run path.
+   */
   async ensureSettingsAndAdmin() {
     const prisma = new PrismaClient();
 
     try {
-      const username = (process.env.ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
-      const email = (process.env.ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
-      const displayName = process.env.ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
-      const password = process.env.ADMIN_PASSWORD ?? 'change-me-now';
+      const username = (readEnvString(env.ADMIN_USERNAME) ?? 'admin').toLowerCase();
+      const email = (readEnvString(env.ADMIN_EMAIL) ?? 'admin@example.com').toLowerCase();
+      const displayName = readEnvString(env.ADMIN_DISPLAY_NAME) ?? 'Portfolio Admin';
+      const password = env.ADMIN_PASSWORD ?? 'change-me-now';
 
       const passwordHash = await hashPassword(password);
 
@@ -98,54 +108,67 @@ export const EnvBootstrapService = {
         },
       });
 
-      const databaseProvider = detectDatabaseProvider(process.env.DATABASE_URL);
+      const databaseProvider = detectDatabaseProvider(env.DATABASE_URL);
       const seoDefaults = buildSeoDefaults();
       const heroButtons = buildHeroButtons();
       const contactConfig = buildContactConfig();
+      const siteTitle = readEnvString(env.SITE_TITLE) ?? 'Portfolio';
+      const siteSubtitle = readEnvString(env.SITE_SUBTITLE) ?? null;
+      const heroGreeting = readEnvString(env.HERO_GREETING) ?? null;
+      const heroSubtitle = readEnvString(env.HERO_SUBTITLE) ?? null;
+      const heroDescription = readEnvString(env.HERO_DESCRIPTION) ?? readEnvString(env.SITE_DESCRIPTION) ?? null;
+      const primaryEmail = readEnvString(env.PRIMARY_EMAIL) ?? email;
+      const secondaryEmail = readEnvString(env.SECONDARY_EMAIL) ?? null;
+      const location = readEnvString(env.LOCATION) ?? null;
+      const timezone = readEnvString(env.TIMEZONE) ?? null;
+      const theme = readEnvString(env.THEME_ID) ?? 'professional-dark';
+      const maintenanceMessage = readEnvString(env.MAINTENANCE_MESSAGE) ?? null;
+      const socialLinks = env.SOCIAL_LINKS_JSON ?? '[]';
+      const setupVersion = env.npm_package_version ?? '1.0.0';
 
       await prisma.settings.upsert({
         where: { id: SETTINGS_ID },
         update: {
-          siteTitle: process.env.SITE_TITLE || 'Portfolio',
-          siteSubtitle: process.env.SITE_SUBTITLE || null,
-          heroGreeting: process.env.HERO_GREETING || null,
-          heroSubtitle: process.env.HERO_SUBTITLE || null,
-          heroDescription: process.env.HERO_DESCRIPTION || process.env.SITE_DESCRIPTION || null,
-          primaryEmail: process.env.PRIMARY_EMAIL || email,
-          secondaryEmail: process.env.SECONDARY_EMAIL || null,
-          location: process.env.LOCATION || null,
-          timezone: process.env.TIMEZONE || null,
-          theme: process.env.THEME_ID || 'professional-dark',
-          maintenanceMode: resolveBoolean(process.env.MAINTENANCE_MODE, false),
-          maintenanceMessage: process.env.MAINTENANCE_MESSAGE || null,
-          socialLinks: process.env.SOCIAL_LINKS_JSON || '[]',
+          siteTitle,
+          siteSubtitle,
+          heroGreeting,
+          heroSubtitle,
+          heroDescription,
+          primaryEmail,
+          secondaryEmail,
+          location,
+          timezone,
+          theme,
+          maintenanceMode: resolveBoolean(env.MAINTENANCE_MODE, false),
+          maintenanceMessage,
+          socialLinks,
           heroButtons: heroButtons ? JSON.stringify(heroButtons) : null,
           contactConfig: contactConfig ? JSON.stringify(contactConfig) : null,
           seoDefaults: JSON.stringify(seoDefaults),
           setupCompletedAt: new Date(),
-          setupVersion: process.env.npm_package_version || '1.0.0',
+          setupVersion,
           databaseProvider,
         },
         create: {
           id: SETTINGS_ID,
-          siteTitle: process.env.SITE_TITLE || 'Portfolio',
-          siteSubtitle: process.env.SITE_SUBTITLE || null,
-          heroGreeting: process.env.HERO_GREETING || null,
-          heroSubtitle: process.env.HERO_SUBTITLE || null,
-          heroDescription: process.env.HERO_DESCRIPTION || process.env.SITE_DESCRIPTION || null,
-          primaryEmail: process.env.PRIMARY_EMAIL || email,
-          secondaryEmail: process.env.SECONDARY_EMAIL || null,
-          location: process.env.LOCATION || null,
-          timezone: process.env.TIMEZONE || null,
-          theme: process.env.THEME_ID || 'professional-dark',
-          maintenanceMode: resolveBoolean(process.env.MAINTENANCE_MODE, false),
-          maintenanceMessage: process.env.MAINTENANCE_MESSAGE || null,
-          socialLinks: process.env.SOCIAL_LINKS_JSON || '[]',
+          siteTitle,
+          siteSubtitle,
+          heroGreeting,
+          heroSubtitle,
+          heroDescription,
+          primaryEmail,
+          secondaryEmail,
+          location,
+          timezone,
+          theme,
+          maintenanceMode: resolveBoolean(env.MAINTENANCE_MODE, false),
+          maintenanceMessage,
+          socialLinks,
           heroButtons: heroButtons ? JSON.stringify(heroButtons) : null,
           contactConfig: contactConfig ? JSON.stringify(contactConfig) : null,
           seoDefaults: JSON.stringify(seoDefaults),
           setupCompletedAt: new Date(),
-          setupVersion: process.env.npm_package_version || '1.0.0',
+          setupVersion,
           databaseProvider,
         },
       });

@@ -37,7 +37,9 @@ export const ThemeService = {
 
     const settings = await SettingsRepository.get();
     if (!settings) {
-      throw new BadRequestError('Site settings have not been initialised. Run the setup wizard or seed script.');
+      throw new BadRequestError(
+        'Site settings have not been initialised. Configure environment variables and bootstrap or seed the database.'
+      );
     }
 
     await SettingsRepository.setTheme(theme.id);

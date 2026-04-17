@@ -72,6 +72,12 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+/**
+ * Root application layout.
+ *
+ * The layout tries to load database-backed settings first and falls back to a resilient shell when
+ * settings are unavailable during bootstrap or failure scenarios.
+ */
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   try {
     const siteContent = await SettingsService.getSiteContent();
@@ -84,7 +90,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </body>
       </html>
     );
-  } catch (error) {
+  } catch {
     return (
       <html lang="en" data-theme="professional-dark" className="h-full">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white h-full`}>

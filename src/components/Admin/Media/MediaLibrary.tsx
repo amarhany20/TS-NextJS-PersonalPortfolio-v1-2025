@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
 import { Copy, Eye, Image as ImageIcon, Trash2, Upload } from 'lucide-react';
 
@@ -17,7 +18,10 @@ const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 
 const formatDateTime = (value: string) => dateTimeFormatter.format(new Date(value));
 
-
+/**
+ * Provides a lightweight asset library for upload, preview, and deletion workflows
+ * used by the admin CMS.
+ */
 export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [assets, setAssets] = useState<MediaAsset[]>(initialAssets);
@@ -90,20 +94,23 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
       return;
     }
 
+    const previousAssets = assets;
+    setAssets((current) => current.filter((item) => item.id !== asset.id));
+    if (preview?.id === asset.id) {
+      setPreview(null);
+    }
+
     const response = await fetch(`/api/v1/media/${asset.id}`, {
       method: 'DELETE',
     });
 
     if (!response.ok) {
       const payload = await response.json().catch(() => null);
+      setAssets(previousAssets);
       setError(payload?.error?.message ?? 'Unable to delete asset.');
       return;
     }
 
-    setAssets((current) => current.filter((item) => item.id !== asset.id));
-    if (preview?.id === asset.id) {
-      setPreview(null);
-    }
     setMessage('Asset deleted.');
   };
 
@@ -175,11 +182,13 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
                 aria-label={asset.mimeType.startsWith('image/') ? 'Preview image' : 'Asset thumbnail placeholder'}
               >
                 {asset.mimeType.startsWith('image/') ? (
-                  <img
+                  <Image
                     src={asset.url}
                     alt={asset.originalName ?? asset.filename}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
+                    fill
+                    unoptimized
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-[var(--text-secondary)]">
@@ -267,7 +276,14 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
               </button>
             </div>
             <div className="bg-black">
-              <img src={preview.url} alt={preview.originalName ?? preview.filename} className="h-full max-h-[80vh] w-full object-contain" />
+              <Image
+                src={preview.url}
+                alt={preview.originalName ?? preview.filename}
+                width={preview.width ?? 1600}
+                height={preview.height ?? 1200}
+                unoptimized
+                className="h-full max-h-[80vh] w-full object-contain"
+              />
             </div>
           </div>
         </div>
@@ -276,6 +292,9 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
   );
 }
 
+/**
+ * Converts a raw byte count into a compact human-readable label for the asset UI.
+ */
 function formatFileSize(bytes: number) {
   if (bytes === 0) {
     return '0 B';

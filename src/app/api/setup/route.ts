@@ -1,8 +1,5 @@
 /**
- * Setup API Endpoint
- *
- * Route handler for setup operations.
- * Delegates to SetupController for business logic.
+ * Returns a retired-flow response for the removed setup API surface.
  */
 
 import { NextResponse } from 'next/server';

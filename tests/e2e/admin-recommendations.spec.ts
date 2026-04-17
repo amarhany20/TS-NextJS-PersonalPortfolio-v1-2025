@@ -13,7 +13,7 @@ test.describe('Admin recommendations CRUD', () => {
       await expect(page.getByRole('heading', { name: 'Create recommendation' })).toBeVisible();
 
       const fillField = async (label: string, value: string) => {
-        await page.getByLabel(label, { exact: true }).fill(value);
+        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
       };
 
       await fillField('Name', name);
@@ -52,15 +52,16 @@ async function cleanupRecommendation(name: string, baseURL: string) {
   const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
 
   try {
-    const listResponse = await api.get('/api/v1/recommendations');
-    if (!listResponse.ok()) return;
+    const listResponse = await api.get('/api/v1/recommendations').catch(() => null);
+    if (!listResponse?.ok()) return;
 
     const payload = (await listResponse.json().catch(() => null)) as any;
     const recommendations = (payload?.data?.recommendations ?? []) as Array<{ id: string; name: string }>;
     const match = recommendations.find((item) => item.name === name);
     if (!match) return;
 
-    const deleteResponse = await api.delete(`/api/v1/recommendations/${match.id}`);
+    const deleteResponse = await api.delete(`/api/v1/recommendations/${match.id}`).catch(() => null);
+    if (!deleteResponse) return;
     if (deleteResponse.ok() || deleteResponse.status() === 404) return;
 
     console.warn(`Cleanup failed for recommendation ${match.id}: ${deleteResponse.status()} ${await deleteResponse.text()}`);

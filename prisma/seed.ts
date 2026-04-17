@@ -108,6 +108,7 @@ async function seedSettings() {
 
 async function seedSkillGroups() {
   for (const [index, group] of skillGroups.entries()) {
+    // Use stable unique business keys for idempotency and let Prisma own primary keys.
     const record = await prisma.skillGroup.upsert({
       where: { slug: group.id },
       update: {
@@ -116,7 +117,6 @@ async function seedSkillGroups() {
         displayOrder: index,
       },
       create: {
-        id: group.id,
         slug: group.id,
         title: group.title,
         summary: group.summary,
@@ -140,7 +140,6 @@ async function seedSkillGroups() {
               displayOrder: skillIndex,
             },
             create: {
-              id: `${record.id}-${skillIndex + 1}`,
               name: skill.name,
               groupId: record.id,
               displayOrder: skillIndex,

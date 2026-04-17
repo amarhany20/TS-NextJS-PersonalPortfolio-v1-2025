@@ -107,8 +107,6 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
 
   const handleDelete = async (record: Experience) => {
     if (!record.id) return;
-    const confirmed = window.confirm(`Delete experience at ${record.company}? This cannot be undone.`);
-    if (!confirmed) return;
 
     setBusyId(record.id);
     try {
@@ -121,6 +119,7 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
 
       setItems((current) => current.filter((item) => item.id !== record.id));
       showToast({ variant: 'success', title: 'Experience deleted', description: record.company });
+      router.refresh();
     } catch (error) {
       showToast({ variant: 'error', title: 'Delete failed', description: error instanceof Error ? error.message : undefined });
     } finally {

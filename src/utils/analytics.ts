@@ -21,11 +21,7 @@ export function trackPageView(path: string, title?: string) {
     console.log('[Analytics] Page view:', { path, title });
   }
 
-  // TODO: Integrate with analytics provider (Google Analytics, Plausible, etc.)
-  // Example:
-  // if (typeof window !== 'undefined' && window.gtag) {
-  //   window.gtag('config', 'GA_MEASUREMENT_ID', { page_path: path, page_title: title });
-  // }
+  // No analytics provider is wired in for the current launch pass.
 }
 
 /**
@@ -36,11 +32,7 @@ export function trackEvent(event: AnalyticsEvent) {
     console.log('[Analytics] Event:', event);
   }
 
-  // TODO: Integrate with analytics provider
-  // Example:
-  // if (typeof window !== 'undefined' && window.gtag) {
-  //   window.gtag('event', event.name, event.properties);
-  // }
+  // No analytics provider is wired in for the current launch pass.
 }
 
 /**

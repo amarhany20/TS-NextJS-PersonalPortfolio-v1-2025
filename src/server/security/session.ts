@@ -2,6 +2,7 @@ import { getIronSession, type IronSession, type SessionOptions } from 'iron-sess
 import { cookies } from 'next/headers';
 
 import { UnauthorizedError } from '@/server/http/errors';
+import { env } from '@/server/server-validators/env';
 
 export interface SessionUser {
   id: string;
@@ -26,7 +27,7 @@ function resolveSessionOptions(): SessionOptions {
     return cachedOptions;
   }
 
-  const secret = process.env.AUTH_SECRET;
+  const secret = env.AUTH_SECRET;
 
   if (!secret || secret.length < 32) {
     throw new Error('AUTH_SECRET environment variable must be set to a 32+ character string.');
@@ -38,7 +39,7 @@ function resolveSessionOptions(): SessionOptions {
     ttl: DEFAULT_TTL_SECONDS,
     cookieOptions: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
     },

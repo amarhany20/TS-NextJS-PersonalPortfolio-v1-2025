@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   useMemo,
   useState,
+  useId,
   type ChangeEvent,
   type FormEvent,
 } from 'react';
@@ -49,7 +49,6 @@ function formatDateForInput(dateString?: string): string {
 }
 
 export function CertificateForm({ mode, certificate }: CertificateFormProps) {
-  const router = useRouter();
   const { showToast } = useToast();
   const [formState, setFormState] = useState({
     name: certificate?.name ?? '',
@@ -133,10 +132,7 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
         description: result.data.name,
       });
 
-      setTimeout(() => {
-        router.push('/admin/certificates');
-        router.refresh();
-      }, 1000);
+      window.location.assign('/admin/certificates');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'An unexpected error occurred.';
       setError(message);
@@ -269,22 +265,28 @@ interface LabeledInputProps {
 }
 
 function LabeledInput({ label, required, type = 'text', value, onChange, error, helper }: LabeledInputProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span className="text-rose-500"> *</span> : null}
+        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
       </label>
       <input
+        id={inputId}
         type={type}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border bg-transparent px-3 py-2 text-sm outline-none transition ${
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
+      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
     </div>
   );
 }
@@ -299,19 +301,25 @@ interface TextareaFieldProps {
 }
 
 function TextareaField({ label, rows = 4, value, onChange, error, helper }: TextareaFieldProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">{label}</label>
       <textarea
+        id={inputId}
         rows={rows}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border bg-transparent px-3 py-2 text-sm outline-none transition ${
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
+      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
     </div>
   );
 }

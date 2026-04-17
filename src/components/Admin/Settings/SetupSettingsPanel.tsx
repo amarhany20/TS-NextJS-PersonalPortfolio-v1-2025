@@ -81,8 +81,8 @@ export function SetupSettingsPanel({ settings }: SetupSettingsPanelProps) {
           {settings.setupCompletedAt && (
             <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--accent-muted)]/30 p-4">
               <p className="text-xs text-[var(--text-secondary)]">
-                Setup was completed on {formatDateTime(settings.setupCompletedAt)}. 
-                The setup wizard is disabled to prevent accidental re-initialization. 
+                Setup was completed on {formatDateTime(settings.setupCompletedAt)}.
+                The environment/bootstrap flow is treated as the supported initialization path.
                 To modify settings, use the other settings panels.
               </p>
             </div>

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useId, useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
 
 import { createServiceSchema, updateServiceSchema } from '@/server/server-validators/api/service';
 import type { Service } from '@/types/service';
@@ -34,7 +33,6 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 };
 
 export function ServiceForm({ mode, service }: ServiceFormProps) {
-  const router = useRouter();
   const { showToast } = useToast();
   const [formState, setFormState] = useState({
     title: service?.title ?? '',
@@ -127,10 +125,7 @@ export function ServiceForm({ mode, service }: ServiceFormProps) {
         description: result.data.title,
       });
 
-      setTimeout(() => {
-        router.push('/admin/services');
-        router.refresh();
-      }, 1000);
+      window.location.assign('/admin/services');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'An unexpected error occurred.';
       setError(message);
@@ -266,19 +261,25 @@ interface LabeledInputProps {
 }
 
 function LabeledInput({ label, value, required, error, helper, type = 'text', onChange }: LabeledInputProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">
-        {label} {required ? '*' : ''}
+      <label htmlFor={inputId} className="text-sm font-medium">
+        {label} {required ? <span aria-hidden="true"> *</span> : ''}
       </label>
       <input
+        id={inputId}
         type={type}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className="w-full rounded-lg border border-[var(--border)] bg-[var(--card-bg)] px-3 py-2 text-sm"
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p className="text-xs text-amber-600">{error}</p> : null}
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
     </div>
   );
 }
@@ -292,17 +293,23 @@ interface LabeledTextareaProps {
 }
 
 function LabeledTextarea({ label, value, error, helper, onChange }: LabeledTextareaProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">{label}</label>
+      <label htmlFor={inputId} className="text-sm font-medium">{label}</label>
       <textarea
+        id={inputId}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className="w-full rounded-lg border border-[var(--border)] bg-[var(--card-bg)] px-3 py-2 text-sm"
         rows={3}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p className="text-xs text-amber-600">{error}</p> : null}
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
     </div>
   );
 }

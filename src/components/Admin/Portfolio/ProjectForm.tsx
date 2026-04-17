@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
+  useId,
   useMemo,
   useState,
   type ChangeEvent,
@@ -47,7 +47,6 @@ const buildFieldErrors = (issues: ZodIssue[]): FormErrors => {
 };
 
 export function ProjectForm({ mode, project }: ProjectFormProps) {
-  const router = useRouter();
   const [formState, setFormState] = useState({
     title: project?.title ?? '',
     slug: project?.slug ?? '',
@@ -173,8 +172,7 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
       }
 
       setSuccess(mode === 'create' ? 'Project created.' : 'Project updated.');
-      router.push('/admin/portfolio');
-      router.refresh();
+      window.location.assign('/admin/portfolio');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to save project.');
     } finally {
@@ -422,24 +420,30 @@ interface LabeledInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 function LabeledInput({ label, helper, error, required, className, ...props }: LabeledInputProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
-    <label className="space-y-1 text-sm font-medium text-foreground">
-      <span>
+    <div className="space-y-1 text-sm font-medium text-foreground">
+      <label htmlFor={inputId}>
         {label}
-        {required ? ' *' : ''}
-      </span>
+        {required ? <span aria-hidden="true"> *</span> : ''}
+      </label>
       <input
+        id={inputId}
         {...props}
         required={required}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-accent ${className ?? ''}`}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
       {error ? (
-        <p className="text-xs text-amber-600" role="alert">
+        <p id={errorId} className="text-xs text-amber-600" role="alert">
           {error}
         </p>
       ) : null}
-    </label>
+    </div>
   );
 }
 
@@ -450,24 +454,30 @@ interface TextareaFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 
 function TextareaField({ label, helper, error, required, className, ...props }: TextareaFieldProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
-    <label className="space-y-1 text-sm font-medium text-foreground">
-      <span>
+    <div className="space-y-1 text-sm font-medium text-foreground">
+      <label htmlFor={inputId}>
         {label}
-        {required ? ' *' : ''}
-      </span>
+        {required ? <span aria-hidden="true"> *</span> : ''}
+      </label>
       <textarea
+        id={inputId}
         {...props}
         required={required}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-accent ${className ?? ''}`}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
       {error ? (
-        <p className="text-xs text-amber-600" role="alert">
+        <p id={errorId} className="text-xs text-amber-600" role="alert">
           {error}
         </p>
       ) : null}
-    </label>
+    </div>
   );
 }
 

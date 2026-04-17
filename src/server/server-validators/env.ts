@@ -11,24 +11,68 @@
 
 import { z } from 'zod';
 
+const optionalEnvString = z.string().optional();
+
 const envSchema = z.object({
   // App
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
 
-  // Database (optional for now, uncomment when needed)
-  // DATABASE_URL: z.string().url(),
+  // Database
+  DATABASE_URL: optionalEnvString,
 
-  // Auth (optional for now, uncomment when needed)
-  // JWT_SECRET: z.string().min(32),
-  // SESSION_COOKIE_NAME: z.string().default('app_session'),
-  // SESSION_COOKIE_SECURE: z.string().transform((val) => val === 'true').default('true'),
+  // Auth
+  AUTH_SECRET: optionalEnvString,
+  AUTH_SALT_ROUNDS: z.coerce.number().int().positive().default(12),
 
-  // Third-party (optional)
-  // SENTRY_DSN: z.string().url().optional(),
+  // Admin bootstrap
+  ADMIN_USERNAME: optionalEnvString,
+  ADMIN_PASSWORD: optionalEnvString,
+  ADMIN_EMAIL: optionalEnvString,
+  ADMIN_DISPLAY_NAME: optionalEnvString,
+  SEED_ADMIN_USERNAME: optionalEnvString,
+  SEED_ADMIN_PASSWORD: optionalEnvString,
+  SEED_ADMIN_EMAIL: optionalEnvString,
+  SEED_ADMIN_DISPLAY_NAME: optionalEnvString,
 
-  // Feature flags (optional)
-  // FEATURE_X: z.string().transform((val) => val === 'true').default('false'),
+  // Site bootstrap
+  SITE_TITLE: optionalEnvString,
+  SITE_SUBTITLE: optionalEnvString,
+  SITE_DESCRIPTION: optionalEnvString,
+  THEME_ID: optionalEnvString,
+  PRIMARY_EMAIL: optionalEnvString,
+  SECONDARY_EMAIL: optionalEnvString,
+  LOCATION: optionalEnvString,
+  TIMEZONE: optionalEnvString,
+
+  // Hero
+  HERO_GREETING: optionalEnvString,
+  HERO_SUBTITLE: optionalEnvString,
+  HERO_DESCRIPTION: optionalEnvString,
+  HERO_PRIMARY_LABEL: optionalEnvString,
+  HERO_PRIMARY_URL: optionalEnvString,
+  HERO_SECONDARY_LABEL: optionalEnvString,
+  HERO_SECONDARY_URL: optionalEnvString,
+
+  // Contact
+  CONTACT_TITLE: optionalEnvString,
+  CONTACT_SUBTITLE: optionalEnvString,
+
+  // SEO
+  SEO_TITLE: optionalEnvString,
+  SEO_TITLE_TEMPLATE: optionalEnvString,
+  SEO_DESCRIPTION: optionalEnvString,
+  SEO_KEYWORDS: optionalEnvString,
+  SEO_SITE_URL: optionalEnvString,
+  SEO_METADATA_BASE: optionalEnvString,
+  SEO_OG_IMAGE: optionalEnvString,
+  SEO_TWITTER_HANDLE: optionalEnvString,
+
+  // Misc bootstrap metadata
+  SOCIAL_LINKS_JSON: optionalEnvString,
+  MAINTENANCE_MODE: optionalEnvString,
+  MAINTENANCE_MESSAGE: optionalEnvString,
+  npm_package_version: optionalEnvString,
 });
 
 export type Env = z.infer<typeof envSchema>;
@@ -50,7 +94,3 @@ function validateEnv(): Env {
 // Export validated and typed env object
 export const env = validateEnv();
 
-// For debugging in development
-if (env.NODE_ENV === 'development') {
-  console.log('✅ Environment variables validated successfully');
-}

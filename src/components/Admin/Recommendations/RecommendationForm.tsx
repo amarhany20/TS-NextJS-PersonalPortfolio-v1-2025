@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
+  useId,
   useState,
   type ChangeEvent,
   type FormEvent,
@@ -19,6 +19,24 @@ interface RecommendationFormProps {
 
 type FormErrors = Record<string, string>;
 
+interface RecommendationFormState {
+  name: string;
+  position: string;
+  company: string;
+  relationship: string;
+  content: string;
+  rating: string;
+  photo: string;
+  linkedin: string;
+  recommendationLetterUrl: string;
+  receivedOn: string;
+  published: boolean;
+}
+
+/**
+ * Normalizes a validator issue list into a field-indexed error map that the form
+ * can render next to each control.
+ */
 const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }>): FormErrors => {
   const map: FormErrors = {};
   for (const issue of issues) {
@@ -41,10 +59,13 @@ function formatDateForInput(dateString?: string): string {
   }
 }
 
+/**
+ * Handles create and edit flows for recommendations while keeping the client-side
+ * form state aligned with the API validator contracts.
+ */
 export function RecommendationForm({ mode, recommendation }: RecommendationFormProps) {
-  const router = useRouter();
   const { showToast } = useToast();
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<RecommendationFormState>({
     name: recommendation?.name ?? '',
     position: recommendation?.position ?? recommendation?.title ?? '',
     company: recommendation?.company ?? '',
@@ -55,7 +76,7 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
     linkedin: recommendation?.linkedin ?? recommendation?.linkedinUrl ?? '',
     recommendationLetterUrl: recommendation?.recommendationLetterUrl ?? '',
     receivedOn: formatDateForInput(recommendation?.date),
-    published: (recommendation as any)?.published ?? false,
+    published: Boolean((recommendation as Recommendation & { published?: boolean } | null | undefined)?.published),
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -131,10 +152,7 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
         description: result.data.name,
       });
 
-      setTimeout(() => {
-        router.push('/admin/recommendations');
-        router.refresh();
-      }, 1000);
+      window.location.assign('/admin/recommendations');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'An unexpected error occurred.';
       setError(message);
@@ -296,24 +314,30 @@ interface LabeledInputProps {
 }
 
 function LabeledInput({ label, required, type = 'text', min, max, value, onChange, error, helper }: LabeledInputProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span className="text-rose-500"> *</span> : null}
+        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
       </label>
       <input
+        id={inputId}
         type={type}
         min={min}
         max={max}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border bg-transparent px-3 py-2 text-sm outline-none transition ${
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
+      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
     </div>
   );
 }
@@ -329,22 +353,28 @@ interface TextareaFieldProps {
 }
 
 function TextareaField({ label, rows = 4, required, value, onChange, error, helper }: TextareaFieldProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span className="text-rose-500"> *</span> : null}
+        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
       </label>
       <textarea
+        id={inputId}
         rows={rows}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border bg-transparent px-3 py-2 text-sm outline-none transition ${
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
+      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
     </div>
   );
 }

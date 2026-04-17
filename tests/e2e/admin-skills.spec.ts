@@ -15,7 +15,7 @@ test.describe('Admin skills CRUD', () => {
 
 
       const fillField = async (label: string, value: string) => {
-        await page.getByLabel(label, { exact: true }).fill(value);
+        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
       };
 
       await fillField('Title', title);
@@ -38,7 +38,7 @@ test.describe('Admin skills CRUD', () => {
 
       await page.getByRole('button', { name: 'Save changes' }).click();
       await expect(page).toHaveURL(/\/admin\/skills$/);
-      await expect(page.getByText(`${title} Updated`)).toBeVisible();
+      await expect(page.locator('tr', { hasText: `${title} Updated` }).first()).toBeVisible();
 
       const updatedRow = page.locator('tr', { hasText: `/${slug}` });
       page.once('dialog', (dialog) => dialog.accept());

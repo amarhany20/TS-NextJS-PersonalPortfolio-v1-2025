@@ -17,10 +17,10 @@ test.describe('Public site navigation', () => {
     // Set to mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/home');
-    
-    // Check if mobile menu button is visible (assuming it exists)
-    // If not, we just verify the content is still there
-    await expect(page.getByText(/Hi, I'm Your Name/i)).toBeVisible();
+
+    // The mobile layout keeps the hero summary visible without relying on placeholder copy.
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Portfolio/i }).first()).toBeVisible();
   });
 });
 

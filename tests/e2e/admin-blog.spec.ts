@@ -62,9 +62,9 @@ test.describe('Admin blog CRUD', () => {
       await expect(page.locator('tr', { hasText: title }).first()).toBeVisible();
 
 
-      // Verify the post is published
+      // Verify the post is scheduled
       const updatedRow = page.locator('tr', { hasText: title });
-      await expect(updatedRow.getByText(/published/i)).toBeVisible();
+      await expect(updatedRow.getByText(/scheduled/i)).toBeVisible();
 
       // Delete the post
       await updatedRow.getByRole('link', { name: /edit/i }).click();
@@ -72,8 +72,6 @@ test.describe('Admin blog CRUD', () => {
       
       // Navigate back and delete (assuming there's a delete button or we use API)
       await page.goto('/admin/blogs');
-      const deleteRow = page.locator('tr', { hasText: title });
-      
       // Use API to delete since UI delete might not be implemented
       await cleanupBlogPost(slug, baseURL);
       

@@ -16,7 +16,7 @@ test.describe('Admin education CRUD', () => {
       await expect(page.getByRole('heading', { name: 'Create education' })).toBeVisible();
 
       const fillField = async (label: string, value: string) => {
-        await page.getByLabel(label, { exact: true }).fill(value);
+        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
       };
 
       await fillField('Institution', institution);

@@ -1,3 +1,5 @@
+import { env } from '@/server/server-validators/env';
+
 /**
  * Logging utility for server-side logging.
  * 
@@ -15,6 +17,9 @@ interface LogContext {
 }
 
 class Logger {
+  /**
+   * Formats a single-line log message with optional structured context.
+   */
   private formatMessage(level: LogLevel, message: string, context?: LogContext): string {
     const timestamp = new Date().toISOString();
     const contextStr = context ? ` ${JSON.stringify(context)}` : '';
@@ -22,7 +27,7 @@ class Logger {
   }
 
   debug(message: string, context?: LogContext) {
-    if (process.env.NODE_ENV === 'development') {
+    if (env.NODE_ENV === 'development') {
       console.debug(this.formatMessage('debug', message, context));
     }
   }

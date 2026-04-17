@@ -123,13 +123,16 @@ describe('DashboardService', () => {
 
     const previousEnv = process.env.NEXT_PUBLIC_SITE_URL;
     const previousAuth = process.env.AUTH_SECRET;
-    process.env.AUTH_SECRET = 'test-secret';
-    process.env.NEXT_PUBLIC_SITE_URL = '';
+    process.env.AUTH_SECRET = '';
+    process.env.NEXT_PUBLIC_SITE_URL = 'http://localhost:3000';
+    vi.resetModules();
+    const { DashboardService: reloadedDashboardService } = await import('@/server/services/DashboardService');
 
-    const overview = await DashboardService.getAdminOverview();
+    const overview = await reloadedDashboardService.getAdminOverview();
 
     expect(overview.meta.pendingSetup).toBe(false);
-    expect(overview.meta.missingEnvVars).toContain('NEXT_PUBLIC_SITE_URL');
+    expect(overview.meta.missingEnvVars).toContain('AUTH_SECRET');
+    expect(overview.meta.missingEnvVars).not.toContain('NEXT_PUBLIC_SITE_URL');
     expect(overview.quickLinks.some((link) => link.href === '/admin/experience/new')).toBe(true);
     expect(overview.quickLinks.some((link) => link.href === '/admin/services/new')).toBe(true);
 

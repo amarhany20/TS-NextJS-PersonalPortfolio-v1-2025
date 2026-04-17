@@ -12,7 +12,7 @@ test.describe('Admin settings pages', () => {
     await page.goto('/admin/settings/theme');
     await expect(page.getByRole('heading', { name: 'Appearance & Theme' })).toBeVisible();
 
-    const previewCard = page.locator('article', { has: page.getByRole('button', { name: 'Preview' }) }).first();
+    const previewCard = page.locator('article', { has: page.getByRole('button', { name: 'Activate' }) }).first();
     await previewCard.getByRole('button', { name: 'Preview' }).click();
     await expect(previewCard.getByText('Previewing')).toBeVisible();
 

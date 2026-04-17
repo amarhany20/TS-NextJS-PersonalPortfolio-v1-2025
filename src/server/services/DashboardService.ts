@@ -1,6 +1,10 @@
 import prisma from '@/server/db/prisma';
 import { SettingsRepository } from '@/server/repositories/SettingsRepository';
+import { env } from '@/server/server-validators/env';
 
+/**
+ * Dashboard summary models used by the admin landing page.
+ */
 export type DashboardStatIntent = 'default' | 'warning' | 'info';
 
 export interface DashboardStat {
@@ -34,8 +38,14 @@ export interface DashboardOverview {
   meta: DashboardMeta;
 }
 
-const REQUIRED_ENV_VARS = ['DATABASE_URL', 'AUTH_SECRET', 'NEXT_PUBLIC_SITE_URL'];
+const REQUIRED_ENV_VARS = ['DATABASE_URL', 'AUTH_SECRET', 'NEXT_PUBLIC_SITE_URL'] as const;
 
+/**
+ * Dashboard aggregation service.
+ *
+ * This service centralizes the admin overview payload so the page stays thin and the metrics/quick
+ * links remain easy to test independently.
+ */
 export const DashboardService = {
   async getAdminOverview(): Promise<DashboardOverview> {
     const [
@@ -114,7 +124,7 @@ export const DashboardService = {
     });
 
     const missingEnvVars = REQUIRED_ENV_VARS.filter((key) => {
-      const value = process.env[key];
+      const value = env[key];
       return !value || value.length === 0;
     });
 
@@ -251,7 +261,6 @@ function registerQuickLink(
 function buildQuickLinks(input: BuildQuickLinksInput): DashboardQuickLink[] {
   const links: QuickLinkCandidate[] = [];
 
-
   registerQuickLink(links, {
     title: 'Add a portfolio project',
     description: 'Showcase new work to keep the public site fresh.',
@@ -372,7 +381,11 @@ function buildQuickLinks(input: BuildQuickLinksInput): DashboardQuickLink[] {
   return links
     .sort((a, b) => b.priority - a.priority)
     .slice(0, 8)
-    .map(({ priority, ...link }) => link);
+    .map((candidate) => {
+      const { priority, ...link } = candidate;
+      void priority;
+      return link;
+    });
 }
 
 function skillGapLabel(currentCount: number): string {

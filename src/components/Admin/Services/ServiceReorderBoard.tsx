@@ -24,6 +24,10 @@ interface Props {
 
 type SortableService = Service & { displayOrder: number };
 
+/**
+ * Provides a keyboard-accessible drag-and-drop board for service ordering so the
+ * public services section can mirror the admin-defined sequence.
+ */
 export function ServiceReorderBoard({ services }: Props) {
   const initialItems = useMemo(() => {
     return services
@@ -192,6 +196,7 @@ function ServiceCard({ service, onDelete }: { service: SortableService; onDelete
         {...attributes}
         {...listeners}
         role="option"
+        aria-selected="false"
         aria-roledescription="Sortable service"
         aria-label={`${service.title} — position ${service.displayOrder}`}
       >

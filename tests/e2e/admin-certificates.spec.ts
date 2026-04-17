@@ -14,7 +14,7 @@ test.describe('Admin certificates CRUD', () => {
       await expect(page.getByRole('heading', { name: 'Create certificate' })).toBeVisible();
 
       const fillField = async (label: string, value: string) => {
-        await page.getByLabel(label, { exact: true }).fill(value);
+        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
       };
 
       await fillField('Certificate name', name);

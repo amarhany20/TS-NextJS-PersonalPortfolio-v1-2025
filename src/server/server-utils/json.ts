@@ -1,3 +1,5 @@
+import { env } from '@/server/server-validators/env';
+
 /**
  * Safe JSON parsing helpers for string-backed columns.
  */
@@ -10,7 +12,7 @@ export function parseJson<T>(value: string | null | undefined, fallback: T): T {
   try {
     return JSON.parse(value) as T;
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
+    if (env.NODE_ENV === 'development') {
       console.warn('Failed to parse JSON column', error);
     }
     return fallback;

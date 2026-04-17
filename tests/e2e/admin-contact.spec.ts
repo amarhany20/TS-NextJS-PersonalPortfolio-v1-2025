@@ -37,6 +37,7 @@ test.describe('Admin contact inbox', () => {
 
 async function createContactSubmission({ name, email, baseURL }: { name: string; email: string; baseURL: string }) {
   const api = await playwrightRequest.newContext({ baseURL });
+  const ipHeader = `192.0.2.${(Date.now() % 200) + 10}`;
 
   try {
     const response = await api.post('/api/v1/contact', {
@@ -46,7 +47,10 @@ async function createContactSubmission({ name, email, baseURL }: { name: string;
         subject: 'E2E Contact Submission',
         message: 'Automation smoke coverage for contact inbox.',
       },
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-forwarded-for': ipHeader,
+      },
     });
 
     const payload = (await response.json().catch(() => null)) as any;

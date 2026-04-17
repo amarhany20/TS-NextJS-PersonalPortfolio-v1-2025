@@ -1,17 +1,9 @@
-export const recommendations = [
-  {
-    id: 1,
-    name: 'Example Person',
-    position: 'Manager',
-    company: 'Example Company',
-    relationship: 'Direct manager',
-    content: 'Replace this with a real recommendation or testimonial.',
-    rating: 5,
-    date: '2025-01-01',
-    linkedin: null,
-    recommendationLetterUrl: null,
-    photo: null,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+import type { Recommendation } from '@/types/recommendation';
+
+/**
+ * Legacy static fallback recommendations.
+ *
+ * Public testimonials should be managed through seeded database content or the admin area rather
+ * than shipping example endorsements in the repository.
+ */
+export const recommendations: Recommendation[] = [];

@@ -1,8 +1,5 @@
 /**
- * Database Test API Endpoint
- *
- * Route handler for database testing operations.
- * Delegates to SetupController for business logic.
+ * Returns a retired-flow response for the removed setup database test API.
  */
 
 import { NextResponse } from 'next/server';

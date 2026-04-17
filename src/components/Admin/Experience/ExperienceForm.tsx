@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   useMemo,
+  useId,
   useState,
   type ChangeEvent,
   type FormEvent,
@@ -44,7 +44,6 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 };
 
 export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
-  const router = useRouter();
   const { showToast } = useToast();
   const [formState, setFormState] = useState({
     company: experience?.company ?? '',
@@ -156,8 +155,7 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
         title: mode === 'create' ? 'Experience created' : 'Experience updated',
         description: formState.company,
       });
-      router.push('/admin/experience');
-      router.refresh();
+      window.location.assign('/admin/experience');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unable to save experience.';
       setError(message);
@@ -318,33 +316,45 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
 }
 
 function LabeledInput({ label, helper, error, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; helper?: string; error?: string }) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
-    <label className="space-y-1 text-sm font-medium text-foreground">
-      <span>{label}</span>
+    <div className="space-y-1 text-sm font-medium text-foreground">
+      <label htmlFor={inputId}>{label}</label>
       <input
+        id={inputId}
         {...props}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
           error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p className="text-xs text-amber-600">{error}</p> : null}
-    </label>
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+    </div>
   );
 }
 
 function TextareaField({ label, helper, error, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; helper?: string; error?: string }) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
-    <label className="space-y-1 text-sm font-medium text-foreground">
-      <span>{label}</span>
+    <div className="space-y-1 text-sm font-medium text-foreground">
+      <label htmlFor={inputId}>{label}</label>
       <textarea
+        id={inputId}
         {...props}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
           error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p className="text-xs text-amber-600">{error}</p> : null}
-    </label>
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+    </div>
   );
 }

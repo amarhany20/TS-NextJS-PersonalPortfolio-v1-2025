@@ -9,14 +9,41 @@ try {
   const pkgRaw = fs.readFileSync(pkgPath, 'utf8');
   const pkg = JSON.parse(pkgRaw);
   if (pkg.version) appVersion = String(pkg.version).trim();
-} catch (e) {
+} catch {
   console.warn('⚠️ Unable to read package version, defaulting to 0.0.0');
 }
+
+/**
+ * Keep local dev and Playwright hostnames explicit so Next.js does not warn
+ * when the app is exercised from 127.0.0.1 and localhost during relaunch
+ * checks.
+ */
+const allowedDevOrigins = Array.from(
+  new Set(
+    [
+      '127.0.0.1',
+      'localhost',
+      process.env.PLAYWRIGHT_BASE_URL,
+      process.env.PLAYWRIGHT_ISOLATED_BASE_URL,
+    ]
+      .filter((value): value is string => Boolean(value))
+      .map((value) => {
+        try {
+          return new URL(value).hostname;
+        } catch {
+          return value;
+        }
+      })
+  )
+);
+const distDir = process.env.PLAYWRIGHT_ISOLATED === '1' ? '.next-playwright' : '.next';
 
 const nextConfig: NextConfig = {
   // Performance optimizations
   compress: true,
+  distDir,
   poweredByHeader: false,
+  allowedDevOrigins,
 
   // Image optimization
   images: {
@@ -31,6 +58,9 @@ const nextConfig: NextConfig = {
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ["lucide-react"],
+  },
+  turbopack: {
+    root: __dirname,
   },
 
   // Headers for security and performance

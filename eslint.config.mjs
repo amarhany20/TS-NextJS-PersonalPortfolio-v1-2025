@@ -13,6 +13,14 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
+      ".next/**",
+      ".next-playwright/**",
+      "node_modules/**",
+      "coverage/**",
+      "dist/**",
+      "build/**",
+      "playwright-report/**",
+      "test-results/**",
       // Legacy folder kept temporarily during Agent A rename; safe to ignore
       "src/components/UI/**",
     ],
@@ -21,6 +29,8 @@ const eslintConfig = [
     files: [
       "src/**/__tests__/**/*.{ts,tsx}",
       "src/**/__mocks__/**/*.{ts,tsx}",
+      "tests/**/*.{ts,tsx}",
+      "prisma/**/*.{ts,tsx}",
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",

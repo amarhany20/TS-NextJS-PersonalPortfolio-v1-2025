@@ -1,9 +1,9 @@
 
-# Personal Portfolio (Next.js 15 + TypeScript)
+# Personal Portfolio (Next.js + TypeScript)
 
-**Production-ready, enterprise-grade developer portfolio** following the Ammar Next.js Engineering Standard v1.02.00. Showcases projects (case studies), experience, education, skills, certificates, services, recommendations, and contact information with full backend architecture readiness.
+**Self-hosted portfolio platform with a public site, admin CMS, Prisma persistence, and launch-prep cleanup in progress.**
 
-Version: `00.50.06` • Stack: **Next.js 15 / React 19 / TypeScript / Tailwind CSS / Zod**
+Version: `00.50.07` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
 
 ---
 
@@ -36,16 +36,16 @@ src/
 │  │  ├─ page.tsx                # /portfolio listing
 │  │  └─ [slug]/page.tsx         # /portfolio/[slug] detail pages
 │  ├─ services/page.tsx          # Services overview
-│  ├─ blogs/page.tsx             # Blog placeholder
+│  ├─ blogs/page.tsx             # Blog listing page
 │  └─ api/v1/                    # API route handlers (controllers)
 │     └─ example/route.ts        # Example endpoint (reference implementation)
 │
 ├─ server/                       # 🆕 Server-side application layer
 │  ├─ http/                      # HTTP infrastructure (errors, responses)
-│  ├─ services/                  # Business logic (empty, ready for use)
-│  ├─ repositories/              # Data access layer (empty, ready for DB)
-│  ├─ security/                  # Auth, JWT, crypto helpers (empty, ready)
-│  ├─ serializers/               # Response DTOs (empty, ready for APIs)
+│  ├─ services/                  # Business logic for public/admin domains
+│  ├─ repositories/              # Prisma-backed data access layer
+│  ├─ security/                  # Auth, password, sessions, rate limits
+│  ├─ serializers/               # Response mappers and DTO shaping
 │  ├─ server-validators/         # Authoritative Zod schemas (env validation)
 │  ├─ server-utils/              # Node-only utilities
 │  ├─ integrations/              # Third-party SDK wrappers
@@ -62,9 +62,9 @@ src/
 │  ├─ Services/                  # Service cards
 │  └─ UI/                        # Base UI primitives
 │
-├─ static-content/               # 🆕 Static data (formerly temp-data)
+├─ static-content/               # Static fallback and seed-aligned content snapshots
 │  ├─ routes.ts                  # Route constants
-│  ├─ seo.ts                     # SEO configuration
+│  ├─ metadata.ts                # Metadata + SEO fallback configuration
 │  ├─ portfolio/                 # Project definitions (JSON)
 │  └─ *.ts                       # Domain data (experience, skills, etc.)
 │
@@ -76,7 +76,7 @@ src/
 └─ public/                       # Static assets (images, PDFs, etc.)
 ```
 
-See `docs/architecture.md` for comprehensive architecture documentation and decision log.
+See `docs/architecture/README.md` for the active architecture docs.
 
 ---
 
@@ -95,7 +95,9 @@ See `docs/architecture.md` for comprehensive architecture documentation and deci
 | Routes         | `src/static-content/routes.ts`           | Route path constants |
 | SEO            | `src/static-content/seo.ts`              | Default SEO metadata and configuration |
 
-All data is typed, validated, and compiled at build time. Future migration to database will be seamless - just replace static imports with service layer calls.
+Static content now acts as fallback/seed material rather than the only content source. Public/admin
+flows primarily read from Prisma through the service layer, with static modules still used for
+bootstrap and safe defaults where appropriate.
 
 ---
 
@@ -113,7 +115,7 @@ Update any external bookmarks to the new path when convenient.
 
 ## 🚀 Getting Started
 
-This repo targets **Vercel + Neon** for production. Local development can use SQLite.
+This repo targets **PostgreSQL** with env-driven bootstrap for admin and site settings.
 
 ### Prerequisites
 - Node.js LTS (v20+)
@@ -129,7 +131,7 @@ npm install
 
 ### Environment Setup
 
-Vercel is stateless, so production config must be set as **Vercel Environment Variables** (no writable `.env`).
+Production config should be provided through environment variables.
 
 Required production variables:
 
@@ -143,11 +145,9 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
 # 📦 Database (Neon PostgreSQL for production)
 DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
 
-# 🧭 Setup gate (enable /setup only when true)
-SETUP_MODE=true
 ```
 
-Optional seed defaults (local/dev only):
+Optional admin bootstrap defaults:
 
 ```env
 SEED_ADMIN_USERNAME=admin
@@ -164,23 +164,39 @@ Then replace `your-32-character-minimum-secret-key-change-this-NOW` with the gen
 
 ### Database Setup (Required)
 
-**Local development (SQLite):**
+**Local development / self-hosting:**
 ```bash
 npm run prisma:migrate
 npm run db:seed
 npm run prisma:studio    # Opens http://localhost:5555 in browser
 ```
 
-**Vercel production (Neon):**
+**Production:**
 - Set `DATABASE_URL` in Vercel
 - Run Prisma migrations during CI/build (`prisma:migrate`)
 - Prisma `generate` runs during build; it cannot be triggered from the website
 
-### First-Run Setup (Vercel)
+### Supported First-Run Path
 
-- Set `SETUP_MODE=true` to allow `/setup` when the database is empty
-- The setup flow writes admin credentials + site settings into the database
-- After setup, set `SETUP_MODE=false` to lock the wizard
+1. Configure `.env.local` or deployment environment variables.
+2. Run `npm run prisma:migrate`.
+3. Run `npm run db:seed` or `npm run seed:ammar`.
+4. Start the app with `npm run dev`.
+5. Sign in at `/login` with the seeded admin credentials.
+6. Review `/admin/settings/setup` to confirm bootstrap metadata and seed state.
+
+The old web setup flow is retired. `/setup` and legacy setup-step URLs now redirect away from the
+wizard path and are not part of the supported launch onboarding.
+
+### First-Run Verification
+
+After the first successful seed, confirm:
+
+1. `npm run dev` starts without Prisma or settings-bootstrap errors.
+2. `/home` renders public content.
+3. `/login` accepts the seeded admin credentials.
+4. `/admin` loads successfully.
+5. `/admin/settings/setup` shows setup metadata sourced from the seeded settings row.
 
 ### Development
 
@@ -213,19 +229,28 @@ npm start            # Start production server
 npm run check        # Run typecheck + lint + format check (CI-ready)
 npm run test         # Run Vitest suite (unit tests)
 npm run test:watch   # Watch mode for tests
-npm run e2e          # Run Playwright e2e tests (requires dev server running)
+npm run e2e          # Run Playwright e2e tests (Playwright boots the app automatically)
 ```
 
-**E2E Testing Requirements:**
+**E2E Testing Flow:**
 ```bash
-# Terminal 1: Start the dev server
-npm run dev
-
-# Terminal 2: Run Playwright tests
+# Playwright provisions the test app, seeds the database, authenticates,
+# and runs the Chromium suite.
 npm run e2e -- --project=chromium
 ```
 
 Tests log in via the API using credentials from `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD`.
+
+Important:
+- Let Playwright provision its own seeded app unless you are explicitly debugging against a running server.
+- The isolated Playwright bootstrap requires a PostgreSQL-compatible `PLAYWRIGHT_DATABASE_URL` or
+  `DATABASE_URL`; this repo no longer has a valid SQLite fallback because the Prisma datasource is
+  PostgreSQL-only.
+- Isolated Playwright runs default to `http://127.0.0.1:3100`; `PLAYWRIGHT_BASE_URL` is now mainly
+  for `PLAYWRIGHT_REUSE_SERVER=1` debugging against an already-running app, while
+  `PLAYWRIGHT_ISOLATED_BASE_URL` controls the dedicated bootstrapped server when needed.
+- `PLAYWRIGHT_REUSE_SERVER=1` is useful for local debugging, but it can produce noisy failures when the live dev server has different data, credentials, or state than the isolated E2E bootstrap path.
+- The actual local `.env` may override the documented default admin credentials; treat the values in `.env.example` and this README as defaults, not guaranteed active secrets.
 
 ### Clean & Rebuild
 
@@ -313,7 +338,7 @@ For complete database setup on first run, execute: `npm run prisma:migrate && np
 
 ## 🌐 Deployment (Vercel + Neon)
 
-This project is Vercel-first. Production requires Neon (PostgreSQL).
+This project is deployment-ready around PostgreSQL and env-driven bootstrap.
 
 Steps (Vercel):
 1. Import the GitHub repo
@@ -324,7 +349,6 @@ Steps (Vercel):
    - `DATABASE_URL` (Neon)
    - `AUTH_SECRET`
    - `NEXT_PUBLIC_SITE_URL`
-   - `SETUP_MODE` (true for first-run, then false)
 
 Notes:
 - Prisma `generate` runs during build; it cannot run from the website
@@ -351,18 +375,12 @@ Have an idea? Open an issue or PR.
 
 ---
 
-## 🔐 Removed (Legacy Features)
+## 🔐 Removed or Retired (Legacy Features)
 
-Stripped for simplicity in this static phase:
+Retired from the supported launch path:
 
-- Prisma ORM & migrations
-- Auth (JWT / sessions / register / login)
-- API route handlers
-- Admin & dashboard UIs
-- Mailer + rate limiting
-- Seeding scripts & CLI utilities
-
-All can be reintroduced modularly later (data layer → repository → UI untouched).
+- web setup wizard as onboarding
+- referenced `setup:first-run` scripts that are no longer present
 
 ---
 
@@ -370,7 +388,9 @@ All can be reintroduced modularly later (data layer → repository → UI untouc
 
 - **Unit**: `npm run test` executes the Vitest suite (use `npm run test -- path/to/file` for a single spec).
 - **E2E**: `npm run e2e -- --project=chromium` boots the app via Playwright, logs in through the API, and runs admin smoke tests.
-	- Requires seeded content (`npm run db:seed`) and a valid `AUTH_SECRET`.
+	- Uses `tests/e2e/webserver.ts` to provision the app, push the schema, and seed test data before running the browser suite.
+	- Uses `PLAYWRIGHT_DATABASE_URL` when provided; otherwise the isolated bootstrap falls back to the active PostgreSQL `DATABASE_URL`.
+	- Defaults isolated runs to `http://127.0.0.1:3100` so they do not contend with a normal `npm run dev` session on `3000`.
 	- Override credentials with `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD` when needed.
 - **Tips**: Keep the database in sync with `static-content` so seeded fixtures match UI assertions, and prefer `npm run dev` locally while iterating on Playwright tests for faster reloads.
 
@@ -398,8 +418,8 @@ Author: **Ammar Hany** – Connect via portfolio contact section or LinkedIn.
 |-----------------|-------------|
 | Portfolio list  | `src/app/portfolio/page.tsx` |
 | Portfolio detail| `src/app/portfolio/[slug]/page.tsx` |
-| Data index      | `src/temp-data/index.ts` |
-| Project JSON    | `src/temp-data/portfolio/*.json` |
+| Data index      | `src/static-content/index.ts` |
+| Project JSON    | `src/static-content/portfolio/*.json` |
 | Experience UI   | `src/sections/home/ExperienceSection.tsx` |
 | Recommendations | `src/sections/home/RecommendationsSection.tsx` |
 | Navigation      | `src/components/NavSidebar/NavLinks.tsx` |

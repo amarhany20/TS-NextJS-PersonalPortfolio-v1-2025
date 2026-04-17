@@ -14,10 +14,19 @@ interface RecommendationsManagerProps {
 
 type FilterValue = 'all' | 'published' | 'draft';
 
+interface RecommendationListItem extends Recommendation {
+  displayOrder?: number;
+  published?: boolean;
+}
+
+/**
+ * Manages recommendation records in the admin dashboard, including search,
+ * publish-state toggles, and optimistic updates for common moderation tasks.
+ */
 export function RecommendationsManager({ initialRecommendations }: RecommendationsManagerProps) {
   const router = useRouter();
   const { showToast } = useToast();
-  const [items, setItems] = useState<Recommendation[]>(initialRecommendations);
+  const [items, setItems] = useState<RecommendationListItem[]>(initialRecommendations);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterValue>('all');
   const [busyId, setBusyId] = useState<string | number | null>(null);
@@ -29,14 +38,14 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
     return items
       .slice()
       .sort((a, b) => {
-        const aOrder = (a as any).displayOrder ?? Number.MAX_SAFE_INTEGER;
-        const bOrder = (b as any).displayOrder ?? Number.MAX_SAFE_INTEGER;
+        const aOrder = a.displayOrder ?? Number.MAX_SAFE_INTEGER;
+        const bOrder = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
 
         if (aOrder !== bOrder) return aOrder - bOrder;
         return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
       })
       .filter((item) => {
-        const published = (item as any).published ?? false;
+        const published = item.published ?? false;
         if (filter === 'published') return published;
         if (filter === 'draft') return !published;
         return true;
@@ -59,7 +68,7 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
         throw new Error(description);
       }
 
-      const nextItems: Recommendation[] = payload?.data?.recommendations ?? [];
+      const nextItems: RecommendationListItem[] = payload?.data?.recommendations ?? [];
       setItems(nextItems);
       showToast({ variant: 'success', title: 'Recommendations refreshed' });
       router.refresh();
@@ -71,13 +80,13 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
     }
   };
 
-  const handleTogglePublish = async (record: Recommendation) => {
-    const nextPublished = !((record as any).published ?? false);
+  const handleTogglePublish = async (record: RecommendationListItem) => {
+    const nextPublished = !(record.published ?? false);
     const id = record.id;
     if (!id) return;
 
     setBusyId(id);
-    setItems((current) => current.map((item) => (item.id === id ? { ...item, published: nextPublished } as any : item)));
+    setItems((current) => current.map((item) => (item.id === id ? { ...item, published: nextPublished } : item)));
 
     try {
       const response = await fetch(`/api/v1/recommendations/${id}`, {
@@ -91,7 +100,7 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
         throw new Error(description);
       }
 
-      const updated: Recommendation = payload?.data?.recommendation ?? { ...record, published: nextPublished } as any;
+      const updated: RecommendationListItem = payload?.data?.recommendation ?? { ...record, published: nextPublished };
       setItems((current) => current.map((item) => (item.id === id ? { ...item, ...updated } : item)));
       showToast({
         variant: 'success',
@@ -99,7 +108,7 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
         description: record.name,
       });
     } catch (error) {
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, published: (record as any).published } as any : item)));
+      setItems((current) => current.map((item) => (item.id === id ? { ...item, published: record.published } : item)));
       showToast({ variant: 'error', title: 'Update failed', description: error instanceof Error ? error.message : undefined });
     } finally {
       setBusyId(null);
@@ -225,11 +234,11 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
                   </td>
                   <td className="px-4 py-4 align-top">
                     <div className="flex flex-col gap-1 text-xs">
-                      <Badge variant={(item as any).published ? 'success' : 'warning'}>
-                        {(item as any).published ? 'Published' : 'Draft'}
+                      <Badge variant={item.published ? 'success' : 'warning'}>
+                        {item.published ? 'Published' : 'Draft'}
                       </Badge>
-                      {(item as any).displayOrder !== undefined ? (
-                        <Badge variant="muted">Order #{(item as any).displayOrder}</Badge>
+                      {item.displayOrder !== undefined ? (
+                        <Badge variant="muted">Order #{item.displayOrder}</Badge>
                       ) : null}
                       {item.rating ? (
                         <Badge variant="muted">{item.rating}/5 ⭐</Badge>
@@ -240,12 +249,12 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
                     <div className="flex items-center justify-end gap-2 text-xs">
                       <button
                         type="button"
-                        aria-label={`${(item as any).published ? 'Unpublish' : 'Publish'} ${item.name}`}
+                        aria-label={`${item.published ? 'Unpublish' : 'Publish'} ${item.name}`}
                         onClick={() => handleTogglePublish(item)}
                         disabled={busyId === item.id}
                         className="rounded-lg border border-[var(--border)] px-2 py-1 font-medium text-muted-foreground transition hover:border-accent disabled:cursor-not-allowed disabled:opacity-60"
                       >
-                        {(item as any).published ? 'Unpublish' : 'Publish'}
+                        {item.published ? 'Unpublish' : 'Publish'}
                       </button>
                       <Link
                         href={`/admin/recommendations/${item.id}`}

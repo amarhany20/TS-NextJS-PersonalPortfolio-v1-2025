@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   useMemo,
   useState,
+  useId,
   type ChangeEvent,
   type FormEvent,
 } from 'react';
@@ -42,7 +42,6 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 };
 
 export function EducationForm({ mode, education }: EducationFormProps) {
-  const router = useRouter();
   const { showToast } = useToast();
   const [formState, setFormState] = useState({
     institution: education?.institution ?? '',
@@ -146,10 +145,7 @@ export function EducationForm({ mode, education }: EducationFormProps) {
         description: result.data.institution,
       });
 
-      setTimeout(() => {
-        router.push('/admin/education');
-        router.refresh();
-      }, 1000);
+      window.location.assign('/admin/education');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'An unexpected error occurred.';
       setError(message);
@@ -267,12 +263,6 @@ export function EducationForm({ mode, education }: EducationFormProps) {
               error={fieldErrors.project}
               helper="Optional thesis, capstone, or notable project"
             />
-            <div className="flex items-center gap-2">
-
-              <label htmlFor="published" className="text-sm font-medium text-foreground">
-                Published (visible on public site)
-              </label>
-            </div>
           </div>
         </div>
       </section>
@@ -307,22 +297,28 @@ interface LabeledInputProps {
 }
 
 function LabeledInput({ label, required, type = 'text', value, onChange, error, helper }: LabeledInputProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span className="text-rose-500"> *</span> : null}
+        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
       </label>
       <input
+        id={inputId}
         type={type}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border bg-transparent px-3 py-2 text-sm outline-none transition ${
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
+      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
     </div>
   );
 }
@@ -337,19 +333,25 @@ interface TextareaFieldProps {
 }
 
 function TextareaField({ label, rows = 4, value, onChange, error, helper }: TextareaFieldProps) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">{label}</label>
       <textarea
+        id={inputId}
         rows={rows}
         value={value}
         onChange={onChange}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border bg-transparent px-3 py-2 text-sm outline-none transition ${
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
+      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
     </div>
   );
 }

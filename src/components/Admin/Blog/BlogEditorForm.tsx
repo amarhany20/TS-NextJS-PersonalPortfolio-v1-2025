@@ -88,8 +88,7 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
         }
 
         setPendingMessage({ type: 'success', text: 'Post saved. Redirecting…' });
-        router.replace('/admin/blogs');
-        router.refresh();
+        window.location.assign('/admin/blogs');
       } catch (error) {
         console.error(error);
         setPendingMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save blog post' });

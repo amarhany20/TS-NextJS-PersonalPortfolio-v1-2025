@@ -3,6 +3,9 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 
+/**
+ * Global error boundary UI for App Router rendering failures.
+ */
 export default function GlobalError({
   error,
   reset,
@@ -11,11 +14,8 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // eslint-disable-next-line no-console
     console.error(error);
   }, [error]);
-
-
 
   return (
     <html lang="en">

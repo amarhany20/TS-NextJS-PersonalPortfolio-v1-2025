@@ -12,14 +12,19 @@ interface EducationManagerProps {
   initialEducation: Education[];
 }
 
-type FilterValue = 'all';
+interface EducationListItem extends Education {
+  displayOrder?: number;
+}
 
+/**
+ * Manages education entries in the admin UI with client-side search, ordering,
+ * refresh, and delete actions aligned to the current API response shape.
+ */
 export function EducationManager({ initialEducation }: EducationManagerProps) {
   const router = useRouter();
   const { showToast } = useToast();
-  const [items, setItems] = useState<Education[]>(initialEducation);
+  const [items, setItems] = useState<EducationListItem[]>(initialEducation);
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<FilterValue>('all');
   const [busyId, setBusyId] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -29,8 +34,8 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
     return items
       .slice()
       .sort((a, b) => {
-        const aOrder = (a as any).displayOrder ?? Number.MAX_SAFE_INTEGER;
-        const bOrder = (b as any).displayOrder ?? Number.MAX_SAFE_INTEGER;
+        const aOrder = a.displayOrder ?? Number.MAX_SAFE_INTEGER;
+        const bOrder = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
 
         if (aOrder !== bOrder) return aOrder - bOrder;
         return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
@@ -42,7 +47,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
           field?.toString().toLowerCase().includes(term),
         );
       });
-  }, [items, search, filter]);
+  }, [items, search]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -54,7 +59,7 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
         throw new Error(description);
       }
 
-      const nextItems: Education[] = payload?.data?.education ?? [];
+      const nextItems: EducationListItem[] = payload?.data?.education ?? [];
       setItems(nextItems);
       showToast({ variant: 'success', title: 'Education refreshed' });
       router.refresh();
@@ -126,20 +131,6 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
           placeholder="Search by institution, degree, or field"
           className="min-w-[240px] flex-1 rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-accent"
         />
-        <div className="flex items-center gap-2 rounded-full border border-[var(--border)] p-1 text-xs">
-          {(['all'] as FilterValue[]).map((option) => (
-            <button
-              key={option}
-              type="button"
-              className={`rounded-full px-3 py-1 font-medium capitalize transition ${
-                filter === option ? 'bg-[var(--accent-primary)] text-black' : 'text-muted-foreground'
-              }`}
-              onClick={() => setFilter(option)}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
       </div>
 
       {filtered.length === 0 ? (
@@ -187,8 +178,8 @@ export function EducationManager({ initialEducation }: EducationManagerProps) {
                   <td className="px-4 py-4 align-top">
                     <div className="flex flex-col gap-1 text-xs">
 
-                      {(item as any).displayOrder !== undefined ? (
-                        <Badge variant="muted">Order #{(item as any).displayOrder}</Badge>
+                      {item.displayOrder !== undefined ? (
+                        <Badge variant="muted">Order #{item.displayOrder}</Badge>
                       ) : null}
                     </div>
                   </td>

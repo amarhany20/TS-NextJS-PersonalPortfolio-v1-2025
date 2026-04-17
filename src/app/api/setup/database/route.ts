@@ -1,3 +1,6 @@
+/**
+ * Returns a retired-flow response for the removed setup database API.
+ */
 import { NextResponse } from 'next/server';
 
 const disabledResponse = () =>

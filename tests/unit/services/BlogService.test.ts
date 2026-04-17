@@ -31,7 +31,6 @@ vi.mock('@/server/serializers/blog', () => ({
 
 import { BadRequestError, NotFoundError } from '@/server/http/errors';
 import { BlogRepository } from '@/server/repositories/BlogRepository';
-import { serializeBlog, serializeBlogMeta } from '@/server/serializers/blog';
 import { BlogService } from '@/server/services/BlogService';
 
 describe('BlogService', () => {

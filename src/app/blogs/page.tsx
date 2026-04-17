@@ -1,18 +1,14 @@
-import Link from 'next/link';
-
 import { BlogService } from '@/server/services/BlogService';
 import { BlogListClient } from './BlogListClient';
 
+/**
+ * Blog index page.
+ *
+ * This server component loads published and draft-aware blog data through the service layer and
+ * hands it to the client list renderer.
+ */
 export default async function BlogsPage() {
   const posts = await BlogService.listAllPosts();
 
   return <BlogListClient posts={posts} />;
-}
-
-function formatPublishedDate(value?: string) {
-  if (!value) {
-    return 'Unpublished';
-  }
-
-  return new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value));
 }

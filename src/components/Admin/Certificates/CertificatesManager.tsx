@@ -12,10 +12,18 @@ interface CertificatesManagerProps {
   initialCertificates: Certificate[];
 }
 
+interface CertificateListItem extends Certificate {
+  displayOrder?: number;
+}
+
+/**
+ * Manages certificate records for the admin dashboard with lightweight client-side
+ * search, ordering, and deletion controls layered on top of the API response shape.
+ */
 export function CertificatesManager({ initialCertificates }: CertificatesManagerProps) {
   const router = useRouter();
   const { showToast } = useToast();
-  const [items, setItems] = useState<Certificate[]>(initialCertificates);
+  const [items, setItems] = useState<CertificateListItem[]>(initialCertificates);
   const [search, setSearch] = useState('');
   const [busyId, setBusyId] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -26,8 +34,8 @@ export function CertificatesManager({ initialCertificates }: CertificatesManager
     return items
       .slice()
       .sort((a, b) => {
-        const aOrder = (a as any).displayOrder ?? Number.MAX_SAFE_INTEGER;
-        const bOrder = (b as any).displayOrder ?? Number.MAX_SAFE_INTEGER;
+        const aOrder = a.displayOrder ?? Number.MAX_SAFE_INTEGER;
+        const bOrder = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
 
         if (aOrder !== bOrder) return aOrder - bOrder;
         return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
@@ -50,7 +58,7 @@ export function CertificatesManager({ initialCertificates }: CertificatesManager
         throw new Error(description);
       }
 
-      const nextItems: Certificate[] = payload?.data?.certificates ?? [];
+      const nextItems: CertificateListItem[] = payload?.data?.certificates ?? [];
       setItems(nextItems);
       showToast({ variant: 'success', title: 'Certificates refreshed' });
       router.refresh();

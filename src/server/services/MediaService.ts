@@ -8,7 +8,7 @@ import { getMediaStorageDriver } from '@/server/services/media/storage';
 import { slugify } from '@/utils/helpers';
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
-const ALLOWED_MIME_TYPES = new Set(['application/pdf']);
+const ALLOWED_MIME_TYPES = new Set(['application/pdf', 'text/plain']);
 const ALLOWED_MIME_PREFIXES = ['image/', 'video/'];
 
 export const MediaService = {

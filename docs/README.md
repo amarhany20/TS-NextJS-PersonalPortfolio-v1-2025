@@ -1,263 +1,67 @@
 # Documentation Index — TS-NextJS PersonalPortfolio v1-2025
 
-**Last Updated:** 2025-12-17  
-**Status:** ✅ **All Agents Executed — Production Ready**
+**Last Updated:** 2026-03-24
+**Status:** Relaunch In Progress
 
 ---
 
-## 🚀 Quick Start
+## Overview
 
-**New to the project?** Start here:
+This `docs/` directory is the implementation-level documentation set for this repository.
+It now reflects the project revival effort and should be treated as the working source of truth for:
+- actual codebase behavior,
+- architecture decisions,
+- relaunch gaps,
+- launch readiness tracking.
 
-1. **[EXECUTION_STATUS.md](./EXECUTION_STATUS.md)** — 5-min quick reference
-2. **[TS-NextJS-PersonalPortfolio-V1-2025 Documentation/architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md)** — System design
-3. **[FIRST-RUN.md](../instructions/FIRST-RUN.md)** — Get running locally in 30 seconds
-
----
-
-## 📑 Documentation Structure
-
-### Core Architecture & Design
-
-**Start with the overview, then dive into sections:**
-
-- 📘 **[Architecture Overview](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md)** (v1.02.00)
-  - System design, layers, data model, APIs
-  - Implementation status and phase tracking
-  - Command reference
-
-- 📘 **[Code Structure](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/code-structure.md)** (v1.01.00)
-  - Folder ownership and responsibility map
-  - Path aliases and TypeScript configuration
-  - Related runbooks
-
-**Deep-Dive Sections (Choose as needed):**
-
-1. **[System Overview](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/01-system-overview.md)** — High-level components, user flows
-2. **[Architecture Layers](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/02-architecture-layers.md)** — Presentation, domain, data, infrastructure
-3. **[Data & Persistence](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/03-data-and-persistence.md)** — Prisma schema, migrations, models
-4. **[API & Services](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/04-api-and-services.md)** — REST endpoints, service layer, repositories
-5. **[Admin & Public Experience](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md)** — Dashboard, CRUD forms, public pages
-6. **[Infrastructure & Operations](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/06-infrastructure-and-operations.md)** — Environment, setup, deployment
-7. **[Security & Compliance](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/07-security-and-compliance.md)** — Auth, CSRF, rate limiting, headers
-8. **[Testing & Quality](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/08-testing-and-quality.md)** — Unit, RTL, Playwright e2e
-9. **[Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md)** — Phase status, next actions
+Historical "100% complete" and "production-ready" claims still exist in some legacy files. Use the
+documents below as the current canonical entry points.
 
 ---
 
-### Operational Runbooks
+## Read First
 
-**How-to guides for common tasks:**
-
-| Runbook | Purpose | Audience |
-|---------|---------|----------|
-| **[First Run](../instructions/FIRST-RUN.md)** | Local setup with SQLite or Neon | Everyone |
-| **[Seeding](../instructions/SEEDING.md)** | Database workflows and strategies | Developers |
-| **[Seed-Ammar](./runbooks/seed-ammar.md)** | **Agent F** — Advanced seeding | Developers |
-| **[Admin Usage](../instructions/ADMIN-USAGE.md)** | Dashboard features and tips | Users |
-| **[Deployment](../instructions/DEPLOYMENT.md)** | Vercel + CI/CD setup | DevOps |
-| **[Theming](../instructions/THEMING.md)** | Theme customization and registry | Designers |
+1. [Architecture Index](./architecture/README.md)
+2. [Implementation Checklist](./architecture/sections/09-implementation-checklist.md)
 
 ---
 
-### Verification & Status
+## Core Docs
 
-**Current project health and execution status:**
-
-- ✅ **[EXECUTION_STATUS.md](./EXECUTION_STATUS.md)** — Quick reference, agent dashboard, commands
-- ✅ **[AGENTS_EXECUTION_VERIFICATION.md](./AGENTS_EXECUTION_VERIFICATION.md)** — Full verification report
-- ✅ **[UPDATE_SUMMARY_2025-12-17.md](./UPDATE_SUMMARY_2025-12-17.md)** — What was done today
-
----
-
-### Alignment & Reference
-
-**Internal standards and audits:**
-
-- 📋 **[Codebase Alignment Report](./architecture/codebase-alignment.md)** — Agent A gap analysis
-- 📋 **[Ammar Engineering Standard](./helper_docs/Ammar%20NextJS%20Guideline/)** — Code structure guidelines
-- 📋 **[Ammar Documentation Guideline](./helper_docs/Ammar%20Documentation%20Guideline/)** — Documentation standards
-
----
-
-### Archived / Historical
-
-**Legacy documentation (reference only):**
-
-- 📦 **[archive/](./archive/)** — Older versions (roadmap, migration plans, changelog)
+- [Architecture Index](./architecture/README.md)
+  Clean entry point for all active solution-architecture docs.
+- [Architecture Overview](./architecture/overview.md)
+  Current solution architecture, constraints, and relaunch direction.
+- [Code Structure](./architecture/code-structure.md)
+  Existing folder map and ownership reference. Review against code before extending.
+- [System Overview](./architecture/sections/01-system-overview.md)
+- [Architecture Layers](./architecture/sections/02-architecture-layers.md)
+- [Data & Persistence](./architecture/sections/03-data-and-persistence.md)
+- [API & Services](./architecture/sections/04-api-and-services.md)
+- [Admin & Public Experience](./architecture/sections/05-admin-and-public-experience.md)
+- [Infrastructure & Operations](./architecture/sections/06-infrastructure-and-operations.md)
+- [Security & Compliance](./architecture/sections/07-security-and-compliance.md)
+- [Testing & Quality](./architecture/sections/08-testing-and-quality.md)
+- [Implementation Checklist](./architecture/sections/09-implementation-checklist.md)
 
 ---
 
-## 🎯 By Role
+## Historical Material
 
-### 👤 New Developer
+The following remain useful for context but are no longer canonical:
+- `docs/archive/**`
+- `docs/archive/reports/**`
+- `docs/archive/plans/**`
+- `docs/archive/reference/**`
+- older "all complete" status narratives across the docs set
 
-**Read in order:**
-1. [EXECUTION_STATUS.md](./EXECUTION_STATUS.md) — 5-min overview
-2. [Architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md) — System design
-3. [Code Structure](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/code-structure.md) — Folder map
-4. [First Run](../instructions/FIRST-RUN.md) — Get it running
-5. [Section 1-3](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/) — Data, APIs, architecture
-
-**Then:** Check [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md) for tasks
-
-### 👨‍💻 Active Developer
-
-**Go straight to:**
-1. [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md) — Current focus
-2. Relevant section (1-9) for your feature area
-3. [Runbooks](./runbooks/) — Common tasks
-
-### 🚀 DevOps / Deployment
-
-**Reference:**
-1. [Deployment.md](../instructions/DEPLOYMENT.md) — Vercel setup
-2. [First Run](../instructions/FIRST-RUN.md) — Production setup
-3. [Infrastructure & Operations](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/06-infrastructure-and-operations.md) — Env, setup
-
-### 📋 Maintainer / Tech Lead
-
-**Keep these current:**
-1. [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md) — After each session
-2. [AGENTS_EXECUTION_VERIFICATION.md](./AGENTS_EXECUTION_VERIFICATION.md) — Execution status
-3. [CHANGELOG.md](./CHANGELOG.md) — Version tracking
+Keep them as reference and archive history, but do not use them as proof of current readiness.
 
 ---
 
-## 🔍 Find by Topic
+## Helper Docs
 
-### Authentication & Security
-- [Security & Compliance](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/07-security-and-compliance.md)
-- [First Run](../instructions/FIRST-RUN.md) — ENV setup
-
-### Database & Seeding
-- [Data & Persistence](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/03-data-and-persistence.md)
-- [Seeding.md](../instructions/SEEDING.md)
-- [Seed-Ammar.md](./runbooks/seed-ammar.md) — Advanced seeding
-
-### Admin Panel & CRUD
-- [Admin & Public Experience](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md)
-- [Admin Usage](../instructions/ADMIN-USAGE.md)
-
-### API Development
-- [API & Services](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/04-api-and-services.md)
-- [Architecture Layers](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/02-architecture-layers.md)
-
-### Testing
-- [Testing & Quality](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/08-testing-and-quality.md)
-
-### Deployment & Operations
-- [Deployment.md](../instructions/DEPLOYMENT.md)
-- [Infrastructure & Operations](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/06-infrastructure-and-operations.md)
-
-### UI & Theming
-- [Theming.md](../instructions/THEMING.md)
-- [Admin & Public Experience](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md)
-
----
-
-## 📊 Agent Program Status
-
-| Agent | Scope | Status | Docs |
-|-------|-------|--------|------|
-| A | Codebase Alignment | ✅ Complete | [Gap Report](./architecture/codebase-alignment.md) |
-| B | Documentation | ✅ Complete | All sections + runbooks |
-| C | First-Run Setup | ✅ Complete | [Runbook](../instructions/FIRST-RUN.md) |
-| D | Admin Layout | ✅ Complete | [Section 5](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/05-admin-and-public-experience.md) |
-| E | Archive Content | ✅ Complete | [Seeding](../instructions/SEEDING.md) |
-| F | Seed Generator | ✅ Complete | [Seed-Ammar](./runbooks/seed-ammar.md) |
-| G | Auth & Security | ✅ Complete | [Section 7](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/07-security-and-compliance.md) |
-| H | Architecture Review | ✅ Complete | Sections 1-9 |
-| I | Test Coverage | ✅ Complete | [Section 8](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/08-testing-and-quality.md) |
-
-**Overall Status: ✅ 100% Complete — Production Ready**
-
----
-
-## 📚 File Statistics
-
-| Category | Files | Status |
-|----------|-------|--------|
-| Architecture Docs | 11 | ✅ Current |
-| Operational Runbooks | 6 | ✅ Current |
-| Verification Docs | 3 | ✅ New (2025-12-17) |
-| Helper Guidelines | 8 | ✅ Reference |
-| Archived Docs | 6 | 📦 Historical |
-| **Total** | **34** | ✅ |
-
----
-
-## 🔄 Workflow
-
-### For Session Work
-
-1. **Start**: Review [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md)
-2. **Develop**: Check relevant section (1-9)
-3. **End**: Update checklist with progress
-
-### For Maintenance
-
-1. **Monitor**: Check [EXECUTION_STATUS.md](./EXECUTION_STATUS.md) regularly
-2. **Update**: [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md) after each session
-3. **Log**: [CHANGELOG.md](./CHANGELOG.md) for major changes
-4. **Review**: [AGENTS_EXECUTION_VERIFICATION.md](./AGENTS_EXECUTION_VERIFICATION.md) for health
-
-### For Onboarding
-
-1. **Day 1**: Read [EXECUTION_STATUS.md](./EXECUTION_STATUS.md) + [Architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md)
-2. **Day 2**: Run [First Run](../instructions/FIRST-RUN.md), explore `/admin`
-3. **Day 3**: Read [Code Structure](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/code-structure.md) + relevant section (1-9)
-4. **Ongoing**: Reference [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md)
-
----
-
-## 🎓 Conventions
-
-All documentation follows:
-- **Ammar Documentation Guideline v5.01.00** — Metadata, style, changelogs
-- **Ammar NextJS Guideline v1.02.00** — Code structure, patterns
-- **Agents Execution Plan v1.0** — Scope, sequencing, delivery
-
----
-
-## ✅ Status Summary
-
-```
-┌─────────────────────────────────────────┐
-│ TS-NextJS PersonalPortfolio v1-2025     │
-├─────────────────────────────────────────┤
-│ Version: 00.50.07                       │
-│ Last Updated: 2025-12-17                │
-│ Status: ✅ PRODUCTION READY             │
-│ Documentation: ✅ 100% COMPLETE         │
-│ Agents: ✅ 9/9 EXECUTED                 │
-│ Phases: ✅ 7/7 COMPLETE                 │
-│ CI Gates: ✅ PASSING                    │
-│ Test Coverage: ✅ COMPREHENSIVE         │
-└─────────────────────────────────────────┘
-```
-
----
-
-## 🤝 Contributing
-
-1. Read [Ammar Documentation Guideline](./helper_docs/Ammar%20Documentation%20Guideline/)
-2. Update [Implementation Checklist](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md)
-3. Add entry to relevant section's changelog
-4. Cross-reference from index when needed
-
----
-
-## 📞 Quick Links
-
-- **Architecture**: [architecture.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/architecture.md)
-- **Checklist**: [09-implementation-checklist.md](./TS-NextJS-PersonalPortfolio-V1-2025%20Documentation/sections/09-implementation-checklist.md)
-- **Verification**: [AGENTS_EXECUTION_VERIFICATION.md](./AGENTS_EXECUTION_VERIFICATION.md)
-- **Runbooks**: [runbooks/](./runbooks/)
-- **Changelog**: [CHANGELOG.md](./CHANGELOG.md)
-- **Main Repo**: [../README.md](../README.md)
-
----
-
-**Welcome to TS-NextJS PersonalPortfolio v1-2025!** 🚀  
-**Everything is documented. Nothing is assumed.**
+These are local copies and must be followed within this repo:
+- [Ammar Documentation Guidelines](./helper_docs/Ammar-Documentation-Guidelines/ammar-documentation-guideline.md)
+- [Ammar Next.js Guideline](./helper_docs/Ammar-NextJS-Guideline/ammar-nextjs-guidelines.md)
+- [Agent Guideline](./helper_docs/ammar-agent-guideline/agent-guideline.md)

@@ -21,16 +21,14 @@ test.describe('Admin Dashboard Overview', () => {
 
   test('navigation sidebar works', async ({ page }) => {
     await page.goto('/admin');
-    
-    // Check for sidebar links
-    const sidebar = page.locator('aside nav');
-    await expect(sidebar.getByRole('link', { name: 'Portfolio' })).toBeVisible();
-    await expect(sidebar.getByRole('link', { name: 'Blog' })).toBeVisible();
-    await expect(sidebar.getByRole('link', { name: 'Theme' })).toBeVisible();
-    
-    // Click a link and verify navigation
-    // Use the link directly to be safe
-    await sidebar.locator('a[href="/admin/portfolio"]').click();
+
+    // The admin shell renders one primary sidebar nav and a mobile chip nav.
+    const sidebar = page.locator('aside').first();
+    await expect(sidebar.getByRole('link', { name: 'Portfolio', exact: true })).toBeVisible();
+    await expect(sidebar.getByRole('link', { name: 'Blog', exact: true })).toBeVisible();
+    await expect(sidebar.getByRole('link', { name: 'Theme', exact: true })).toBeVisible();
+
+    await sidebar.getByRole('link', { name: 'Portfolio', exact: true }).click();
     await expect(page).toHaveURL(/\/admin\/portfolio/, { timeout: 15000 });
   });
 });

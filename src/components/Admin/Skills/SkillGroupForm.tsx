@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   useMemo,
+  useId,
   useState,
   type ChangeEvent,
   type FormEvent,
@@ -44,7 +44,6 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 };
 
 export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
-  const router = useRouter();
   const { showToast } = useToast();
 
   const [formState, setFormState] = useState({
@@ -129,11 +128,9 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
       showToast({
         variant: 'success',
         title: mode === 'create' ? 'Skill group created' : 'Skill group updated',
-        description: formState.title,
       });
 
-      router.push('/admin/skills');
-      router.refresh();
+      window.location.assign('/admin/skills');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unable to save skill group.';
       setError(message);
@@ -227,33 +224,45 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
 }
 
 function LabeledInput({ label, helper, error, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; helper?: string; error?: string }) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
-    <label className="space-y-1 text-sm font-medium text-foreground">
-      <span>{label}</span>
+    <div className="space-y-1 text-sm font-medium text-foreground">
+      <label htmlFor={inputId}>{label}</label>
       <input
+        id={inputId}
         {...props}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
           error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p className="text-xs text-amber-600">{error}</p> : null}
-    </label>
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+    </div>
   );
 }
 
 function TextareaField({ label, helper, error, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; helper?: string; error?: string }) {
+  const inputId = useId();
+  const helperId = helper ? `${inputId}-helper` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
   return (
-    <label className="space-y-1 text-sm font-medium text-foreground">
-      <span>{label}</span>
+    <div className="space-y-1 text-sm font-medium text-foreground">
+      <label htmlFor={inputId}>{label}</label>
       <textarea
+        id={inputId}
         {...props}
+        aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
           error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p className="text-xs text-amber-600">{error}</p> : null}
-    </label>
+      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+    </div>
   );
 }

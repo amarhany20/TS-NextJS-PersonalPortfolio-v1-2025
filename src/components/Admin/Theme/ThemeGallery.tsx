@@ -142,17 +142,27 @@ export function ThemeGallery({ themes, activeThemeId }: ThemeGalleryProps) {
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => handlePreview(theme.id)}
-                  className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
-                    isPreviewing
-                      ? 'border-amber-400 text-amber-200'
-                      : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)] hover:text-foreground'
-                  }`}
-                >
-                  {isPreviewing ? 'Stop preview' : 'Preview'}
-                </button>
+                {isActive ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="flex-1 rounded-lg border border-[var(--border)] px-3 py-2 text-sm font-medium text-[var(--text-secondary)] cursor-not-allowed"
+                  >
+                    Current theme
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handlePreview(theme.id)}
+                    className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                      isPreviewing
+                        ? 'border-amber-400 text-amber-200'
+                        : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)] hover:text-foreground'
+                    }`}
+                  >
+                    Preview
+                  </button>
+                )}
                 <button
                   type="button"
                   disabled={isActive || isPending}

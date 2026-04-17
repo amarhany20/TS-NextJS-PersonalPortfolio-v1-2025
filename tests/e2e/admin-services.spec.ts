@@ -14,7 +14,7 @@ test.describe('Admin services CRUD', () => {
       await expect(page.getByRole('heading', { name: 'Create service' })).toBeVisible();
 
       const fillField = async (label: string, value: string) => {
-        await page.getByLabel(label, { exact: true }).fill(value);
+        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
       };
 
       await fillField('Title', title);

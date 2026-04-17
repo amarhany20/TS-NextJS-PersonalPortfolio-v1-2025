@@ -4,21 +4,39 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 
+const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+
+function spawnCommand(command: string, args: string[], options: Parameters<typeof spawn>[2]) {
+  if (process.platform === 'win32') {
+    return spawn(process.env.ComSpec ?? 'cmd.exe', ['/d', '/s', '/c', command, ...args], options);
+  }
+
+  return spawn(command, args, options);
+}
+
 async function run() {
   const cwd = process.cwd();
   const databaseUrl = process.env.DATABASE_URL;
 
-  // Ensure temp folder exists for the default sqlite DB location.
+  if (!databaseUrl) {
+    throw new Error(
+      'The isolated Playwright server requires DATABASE_URL to be set to a PostgreSQL-compatible database.'
+    );
+  }
+
+  // Preserve the tmp workspace used by Playwright artifacts and any local test helpers.
   await fs.mkdir(path.resolve(cwd, 'tmp'), { recursive: true });
 
-  await exec('npm', ['run', 'db:push'], cwd);
-  await exec('npm', ['run', 'db:seed'], cwd);
+  // `db push --skip-generate` avoids unnecessary Prisma client rewrites while the
+  // app or another local process may still have the existing client loaded.
+  await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate'], cwd);
+  await exec(npmCommand, ['run', 'db:seed'], cwd);
 
-  const next = spawn('npm', ['run', 'dev'], {
+  const next = spawnCommand(npmCommand, ['run', 'dev'], {
     cwd,
     env: process.env,
     stdio: 'inherit',
-    shell: true,
   });
 
   const shutdown = (signal: NodeJS.Signals) => {
@@ -37,11 +55,10 @@ async function run() {
 
 function exec(command: string, args: string[], cwd: string) {
   return new Promise<void>((resolve, reject) => {
-    const child = spawn(command, args, {
+    const child = spawnCommand(command, args, {
       cwd,
       env: process.env,
       stdio: 'inherit',
-      shell: true,
     });
 
     child.on('error', reject);
