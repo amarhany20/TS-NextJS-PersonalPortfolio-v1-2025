@@ -2,48 +2,71 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Folder, Book, Package, Mail } from "lucide-react";
+import { Home, Folder, Book, Package } from "lucide-react";
 import { useMemo } from "react";
+import type { SiteVisibility } from "@/types/settings";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Home,
   Folder,
   Book,
   Package,
-  Mail,
 };
 
 type NavItem = { href: string; label: string; icon?: string };
 
-export default function NavLinks() {
+interface NavLinksProps {
+  visibility: SiteVisibility;
+}
+
+export default function NavLinks({ visibility }: NavLinksProps) {
   const pathname = usePathname();
 
   const fallback: NavItem[] = useMemo(
     () => [
-      { href: "/", label: "Home", icon: "Home" },
-  { href: "/portfolio", label: "Portfolio", icon: "Folder" },
+      { href: "/home", label: "Home", icon: "Home" },
+      { href: "/portfolio", label: "Portfolio", icon: "Folder" },
       { href: "/services", label: "Services", icon: "Package" },
       { href: "/blogs", label: "Blogs", icon: "Book" },
-  // Contact page removed
     ],
     []
   );
 
   // Normalize and enforce desired order & labels
   const desiredOrder = [
-    { key: "home", label: "Home", href: "/", icon: "Home" },
-  { key: "portfolio", label: "Portfolio", href: "/portfolio", icon: "Folder" },
+    { key: "home", label: "Home", href: "/home", icon: "Home" },
+    { key: "portfolio", label: "Portfolio", href: "/portfolio", icon: "Folder" },
     { key: "blog", label: "Blog", href: "/blogs", icon: "Book" },
     { key: "services", label: "Services", href: "/services", icon: "Package" },
   ];
 
   const navMap = new Map<string, NavItem>();
   (fallback).forEach((i) => {
-    const key = i.href === "/" ? "home" : i.href.replace(/^\//, "");
+    const key = i.href === "/" || i.href === "/home" ? "home" : i.href.replace(/^\//, "");
     navMap.set(key, i);
   });
 
-  const navLinks: NavItem[] = desiredOrder.map((d) => {
+  const navLinks: NavItem[] = desiredOrder
+    .filter((d) => {
+      if (d.key === "home") {
+        return true;
+      }
+
+      if (d.key === "portfolio") {
+        return visibility.pages.portfolio;
+      }
+
+      if (d.key === "services") {
+        return visibility.pages.services;
+      }
+
+      if (d.key === "blog") {
+        return visibility.pages.blogs;
+      }
+
+      return true;
+    })
+    .map((d) => {
     const found = navMap.get(d.key);
     return {
       href: found?.href || d.href,
@@ -57,7 +80,7 @@ export default function NavLinks() {
       <h3 className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase tracking-wider text-center mb-3">Navigation</h3>
       {navLinks.map((link) => {
         const IconComponent = iconMap[link.icon || ""] || Home;
-        const isActive = pathname === link.href;
+        const isActive = pathname === link.href || (link.href === "/home" && pathname === "/");
 
         return (
           <Link

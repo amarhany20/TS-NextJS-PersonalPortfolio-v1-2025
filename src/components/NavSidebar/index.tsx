@@ -4,13 +4,14 @@ import NavLinks from "./NavLinks";
 import SocialLinks from "./SocialLinks";
 import { useSidebar } from "@/components/ui/SidebarProvider";
 import { X } from "lucide-react";
-import type { LinkItem } from "@/types/settings";
+import type { LinkItem, SiteVisibility } from "@/types/settings";
 
 interface NavSidebarProps {
   socialLinks: LinkItem[];
+  visibility: SiteVisibility;
 }
 
-export default function NavSidebar({ socialLinks }: NavSidebarProps) {
+export default function NavSidebar({ socialLinks, visibility }: NavSidebarProps) {
   const { rightSidebarOpen, closeAllSidebars } = useSidebar();
 
   return (
@@ -33,7 +34,7 @@ export default function NavSidebar({ socialLinks }: NavSidebarProps) {
 
           {/* Navigation Links */}
           <div className="flex-1 pt-8 lg:pt-2">
-            <NavLinks />
+            <NavLinks visibility={visibility} />
           </div>
 
           {/* Social Links */}

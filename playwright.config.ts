@@ -10,6 +10,8 @@ const url = new URL(baseURL);
 const port = url.port || (url.protocol === 'https:' ? '443' : '80');
 const readinessUrl = new URL('/api/v1/example?name=playwright', baseURL).toString();
 const playwrightDatabaseUrl = process.env.PLAYWRIGHT_DATABASE_URL ?? process.env.DATABASE_URL;
+const configuredWorkers = Number.parseInt(process.env.PLAYWRIGHT_WORKERS ?? '1', 10);
+const playwrightWorkers = Number.isFinite(configuredWorkers) && configuredWorkers > 0 ? configuredWorkers : 1;
 
 if (!playwrightDatabaseUrl) {
   throw new Error(
@@ -19,17 +21,17 @@ if (!playwrightDatabaseUrl) {
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  workers: playwrightWorkers,
   reporter: [['list'], ['html', { open: 'never' }]],
   timeout: 120_000,
   use: {
     baseURL,
     storageState: 'playwright/.auth/admin.json',
-    trace: 'retain-on-failure',
-    video: 'retain-on-failure',
+    trace: process.env.CI ? 'retain-on-failure' : 'on-first-retry',
+    video: process.env.CI ? 'retain-on-failure' : 'off',
   },
   globalSetup: './tests/e2e/global-setup.ts',
   webServer: {

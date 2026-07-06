@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Copy, Eye, Image as ImageIcon, Trash2, Upload } from 'lucide-react';
 
 import type { MediaAsset } from '@/types/media';
@@ -24,6 +24,7 @@ const formatDateTime = (value: string) => dateTimeFormatter.format(new Date(valu
  */
 export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [hydrated, setHydrated] = useState(false);
   const [assets, setAssets] = useState<MediaAsset[]>(initialAssets);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -32,12 +33,20 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
 
   const hasAssets = assets.length > 0;
 
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   const totalSize = useMemo(
     () => assets.reduce((acc, asset) => acc + asset.size, 0),
     [assets],
   );
 
   const handleFilePick = () => {
+    if (!hydrated || uploading) {
+      return;
+    }
+
     inputRef.current?.click();
   };
 
@@ -132,6 +141,7 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
         ref={inputRef}
         type="file"
         multiple
+        disabled={!hydrated || uploading}
         className="hidden"
         onChange={(event) => handleUpload(event.target.files)}
       />
@@ -147,11 +157,11 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
           <button
             type="button"
             onClick={handleFilePick}
-            disabled={uploading}
+            disabled={!hydrated || uploading}
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-black shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Upload size={16} />
-            {uploading ? 'Uploading…' : 'Upload'}
+            {!hydrated ? 'Loading…' : uploading ? 'Uploading…' : 'Upload'}
           </button>
         </div>
       </div>

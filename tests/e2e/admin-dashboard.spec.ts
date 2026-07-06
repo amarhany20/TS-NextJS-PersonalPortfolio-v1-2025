@@ -4,7 +4,7 @@ test.describe('Admin Dashboard Overview', () => {
   test.use({ storageState: 'playwright/.auth/admin.json' });
 
   test('loads dashboard with stats', async ({ page }) => {
-    await page.goto('/admin');
+    await page.goto('/admin', { waitUntil: 'domcontentloaded' });
     
     // Check for dashboard heading
     await expect(page.getByRole('heading', { name: /Admin dashboard/i })).toBeVisible();
@@ -20,7 +20,7 @@ test.describe('Admin Dashboard Overview', () => {
   });
 
   test('navigation sidebar works', async ({ page }) => {
-    await page.goto('/admin');
+    await page.goto('/admin', { waitUntil: 'domcontentloaded' });
 
     // The admin shell renders one primary sidebar nav and a mobile chip nav.
     const sidebar = page.locator('aside').first();

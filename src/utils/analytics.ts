@@ -1,11 +1,10 @@
 /**
- * Analytics utility for tracking page views and events.
- * 
- * This is a lightweight wrapper that can be extended to integrate with
- * analytics providers like Google Analytics, Plausible, or custom solutions.
- * 
- * For v1, this logs to console in development and can be extended with
- * actual analytics providers in production.
+ * Launch-scope analytics shim.
+ *
+ * The relaunch build intentionally ships without a production analytics provider.
+ * These helpers keep the call sites stable, allow development-time inspection, and
+ * give us one place to wire a provider later without spreading conditional logic
+ * across the UI.
  */
 
 type AnalyticsEvent = {
@@ -13,13 +12,21 @@ type AnalyticsEvent = {
   properties?: Record<string, unknown>;
 };
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+function logAnalyticsDebug(label: string, payload: unknown) {
+  if (!isDevelopment) {
+    return;
+  }
+
+  console.log(`[Analytics] ${label}:`, payload);
+}
+
 /**
  * Track a page view
  */
 export function trackPageView(path: string, title?: string) {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('[Analytics] Page view:', { path, title });
-  }
+  logAnalyticsDebug('Page view', { path, title });
 
   // No analytics provider is wired in for the current launch pass.
 }
@@ -28,9 +35,7 @@ export function trackPageView(path: string, title?: string) {
  * Track a custom event
  */
 export function trackEvent(event: AnalyticsEvent) {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('[Analytics] Event:', event);
-  }
+  logAnalyticsDebug('Event', event);
 
   // No analytics provider is wired in for the current launch pass.
 }

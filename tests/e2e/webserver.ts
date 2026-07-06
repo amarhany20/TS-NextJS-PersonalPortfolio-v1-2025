@@ -18,6 +18,7 @@ function spawnCommand(command: string, args: string[], options: Parameters<typeo
 async function run() {
   const cwd = process.cwd();
   const databaseUrl = process.env.DATABASE_URL;
+  const isIsolatedPlaywright = process.env.PLAYWRIGHT_ISOLATED === '1';
 
   if (!databaseUrl) {
     throw new Error(
@@ -28,14 +29,23 @@ async function run() {
   // Preserve the tmp workspace used by Playwright artifacts and any local test helpers.
   await fs.mkdir(path.resolve(cwd, 'tmp'), { recursive: true });
 
-  // `db push --skip-generate` avoids unnecessary Prisma client rewrites while the
-  // app or another local process may still have the existing client loaded.
-  await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate'], cwd);
+  if (isIsolatedPlaywright) {
+    await fs.rm(path.resolve(cwd, '.next'), { recursive: true, force: true });
+    await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate', '--force-reset', '--accept-data-loss'], cwd);
+  } else {
+    await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate'], cwd);
+  }
   await exec(npmCommand, ['run', 'db:seed'], cwd);
+  await exec(npmCommand, ['run', 'build'], cwd, undefined, {
+    PLAYWRIGHT_ISOLATED: '0',
+  });
 
-  const next = spawnCommand(npmCommand, ['run', 'dev'], {
+  const next = spawnCommand(npmCommand, ['run', 'start', '--', '-p', process.env.PORT ?? '3000'], {
     cwd,
-    env: process.env,
+    env: {
+      ...process.env,
+      PLAYWRIGHT_ISOLATED: '0',
+    },
     stdio: 'inherit',
   });
 
@@ -52,14 +62,26 @@ async function run() {
 
   console.info(`[e2e] Webserver starting with DATABASE_URL=${databaseUrl ?? '(default/.env)'}`);
 }
-
-function exec(command: string, args: string[], cwd: string) {
+function exec(
+  command: string,
+  args: string[],
+  cwd: string,
+  stdinText?: string,
+  envOverrides?: Record<string, string>,
+) {
   return new Promise<void>((resolve, reject) => {
     const child = spawnCommand(command, args, {
       cwd,
-      env: process.env,
-      stdio: 'inherit',
+      env: {
+        ...process.env,
+        ...envOverrides,
+      },
+      stdio: stdinText !== undefined ? ['pipe', 'inherit', 'inherit'] : 'inherit',
     });
+
+    if (stdinText !== undefined) {
+      child.stdin?.end(stdinText);
+    }
 
     child.on('error', reject);
     child.on('exit', (code) => {
@@ -73,3 +95,6 @@ run().catch((error) => {
   console.error('[e2e] Failed to start webserver:', error);
   process.exit(1);
 });
+
+
+

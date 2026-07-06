@@ -3,22 +3,24 @@
 
 **Self-hosted portfolio platform with a public site, admin CMS, Prisma persistence, and launch-prep cleanup in progress.**
 
-Version: `00.50.07` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
+Version: `00.80.01` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
 
 ---
 
 ## ✨ Highlights
 
 - **🏗️ Enterprise Architecture**: Full layered server architecture with separation of concerns (services, repositories, serializers)
-- **📦 Static Content System**: All content sourced from structured TypeScript under `src/static-content/` (migration-ready)
+- **📦 Database-backed Content**: Prisma-backed public/admin content with static modules retained for fallback and bootstrap-safe defaults
+- **🎛️ Settings-driven Visibility**: Hide public pages from navigation and return 404s without deleting database content
 - **🔒 Type-Safe & Validated**: Strict TypeScript + Zod validation at all boundaries
 - **🎯 Clean API Patterns**: Consistent error handling, response envelopes, and serialization
 - **📱 Responsive & Accessible**: Mobile-first layout, semantic HTML, WCAG AA compliant
 - **⚡ Performance-Oriented**: Server-side rendering, prerendered pages (SSG), minimal client JS
+- **🎨 Curated Theme Gallery**: Seven built-in themes with persisted admin preview/apply behavior
 - **🧪 Test-Ready**: Configured for Vitest (unit) and Playwright (e2e) testing
 - **🔐 Security-First**: Environment validation, input sanitization, server-only secrets
-- **📚 Well-Documented**: Comprehensive architecture docs and inline preambles
-- **🚀 Backend-Ready**: Database, authentication, and API endpoints can be added seamlessly
+- **📚 Well-Documented**: Active architecture docs, folder READMEs, and launch tracking
+- **🚀 Relaunch-Oriented**: Database, authentication, admin CMS, APIs, and E2E coverage are being launch-hardened
 
 ---
 
@@ -38,9 +40,9 @@ src/
 │  ├─ services/page.tsx          # Services overview
 │  ├─ blogs/page.tsx             # Blog listing page
 │  └─ api/v1/                    # API route handlers (controllers)
-│     └─ example/route.ts        # Example endpoint (reference implementation)
+│     └─ example/route.ts        # Lightweight diagnostics/readiness endpoint
 │
-├─ server/                       # 🆕 Server-side application layer
+├─ server/                       # Server-side application layer
 │  ├─ http/                      # HTTP infrastructure (errors, responses)
 │  ├─ services/                  # Business logic for public/admin domains
 │  ├─ repositories/              # Prisma-backed data access layer
@@ -68,9 +70,8 @@ src/
 │  ├─ portfolio/                 # Project definitions (JSON)
 │  └─ *.ts                       # Domain data (experience, skills, etc.)
 │
-├─ client-validators/            # 🆕 Client-side Zod schemas (UX only)
+├─ client-validators/            # Client-side Zod schemas (UX only)
 ├─ types/                        # Frontend-only TypeScript types
-├─ hooks/                        # React hooks
 ├─ utils/                        # Pure isomorphic utilities
 ├─ lib/                          # Framework-level helpers
 └─ public/                       # Static assets (images, PDFs, etc.)
@@ -82,18 +83,18 @@ See `docs/architecture/README.md` for the active architecture docs.
 
 ## 🧩 Data Model Overview
 
-| Domain         | Source                                   | Notes |
-|---------------:|------------------------------------------:|------:|
-| Portfolio      | `src/static-content/portfolio/*.json`    | Featured flag, metadata, sections, gallery |
-| Experience     | `src/static-content/experience.ts`       | Collapsible cards, achievements, skills array |
-| Education      | `src/static-content/education.ts`        | Start/end dates, computed duration |
-| Skills         | `src/static-content/skills.ts`           | Categorized or flat list consumed in sidebar |
-| Certificates   | `src/static-content/certificates.ts`     | PDF links stored under `public/attachments/` |
-| Recommendations| `src/static-content/recommendations.ts`  | Safe external + PDF link handling |
-| Services       | `src/static-content/services.ts`         | Toggleable cards similar to Experience |
-| Personal Meta  | `src/static-content/personal.ts`         | Name, title, location, contact/social |
-| Routes         | `src/static-content/routes.ts`           | Route path constants |
-| SEO            | `src/static-content/seo.ts`              | Default SEO metadata and configuration |
+|          Domain |                     Primary Source |                                         Notes |
+| --------------: | ---------------------------------: | --------------------------------------------: |
+|       Portfolio |      Prisma via `PortfolioService` |    Featured flag, metadata, sections, gallery |
+|      Experience |     Prisma via `ExperienceService` | Collapsible cards, achievements, skills array |
+|       Education |      Prisma via `EducationService` |            Start/end dates, computed duration |
+|          Skills |          Prisma via `SkillService` |  Categorized or flat list consumed in sidebar |
+|    Certificates |    Prisma via `CertificateService` |  PDF links stored under `public/attachments/` |
+| Recommendations | Prisma via `RecommendationService` |             Safe external + PDF link handling |
+|        Services |        Prisma via `ServiceService` |        Toggleable cards similar to Experience |
+|   Personal Meta |       Prisma via `SettingsService` |         Name, title, location, contact/social |
+|          Routes |     `src/static-content/routes.ts` |                          Route path constants |
+|             SEO |    Settings row + static fallbacks |        Default SEO metadata and configuration |
 
 Static content now acts as fallback/seed material rather than the only content source. Public/admin
 flows primarily read from Prisma through the service layer, with static modules still used for
@@ -147,14 +148,17 @@ DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
 
 ```
 
-Optional admin bootstrap defaults:
+Admin bootstrap defaults:
 
 ```env
-SEED_ADMIN_USERNAME=admin
-SEED_ADMIN_PASSWORD=change-me-now
-SEED_ADMIN_EMAIL=admin@example.com
-SEED_ADMIN_DISPLAY_NAME=Portfolio Admin
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=change-me-now
+ADMIN_EMAIL=admin@example.com
+ADMIN_DISPLAY_NAME=Portfolio Admin
 ```
+
+The runtime bootstrap path reads `ADMIN_*`. The seed scripts still accept `SEED_ADMIN_*` as a
+compatibility fallback, and Playwright can override login through `E2E_ADMIN_*`.
 
 **⚠️ Important:** Generate a secure `AUTH_SECRET` for production:
 ```bash
@@ -182,7 +186,7 @@ npm run prisma:studio    # Opens http://localhost:5555 in browser
 2. Run `npm run prisma:migrate`.
 3. Run `npm run db:seed` or `npm run seed:ammar`.
 4. Start the app with `npm run dev`.
-5. Sign in at `/login` with the seeded admin credentials.
+5. Sign in at `/login` with the configured admin credentials.
 6. Review `/admin/settings/setup` to confirm bootstrap metadata and seed state.
 
 The old web setup flow is retired. `/setup` and legacy setup-step URLs now redirect away from the
@@ -194,7 +198,7 @@ After the first successful seed, confirm:
 
 1. `npm run dev` starts without Prisma or settings-bootstrap errors.
 2. `/home` renders public content.
-3. `/login` accepts the seeded admin credentials.
+3. `/login` accepts the configured admin credentials.
 4. `/admin` loads successfully.
 5. `/admin/settings/setup` shows setup metadata sourced from the seeded settings row.
 
@@ -265,12 +269,15 @@ npm run rebuild      # Clean + build
 
 ### Content Updates
 
-1. **Portfolio Items**: Edit JSON files in `src/static-content/portfolio/` or add new ones. Each project needs a unique `slug`.
-2. **Experience**: Update `src/static-content/experience.ts` with your work history.
-3. **Education**: Modify `src/static-content/education.ts` with degrees and courses.
-4. **Skills**: Edit `src/static-content/skills.ts` to showcase your tech stack.
-5. **Services**: Update `src/static-content/services.ts` with offerings.
-6. **Personal Info**: Edit `src/static-content/personal.ts` and `src/static-content/metadata.ts`.
+Primary launch content is managed through the admin CMS after seeding. Use `src/static-content/*`
+for fallback/bootstrap defaults only, then verify the database-backed public pages after changes.
+
+1. **Portfolio Items**: Manage through `/admin/portfolio`; static portfolio files are fallback/seed inputs only.
+2. **Experience**: Manage through `/admin/experience`; publish only entries that should appear publicly.
+3. **Education**: Manage through `/admin/education`.
+4. **Skills**: Manage through `/admin/skills`.
+5. **Services**: Manage through `/admin/services`.
+6. **Personal Info & SEO**: Bootstrap from env/settings, then verify the settings row and public metadata.
 
 ### Assets
 
@@ -288,11 +295,11 @@ npm run rebuild      # Clean + build
 
 - **Routes**: Define in `src/static-content/routes.ts`
 - **Nav Links**: Edit `src/components/NavSidebar/NavLinks.tsx`
-- **Social Links**: Update in `src/static-content/metadata.ts`
+- **Social Links**: Prefer settings/admin-backed social links; keep `src/static-content/metadata.ts` as fallback-safe defaults.
 
 ### SEO
 
-- **Default Metadata**: Edit `src/static-content/seo.ts`
+- **Default Metadata**: Prefer settings/env-backed metadata, with `src/static-content/metadata.ts` retained as fallback-safe defaults.
 - **Page-Specific**: Add `generateMetadata` exports to individual pages
 
 ---
@@ -308,29 +315,29 @@ npm run rebuild      # Clean + build
 
 ## ⚙️ Scripts (package.json)
 
-| Script              | Purpose |
-|---------------------|---------:|
-| `dev`               | Start development server at http://localhost:3000 |
-| `dev:turbopack`     | Dev using Turbopack experiment (faster) |
-| `dev:webpack`       | Explicit Webpack dev (fallback) |
-| `build`             | Production build |
-| `start`             | Serve production build |
-| `typecheck`         | Run TypeScript type checking |
-| `lint`              | ESLint + type-aware rules |
-| `lint:fix`          | Auto-fix linting errors |
-| `format`            | Format with Prettier |
-| `format:check`      | Check formatting without changes |
-| `check`             | typecheck + lint + format check (CI-ready) |
-| `test`              | Run Vitest suite once |
-| `test:watch`        | Run Vitest in watch mode |
-| `e2e`               | Run Playwright e2e tests |
-| `clean`             | Remove `.next` and caches |
-| `rebuild`           | Clean then build |
-| `prisma:generate`   | Generate Prisma client |
-| `prisma:migrate`    | Apply Prisma migrations |
-| `prisma:studio`     | Open Prisma Studio UI |
-| `db:push`           | Push schema to database (prototyping only) |
-| `db:seed`           | Seed database with initial content |
+| Script            |                                           Purpose |
+| ----------------- | ------------------------------------------------: |
+| `dev`             | Start development server at http://localhost:3000 |
+| `dev:turbopack`   |           Dev using Turbopack experiment (faster) |
+| `dev:webpack`     |                   Explicit Webpack dev (fallback) |
+| `build`           |                                  Production build |
+| `start`           |                            Serve production build |
+| `typecheck`       |                      Run TypeScript type checking |
+| `lint`            |                         ESLint + type-aware rules |
+| `lint:fix`        |                           Auto-fix linting errors |
+| `format`          |                              Format with Prettier |
+| `format:check`    |                  Check formatting without changes |
+| `check`           |        typecheck + lint + format check (CI-ready) |
+| `test`            |                             Run Vitest suite once |
+| `test:watch`      |                          Run Vitest in watch mode |
+| `e2e`             |                          Run Playwright e2e tests |
+| `clean`           |    Remove `.next`, `.next-playwright`, and caches |
+| `rebuild`         |                                  Clean then build |
+| `prisma:generate` |                            Generate Prisma client |
+| `prisma:migrate`  |                           Apply Prisma migrations |
+| `prisma:studio`   |                             Open Prisma Studio UI |
+| `db:push`         |        Push schema to database (prototyping only) |
+| `db:seed`         |                Seed database with initial content |
 
 For complete database setup on first run, execute: `npm run prisma:migrate && npm run db:seed`
 
@@ -364,7 +371,7 @@ Notes:
 - Tag + stack filtering on `/portfolio`
 - Lightbox & swipe gestures for gallery
 - Blog system (unified content pipeline)
-- Analytics + basic performance telemetry
+- Analytics + basic performance telemetry (post-launch)
 - Optional CMS adapter layer (e.g. Contentful / Sanity / Payload)
 - Authentication + dashboard (v2) for dynamic editing
 - RSS / JSON feed for case studies
@@ -380,7 +387,7 @@ Have an idea? Open an issue or PR.
 Retired from the supported launch path:
 
 - web setup wizard as onboarding
-- referenced `setup:first-run` scripts that are no longer present
+- `setup:first-run` script-based onboarding
 
 ---
 
@@ -414,16 +421,16 @@ Author: **Ammar Hany** – Connect via portfolio contact section or LinkedIn.
 
 ## 🔎 Quick Reference
 
-| Area            | File / Path |
-|-----------------|-------------|
-| Portfolio list  | `src/app/portfolio/page.tsx` |
-| Portfolio detail| `src/app/portfolio/[slug]/page.tsx` |
-| Data index      | `src/static-content/index.ts` |
-| Project JSON    | `src/static-content/portfolio/*.json` |
-| Experience UI   | `src/sections/home/ExperienceSection.tsx` |
-| Recommendations | `src/sections/home/RecommendationsSection.tsx` |
-| Navigation      | `src/components/NavSidebar/NavLinks.tsx` |
-| Version export  | `src/lib/version.ts` |
+| Area             | File / Path                                    |
+| ---------------- | ---------------------------------------------- |
+| Portfolio list   | `src/app/portfolio/page.tsx`                   |
+| Portfolio detail | `src/app/portfolio/[slug]/page.tsx`            |
+| Data index       | `src/static-content/index.ts`                  |
+| Project JSON     | `src/static-content/portfolio/*.json`          |
+| Experience UI    | `src/sections/home/ExperienceSection.tsx`      |
+| Recommendations  | `src/sections/home/RecommendationsSection.tsx` |
+| Navigation       | `src/components/NavSidebar/NavLinks.tsx`       |
+| Version export   | `src/lib/version.ts`                           |
 
 ---
 

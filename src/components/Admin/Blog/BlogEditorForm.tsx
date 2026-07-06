@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 import type { Blog, BlogCategorySummary, BlogTagSummary, BlogStatus } from '@/types/blog';
@@ -23,6 +23,7 @@ interface TaxonomyItem {
 
 export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEditorFormProps) {
   const router = useRouter();
+  const [hydrated, setHydrated] = useState(false);
   const [title, setTitle] = useState(initialPost?.title ?? '');
   const [slug, setSlug] = useState(initialPost?.slug ?? '');
   const [summary, setSummary] = useState(initialPost?.summary ?? '');
@@ -38,6 +39,10 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
 
   const availableCategories = useMemo(() => mergeTaxonomies(categories, selectedCategories), [categories, selectedCategories]);
   const availableTags = useMemo(() => mergeTaxonomies(tags, selectedTags), [tags, selectedTags]);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   function handleSelectTaxonomy(type: 'category' | 'tag', item: TaxonomyItem) {
     const updater = type === 'category' ? setSelectedCategories : setSelectedTags;
@@ -113,7 +118,7 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
     };
   }
 
-  const disableSubmit = isSubmitting || !title.trim() || !content.trim() || (status === 'scheduled' && !scheduledAt);
+  const disableSubmit = !hydrated || isSubmitting || !title.trim() || !content.trim() || (status === 'scheduled' && !scheduledAt);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>

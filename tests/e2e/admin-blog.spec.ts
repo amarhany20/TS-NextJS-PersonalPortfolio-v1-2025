@@ -1,13 +1,16 @@
-import { expect, request as playwrightRequest, test } from '@playwright/test';
+import type { APIRequestContext } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
+import { getPlaywrightBaseUrl } from './base-url';
 
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
 test.describe('Admin blog CRUD', () => {
-  test('creates, schedules, publishes, and deletes a blog post', async ({ page }) => {
+  test('creates, schedules, publishes, and deletes a blog post', async ({ page, request }) => {
     const unique = Date.now();
     const title = `E2E Blog Post ${unique}`;
     const slug = `e2e-blog-post-${unique}`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
 
     // Calculate a future date for scheduling (1 day from now)
     const futureDate = new Date();
@@ -15,17 +18,12 @@ test.describe('Admin blog CRUD', () => {
     const scheduledDateTime = formatLocalDateTime(futureDate);
 
     try {
-      await page.goto('/admin/blogs/new');
+      await page.goto('/admin/blogs/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: /new blog post/i })).toBeVisible();
 
 
       const fillInput = async (label: string, value: string) => {
-        await page
-          .locator('label', { hasText: label })
-          .locator('..')
-          .locator('input, textarea')
-          .first()
-          .fill(value);
+        await page.getByLabel(new RegExp(`^${label}$`, 'i')).fill(value);
       };
 
       const selectOption = async (label: string, value: string) => {
@@ -46,7 +44,7 @@ test.describe('Admin blog CRUD', () => {
       await selectOption('Status', 'scheduled');
 
       // Fill in scheduled date
-      await fillInput('Publish at', scheduledDateTime);
+      await page.locator('input[type="datetime-local"]').fill(scheduledDateTime);
 
       
       // Fill in content (using the rich text editor)
@@ -71,31 +69,33 @@ test.describe('Admin blog CRUD', () => {
       await expect(page).toHaveURL(new RegExp(`/admin/blogs/${slug}$`));
       
       // Navigate back and delete (assuming there's a delete button or we use API)
-      await page.goto('/admin/blogs');
+      await page.goto('/admin/blogs', { waitUntil: 'domcontentloaded' });
       // Use API to delete since UI delete might not be implemented
-      await cleanupBlogPost(slug, baseURL);
+      await cleanupBlogPost(slug, request);
       
       // Verify deletion
       await page.reload();
       await expect(page.locator('tr', { hasText: title })).toHaveCount(0);
     } finally {
-      await cleanupBlogPost(slug, baseURL);
+      await cleanupBlogPost(slug, request);
     }
   });
 });
 
-async function cleanupBlogPost(slug: string, baseURL: string) {
+async function cleanupBlogPost(slug: string, request: APIRequestContext) {
   if (!slug) return;
 
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
-  const response = await api.delete(`/api/v1/blogs/${slug}`);
-  await api.dispose();
+  const response = await request.delete(`/api/v1/blogs/${slug}`).catch(() => null);
+  if (!response) {
+    return;
+  }
+  const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
 
   if (response.ok() || response.status() === 404) {
     return;
   }
 
-  console.warn(`Cleanup failed for slug ${slug}: ${response.status()} ${await response.text()}`);
+  console.warn(`Cleanup failed for slug ${slug}: ${response.status()} ${responseText}`);
 }
 
 function formatLocalDateTime(date: Date): string {

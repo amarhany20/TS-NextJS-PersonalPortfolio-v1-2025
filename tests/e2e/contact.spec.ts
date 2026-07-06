@@ -1,8 +1,10 @@
 import { expect, request as playwrightRequest, test } from '@playwright/test';
 
+import { getPlaywrightBaseUrl } from './base-url';
+
 test.describe('Contact form submission', () => {
   test('submits contact form and verifies rate limiting', async () => {
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
     const ipHeader = `198.51.100.${(Date.now() % 200) + 10}`;
 
     const api = await playwrightRequest.newContext({ baseURL });
@@ -28,7 +30,7 @@ test.describe('Contact form submission', () => {
 
 
   test('rate limiting prevents spam submissions', async () => {
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
     const ipHeader = `203.0.113.${(Date.now() % 200) + 10}`;
     const api = await playwrightRequest.newContext({ baseURL });
 

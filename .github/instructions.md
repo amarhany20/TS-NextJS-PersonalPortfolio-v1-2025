@@ -1,83 +1,94 @@
 # Contributor Instructions
 
 This repository follows Ammar's documentation and engineering standards. Every change must keep
-code, docs, and data in sync.
+code, docs, and launch tracking in sync.
 
 ## 1. Required Standards
-- Read `docs/TS-NextJS-PersonalPortfolio-V1-2025 Documentation/architecture.md` before touching code.
-- Follow `docs/helper_docs/Ammar Documentation Guideline/` when authoring markdown.
-- Apply patterns from `docs/helper_docs/NextJS Coding Guideline/` across App Router features.
-- Review `docs/helper_docs/Ammar Agents Guideline/ammar-agent-operations-guideline-v1.00.00.md` each
-  session (commit discipline, version bumps, documentation alignment).
-- Keep `docs/migration_plan.md` and `docs/MIGRATION_SUMMARY.md` accurate when scope changes.
+
+- Read `AGENTS.md` first, then `.github/copilot-instructions.md`.
+- Read the local helper docs before changing code or documentation:
+  - `docs/helper_docs/ammar-agent-guideline/agent-guideline.md`
+  - `docs/helper_docs/Ammar-Documentation-Guidelines/ammar-documentation-guideline.md`
+  - `docs/helper_docs/Ammar-NextJS-Guideline/ammar-nextjs-guidelines.md`
+- Use `docs/architecture/README.md` and `docs/architecture/architect.md` as the active architecture
+  entry points.
+- Track launch work in `docs/architecture/sections/09-implementation-checklist.md`.
+- Treat `docs/archive/**` as history only; do not use archived "complete" or "production-ready"
+  claims as current proof.
 
 ## 2. Environment Setup
-1. Clone the repo
+
+1. Clone the repo.
    ```bash
    git clone <your-repo-url>
    cd TS-NextJS-PersonalPortfolio-v1-2025
    ```
-2. Install dependencies
+2. Install dependencies.
    ```bash
    npm install
    ```
-3. Configure environment vars
-  - Copy `.env.example` to `.env.local`.
-  - Set `AUTH_SECRET` (32+ chars), `DATABASE_URL`, and any provider keys noted in docs.
-4. Provision the database (SQLite by default)
+3. Configure environment variables.
+   - Copy `.env.example` to `.env.local`.
+   - Set `DATABASE_URL`, `AUTH_SECRET`, and the `ADMIN_*` bootstrap variables.
+   - Use PostgreSQL-compatible connection strings; the active Prisma datasource is not SQLite.
+4. Provision the database.
    ```bash
    npx prisma generate
    npx prisma migrate dev
    npm run db:seed
    ```
-   Use `scripts/setup-database.sh` for one-command setup locally or in CI/CD.
-5. Start developing
+   For Ammar-owned launch content, use `npm run seed:ammar` when that reset/seed flow is intended.
+5. Start developing.
    ```bash
    npm run dev
    ```
-   Visit `http://localhost:3000` (App Router). Use `npm run lint`, `npm run test`, and
-   `npm run test:e2e` before opening a PR.
+   Visit `http://localhost:3000`, which redirects to `/home`.
 
-## 3. Database Operations
-### 3.1 Backup
+## 3. Supported Bootstrap Flow
+
+- The supported first-run path is env/bootstrap-driven.
+- `/setup` is retained only as a backwards-compatible redirect surface.
+- Do not reintroduce the retired web setup wizard or `setup:first-run` script flow.
+- Confirm `/login`, `/admin`, and `/admin/settings/setup` after migrations and seeding.
+
+## 4. Verification Commands
+
+Use the scripts in `package.json` as the command source of truth:
+
 ```bash
-cp prisma/dev.db backup/portfolio-backup-$(date +%Y%m%d).db
-sqlite3 prisma/dev.db .dump > backup/portfolio-backup-$(date +%Y%m%d).sql
+npm run typecheck
+npm run lint
+npm run format:check
+npm run test
+npm run build
+npm run e2e
 ```
 
-### 3.2 Restore
-```bash
-cp backup/portfolio-backup-YYYYMMDD.db prisma/dev.db
-sqlite3 prisma/dev.db < backup/portfolio-backup-YYYYMMDD.sql
-```
+Run `npm run clean` before verification when route files or generated Next output changed.
 
-### 3.3 Troubleshooting
-- `npx prisma migrate dev` fixes missing database files.
-- `npx prisma generate` rebuilds the client.
-- `npx prisma migrate reset` (dev only) recreates schema and reruns seeds.
-- Launch Prisma Studio with `npm run db:studio`; reset scripted via `npm run db:reset`.
+## 5. Development Workflow
 
-## 4. Development Workflow
-- Use SSR/SSG first. Mark components `use client` only when interactivity is mandatory.
-- Keep layout responsive (grid/flex + Tailwind). Avoid fixed pixels except avatars/icons.
-- Reuse primitives from `src/components`, shared helpers from `src/server`, and keep assets under
-  `public/`.
-- Validate at every boundary: client validators (`src/client-validators`), API validators
-  (`src/server/server-validators`), and service-level business rules.
-- Follow the server stack pattern: Route → Controller/Handler → Service → Repository → Serializer.
-- Admin-only routes require `requireAuth()`. Update session helpers if cookie policies change.
-- Media uploads live in `public/uploads/<year>/<month>/`. Persist metadata through
-  `MediaRepository`.
+- Use server components by default; mark components `use client` only when interactivity requires it.
+- Keep the layered flow: Route/Page -> Service -> Repository -> Serializer/Response.
+- Keep API route handlers thin: validate input, enforce auth, delegate to services, return shared
+  response helpers.
+- Use typed env access from `src/server/server-validators/env.ts` instead of scattered raw
+  `process.env` usage in active server code.
+- Admin-only routes require `requireAuth()`.
+- Keep public content, metadata, and docs aligned with the database-backed CMS flow; static content
+  is fallback/bootstrap data, not the primary launch content source.
 
-## 5. Content & Layout Guardrails
-- ProfileSidebar (left) and NavSidebar (right) stay server-driven on desktop, collapse on mobile.
-- Grid defaults: mobile `grid-cols-1`; desktop
-  `grid-cols-[minmax(240px,18vw)_1fr_minmax(60px,6vw)]`.
-- `globals.css` defines CSS variables—extend tokens there before using hard-coded colors.
-- Semantic HTML and accessible labels are non-negotiable. Audit alt text, aria labels, and focus
-  order when editing UI.
+## 6. Content & Layout Guardrails
 
-## 6. Support Links
-- Prisma docs: <https://www.prisma.io/docs>
-- Database GUI: `npm run db:studio`
-- Contact project maintainer before altering documented architecture or migration scope.
+- `ProfileSidebar` and `NavSidebar` stay server-driven where possible and collapse cleanly on mobile.
+- Extend CSS variables and theme metadata deliberately instead of scattering hard-coded values.
+- Semantic HTML and accessible labels are non-negotiable. Audit alt text, aria labels, keyboard
+  flows, and focus order when editing UI.
+
+## 7. Documentation Sync
+
+- Update active docs in the same pass as behavior, setup, route, command, or verification changes.
+- Prefer updating canonical docs over creating duplicate narratives.
+- Archive stale material instead of leaving conflicting active guidance.
+- Do not mark launch-ready until the implementation checklist, automated checks, manual verification,
+  public content, metadata, and release docs all agree.

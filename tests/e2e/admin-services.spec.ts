@@ -1,4 +1,7 @@
-import { expect, request as playwrightRequest, test } from '@playwright/test';
+import type { APIRequestContext } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
+import { getPlaywrightBaseUrl } from './base-url';
 
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
@@ -7,10 +10,10 @@ test.describe('Admin services CRUD', () => {
     const unique = Date.now();
     const title = `E2E Service ${unique}`;
     const slug = `e2e-service-${unique}`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
 
     try {
-      await page.goto('/admin/services/new');
+      await page.goto('/admin/services/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Create service' })).toBeVisible();
 
       const fillField = async (label: string, value: string) => {
@@ -44,16 +47,79 @@ test.describe('Admin services CRUD', () => {
       await cleanupService(slug, baseURL);
     }
   });
+
+  test('reorders services through the authenticated reorder endpoint', async ({ page, request }) => {
+    const unique = Date.now();
+    const firstTitle = `E2E Reorder Service A ${unique}`;
+    const firstSlug = `e2e-reorder-service-a-${unique}`;
+    const secondTitle = `E2E Reorder Service B ${unique}`;
+    const secondSlug = `e2e-reorder-service-b-${unique}`;
+    const baseURL = getPlaywrightBaseUrl();
+
+    try {
+      await createService(request, {
+        title: firstTitle,
+        slug: firstSlug,
+        description: 'First service for reorder verification.',
+        features: ['Discovery'],
+        technologies: ['Next.js'],
+      });
+      await createService(request, {
+        title: secondTitle,
+        slug: secondSlug,
+        description: 'Second service for reorder verification.',
+        features: ['Delivery'],
+        technologies: ['TypeScript'],
+      });
+
+      await reorderServices(request, [secondSlug, firstSlug]);
+
+      await page.goto('/admin/services', { waitUntil: 'domcontentloaded' });
+      const items = page.locator('ol[aria-label="Service ordering"] > li');
+
+      await expect(items.nth(0)).toContainText(secondTitle);
+      await expect(items.nth(1)).toContainText(firstTitle);
+      await expect(items.nth(0)).toContainText('#1');
+      await expect(items.nth(1)).toContainText('#2');
+    } finally {
+      await cleanupService(firstSlug, baseURL);
+      await cleanupService(secondSlug, baseURL);
+    }
+  });
 });
+
+async function createService(
+  request: APIRequestContext,
+  payload: {
+    title: string;
+    slug: string;
+    description: string;
+    features: string[];
+    technologies: string[];
+  },
+) {
+  const response = await request.post('/api/v1/services', { data: payload });
+  const responseText = response.ok() ? '' : await response.text();
+
+  expect(response.ok(), responseText).toBeTruthy();
+}
+
+async function reorderServices(request: APIRequestContext, slugs: string[]) {
+  const response = await request.post('/api/v1/services/reorder', { data: { slugs } });
+  const responseText = response.ok() ? '' : await response.text();
+
+  expect(response.ok(), responseText).toBeTruthy();
+}
 
 async function cleanupService(slug: string, baseURL: string) {
   if (!slug) return;
 
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
+  const api = await test.request.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
   const response = await api.delete(`/api/v1/services/${slug}`);
+  const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
   await api.dispose();
 
   if (response.ok() || response.status() === 404) return;
 
-  console.warn(`Cleanup failed for service ${slug}: ${response.status()} ${await response.text()}`);
+  console.warn(`Cleanup failed for service ${slug}: ${response.status()} ${responseText}`);
 }

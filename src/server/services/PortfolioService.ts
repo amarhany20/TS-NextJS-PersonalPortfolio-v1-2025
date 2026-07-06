@@ -93,11 +93,11 @@ export const PortfolioService = {
       visibility: input.visibility,
       access: input.access,
       status: input.status,
-  domain: valueOrUndefined(input.domain),
-  company: valueOrUndefined(input.company),
-  client: valueOrUndefined(input.client),
-  website: valueOrUndefined(input.website),
-  repository: valueOrUndefined(input.repository),
+      domain: valueOrUndefined(input.domain),
+      company: valueOrUndefined(input.company),
+      client: valueOrUndefined(input.client),
+      website: valueOrUndefined(input.website),
+      repository: valueOrUndefined(input.repository),
       role: input.role,
       startDate:
         input.start !== undefined
@@ -202,5 +202,5 @@ function valueOrUndefined(value: string | undefined) {
     return undefined;
   }
 
-    return nullIfEmpty(value);
+  return nullIfEmpty(value);
 }

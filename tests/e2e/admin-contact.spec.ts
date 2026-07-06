@@ -1,5 +1,7 @@
 import { expect, request as playwrightRequest, test } from '@playwright/test';
 
+import { getPlaywrightBaseUrl } from './base-url';
+
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
 test.describe('Admin contact inbox', () => {
@@ -7,12 +9,12 @@ test.describe('Admin contact inbox', () => {
     const unique = Date.now();
     const name = `E2E Contact ${unique}`;
     const email = `e2e-${unique}@example.com`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
 
     const submissionId = await createContactSubmission({ name, email, baseURL });
 
     try {
-      await page.goto('/admin/contact');
+      await page.goto('/admin/contact', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Contact inbox' })).toBeVisible();
 
       await expect(page.getByText(name)).toBeVisible();
@@ -63,9 +65,10 @@ async function createContactSubmission({ name, email, baseURL }: { name: string;
 async function cleanupContactSubmission(id: string, baseURL: string) {
   const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
   const response = await api.delete(`/api/v1/contact/${id}`);
+  const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
   await api.dispose();
 
   if (response.ok() || response.status() === 404) return;
 
-  console.warn(`Cleanup failed for contact ${id}: ${response.status()} ${await response.text()}`);
+  console.warn(`Cleanup failed for contact ${id}: ${response.status()} ${responseText}`);
 }

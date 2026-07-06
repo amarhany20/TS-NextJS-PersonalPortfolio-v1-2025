@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
-import { NotFoundError } from '@/server/http/errors';
+import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
 import { CertificateService } from '@/server/services/CertificateService';
 import { updateCertificateSchema } from '@/server/server-validators/api/certificate';
@@ -13,7 +12,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
     const certificate = await CertificateService.getCertificateById(id);
 
     if (!certificate) {
-      return errorResponse(new NotFoundError('Certificate not found'));
+      return notFoundResponse('Certificate not found');
     }
 
     return successResponse({ certificate });

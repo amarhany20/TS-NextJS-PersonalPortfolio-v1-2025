@@ -1,58 +1,22 @@
-import type { Project } from '@/types/portfolio';
+import { notFound } from 'next/navigation';
+
 import { PortfolioService } from '@/server/services/PortfolioService';
+import { SettingsService } from '@/server/services/SettingsService';
+import { ProjectGrid } from '@/components/Portfolio/ProjectGrid';
 
-function Badge({ children, variant = 'neutral' }: { children: React.ReactNode; variant?: 'neutral' | 'accent' | 'warning' | 'success' }) {
-  const base = 'px-2 py-0.5 rounded-md text-[10px] font-medium tracking-wide uppercase border';
-  const styles: Record<string, string> = {
-    neutral: 'bg-[var(--card-bg)] border-[var(--border)] text-[var(--text-secondary)]',
-    accent: 'bg-[var(--accent-primary)]/10 border-[var(--accent-primary)]/30 text-[var(--accent-primary)]',
-    warning: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
-    success: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
-  };
-  return <span className={`${base} ${styles[variant]}`}>{children}</span>;
-}
-
-function statusVariant(status: Project['status']): 'accent' | 'warning' | 'success' | 'neutral' {
-  switch (status) {
-    case 'in-progress': return 'warning';
-    case 'live': return 'success';
-    case 'planning': return 'neutral';
-    case 'archived': return 'neutral';
-    default: return 'neutral';
-  }
-}
-
+/**
+ * Public portfolio listing sourced from published database records.
+ */
 export default async function PortfolioPage() {
+  const settings = await SettingsService.getSiteContent();
+
+  if (!settings.visibility.pages.portfolio) {
+    notFound();
+  }
+
   const projects = await PortfolioService.getPublishedProjects();
   const featuredProjects = projects.filter((project) => project.featured);
   const otherProjects = projects.filter((project) => !project.featured);
-  
-  const ProjectGrid = ({ projects }: { projects: Project[] }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-      {projects.map(p => (
-  <a key={p.slug} href={`/portfolio/${p.slug}`} className="group bg-[var(--card-bg)] border border-[var(--border)] rounded-lg overflow-hidden flex flex-col hover:border-[var(--accent-primary)]/40 transition">
-          <div className="h-40 w-full bg-gradient-to-br from-[var(--border)]/20 to-transparent" />
-          <div className="p-4 flex flex-col gap-3 flex-1">
-            <div className="flex flex-wrap gap-1">
-              <Badge variant={statusVariant(p.status)}>{p.status.replace('-', ' ')}</Badge>
-              <Badge variant={p.visibility === 'public' ? 'neutral' : 'warning'}>{p.visibility}</Badge>
-              {p.access === 'open-source' ? <Badge variant='accent'>Open Source</Badge> : null}
-            </div>
-            <div className="space-y-1">
-              <h3 className="font-semibold text-foreground group-hover:text-[var(--accent-primary)] transition">{p.title}</h3>
-              <p className="text-xs text-[var(--text-secondary)]">{p.tagline}</p>
-            </div>
-            <p className="text-sm text-[var(--text-secondary)] line-clamp-3 flex-1">{p.intro}</p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {p.stack.slice(0, 4).map(s => (
-                <span key={s} className="text-[10px] bg-[var(--border)]/30 text-[var(--text-secondary)] px-2 py-0.5 rounded">{s}</span>
-              ))}
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
-  );
 
   return (
     <div className="space-y-8">
@@ -65,7 +29,9 @@ export default async function PortfolioPage() {
         <section className="space-y-4">
           <div className="flex items-center gap-3">
             <h2 className="text-2xl font-semibold text-foreground">Featured Projects</h2>
-            <Badge variant="accent">Featured</Badge>
+            <span className="rounded-md border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-[var(--accent-primary)]">
+              Featured
+            </span>
           </div>
           <ProjectGrid projects={featuredProjects} />
         </section>
@@ -77,6 +43,22 @@ export default async function PortfolioPage() {
           <ProjectGrid projects={otherProjects} />
         </section>
       )}
+
+      {projects.length === 0 ? <PortfolioEmptyState /> : null}
     </div>
+  );
+}
+
+/**
+ * Keeps the portfolio page launch-safe when no projects are published yet.
+ */
+function PortfolioEmptyState() {
+  return (
+    <section className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card-bg)]/60 p-8 text-center">
+      <h2 className="text-xl font-semibold text-foreground">Portfolio updates are coming soon</h2>
+      <p className="mx-auto mt-2 max-w-xl text-sm text-[var(--text-secondary)]">
+        Published projects will appear here after they are reviewed and released from the admin CMS.
+      </p>
+    </section>
   );
 }

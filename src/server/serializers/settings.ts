@@ -1,6 +1,6 @@
 import { getThemeSummary } from '@/themes';
 import type { DbSettings } from '@/server/repositories/SettingsRepository';
-import type { ContactDetails, ContactPhone, ContactLeads, HeroButton, HeroContent, LinkItem, ProfileInfo, SeoConfig, SiteContent } from '@/types/settings';
+import { DEFAULT_SITE_VISIBILITY, type ContactDetails, type ContactPhone, type ContactLeads, type HeroButton, type HeroContent, type LinkItem, type ProfileInfo, type SeoConfig, type SiteContent, type SiteVisibility } from '@/types/settings';
 
 interface HeroButtonsShape {
   primary?: HeroButtonLike;
@@ -32,6 +32,29 @@ interface SeoDefaultsShape {
   metadataBase?: unknown;
   openGraphImage?: unknown;
   twitterHandle?: unknown;
+  visibility?: unknown;
+}
+
+function toVisibilityConfig(value?: unknown): SiteVisibility {
+  const pages = typeof value === 'object' && value && 'pages' in value ? (value as { pages?: Record<string, unknown> }).pages : undefined;
+  const sections = typeof value === 'object' && value && 'sections' in value ? (value as { sections?: Record<string, unknown> }).sections : undefined;
+
+  return {
+    pages: {
+      portfolio: typeof pages?.portfolio === 'boolean' ? pages.portfolio : DEFAULT_SITE_VISIBILITY.pages.portfolio,
+      services: typeof pages?.services === 'boolean' ? pages.services : DEFAULT_SITE_VISIBILITY.pages.services,
+      blogs: typeof pages?.blogs === 'boolean' ? pages.blogs : DEFAULT_SITE_VISIBILITY.pages.blogs,
+    },
+    sections: {
+      summary: typeof sections?.summary === 'boolean' ? sections.summary : DEFAULT_SITE_VISIBILITY.sections.summary,
+      experience: typeof sections?.experience === 'boolean' ? sections.experience : DEFAULT_SITE_VISIBILITY.sections.experience,
+      education: typeof sections?.education === 'boolean' ? sections.education : DEFAULT_SITE_VISIBILITY.sections.education,
+      certificates: typeof sections?.certificates === 'boolean' ? sections.certificates : DEFAULT_SITE_VISIBILITY.sections.certificates,
+      recommendations: typeof sections?.recommendations === 'boolean' ? sections.recommendations : DEFAULT_SITE_VISIBILITY.sections.recommendations,
+      skills: typeof sections?.skills === 'boolean' ? sections.skills : DEFAULT_SITE_VISIBILITY.sections.skills,
+      contact: typeof sections?.contact === 'boolean' ? sections.contact : DEFAULT_SITE_VISIBILITY.sections.contact,
+    },
+  };
 }
 
 const toButton = (value?: HeroButtonLike | null): HeroButton | undefined => {
@@ -159,6 +182,7 @@ export function serializeSettings(record: DbSettings): SiteContent {
   const coreSkills = toStringArray(seoDefaults?.coreSkills);
   const languages = toStringArray(seoDefaults?.languages);
   const socialLinks = toLinkArray(record.socialLinks);
+  const visibility = toVisibilityConfig(seoDefaults?.visibility);
 
   const seo = buildSeoConfig(record, seoDefaults);
 
@@ -172,6 +196,7 @@ export function serializeSettings(record: DbSettings): SiteContent {
     socialLinks,
     seo,
     theme: getThemeSummary(record.theme),
+    visibility,
   };
 }
 

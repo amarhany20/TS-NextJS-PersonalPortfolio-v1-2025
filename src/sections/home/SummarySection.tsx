@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import { useMemo } from 'react';
 import DOMPurify from 'isomorphic-dompurify';
 import { ArrowRight, Download, FolderOpen } from 'lucide-react';
@@ -62,9 +63,9 @@ export default function SummarySection({ hero }: SummarySectionProps) {
 					<Download className="mr-2" size={20} />
 					Download CV
 				</a>
-				<a href="/portfolio" className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-muted)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-black transition" target="_blank" rel="noopener noreferrer">
+				<Link href="/portfolio" className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-muted)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-black transition">
 					<FolderOpen className="mr-2" size={20} /> Portfolio
-				</a>
+				</Link>
 			</div>
 		</section>
 	);

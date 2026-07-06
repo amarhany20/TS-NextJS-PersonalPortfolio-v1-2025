@@ -1,38 +1,55 @@
 # 8. Testing & Quality
 
-## 8.1 Current Coverage
-- TypeScript compilation, linting, unit tests, and production builds pass in the current relaunch
-  cycle.
-- Vitest and Playwright are active dependencies in the repo and are part of the real verification
-  surface, not placeholders.
-- Playwright uses an isolated seeded web-server flow by default; reusing an already-running local dev
-  server is useful for debugging but can produce environment-specific noise and should not be treated
-  as the authoritative launch gate.
-- The isolated Playwright bootstrap must use `PLAYWRIGHT_DATABASE_URL` or `DATABASE_URL` with a
-  PostgreSQL-compatible connection string, because the Prisma datasource does not support the older
-  SQLite fallback.
-- The isolated Playwright server should run on its own port (default `3100`) so it can coexist with a
-  normal local dev server on `3000` when needed.
+## 8.1 Test Surfaces
 
-## 8.2 Test Pyramid
-1. **Unit tests (Vitest):** Focus on services, serializers, validators, and utility helpers. Mock
-   Prisma repositories with in-memory adapters.
-2. **Integration tests:** Validate route-handler, service, and serializer cooperation where unit
-   coverage alone is not enough.
-3. **E2E tests (Playwright):** Cover admin login, CRUD/reorder flows, and public happy paths such as
-   navigation and contact submission.
+The repo uses multiple verification layers:
 
-## 8.3 Quality Gates
-- `npm run lint` + `npm run typecheck` (tsc) must pass before merging.
-- `npm run test` (Vitest) and `npm run e2e` (Playwright) are part of launch verification.
-- Use targeted or serial Playwright reruns for debugging, but treat the isolated seeded suite as the
-  real release signal.
-- Production builds are verified via `npm run build`; document meaningful regressions in the active
-  architecture docs and checklist.
+1. **TypeScript typecheck:** `npm run typecheck`
+2. **Linting:** `npm run lint`
+3. **Unit tests:** `npm run test`
+4. **Production build:** `npm run build`
+5. **E2E tests:** `npm run e2e`
 
-## 8.4 Open Quality Items
-- Reconcile the full Playwright suite with the current seeded dataset so the isolated run becomes a
-  fully green release gate.
-- Review metadata/SEO and analytics behavior after the remaining launch-critical flow fixes are done.
-- Establish CI automation for lint, typecheck, unit tests, build, and E2E once the relaunch suite is
-  stable.
+Vitest and Playwright are active parts of the real verification surface, not placeholders.
+
+## 8.2 Current Verification Snapshot
+
+Current known state in this documentation pass:
+
+| Check               | Status                                      | Notes                                                                                      |
+| ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `npm run test`      | Pass                                        | Verified in the current working pass.                                                      |
+| `npm run build`     | Pass                                        | Verified in the current working pass.                                                      |
+| `npm run typecheck` | Failing                                     | Current failure is due Playwright spec typing drift in `tests/e2e/admin-*.spec.ts` slices. |
+| `npm run lint`      | Not re-verified in this pass                | Still required before release claims.                                                      |
+| `npm run e2e`       | Not re-verified as fully green in this pass | Isolated seeded Playwright remains the required release gate.                              |
+
+Do not summarize the repo as fully green while the typecheck row remains failing.
+
+## 8.3 Test Pyramid
+
+1. **Unit tests:** services, serializers, validators, and utility helpers.
+2. **Integration-style coverage:** route-handler/service/repository cooperation where needed.
+3. **E2E coverage:** admin login, CRUD flows, reorder flows, media/contact behavior, and public critical paths.
+
+## 8.4 Playwright Strategy
+
+- Playwright uses an isolated seeded web-server flow by default.
+- The isolated server should use its own port so it can coexist with a standard local dev server.
+- The isolated DB should use `PLAYWRIGHT_DATABASE_URL` when possible to avoid mutating shared launch data.
+- Reusing a live local server is useful for debugging but is not the authoritative release gate.
+
+## 8.5 Quality Gates
+
+- `typecheck`, `lint`, `test`, `build`, and isolated `e2e` must all pass before release signoff.
+- Use targeted reruns for debugging, but do not confuse targeted slices with repo-wide signoff.
+- Update this section and Section 09 when the verification baseline materially changes.
+
+## 8.6 Open Quality Work
+
+- Fix the current Playwright-related type errors so repo-wide typecheck is green again.
+- Re-run lint and the isolated Playwright suite against the current codebase.
+- Complete metadata, SEO, and manual launch review once automated gates are stable.
+
+---
+[« Previous](07-security-and-compliance.md) | [Next »](09-implementation-checklist.md)

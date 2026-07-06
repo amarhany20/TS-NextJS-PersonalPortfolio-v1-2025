@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/middleware.ts"],"sourcesContent":["/**\n * Global middleware placeholder.\n *\n * The project currently does not apply request-level mutations here, but we keep the middleware\n * file in place so launch-phase hardening can add auth or maintenance gating without reworking the\n * app structure.\n */\n\nimport { NextResponse } from 'next/server';\n\nexport function middleware() {\n  return NextResponse.next();\n}\n"],"names":[],"mappings":";;;;AAAA;;;;;;CAMC,GAED;AAAA;;AAEO,SAAS;IACd,OAAO,gMAAY,CAAC,IAAI;AAC1B"}}]
-}

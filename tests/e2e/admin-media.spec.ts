@@ -1,17 +1,19 @@
 import { expect, request as playwrightRequest, test } from '@playwright/test';
 
+import { getPlaywrightBaseUrl } from './base-url';
+
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
 test.describe('Admin media library', () => {
   test('uploads and deletes a media asset', async ({ page }) => {
     const unique = Date.now();
     const filename = `e2e-upload-${unique}.txt`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
 
     let assetId: string | null = null;
 
     try {
-      await page.goto('/admin/media');
+      await page.goto('/admin/media', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Media library' })).toBeVisible();
 
       const input = page.locator('input[type="file"]');
@@ -55,9 +57,10 @@ async function findAssetId(filename: string, baseURL: string) {
 async function cleanupMediaAsset(id: string, baseURL: string) {
   const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
   const response = await api.delete(`/api/v1/media/${id}`);
+  const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
   await api.dispose();
 
   if (response.ok() || response.status() === 404) return;
 
-  console.warn(`Cleanup failed for media ${id}: ${response.status()} ${await response.text()}`);
+  console.warn(`Cleanup failed for media ${id}: ${response.status()} ${responseText}`);
 }

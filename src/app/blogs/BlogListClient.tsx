@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 
 import { trackBlogListView } from '@/utils/analytics';
-import type { Blog } from '@/types/blog';
+import type { BlogMeta } from '@/types/blog';
 
 interface BlogListClientProps {
-  posts: Blog[];
+  posts: BlogMeta[];
 }
 
 export function BlogListClient({ posts }: BlogListClientProps) {
@@ -56,7 +56,7 @@ export function BlogListClient({ posts }: BlogListClientProps) {
             </Link>
 
             <div className="mt-4 flex items-center justify-between text-xs text-[var(--text-secondary)]">
-              <span>{post.publishedAt ? formatPublishedDate(post.publishedAt) : 'Draft'}</span>
+              <span>{formatPublishedDate(post.publishedAt)}</span>
               <div className="flex flex-wrap gap-1">
                 {post.tags.slice(0, 3).map((tag) => (
                   <span key={tag.id} className="px-2 py-1 bg-[var(--accent-muted)] rounded-full">
@@ -74,7 +74,7 @@ export function BlogListClient({ posts }: BlogListClientProps) {
 
 function formatPublishedDate(value?: string) {
   if (!value) {
-    return 'Unpublished';
+    return 'Date unavailable';
   }
 
   return new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value));

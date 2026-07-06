@@ -110,7 +110,7 @@ export default function LoginPage() {
 
       <div className="text-center text-sm text-muted-foreground">
         <p className="mt-2">
-          <Link href="/" className="text-[var(--accent-primary)] hover:underline">
+          <Link href="/home" className="text-[var(--accent-primary)] hover:underline">
             ← Back to home
           </Link>
         </p>

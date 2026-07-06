@@ -37,6 +37,7 @@ const allowedDevOrigins = Array.from(
   )
 );
 const distDir = process.env.PLAYWRIGHT_ISOLATED === '1' ? '.next-playwright' : '.next';
+const disableWebpackCache = process.env.PLAYWRIGHT_E2E_SERVER === '1';
 
 const nextConfig: NextConfig = {
   // Performance optimizations
@@ -61,6 +62,13 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     root: __dirname,
+  },
+  webpack: (config) => {
+    if (disableWebpackCache) {
+      config.cache = false;
+    }
+
+    return config;
   },
 
   // Headers for security and performance

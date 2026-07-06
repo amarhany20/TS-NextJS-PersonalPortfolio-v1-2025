@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  useEffect,
   useMemo,
   useState,
   useId,
@@ -43,6 +44,7 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 
 export function EducationForm({ mode, education }: EducationFormProps) {
   const { showToast } = useToast();
+  const [hydrated, setHydrated] = useState(false);
   const [formState, setFormState] = useState({
     institution: education?.institution ?? '',
     degree: education?.degree ?? '',
@@ -63,6 +65,10 @@ export function EducationForm({ mode, education }: EducationFormProps) {
 
   const pageTitle = mode === 'create' ? 'Create education' : `Edit ${education?.institution ?? 'education'}`;
   const submitLabel = mode === 'create' ? 'Create education' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const achievementCount = useMemo(() => {
     return splitList(formState.achievementsInput).length;
@@ -276,10 +282,10 @@ export function EducationForm({ mode, education }: EducationFormProps) {
         </Link>
         <button
           type="submit"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
           className="rounded-lg bg-accent px-6 py-2 text-sm font-semibold text-black shadow transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {submitting ? 'Saving...' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving...' : submitLabel}
         </button>
       </div>
     </form>

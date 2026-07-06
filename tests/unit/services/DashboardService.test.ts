@@ -1,6 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 
+vi.mock('@/server/server-validators/env', () => ({
+  env: {
+    DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/test',
+    JWT_SECRET: 'test-secret',
+  },
+  validateEnv: vi.fn(),
+}));
+
 const prismaMock = {
   portfolio: {
     count: vi.fn(),
@@ -132,7 +140,7 @@ describe('DashboardService', () => {
 
     expect(overview.meta.pendingSetup).toBe(false);
     expect(overview.meta.missingEnvVars).toContain('AUTH_SECRET');
-    expect(overview.meta.missingEnvVars).not.toContain('NEXT_PUBLIC_SITE_URL');
+    
     expect(overview.quickLinks.some((link) => link.href === '/admin/experience/new')).toBe(true);
     expect(overview.quickLinks.some((link) => link.href === '/admin/services/new')).toBe(true);
 

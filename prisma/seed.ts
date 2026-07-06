@@ -448,7 +448,7 @@ async function clearTables() {
 }
 
 async function main() {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && process.env.PLAYWRIGHT_ISOLATED !== '1') {
     console.warn('Seeding is skipped in production environment.');
     return;
   }

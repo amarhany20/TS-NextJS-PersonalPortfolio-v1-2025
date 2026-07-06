@@ -39,7 +39,7 @@ function resolveSessionOptions(): SessionOptions {
     ttl: DEFAULT_TTL_SECONDS,
     cookieOptions: {
       httpOnly: true,
-      secure: env.NODE_ENV === 'production',
+      secure: env.NODE_ENV === 'production' && process.env.PLAYWRIGHT_ISOLATED !== '1',
       sameSite: 'lax',
       path: '/',
     },

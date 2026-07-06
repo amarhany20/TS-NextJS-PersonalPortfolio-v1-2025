@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useId, useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useId, useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
 
 import { createServiceSchema, updateServiceSchema } from '@/server/server-validators/api/service';
 import type { Service } from '@/types/service';
@@ -34,6 +34,7 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 
 export function ServiceForm({ mode, service }: ServiceFormProps) {
   const { showToast } = useToast();
+  const [hydrated, setHydrated] = useState(false);
   const [formState, setFormState] = useState({
     title: service?.title ?? '',
     slug: service?.slug ?? '',
@@ -53,6 +54,10 @@ export function ServiceForm({ mode, service }: ServiceFormProps) {
 
   const pageTitle = mode === 'create' ? 'Create service' : `Edit ${service?.title ?? 'service'}`;
   const submitLabel = mode === 'create' ? 'Create service' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const featureCount = useMemo(() => splitList(formState.featuresInput).length, [formState.featuresInput]);
   const techCount = useMemo(() => splitList(formState.technologiesInput).length, [formState.technologiesInput]);
@@ -240,10 +245,10 @@ export function ServiceForm({ mode, service }: ServiceFormProps) {
         </Link>
         <button
           type="submit"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
           className="rounded-lg bg-[var(--accent-primary)] px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {submitting ? 'Saving…' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving…' : submitLabel}
         </button>
       </div>
     </form>

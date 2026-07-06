@@ -14,13 +14,15 @@ import SkillsSection from './SkillsSection';
 import ContactSection from './ContactSection';
 
 export async function HomeSections() {
-  const [experience, education, certificates, recommendations, skills, content] = await Promise.all([
-    ExperienceService.getPublishedExperience(),
-    EducationService.getPublishedEducation(),
-    CertificateService.getCertificates(),
-    RecommendationService.getRecommendations(),
-    SkillService.getSkillGroups(),
-    SettingsService.getSiteContent(),
+  const content = await SettingsService.getSiteContent();
+  const { sections } = content.visibility;
+
+  const [experience, education, certificates, recommendations, skills] = await Promise.all([
+    sections.experience ? ExperienceService.getPublishedExperience() : Promise.resolve([]),
+    sections.education ? EducationService.getPublishedEducation() : Promise.resolve([]),
+    sections.certificates ? CertificateService.getCertificates() : Promise.resolve([]),
+    sections.recommendations ? RecommendationService.getRecommendations() : Promise.resolve([]),
+    sections.skills ? SkillService.getSkillGroups() : Promise.resolve([]),
   ]);
 
   const mergedSocialLinks = [...content.socialLinks, ...content.contact.socialLinks].filter(
@@ -29,13 +31,13 @@ export async function HomeSections() {
 
   return (
     <div className="flex flex-col gap-12">
-      <SummarySection hero={content.hero} />
-      <ExperienceSection items={experience} />
-      <EducationSection items={education} />
-      <CertificatesSection items={certificates} />
-      <RecommendationsSection items={recommendations} />
-      <SkillsSection groups={skills} />
-      <ContactSection details={content.contact} socialLinks={mergedSocialLinks} />
+      {sections.summary ? <SummarySection hero={content.hero} /> : null}
+      {sections.experience ? <ExperienceSection items={experience} /> : null}
+      {sections.education ? <EducationSection items={education} /> : null}
+      {sections.certificates ? <CertificatesSection items={certificates} /> : null}
+      {sections.recommendations ? <RecommendationsSection items={recommendations} /> : null}
+      {sections.skills ? <SkillsSection groups={skills} /> : null}
+      {sections.contact ? <ContactSection details={content.contact} socialLinks={mergedSocialLinks} /> : null}
     </div>
   );
 }

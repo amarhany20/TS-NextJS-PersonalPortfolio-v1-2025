@@ -66,6 +66,44 @@ export interface SiteTheme {
   tags: string[];
 }
 
+export interface SitePageVisibility {
+  portfolio: boolean;
+  services: boolean;
+  blogs: boolean;
+}
+
+export interface HomeSectionVisibility {
+  summary: boolean;
+  experience: boolean;
+  education: boolean;
+  certificates: boolean;
+  recommendations: boolean;
+  skills: boolean;
+  contact: boolean;
+}
+
+export interface SiteVisibility {
+  pages: SitePageVisibility;
+  sections: HomeSectionVisibility;
+}
+
+export const DEFAULT_SITE_VISIBILITY: SiteVisibility = {
+  pages: {
+    portfolio: true,
+    services: true,
+    blogs: true,
+  },
+  sections: {
+    summary: true,
+    experience: true,
+    education: true,
+    certificates: true,
+    recommendations: true,
+    skills: true,
+    contact: true,
+  },
+};
+
 export interface SiteContent {
   hero: HeroContent;
   contact: ContactDetails;
@@ -76,4 +114,5 @@ export interface SiteContent {
   socialLinks: LinkItem[];
   seo: SeoConfig;
   theme: SiteTheme;
+  visibility: SiteVisibility;
 }

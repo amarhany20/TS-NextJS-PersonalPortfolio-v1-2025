@@ -61,36 +61,16 @@ exports[`serializeSettings snapshots > matches minimal settings snapshot 1`] = `
 exports[`serializeSettings snapshots > matches seeded settings snapshot 1`] = `
 {
   "contact": {
-    "description": "Let's build something great together.",
-    "emails": [
-      "you@example.com",
-    ],
+    "description": "Explore the portfolio and get in touch.",
+    "emails": [],
     "leads": {
       "left": undefined,
       "right": undefined,
     },
-    "location": "Your City, US",
-    "phones": [
-      {
-        "e164": "+10000000000",
-        "label": "Primary",
-      },
-    ],
-    "socialLinks": [
-      {
-        "href": "http://localhost:3000",
-        "label": "Website",
-      },
-      {
-        "href": "https://github.com/yourname",
-        "label": "GitHub",
-      },
-      {
-        "href": "https://www.linkedin.com/in/yourname",
-        "label": "LinkedIn",
-      },
-    ],
-    "subtitle": "Software Engineer · Full-Stack Developer",
+    "location": "",
+    "phones": [],
+    "socialLinks": [],
+    "subtitle": "Software Engineer",
     "title": "Get In Touch",
   },
   "coreSkills": [
@@ -100,66 +80,52 @@ exports[`serializeSettings snapshots > matches seeded settings snapshot 1`] = `
     "Docker",
   ],
   "hero": {
-    "descriptionHtml": "<ul><li>Built with Next.js App Router and TypeScript</li><li>Server layer: services → repositories → serializers</li><li>Prisma-backed CMS with admin dashboard</li></ul>",
-    "greeting": "Hi, I'm Your Name",
+    "descriptionHtml": "<ul><li>Next.js App Router portfolio platform</li><li>Admin CMS with Prisma-backed persistence</li><li>Typed services, repositories, and serializers</li></ul>",
+    "greeting": "Welcome",
     "highlights": [
-      "Built with Next.js App Router and TypeScript",
-      "Server layer: services → repositories → serializers",
-      "Prisma-backed CMS with admin dashboard",
+      "Next.js App Router portfolio platform",
+      "Admin CMS with Prisma-backed persistence",
+      "Typed services, repositories, and serializers",
     ],
     "primaryButton": {
       "href": "#contact",
-      "text": "Get in Touch",
+      "text": "Contact",
     },
     "secondaryButton": {
       "href": "/portfolio",
       "text": "View Portfolio",
     },
-    "subtitle": "Software Engineer · Full-Stack Developer",
+    "subtitle": "Software Engineer",
   },
   "highlights": [
-    "Built with Next.js App Router and TypeScript",
-    "Server layer: services → repositories → serializers",
-    "Prisma-backed CMS with admin dashboard",
+    "Next.js App Router portfolio platform",
+    "Admin CMS with Prisma-backed persistence",
+    "Typed services, repositories, and serializers",
   ],
   "languages": [
     "English",
   ],
   "profile": {
-    "fullName": "Your Name",
-    "location": "Your City, US",
-    "title": "Software Engineer · Full-Stack Developer",
+    "fullName": "Portfolio Owner",
+    "location": "",
+    "title": "Software Engineer",
   },
   "seo": {
-    "description": "A modern portfolio template built with Next.js, TypeScript, Prisma, and Tailwind.",
+    "description": "Portfolio website powered by Next.js, TypeScript, Prisma, and an admin CMS.",
     "keywords": [
       "portfolio",
       "software engineer",
-      "full-stack",
       "next.js",
       "typescript",
     ],
     "metadataBase": "http://localhost:3000/",
-    "openGraphImage": "/attachments/og-placeholder.png",
+    "openGraphImage": undefined,
     "siteUrl": "http://localhost:3000/",
-    "title": "Your Name",
-    "titleTemplate": "%s | Your Name",
-    "twitterHandle": "@yourhandle",
+    "title": "Portfolio Owner",
+    "titleTemplate": "%s | Portfolio",
+    "twitterHandle": undefined,
   },
-  "socialLinks": [
-    {
-      "href": "http://localhost:3000",
-      "label": "Website",
-    },
-    {
-      "href": "https://github.com/yourname",
-      "label": "GitHub",
-    },
-    {
-      "href": "https://www.linkedin.com/in/yourname",
-      "label": "LinkedIn",
-    },
-  ],
+  "socialLinks": [],
   "theme": {
     "accent": "#ffd600",
     "description": "High-contrast dark theme tuned for dashboards and hero copy.",

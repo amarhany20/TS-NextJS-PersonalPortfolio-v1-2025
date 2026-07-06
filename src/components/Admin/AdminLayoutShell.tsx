@@ -15,6 +15,8 @@ import {
   Images,
   Inbox,
   Palette,
+  Eye,
+  UserRound,
   Menu,
   X
 } from 'lucide-react';
@@ -45,6 +47,8 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/admin/certificates', label: 'Certificates', icon: Award },
   { href: '/admin/recommendations', label: 'Testimonials', icon: Quote },
   { href: '/admin/skills', label: 'Skills', icon: Wrench },
+  { href: '/admin/settings/profile', label: 'Site Profile', icon: UserRound },
+  { href: '/admin/settings/visibility', label: 'Visibility', icon: Eye },
   { href: '/admin/settings/theme', label: 'Theme', icon: Palette },
 ];
 
@@ -97,7 +101,7 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
               </div>
             </header>
         <aside
-          className={`fixed top-[56px] left-0 h-[calc(100vh-56px)] w-64 max-w-[85vw] sm:w-72 bg-[var(--card-bg)]/95 border-r border-[var(--border)] z-50 transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 lg:w-60 lg:max-w-none ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} py-4 overflow-y-auto`}>
+          className={`fixed top-[56px] left-0 h-[calc(100vh-56px)] w-64 max-w-[85vw] sm:w-72 bg-[var(--card-bg)]/95 border-r border-[var(--border)] z-50 transform transition-transform duration-200 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:self-start lg:translate-x-0 lg:w-60 lg:max-w-none lg:shrink-0 ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} py-4 overflow-y-auto`}>
           <div className="lg:hidden flex items-center justify-between p-4 border-b border-[var(--border)]/60">
             <span className="text-lg font-semibold">Admin Menu</span>
             <button onClick={() => setMobileSidebarOpen(false)} className="p-2 rounded-md hover:bg-[var(--accent-muted)] transition-colors">

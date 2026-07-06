@@ -100,7 +100,90 @@ const oceanBlue: ThemeDefinition = {
   },
 };
 
-const THEME_REGISTRY: ThemeDefinition[] = [professionalDark, modernGradient, minimalLight, oceanBlue];
+const sunsetEditorial: ThemeDefinition = {
+  id: 'sunset-editorial',
+  name: 'Sunset Editorial',
+  description: 'Warm copper, ember, and ink tones for a premium editorial portfolio feel.',
+  author: 'Ammar Hany',
+  version: '1.0.0',
+  tags: ['warm', 'editorial', 'premium'],
+  accent: '#ff9f1c',
+  previewGradient: 'linear-gradient(135deg, #2a1410 0%, #7a3b1f 52%, #ff9f1c 100%)',
+  tokens: {
+    background: '#120d0d',
+    foreground: '#fff4e6',
+    sidebar: '#1d1412',
+    accentPrimary: '#ff9f1c',
+    accentSecondary: '#ff5d3d',
+    accentMuted: '#2c1f1b',
+    textSecondary: '#d7c1af',
+    cardBg: '#1f1715',
+    border: '#3b2822',
+    success: '#52d681',
+    danger: '#ff6b6b',
+    warning: '#ffd166',
+  },
+};
+
+const forestNoir: ThemeDefinition = {
+  id: 'forest-noir',
+  name: 'Forest Noir',
+  description: 'Deep woodland greens with brass accents for a focused, high-trust look.',
+  author: 'Ammar Hany',
+  version: '1.0.0',
+  tags: ['dark', 'green', 'elegant'],
+  accent: '#7ddf64',
+  previewGradient: 'linear-gradient(135deg, #07130f 0%, #123728 52%, #7ddf64 100%)',
+  tokens: {
+    background: '#09110f',
+    foreground: '#edf7ef',
+    sidebar: '#0d1815',
+    accentPrimary: '#7ddf64',
+    accentSecondary: '#c4a35a',
+    accentMuted: '#14221d',
+    textSecondary: '#a9bbb1',
+    cardBg: '#101a17',
+    border: '#21332c',
+    success: '#51d88a',
+    danger: '#f87171',
+    warning: '#fbbf24',
+  },
+};
+
+const paperSlate: ThemeDefinition = {
+  id: 'paper-slate',
+  name: 'Paper Slate',
+  description: 'Editorial off-white surfaces with sharp slate contrast for a clean knowledge-first aesthetic.',
+  author: 'Ammar Hany',
+  version: '1.0.0',
+  tags: ['light', 'editorial', 'clean'],
+  accent: '#2563eb',
+  previewGradient: 'linear-gradient(145deg, #fffdf7 0%, #e6ecf5 58%, #cdd7e6 100%)',
+  tokens: {
+    background: '#f7f4ed',
+    foreground: '#16202a',
+    sidebar: '#eef2f7',
+    accentPrimary: '#2563eb',
+    accentSecondary: '#0f766e',
+    accentMuted: '#dce4ee',
+    textSecondary: '#5b6878',
+    cardBg: '#fffdf8',
+    border: '#cfd8e3',
+    success: '#16a34a',
+    danger: '#dc2626',
+    warning: '#d97706',
+  },
+};
+
+const THEME_REGISTRY: ThemeDefinition[] = [
+  professionalDark,
+  modernGradient,
+  minimalLight,
+  oceanBlue,
+  sunsetEditorial,
+  forestNoir,
+  paperSlate,
+];
 
 export const DEFAULT_THEME_ID = professionalDark.id;
 

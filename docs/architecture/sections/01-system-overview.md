@@ -1,53 +1,76 @@
 # 1. System Overview
 
-## 1.1 Product Vision
-TS-NextJS-PersonalPortfolio-v1-2025 ("Portfolio Creator") is an open-source, self-hosted portfolio
-platform that pairs a themable public site with an authenticated admin CMS. The project empowers
-engineers, freelancers, and consultants to launch a production-grade presence without ongoing SaaS
-fees while keeping full control over data, themes, and deployments. V1 targets a single-tenant
-experience with Neon PostgreSQL on Vercel, drag-and-drop ordering, and env-driven bootstrap (no
-env bootstrap).
+## 1.1 Purpose
 
+TS-NextJS-PersonalPortfolio-v1-2025 is a self-hosted portfolio platform that combines a public
+website, a protected admin CMS, and a Prisma-backed content model. Its goal is to let one owner
+publish and maintain a professional portfolio without relying on an external CMS service.
 
-## 1.2 Key Capabilities (V1)
-- Enterprise architecture with strict separation between route handlers, services, repositories, and
-  serializers.
-- Complete server infrastructure: error taxonomy, response helpers, validation pipelines, and
-  DTO-focused serializers.
-- Database-backed content for portfolio items, experience, education, skills, services, certificates,
-  recommendations, blogs, and settings.
-- Env-driven bootstrap that creates the admin account and Settings row on first run once the
-  database is migrated.
+## 1.2 Product Shape
 
-- Admin dashboard covering CRUD, reordering, draft/publish toggles, media uploads, and quick stats.
-- Public experience aligned with Ammar Next.js Engineering Standard (three-area layout, responsive
-  grid, metadata-ready pages, SEO primitives).
-- Documentation suite (architecture baseline, migration summary, migration plan) plus helper
-  standards that keep implementation auditable.
+The current solution has four main parts:
+- **Public website:** `/home`, `/portfolio`, `/services`, `/blogs`, and detail routes for portfolio and blog content.
+- **Admin CMS:** `/admin/**` pages for content management, dashboarding, media, contact inbox, theme control, visibility control, setup diagnostics, and site-profile editing.
+- **API surface:** `/api/v1/**` route handlers that back admin mutations, auth, media, themes, settings, contact, and diagnostics.
+- **Bootstrap and seed path:** env/bootstrap plus Prisma migration and seed flows for first-run initialization.
 
-## 1.3 Target Users & Constraints
-- **Primary:** Individual developers and freelancers who understand Git but prefer a no-code CMS.
-- **Secondary:** Agencies bootstrapping repeatable portfolio deployments for clients.
-- **Constraints:** V1 assumes single admin, session auth, and a single active theme at a time. Media
-  uploads live on disk; CDN/off-box storage is deferred to Phase 5.
+## 1.3 Primary Users
 
-## 1.4 Core Journeys
-- **First-Time Setup:** Deploy to Vercel -> set `.env` values (`DATABASE_URL`, `AUTH_SECRET`, admin +
-  site settings) -> run migrations -> bootstrap creates admin + Settings row automatically.
+- **Owner/admin:** Ammar or another single-tenant site owner who edits content, theme, visibility, and basic profile settings.
+- **Public visitors:** recruiters, clients, employers, collaborators, or readers consuming the public portfolio and blog.
+- **Operator/deployer:** a technical user responsible for environment configuration, migrations, seeding, and deployment.
 
-- **Daily Admin Flow:** Sign into `/admin/login` -> view dashboard KPIs and quick links -> edit
-  content via CRUD pages (with Zod validation) -> publish drafts -> upload media via `MediaService` ->
-  changes immediately hydrate public routes via Prisma-backed services.
-- **Public Visitor Flow:** Visit marketing URLs (`/`, `/portfolio`, `/portfolio/[slug]`, `/services`,
-  `/blogs`, `/contact`) -> fetch SSR data via async server components that call `PortfolioService` and
-  peers -> Next.js renders theme-specific layouts -> contact form posts to `/api/v1/contact` with rate
-  limiting and serializer-backed responses.
+## 1.4 Supported Scope
 
-## 1.5 Definition of Done & Success Metrics
-- Zero breaking changes to existing functionality during migrations (documented in
-  `docs/MIGRATION_SUMMARY.md`).
-- Production build and static generation pass on every PR (48+ routes validated as of v00.50.06).
-- Database parity with the original static content verified via services/repositories (Phase 1 parity
-  audit outstanding for metadata/SEO per migration plan).
-- Documentation remains concise yet comprehensive, with each architectural change mirrored in this
-  folder and referenced from `.github/instructions.md`.
+| Surface               | Scope Today | Notes                                                           |
+| --------------------- | ----------- | --------------------------------------------------------------- |
+| Public marketing site | Active      | Uses database-backed content through server-side services.      |
+| Admin CMS             | Active      | Covers the launch-critical content domains and settings center. |
+| Session auth          | Active      | Single-admin model with iron-session cookies.                   |
+| Theme switching       | Active      | Theme preview/apply is persisted in the settings singleton.     |
+| First-run bootstrap   | Active      | Env/bootstrap-driven after migrations and supported seed flow.  |
+| Multi-user roles      | Not active  | Current implementation is single-admin only.                    |
+| Web setup wizard      | Retired     | `/setup` now redirects to `/home`.                              |
+
+## 1.5 Core Journeys
+
+### First Run
+
+1. Configure environment variables.
+2. Run Prisma migrations against PostgreSQL.
+3. Run a supported seed command.
+4. Start the app.
+5. Let env/bootstrap ensure the admin user and settings row exist if the tables are present but empty.
+
+### Daily Admin Use
+
+1. Open `/login` and sign in.
+2. Land in the admin dashboard at `/admin`.
+3. Manage content in the domain pages under `/admin/*`.
+4. Adjust site-level values under `/admin/settings/profile`, `/admin/settings/visibility`, `/admin/settings/theme`, and `/admin/settings/setup`.
+5. Publish or update content so the public site reflects the latest state.
+
+### Public Visitor Flow
+
+1. Visit `/`, which redirects to `/home`.
+2. Explore the home page plus any public pages currently enabled by visibility settings.
+3. Open detail pages for portfolio items or blog posts.
+4. Use the contact section on `/home#contact` to read contact information or submit to the contact API where supported.
+
+## 1.6 Constraints And Non-Goals
+
+- The launch target is single-tenant and single-admin.
+- PostgreSQL is the supported runtime database; there is no active SQLite fallback.
+- The public contact experience lives on the home page instead of a dedicated public contact route.
+- Static content modules are fallback/bootstrap-aligned content, not the authoritative launch dataset once the DB is seeded.
+- Cloud media storage, multi-user roles, richer observability, and broader workflow automation remain post-launch extensions.
+
+## 1.7 Launch-Reality Notes
+
+- The repo is structurally complete enough to document as a full website solution architecture.
+- Launch verification is still incomplete and must not be described as fully signed off.
+- Current architecture docs must stay tied to verified code and command results, not historical intent.
+
+---
+
+[« Back to Start](../architect.md) | [Next »](02-architecture-layers.md)

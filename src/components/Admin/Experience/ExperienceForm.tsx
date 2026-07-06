@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  useEffect,
   useMemo,
   useId,
   useState,
@@ -45,6 +46,7 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 
 export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
   const { showToast } = useToast();
+  const [hydrated, setHydrated] = useState(false);
   const [formState, setFormState] = useState({
     company: experience?.company ?? '',
     title: experience?.title ?? '',
@@ -66,6 +68,10 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
 
   const pageTitle = mode === 'create' ? 'Create experience' : `Edit experience at ${experience?.company ?? ''}`;
   const submitLabel = mode === 'create' ? 'Create experience' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const derivedCounts = useMemo(() => {
     return {
@@ -300,9 +306,9 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
         <button
           type="submit"
           className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-black shadow transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 order-1 sm:order-none"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
         >
-          {submitting ? 'Saving…' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving…' : submitLabel}
         </button>
         <Link
           href="/admin/experience"

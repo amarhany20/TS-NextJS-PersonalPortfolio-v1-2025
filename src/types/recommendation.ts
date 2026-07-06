@@ -15,6 +15,8 @@ export interface Recommendation {
   linkedinUrl?: string;
   recommendationLetterUrl?: string;
   date?: string;
+  displayOrder?: number;
+  published?: boolean;
   createdAt?: string | Date;
   updatedAt?: string | Date;
 }

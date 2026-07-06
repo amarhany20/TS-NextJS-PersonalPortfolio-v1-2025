@@ -1,8 +1,8 @@
 # Agent Guideline
 
-**Version:** 2.02.00
+**Version:** 2.10.02
 **Created:** 2026-02-11
-**Last Updated:** 2026-03-08
+**Last Updated:** 2026-04-29
 **Author:** Ammar Hany
 **Status:** Active
 **Tags:** [Agent, Guidelines, GitHub Copilot, OpenCode, Codex, Claude]
@@ -11,97 +11,122 @@
 
 ## 1. Overview
 
-Single source of truth for how AI agents operate across all projects and repos.
-Compatible with: **GitHub Copilot**, **OpenAI Codex**, **OpenCode**, **Claude**, and all major model APIs.
-Prioritize clarity, safety, and alignment with the documented architecture.
+Single source for how AI agents operate across repos. Compatible with GitHub Copilot, OpenAI Codex, OpenCode, Claude, and major model APIs.
+
+Owns: generic cross-repo workflow, startup order, repo-boundary behavior, documentation-sync expectations.
+Does not own: repo-specific safety/approvals/product rules (→ local `AGENTS.md`), documentation format/structure/writing rules (→ local documentation guideline).
+
+Forms the shared helper-doc core with the local documentation guideline; both are expected to be copied into downstream repos.
+
+### Rule Ownership Model
+
+Use the rule sources with this boundary so they do not drift into each other's jobs:
+
+| File                          | Owns                                                                                                                                                               | Does Not Own                                                                              |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Local `AGENTS.md`             | Repo-specific safety rules, approvals, tool policy, secrets policy, local documentation boundaries, tracking or release-handoff policy, and product-specific rules | Generic multi-repo workflow or documentation formatting rules                             |
+| Shared `agent-guideline.md`   | Cross-repo workflow, startup order, repo-boundary behavior, central-docs-plus-subrepos model, and shared documentation-sync expectations                           | Repo-specific infrastructure, product policy, approval details, or formatting rules       |
+| Local documentation guideline | Documentation structure, formatting, metadata, naming, anti-duplication writing rules, versioning, archive rules, and document-type rules                          | Workflow, tool policy, repo-specific safety, approval policy, or execution approval rules |
+
+On overlap: local `AGENTS.md` controls repo-specific rules, local documentation guideline controls doc form, this file controls shared workflow.
 
 ---
 
-## 2. New Session Startup
+## 2. Startup Protocol
 
-At the start of every new session, before taking any action:
+At session start, load context in order:
+1. Local `AGENTS.md`
+2. `.github/copilot-instructions.md` if present
+3. This file (`agent-guideline.md`)
+4. Local documentation guideline if task touches docs
+5. Canonical architecture or governing docs for touched area
+6. Local implementation docs if task touches subrepo
+7. Task-specific or framework-specific standard
 
-1. **Identify the repo** — determine which repo you are in: docs repo (high-level architecture) or
-   implementation repo (code + full technical docs).
-2. **Read rule sources in order:**
-   - `AGENTS.md` at the repo root
-   - `.github/copilot-instructions.md` (if present)
-   - This file (`agent-guideline.md`)
-   - `Ammar-Documentation-Guidelines/ammar-documentation-guideline.md` and its `sections/`
-3. **Scan relevant docs** — read `docs/` or `solution-architecture/` for the area you will work in.
-   Do not act on a file you have not read.
-4. **Confirm scope** — verify the requested change matches the documented plan.
-   If it does not, update docs first, then implement.
-5. **Check current state** — look for implementation checklists, open TODOs, or recent changelog
-   entries to understand what is in progress.
-6. **Ask if still unclear** — if the task scope is ambiguous after reading, ask before acting.
+Rules:
+- Identify active repo type (central docs vs implementation) before acting.
+- Do not implement against unread files or workflows.
+- Prefer canonical docs, then repo-local detail.
+- On conflict with documented plan, update docs first or record gap explicitly.
+- Clarify ambiguous scope before acting.
 
 ---
 
-## 3. Multi-Repo Structure
+## 3. Multi-Repo Workspace Model
 
-### What "sub-repos" means
+### Central Documentation Repo + Subrepos
 
-A project may span multiple Git repositories. The docs repo contains a `sub-repos/` folder that
-holds one or more implementation repos as a **filesystem sync point only**. This is **not** a
-monorepo and **not** Git submodules. Key facts every agent must know:
+Some projects use one main documentation and operations repository with a `subrepos/` or `sub-repos/` folder containing independent implementation repositories. This is a workspace model, not a monorepo.
 
-- Each repo under `sub-repos/` is a fully independent Git repository with its own `.git/`, its own
-  commit history, its own branches, and its own remotes.
-- The presence of one repo's folder inside another repo's directory tree is a convenience for local
-  development only. The two repos have no Git relationship.
-- The user manages all Git operations in all repos. Agents must **never** run `git` commands in any
-  repo unless explicitly instructed, and must **never** commit, push, branch, or rebase across repo
-  boundaries.
-- Changes made inside `sub-repos/<repo-name>/` belong to that sub-repo's Git history, not to the
-  docs repo. Do not stage or commit those files from the docs repo root.
+- Central repo owns: shared system context, cross-repo architecture, shared decisions, knowledge-base, operations/tracking.
+- Each subrepo owns: code, tests, releases, repo-local setup, repo-local implementation docs. Keeps independent Git ownership, history, lifecycle.
+- Colocation for workspace convenience only; does not create Git relationship. Visibility across workspace does not change ownership or authorize cross-repo Git actions.
 
-### How to identify which repo you are in
+### Ownership Boundary
 
-| Signal                                                           | Repo                 |
-| ---------------------------------------------------------------- | -------------------- |
-| Root contains `solution-architecture/`                           | High-level docs repo |
-| Root contains `src/`, `AI/`, `package.json`, or `pyproject.toml` | Implementation repo  |
-| `AGENTS.md` says "high-level documentation only"                 | High-level docs repo |
-| `AGENTS.md` describes a tech stack (Next.js, Python, etc.)       | Implementation repo  |
+| Layer                      | Owns                                                                                                                    | Does Not Own                                                                                                       |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Central documentation repo | Shared context, cross-repo architecture, knowledge base, operations records, tracking material, shared decisions        | Repo-local code, repo-local build or release assets, detailed implementation docs that only matter to one codebase |
+| Implementation subrepo     | Code, tests, code-local design, setup/build/run details, releases, repo-local implementation docs, repo-local contracts | The shared system source of truth, cross-repo operations records, or company-level context                         |
 
-When in doubt, read `AGENTS.md` at the root before acting.
+### Repo Type Detection
 
-### Documentation scope per repo type
+| Signal                                                                                | Repo           |
+| ------------------------------------------------------------------------------------- | -------------- |
+| `subrepos/`, `sub-repos/`, `knowledge-base/`, `operations/`, `solution-architecture/` | Central docs   |
+| `src/`, `AI/`, `package.json`, `pyproject.toml`                                       | Implementation |
+| `AGENTS.md` → shared ops hub                                                          | Central docs   |
+| `AGENTS.md` → describes tech stack                                                    | Implementation |
 
-| Repo Type                     | Documentation Scope                                                                                                                     |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| High-level docs repo          | System goals, architecture decisions, data flows, domain boundaries, event taxonomy, privacy, compliance — **no implementation detail** |
-| Implementation repo (`docs/`) | Full technical depth: component design, API endpoints, schemas, DB models, error handling, deployment, environment variables, testing   |
+When uncertain, read `AGENTS.md` first.
 
-### Helper docs duplication
+### Working Rules
 
-Each repo carries its own copy of these guidelines (under `helper_docs/` or `docs/helper-docs/`).
-This is intentional — each repo is self-contained. The user manually syncs copies when the
-canonical version changes. Always follow the copy local to the repo you are in.
+- Start with central docs for shared behavior, cross-repo context, system-level concerns.
+- Switch to subrepo before changing code or repo-local implementation docs.
+- Shared docs → central repo; code-local design/build/test/deploy/release docs → owning subrepo.
+- Update both layers in same task when change affects shared behavior and local implementation.
+- Define once at correct layer, link elsewhere; no duplicate canonical docs across layers.
+- Local `AGENTS.md` is authoritative for repo-specific rules.
+- Workspace visibility is context only; does not authorize cross-repo Git or blur ownership.
+
+### Helper Docs Distribution
+
+Each repo may carry its own copy (under `helper_docs/` or `docs/helper-docs/`). This is intentional for self-containment.
+User manually syncs when canonical version changes. Always follow the local copy.
+
+When adding specialized helper docs beside this core, keep them framework- or surface-specific only.
+Do not repeat generic workflow or documentation rules unless a real exception must be stated.
 
 ---
 
 ## 4. Core Workflow
 
-1. Read project docs (`docs/`), architecture, and repo-specific rules before acting.
-2. Confirm the requested change matches the documented plan.
-3. If it does not match, update docs first, then implement.
-4. Keep documentation in sync with implementation at all times.
+Standard agent operating model:
+- Read all relevant docs before implementing.
+- Confirm changes match documented plan; update docs first if they don't.
+- When implementation changes affect documented behavior, update repo-local docs and checklists in same task.
+- When change affects shared system behavior, update central docs repo and implementation repo docs in same cycle.
+- Do not update only one layer and leave others to drift.
+- If immediate full sync is impossible, record gap explicitly with `TODO(verify):` instead of silent divergence.
+- Documentation sync is not optional cleanup; work is incomplete while code, docs, checklists materially disagree.
 
 ---
 
-## 5. Documentation Standards
+## 5. Documentation Handling
 
-- Follow **Ammar Documentation Guideline** (local `helper-docs/Ammar-Documentation-Guidelines/`).
-- One H1 per file; numbered H2s; concise paragraphs; 120-char line width.
-- Use single-file docs for small scopes; multi-file `sections/` for large scopes.
-- Keep filenames stable; version and changelog live in the main file.
-- Archive instead of delete when retiring content.
+Follow local documentation guideline for all doc changes. Treat it as authority for structure, formatting, metadata, naming, versioning, and archive rules.
 
 ---
 
-## 6. Planning & Delegation
+## 6. Policy Doc Hygiene
+
+- Keep long-lived policy files concise, durable, and high-signal.
+- Put transient status, scratch notes, and session memory in task-specific working files, not in policy docs.
+
+---
+
+## 7. Planning & Delegation
 
 - Use a task list for complex or multi-step work.
 - Delegate exploration or implementation to sub-agents when parallel work is beneficial.
@@ -109,16 +134,16 @@ canonical version changes. Always follow the copy local to the repo you are in.
 
 ---
 
-## 7. Safety & Boundaries
+## 8. Safety & Boundaries
 
 - Do not access external systems, devices, or accounts unless explicitly instructed.
-- Never expose secrets or credentials; use environment variables.
-- Avoid destructive actions; explain impact and wait for explicit approval.
+- Default to not writing secrets/credentials to tracked files unless local repo explicitly authorizes it.
+- Avoid destructive actions; explain impact and wait for approval.
 - Do not run `git` commands unless asked.
 
 ---
 
-## 8. Commands & Outputs
+## 9. Commands & Outputs
 
 - Explain the purpose before listing commands.
 - Use clean, copy-pasteable blocks for command sequences.
@@ -127,33 +152,23 @@ canonical version changes. Always follow the copy local to the repo you are in.
 
 ---
 
-## 9. Versioning & Changelog
+## 10. Versioning & History
 
-- Update version and changelog in the main file when standards change.
-- Follow the commit format: `docs(scope): summary [vX.YY.ZZ]`
+Update version and last-updated metadata when standards change. Follow local `AGENTS.md` for repo-specific history policy.
 
 ---
 
-## 10. Commits
+## 11. Commits
 
 - Commit only when explicitly requested by the user.
-- Keep commits atomic and focused; follow repo-defined formats.
+- Keep commits atomic and focused; follow the local repo's documented commit format.
 - Never amend or force-push unless explicitly requested.
 
 ---
 
-## 11. After Changes
+## 12. After Changes
 
-- Update affected docs and checklists.
-- Validate links and formatting for touched documentation.
-- Run repo checks (lint/typecheck/tests) when relevant and available.
+Update affected docs and checklists. Verify code, repo-local docs, and shared docs still align. Record gaps explicitly with `TODO(verify):` instead of silent drift. Validate links and formatting. Run repo checks when available.
 
 ---
 
-## Changelog
-
-| Version | Date | Author | Description |
-| ------- | ---- | ------ | ----------- || 2.02.00 | 2026-03-08 | Ammar Hany | Expanded §3 Multi-Repo Structure: sub-repos explanation, repo identification table, helper docs rule  || 2.01.00 | 2026-03-08 | Ammar Hany | Added §2 New Session Startup; renumbered all subsequent sections                                    |
-| 2.00.00 | 2026-03-08 | Ammar Hany | Major rewrite: generalized for all agents/repos, added multi-repo structure, removed Mantis IV refs |
-| 1.00.01 | 2026-02-11 | Ammar Hany | Added section on Junction Links for Windows                                                         |
-| 1.00.00 | 2026-02-11 | Ammar Hany | Initial OpenCode agent guideline                                                                    |

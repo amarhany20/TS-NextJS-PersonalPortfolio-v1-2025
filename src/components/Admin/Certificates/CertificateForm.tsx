@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  useEffect,
   useMemo,
   useState,
   useId,
@@ -50,6 +51,7 @@ function formatDateForInput(dateString?: string): string {
 
 export function CertificateForm({ mode, certificate }: CertificateFormProps) {
   const { showToast } = useToast();
+  const [hydrated, setHydrated] = useState(false);
   const [formState, setFormState] = useState({
     name: certificate?.name ?? '',
     issuer: certificate?.issuer ?? '',
@@ -67,6 +69,10 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
 
   const pageTitle = mode === 'create' ? 'Create certificate' : `Edit ${certificate?.name ?? 'certificate'}`;
   const submitLabel = mode === 'create' ? 'Create certificate' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const skillCount = useMemo(() => {
     return splitList(formState.skillsInput).length;
@@ -244,10 +250,10 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
         </Link>
         <button
           type="submit"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
           className="rounded-lg bg-accent px-6 py-2 text-sm font-semibold text-black shadow transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {submitting ? 'Saving...' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving...' : submitLabel}
         </button>
       </div>
     </form>

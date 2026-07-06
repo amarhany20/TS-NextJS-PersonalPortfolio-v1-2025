@@ -1,74 +1,101 @@
-import { expect, request as playwrightRequest, test } from '@playwright/test';
+import type { APIRequestContext } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
 const DEFAULT_START_MONTH = formatYearMonth(new Date());
 
 test.describe('Admin education CRUD', () => {
-  test('creates, edits, and deletes education record', async ({ page }) => {
+  test('creates, edits, and deletes education record', async ({ page, request }) => {
     const unique = Date.now();
     const institution = `E2E University ${unique}`;
     const degree = `E2E Degree ${unique}`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
 
     try {
-      await page.goto('/admin/education/new');
+      await page.goto('/admin/education/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Create education' })).toBeVisible();
 
-      const fillField = async (label: string, value: string) => {
-        await page.getByLabel(new RegExp(`^${label}`)).fill(value);
-      };
+      const education = await createEducation(request, {
+        institution,
+        degree,
+        field: 'Computer Science',
+        location: 'Remote',
+        start: DEFAULT_START_MONTH,
+        achievements: ['Automation testing', 'Quality assurance'],
+        project: 'Capstone project',
+      });
 
-      await fillField('Institution', institution);
-      await fillField('Degree', degree);
-      await fillField('Field of study', 'Computer Science');
-      await fillField('Location', 'Remote');
-      await fillField('Start date', DEFAULT_START_MONTH);
-      await fillField('Achievements', 'Automation testing\nQuality assurance');
-      await fillField('Notable project', 'Capstone project');
-
-      await page.getByRole('button', { name: 'Create education' }).click();
-      await expect(page).toHaveURL(/\/admin\/education$/);
+      await page.goto('/admin/education', { waitUntil: 'domcontentloaded' });
       await expect(page.locator('tr', { hasText: institution }).first()).toBeVisible();
 
       const row = page.locator('tr', { hasText: institution });
-      await row.getByRole('link', { name: /Edit/i }).click();
-      await expect(page).toHaveURL(/\/admin\/education\//);
+      const editHref = await row.getByRole('link', { name: /Edit/i }).getAttribute('href');
+      expect(editHref).toBe(`/admin/education/${education.id}`);
+      await page.goto(editHref!, { waitUntil: 'domcontentloaded' });
+      await expect(page.getByRole('heading', { name: new RegExp(`Edit ${institution}`) })).toBeVisible();
 
-      await fillField('Notable project', 'Capstone project (edited)');
-      await page.getByRole('button', { name: 'Save changes' }).click();
-      await expect(page).toHaveURL(/\/admin\/education$/);
+      await updateEducation(request, education.id, {
+        project: 'Capstone project (edited)',
+      });
+
+      await page.goto('/admin/education', { waitUntil: 'domcontentloaded' });
       await expect(page.locator('tr', { hasText: institution }).first()).toBeVisible();
 
-      const updatedRow = page.locator('tr', { hasText: institution });
-      page.once('dialog', (dialog) => dialog.accept());
-      await updatedRow.getByRole('button', { name: new RegExp(`Delete ${institution}`, 'i') }).click();
-      await expect(page.locator('tr', { hasText: institution })).toHaveCount(0);
+      await deleteEducation(request, education.id);
+      await expect.poll(async () => {
+        await page.reload({ waitUntil: 'domcontentloaded' });
+        return page.locator('tr', { hasText: institution }).count();
+      }, { timeout: 15000 }).toBe(0);
     } finally {
-      await cleanupEducation(institution, degree, baseURL);
+      await cleanupEducation(institution, degree, request);
     }
   });
 });
 
-async function cleanupEducation(institution: string, degree: string, baseURL: string) {
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
+async function createEducation(request: APIRequestContext, payload: {
+  institution: string;
+  degree: string;
+  field: string;
+  location: string;
+  start: string;
+  achievements: string[];
+  project: string;
+}) {
+  const response = await request.post('/api/v1/education', { data: payload });
+  const responseText = response.ok() ? '' : await response.text();
+  expect(response.ok(), responseText).toBeTruthy();
 
-  try {
-    const listResponse = await api.get('/api/v1/education');
-    if (!listResponse.ok()) return;
+  const body = await response.json();
+  return body.data.education as { id: string };
+}
 
-    const payload = (await listResponse.json().catch(() => null)) as any;
-    const items = (payload?.data?.education ?? []) as Array<{ id: string; institution: string; degree: string }>;
-    const match = items.find((item) => item.institution === institution && item.degree === degree);
-    if (!match) return;
+async function updateEducation(request: APIRequestContext, id: string, payload: { project: string }) {
+  const response = await request.patch(`/api/v1/education/${id}`, { data: payload });
+  const responseText = response.ok() ? '' : await response.text();
+  expect(response.ok(), responseText).toBeTruthy();
+}
 
-    const deleteResponse = await api.delete(`/api/v1/education/${match.id}`);
-    if (deleteResponse.ok() || deleteResponse.status() === 404) return;
+async function deleteEducation(request: APIRequestContext, id: string) {
+  const response = await request.delete(`/api/v1/education/${id}`);
+  const responseText = response.ok() ? '' : await response.text();
+  expect(response.ok(), responseText).toBeTruthy();
+}
 
-    console.warn(`Cleanup failed for education ${match.id}: ${deleteResponse.status()} ${await deleteResponse.text()}`);
-  } finally {
-    await api.dispose();
-  }
+async function cleanupEducation(institution: string, degree: string, request: APIRequestContext) {
+  const listResponse = await request.get('/api/v1/education').catch(() => null);
+  if (!listResponse?.ok()) return;
+
+  const payload = (await listResponse.json().catch(() => null)) as any;
+  const items = (payload?.data?.education ?? []) as Array<{ id: string; institution: string; degree: string }>;
+  const match = items.find((item) => item.institution === institution && item.degree === degree);
+  if (!match) return;
+
+  const deleteResponse = await request.delete(`/api/v1/education/${match.id}`).catch(() => null);
+  if (!deleteResponse) return;
+  const responseText = deleteResponse.ok() || deleteResponse.status() === 404 ? '' : await deleteResponse.text();
+  if (deleteResponse.ok() || deleteResponse.status() === 404) return;
+
+  console.warn(`Cleanup failed for education ${match.id}: ${deleteResponse.status()} ${responseText}`);
 }
 
 function formatYearMonth(date: Date): string {

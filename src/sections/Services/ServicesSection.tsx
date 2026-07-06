@@ -1,5 +1,5 @@
 import type { Service } from '@/types/service';
-import ServiceCard from '../../components/Services/ServiceCard';
+import ServiceCard from '@/components/Services/ServiceCard';
 
 interface ServicesSectionProps {
   items: Service[];
@@ -10,7 +10,7 @@ export default function ServicesSection({ items }: ServicesSectionProps) {
     return (
       <section className="space-y-8">
         <div className="border border-dashed border-[var(--border)] rounded-xl p-8 text-center text-[var(--text-secondary)]">
-          Service offerings are being prepared. Please check back soon.
+          No active services are published yet.
         </div>
       </section>
     );

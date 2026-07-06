@@ -1,0 +1,65 @@
+
+Running 21 tests using 1 worker
+
+
+[1A[2K[WebServer] Γ¿» Failed to start server
+[1A[2K[WebServer] Error: listen EADDRINUSE: address already in use :::3202
+
+[WebServer]     at <unknown> (Error: listen EADDRINUSE: address already in use :::3202)
+[WebServer]     at new Promise (<anonymous>) {
+[WebServer]   code: 'EADDRINUSE',
+[WebServer]   errno: -4091,
+[WebServer]   syscall: 'listen',
+[WebServer]   address: '::',
+[WebServer]   port: 3202
+[WebServer] }
+[1A[2K[1/21] [chromium] ΓÇ║ tests\e2e\admin-blog.spec.ts:9:7 ΓÇ║ Admin blog CRUD ΓÇ║ creates, schedules, publishes, and deletes a blog post
+[1A[2K  1) [chromium] ΓÇ║ tests\e2e\admin-blog.spec.ts:9:7 ΓÇ║ Admin blog CRUD ΓÇ║ creates, schedules, publishes, and deletes a blog post 
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile 'C:\Users\ammar\Downloads\Ammar\GitHub\TS-NextJS-PersonalPortfolio-v1-2025\test-results\.playwright-artifacts-0\traces\7f2550f3cddb864447be-b62640ae52569e4f5a84-recording1.network' -> 'C:\Users\ammar\Downloads\Ammar\GitHub\TS-NextJS-PersonalPortfolio-v1-2025\test-results\.playwright-artifacts-0\traces\7f2550f3cddb864447be-b62640ae52569e4f5a84-recording1-pwnetcopy-1.network'
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, open 'C:\Users\ammar\Downloads\Ammar\GitHub\TS-NextJS-PersonalPortfolio-v1-2025\test-results\.playwright-artifacts-0\traces\7f2550f3cddb864447be-b62640ae52569e4f5a84.trace'
+
+    Error: ENOENT: no such file or directory, open 'C:\Users\ammar\Downloads\Ammar\GitHub\TS-NextJS-PersonalPortfolio-v1-2025\test-results\.playwright-artifacts-0\e5a501af2dd1ed62ceae3e70000ba412.zip'
+
+    Error: locator.fill: Test ended.
+    Call log:
+    [2m  - waiting for getByLabel(/^Title$/i)[22m
+
+
+      24 |
+      25 |       const fillInput = async (label: string, value: string) => {
+    > 26 |         await page.getByLabel(new RegExp(`^${label}$`, 'i')).fill(value);
+         |                                                              ^
+      27 |       };
+      28 |
+      29 |       const selectOption = async (label: string, value: string) => {
+        at fillInput (C:\Users\ammar\Downloads\Ammar\GitHub\TS-NextJS-PersonalPortfolio-v1-2025\tests\e2e\admin-blog.spec.ts:26:62)
+        at C:\Users\ammar\Downloads\Ammar\GitHub\TS-NextJS-PersonalPortfolio-v1-2025\tests\e2e\admin-blog.spec.ts:39:13
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error Context: test-results\admin-blog-Admin-blog-CRUD-4e880-hes-and-deletes-a-blog-post-chromium\error-context.md
+
+
+[1A[2K[2/21] [chromium] ΓÇ║ tests\e2e\admin-certificates.spec.ts:8:7 ΓÇ║ Admin certificates CRUD ΓÇ║ creates, edits, and deletes a certificate
+[1A[2K  2) [chromium] ΓÇ║ tests\e2e\admin-certificates.spec.ts:8:7 ΓÇ║ Admin certificates CRUD ΓÇ║ creates, edits, and deletes a certificate 
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    attachment #1: video (video/webm) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\admin-certificates-Admin-c-cdd49-s-and-deletes-a-certificate-chromium\video.webm
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    attachment #2: trace (application/zip) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\admin-certificates-Admin-c-cdd49-s-and-deletes-a-certificate-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-certificates-Admin-c-cdd49-s-and-deletes-a-certificate-chromium\trace.zip
+
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+
+[1A[2K[3/21] [chromium] ΓÇ║ tests\e2e\admin-contact.spec.ts:8:7 ΓÇ║ Admin contact inbox ΓÇ║ reviews, updates status, and deletes a submission

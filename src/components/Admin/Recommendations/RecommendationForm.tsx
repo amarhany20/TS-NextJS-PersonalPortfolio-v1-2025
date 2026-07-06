@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  useEffect,
   useId,
   useState,
   type ChangeEvent,
@@ -65,6 +66,7 @@ function formatDateForInput(dateString?: string): string {
  */
 export function RecommendationForm({ mode, recommendation }: RecommendationFormProps) {
   const { showToast } = useToast();
+  const [hydrated, setHydrated] = useState(false);
   const [formState, setFormState] = useState<RecommendationFormState>({
     name: recommendation?.name ?? '',
     position: recommendation?.position ?? recommendation?.title ?? '',
@@ -85,6 +87,10 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
 
   const pageTitle = mode === 'create' ? 'Create recommendation' : `Edit recommendation from ${recommendation?.name ?? ''}`;
   const submitLabel = mode === 'create' ? 'Create recommendation' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const handleInputChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState((prev) => ({ ...prev, [field]: event.target.value }));
@@ -291,10 +297,10 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
         </Link>
         <button
           type="submit"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
           className="rounded-lg bg-accent px-6 py-2 text-sm font-semibold text-black shadow transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {submitting ? 'Saving...' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving...' : submitLabel}
         </button>
       </div>
     </form>

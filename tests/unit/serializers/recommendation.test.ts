@@ -37,6 +37,8 @@ describe('serializeRecommendation', () => {
       recommendationLetterUrl: undefined,
       photo: undefined,
       date: '2024-03-01T00:00:00.000Z',
+      displayOrder: 1,
+      published: true,
       createdAt: '2024-04-01T00:00:00.000Z',
       updatedAt: '2024-04-02T00:00:00.000Z',
     });

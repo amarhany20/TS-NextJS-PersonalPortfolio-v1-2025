@@ -8,6 +8,9 @@ interface ContactSectionProps {
 	socialLinks?: LinkItem[];
 }
 
+/**
+ * Converts a configured phone number into a WhatsApp deep link when possible.
+ */
 function normaliseWhatsappLink(phone?: string): string | undefined {
   if (!phone) return undefined;
   const digits = phone.replace(/[^0-9+]/g, '');
@@ -21,11 +24,14 @@ const SOCIAL_ICON_MAP: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = 
   youtube: Youtube,
 };
 
+/**
+ * Renders the public contact block without leaking template fallback contact data.
+ */
 export default function ContactSection({ details, socialLinks }: ContactSectionProps) {
 	const contactTitle = details.title || 'Get In Touch';
 	const contactDescription = details.description || details.subtitle || "Let's discuss your project or collaboration opportunities";
 	const emails = details.emails ?? [];
-	const primaryEmail = emails[0] || 'you@example.com';
+	const primaryEmail = emails[0];
 	const phones = details.phones ?? [];
 	const whatsappLink = normaliseWhatsappLink(phones[0]?.e164);
 	const whatsappDisplay = phones[0]?.e164?.replace(/^(\+\d{1,3})(\d{3})(\d{3})(\d{4})$/, '$1 $2 $3 $4') || phones[0]?.e164;
@@ -46,10 +52,12 @@ export default function ContactSection({ details, socialLinks }: ContactSectionP
 				<p className="text-[var(--text-secondary)] leading-relaxed max-w-prose text-sm md:text-base">{leftLead}</p>
 
 					<div className="flex flex-col gap-6">
-						<div className="flex items-start gap-4">
-							<Mail className="w-6 h-6 text-[var(--accent-primary)] mt-1" />
-							<div><p className="text-[var(--text-secondary)] text-base uppercase tracking-wide mb-1">Email</p><a href={`mailto:${primaryEmail}`} className="text-foreground font-medium hover:text-[var(--accent-primary)] transition-colors">{primaryEmail}</a></div>
-						</div>
+						{primaryEmail ? (
+							<div className="flex items-start gap-4">
+								<Mail className="w-6 h-6 text-[var(--accent-primary)] mt-1" />
+								<div><p className="text-[var(--text-secondary)] text-base uppercase tracking-wide mb-1">Email</p><a href={`mailto:${primaryEmail}`} className="text-foreground font-medium hover:text-[var(--accent-primary)] transition-colors">{primaryEmail}</a></div>
+							</div>
+						) : null}
 						{phones.map((phone) => (
 							<div key={phone.e164} className="flex items-start gap-4">
 								<Smartphone className="w-6 h-6 text-[var(--accent-primary)] mt-1" />

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  useEffect,
   useMemo,
   useId,
   useState,
@@ -45,6 +46,7 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
 
 export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
   const { showToast } = useToast();
+  const [hydrated, setHydrated] = useState(false);
 
   const [formState, setFormState] = useState({
     slug: group?.id ?? '',
@@ -60,6 +62,10 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
 
   const pageTitle = mode === 'create' ? 'Create skill group' : `Edit skill group: ${group?.title ?? ''}`;
   const submitLabel = mode === 'create' ? 'Create group' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const derived = useMemo(() => {
     return {
@@ -208,9 +214,9 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
         <button
           type="submit"
           className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-black shadow transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
         >
-          {submitting ? 'Saving…' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving…' : submitLabel}
         </button>
         <Link
           href="/admin/skills"

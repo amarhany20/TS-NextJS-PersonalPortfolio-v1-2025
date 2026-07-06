@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
-import { NotFoundError } from '@/server/http/errors';
+import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
 import { ExperienceService } from '@/server/services/ExperienceService';
 import { updateExperienceSchema } from '@/server/server-validators/api/experience';
@@ -13,7 +12,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
     const experience = await ExperienceService.getExperienceById(id);
 
     if (!experience) {
-      return errorResponse(new NotFoundError('Experience not found'));
+      return notFoundResponse('Experience not found');
     }
 
     return successResponse({ experience });

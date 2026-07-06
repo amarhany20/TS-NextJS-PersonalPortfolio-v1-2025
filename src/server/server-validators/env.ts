@@ -16,7 +16,7 @@ const optionalEnvString = z.string().optional();
 const envSchema = z.object({
   // App
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-  NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
+  NEXT_PUBLIC_SITE_URL: optionalEnvString,
 
   // Database
   DATABASE_URL: optionalEnvString,
@@ -77,11 +77,80 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
+function isBlank(value?: string) {
+  return !value || value.trim().length === 0;
+}
+
 // Parse and validate environment variables
 // This will throw if validation fails, preventing the app from starting with invalid config
 function validateEnv(): Env {
   try {
-    return envSchema.parse(process.env);
+    const parsed = envSchema.parse(process.env);
+
+    if (isBlank(parsed.DATABASE_URL)) {
+      throw new z.ZodError([
+        {
+          code: 'custom',
+          message: 'DATABASE_URL is required.',
+          path: ['DATABASE_URL'],
+        },
+      ]);
+    }
+
+    if (isBlank(parsed.AUTH_SECRET)) {
+      throw new z.ZodError([
+        {
+          code: 'custom',
+          message: 'AUTH_SECRET is required.',
+          path: ['AUTH_SECRET'],
+        },
+      ]);
+    }
+
+    if (parsed.NODE_ENV === 'production') {
+      if (isBlank(parsed.NEXT_PUBLIC_SITE_URL)) {
+        throw new z.ZodError([
+          {
+            code: 'custom',
+            message: 'NEXT_PUBLIC_SITE_URL is required in production.',
+            path: ['NEXT_PUBLIC_SITE_URL'],
+          },
+        ]);
+      }
+
+      const productionSiteUrl = parsed.NEXT_PUBLIC_SITE_URL ?? '';
+
+      try {
+        const siteUrl = new URL(productionSiteUrl);
+        const isLocalHost = siteUrl.hostname === 'localhost' || siteUrl.hostname === '127.0.0.1';
+        if (siteUrl.protocol !== 'https:' && !isLocalHost) {
+          throw new z.ZodError([
+            {
+              code: 'custom',
+              message: 'NEXT_PUBLIC_SITE_URL must use https in production.',
+              path: ['NEXT_PUBLIC_SITE_URL'],
+            },
+          ]);
+        }
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          throw error;
+        }
+
+        throw new z.ZodError([
+          {
+            code: 'custom',
+            message: 'NEXT_PUBLIC_SITE_URL must be a valid absolute URL.',
+            path: ['NEXT_PUBLIC_SITE_URL'],
+          },
+        ]);
+      }
+    }
+
+    return {
+      ...parsed,
+      NEXT_PUBLIC_SITE_URL: parsed.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+    };
   } catch (error) {
     console.error('❌ Invalid environment variables:');
     if (error instanceof z.ZodError) {

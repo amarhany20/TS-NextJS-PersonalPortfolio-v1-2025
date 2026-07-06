@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  useEffect,
   useId,
   useMemo,
   useState,
@@ -47,6 +48,7 @@ const buildFieldErrors = (issues: ZodIssue[]): FormErrors => {
 };
 
 export function ProjectForm({ mode, project }: ProjectFormProps) {
+  const [hydrated, setHydrated] = useState(false);
   const [formState, setFormState] = useState({
     title: project?.title ?? '',
     slug: project?.slug ?? '',
@@ -79,6 +81,10 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
 
   const pageTitle = mode === 'create' ? 'Create project' : `Edit ${project?.title ?? 'project'}`;
   const submitLabel = mode === 'create' ? 'Create project' : 'Save changes';
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const derivedSummary = useMemo(() => {
     return {
@@ -389,9 +395,9 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
         <button
           type="submit"
           className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-black shadow transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 order-1 sm:order-none"
-          disabled={submitting}
+          disabled={!hydrated || submitting}
         >
-          {submitting ? 'Saving…' : submitLabel}
+          {!hydrated ? 'Loading…' : submitting ? 'Saving…' : submitLabel}
         </button>
         <Link
           href="/admin/portfolio"

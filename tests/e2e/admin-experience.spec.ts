@@ -1,5 +1,7 @@
 import { expect, request as playwrightRequest, test } from '@playwright/test';
 
+import { getPlaywrightBaseUrl } from './base-url';
+
 const DEFAULT_START_MONTH = formatYearMonth(new Date());
 
 test.use({ storageState: 'playwright/.auth/admin.json' });
@@ -9,10 +11,10 @@ test.describe('Admin experience CRUD', () => {
     const unique = Date.now();
     const company = `E2E Company ${unique}`;
     const title = `E2E Role ${unique}`;
-    const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3100';
+    const baseURL = getPlaywrightBaseUrl();
 
     try {
-      await page.goto('/admin/experience/new');
+      await page.goto('/admin/experience/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Create experience' })).toBeVisible();
 
 
@@ -79,11 +81,12 @@ async function cleanupExperience(company: string, title: string, baseURL: string
     }
 
     const deleteResponse = await api.delete(`/api/v1/experience/${match.id}`);
+    const responseText = deleteResponse.ok() || deleteResponse.status() === 404 ? '' : await deleteResponse.text();
     if (deleteResponse.ok() || deleteResponse.status() === 404) {
       return;
     }
 
-    console.warn(`Cleanup failed for experience ${match.id}: ${deleteResponse.status()} ${await deleteResponse.text()}`);
+    console.warn(`Cleanup failed for experience ${match.id}: ${deleteResponse.status()} ${responseText}`);
   } finally {
     await api.dispose();
   }

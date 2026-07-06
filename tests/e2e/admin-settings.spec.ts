@@ -4,12 +4,12 @@ test.use({ storageState: 'playwright/.auth/admin.json' });
 
 test.describe('Admin settings pages', () => {
   test('loads setup settings panel', async ({ page }) => {
-    await page.goto('/admin/settings/setup');
+    await page.goto('/admin/settings/setup', { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: 'Setup Configuration' })).toBeVisible();
   });
 
   test('loads theme gallery and previews a theme', async ({ page }) => {
-    await page.goto('/admin/settings/theme');
+    await page.goto('/admin/settings/theme', { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: 'Appearance & Theme' })).toBeVisible();
 
     const previewCard = page.locator('article', { has: page.getByRole('button', { name: 'Activate' }) }).first();

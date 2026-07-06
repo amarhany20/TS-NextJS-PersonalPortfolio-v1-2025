@@ -14,6 +14,8 @@ export function serializeRecommendation(record: DbRecommendation): Recommendatio
     recommendationLetterUrl: record.recommendationLetterUrl ?? undefined,
     photo: record.photo ?? undefined,
     date: record.receivedOn ? record.receivedOn.toISOString() : undefined,
+    displayOrder: record.displayOrder,
+    published: record.published,
     createdAt: record.createdAt.toISOString(),
     updatedAt: record.updatedAt.toISOString(),
   };

@@ -74,7 +74,7 @@ export default function ClientLayout({ children, siteContent }: ClientLayoutProp
           <>
             {/* Fixed Sidebars */}
             <ProfileSidebar profile={siteContent.profile} coreSkills={siteContent.coreSkills} languages={siteContent.languages} />
-            <NavSidebar socialLinks={socialLinks} />
+            <NavSidebar socialLinks={socialLinks} visibility={siteContent.visibility} />
           </>
         )}
 

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 import { PortfolioService } from '@/server/services/PortfolioService';
+import { SettingsService } from '@/server/services/SettingsService';
 import type { Project } from '@/types/portfolio';
 import { ProjectBadges } from '@/components/Portfolio/ProjectBadges';
 import { ProjectMetaGrid } from '@/components/Portfolio/ProjectMetaGrid';
@@ -18,11 +19,23 @@ function Section({ title, body }: { title: string; body: string }) {
 
 
 export async function generateStaticParams() {
+  const settings = await SettingsService.getSiteContent();
+
+  if (!settings.visibility.pages.portfolio) {
+    return [];
+  }
+
   const slugs = await PortfolioService.getProjectSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const settings = await SettingsService.getSiteContent();
+
+  if (!settings.visibility.pages.portfolio) {
+    return notFound();
+  }
+
   const resolvedParams = await params;
   const slug = resolvedParams?.slug;
   if (!slug) return notFound();
