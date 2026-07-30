@@ -47,7 +47,15 @@ export async function generateMetadata(): Promise<Metadata> {
       title: titleShape,
       description,
       keywords,
-      alternates: canonical ? { canonical } : undefined,
+      alternates: canonical
+        ? {
+            canonical,
+            types: {
+              'application/rss+xml': `${canonical.replace(/\/$/, '')}/feed.xml`,
+              'application/feed+json': `${canonical.replace(/\/$/, '')}/feed.json`,
+            },
+          }
+        : undefined,
       openGraph: {
         type: 'website',
         url: canonical,
