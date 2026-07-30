@@ -3,20 +3,29 @@ import { notFound } from 'next/navigation';
 import { PortfolioService } from '@/server/services/PortfolioService';
 import { SettingsService } from '@/server/services/SettingsService';
 import { ProjectGrid } from '@/components/Portfolio/ProjectGrid';
+import { StackFilterBar, filterProjectsByStack } from '@/components/Portfolio/StackFilterBar';
+
+type Props = {
+  searchParams: Promise<{ stack?: string }>;
+};
 
 /**
  * Public portfolio listing sourced from published database records.
+ * Supports `?stack=` query parameter to filter by technology.
  */
-export default async function PortfolioPage() {
+export default async function PortfolioPage({ searchParams }: Props) {
   const settings = await SettingsService.getSiteContent();
 
   if (!settings.visibility.pages.portfolio) {
     notFound();
   }
 
-  const projects = await PortfolioService.getPublishedProjects();
-  const featuredProjects = projects.filter((project) => project.featured);
-  const otherProjects = projects.filter((project) => !project.featured);
+  const params = await searchParams;
+  const activeStack = params.stack?.trim() || null;
+  const allProjects = await PortfolioService.getPublishedProjects();
+  const filtered = activeStack ? filterProjectsByStack(allProjects, activeStack) : allProjects;
+  const featuredProjects = filtered.filter((project) => project.featured);
+  const otherProjects = filtered.filter((project) => !project.featured);
 
   return (
     <div className="space-y-8">
@@ -24,6 +33,10 @@ export default async function PortfolioPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">Portfolio</h1>
         <p className="text-[var(--text-secondary)]">Selected projects and case studies</p>
       </div>
+
+      <StackFilterBar projects={allProjects} activeStack={activeStack} />
+
+      {filtered.length === 0 && allProjects.length > 0 && <FilterEmptyState stack={activeStack} />}
 
       {featuredProjects.length > 0 && (
         <section className="space-y-4">
@@ -44,14 +57,24 @@ export default async function PortfolioPage() {
         </section>
       )}
 
-      {projects.length === 0 ? <PortfolioEmptyState /> : null}
+      {allProjects.length === 0 && <PortfolioEmptyState />}
     </div>
   );
 }
 
-/**
- * Keeps the portfolio page launch-safe when no projects are published yet.
- */
+function FilterEmptyState({ stack }: { stack: string | null }) {
+  return (
+    <section className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card-bg)]/60 p-6 text-center">
+      <h2 className="text-lg font-semibold text-foreground">No projects match that filter</h2>
+      <p className="mx-auto mt-1 max-w-md text-sm text-[var(--text-secondary)]">
+        {stack
+          ? `No published projects use "${stack}". Try a different filter or clear to see all projects.`
+          : 'No published projects match the current filter.'}
+      </p>
+    </section>
+  );
+}
+
 function PortfolioEmptyState() {
   return (
     <section className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card-bg)]/60 p-8 text-center">
