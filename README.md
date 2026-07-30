@@ -64,6 +64,9 @@ Open http://localhost:3000 (redirects to `/home`) and sign in at `/login`.
 - **Responsive, accessible UI** with mobile-first layout and semantic HTML.
 - **Server-first rendering** with prerendered static pages and minimal client JS.
 - **Seven built-in themes** with persisted admin preview / apply behavior.
+- **Stack-based portfolio filtering** via URL query params (`?stack=next.js`).
+- **RSS 2.0 and JSON Feed v1.1** at `/feed.xml` and `/feed.json`.
+- **Per-post Open Graph and Twitter card metadata** for blog detail pages.
 - **Vitest + Playwright** for unit and end-to-end testing.
 - **Session-based admin auth** with `iron-session`, bcrypt password hashing, and
   rate-limited public contact submission.
