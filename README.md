@@ -2,7 +2,7 @@
 
 **Self-hosted portfolio platform with a public site, admin CMS, Prisma persistence, and launch-prep cleanup in progress.**
 
-Version: `00.81.00` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
+Version: `00.82.00` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
 
 ---
 
