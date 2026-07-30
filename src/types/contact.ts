@@ -1,9 +1,4 @@
-export const CONTACT_SUBMISSION_STATUSES = [
-  'new',
-  'in_progress',
-  'resolved',
-  'archived',
-] as const;
+export const CONTACT_SUBMISSION_STATUSES = ['new', 'in_progress', 'resolved', 'archived'] as const;
 
 export type ContactSubmissionStatus = (typeof CONTACT_SUBMISSION_STATUSES)[number];
 

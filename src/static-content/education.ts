@@ -1,19 +1,19 @@
-import type { EducationItem } from '@/types/education'
+import type { EducationItem } from '@/types/education';
 
 export interface Education {
-  id: number | string
-  institution: string
-  degree: string
-  field?: string
-  location?: string
-  start: string
-  end?: string
-  present: boolean
-  gpa?: string
-  achievements: string[]
-  project?: string
-  createdAt?: string | Date
-  updatedAt?: string | Date
+  id: number | string;
+  institution: string;
+  degree: string;
+  field?: string;
+  location?: string;
+  start: string;
+  end?: string;
+  present: boolean;
+  gpa?: string;
+  achievements: string[];
+  project?: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 }
 
 // Generic example education items (safe for the public template)
@@ -29,7 +29,7 @@ export const educationItems: readonly EducationItem[] = [
     achievements: ['Replace with your own achievements.'],
     project: 'Capstone Project (replace this)',
   },
-] as const
+] as const;
 
 // Transformed education array (DB/loader compatible)
 export const education: Education[] = educationItems.map((e, idx) => ({
@@ -46,6 +46,4 @@ export const education: Education[] = educationItems.map((e, idx) => ({
   project: e.project,
   createdAt: new Date(),
   updatedAt: new Date(),
-
-}))
-
+}));

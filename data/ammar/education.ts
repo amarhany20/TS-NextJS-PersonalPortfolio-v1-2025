@@ -51,4 +51,3 @@ export const education: Education[] = educationItems.map((e, idx) => ({
   createdAt: new Date(),
   updatedAt: new Date(),
 }));
-

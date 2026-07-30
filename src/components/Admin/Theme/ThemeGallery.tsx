@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useMemo, useState, useTransition } from 'react';
 
@@ -73,7 +73,10 @@ export function ThemeGallery({ themes, activeThemeId }: ThemeGalleryProps) {
 
         setSelectedTheme(themeId);
         setPreviewTheme(null);
-        setMessage({ type: 'success', text: 'Theme applied. Refresh the public site to preview the change for visitors.' });
+        setMessage({
+          type: 'success',
+          text: 'Theme applied. Refresh the public site to preview the change for visitors.',
+        });
       } catch (error) {
         console.error(error);
         setMessage({ type: 'error', text: 'Unable to apply theme. Please try again.' });
@@ -88,10 +91,16 @@ export function ThemeGallery({ themes, activeThemeId }: ThemeGalleryProps) {
 
     const baseClass = 'rounded-lg border px-4 py-3 text-sm';
     if (message.type === 'success') {
-      return <div className={`${baseClass} border-emerald-400 text-emerald-100 bg-emerald-400/10`}>{message.text}</div>;
+      return (
+        <div className={`${baseClass} border-emerald-400 text-emerald-100 bg-emerald-400/10`}>
+          {message.text}
+        </div>
+      );
     }
 
-    return <div className={`${baseClass} border-red-400 text-red-100 bg-red-400/10`}>{message.text}</div>;
+    return (
+      <div className={`${baseClass} border-red-400 text-red-100 bg-red-400/10`}>{message.text}</div>
+    );
   }, [message]);
 
   return (
@@ -106,7 +115,9 @@ export function ThemeGallery({ themes, activeThemeId }: ThemeGalleryProps) {
             <article
               key={theme.id}
               className={`rounded-2xl border bg-[var(--card-bg)]/60 p-4 shadow-sm transition-colors ${
-                isActive ? 'border-[var(--accent-primary)] shadow-[0_0_0_1px_var(--accent-primary)]' : 'border-[var(--border)]'
+                isActive
+                  ? 'border-[var(--accent-primary)] shadow-[0_0_0_1px_var(--accent-primary)]'
+                  : 'border-[var(--border)]'
               }`}
             >
               <div
@@ -134,7 +145,10 @@ export function ThemeGallery({ themes, activeThemeId }: ThemeGalleryProps) {
                 <p className="text-sm text-[var(--text-secondary)]">{theme.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {theme.tags.map((tag) => (
-                    <span key={tag} className="text-[0.65rem] rounded-full bg-[var(--accent-muted)]/70 px-2 py-0.5 uppercase tracking-wide text-[var(--text-secondary)]">
+                    <span
+                      key={tag}
+                      className="text-[0.65rem] rounded-full bg-[var(--accent-muted)]/70 px-2 py-0.5 uppercase tracking-wide text-[var(--text-secondary)]"
+                    >
                       {tag}
                     </span>
                   ))}

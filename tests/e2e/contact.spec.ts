@@ -28,7 +28,6 @@ test.describe('Contact form submission', () => {
     await api.dispose();
   });
 
-
   test('rate limiting prevents spam submissions', async () => {
     const baseURL = getPlaywrightBaseUrl();
     const ipHeader = `203.0.113.${(Date.now() % 200) + 10}`;
@@ -47,8 +46,8 @@ test.describe('Contact form submission', () => {
             headers: {
               'x-forwarded-for': ipHeader,
             },
-          })
-        )
+          }),
+        ),
       );
 
       // At least one should be rate limited (429)
@@ -59,4 +58,3 @@ test.describe('Contact form submission', () => {
     }
   });
 });
-

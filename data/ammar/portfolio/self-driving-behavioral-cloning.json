@@ -16,12 +16,7 @@
   "role": "ML Engineer",
   "start": "2023-05",
   "end": "2023-05",
-  "stack": [
-    "Python",
-    "TensorFlow / Keras",
-    "CNN",
-    "GPU (RTX 2060)"
-  ],
+  "stack": ["Python", "TensorFlow / Keras", "CNN", "GPU (RTX 2060)"],
   "features": [
     "Behavioral cloning from camera frames to steering outputs",
     "Data augmentation (flip, brightness, cropping)",
@@ -29,13 +24,48 @@
     "Autonomous navigation in test conditions"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "End-to-end learning approach that maps images to driving commands using CNNs.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Demonstrate feasibility of behavioral cloning for autonomous driving in controlled settings.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Collected/curated data, engineered augmentations, designed/trained CNN models, tuned with GPU, and validated performance.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Data pipeline → CNN training → evaluation; augmentation for balance; dropout and tuning to generalize.", "order": 4 },
-    { "id": "challenges", "title": "Challenges & Solutions", "body": "Mitigated dataset imbalance with augmentation; reduced overfitting via regularization and careful splits.", "order": 5 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a crash-free autonomous run in a controlled environment and built strong ML/CV foundations.", "order": 6 },
-    { "id": "future", "title": "Future Plans", "body": "Expand datasets, test diverse conditions, and explore RL for adaptive behavior.", "order": 7 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "End-to-end learning approach that maps images to driving commands using CNNs.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Demonstrate feasibility of behavioral cloning for autonomous driving in controlled settings.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Collected/curated data, engineered augmentations, designed/trained CNN models, tuned with GPU, and validated performance.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Data pipeline → CNN training → evaluation; augmentation for balance; dropout and tuning to generalize.",
+      "order": 4
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges & Solutions",
+      "body": "Mitigated dataset imbalance with augmentation; reduced overfitting via regularization and careful splits.",
+      "order": 5
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a crash-free autonomous run in a controlled environment and built strong ML/CV foundations.",
+      "order": 6
+    },
+    {
+      "id": "future",
+      "title": "Future Plans",
+      "body": "Expand datasets, test diverse conditions, and explore RL for adaptive behavior.",
+      "order": 7
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

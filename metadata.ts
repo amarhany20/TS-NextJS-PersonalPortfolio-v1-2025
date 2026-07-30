@@ -4,7 +4,8 @@ export const metadata: Metadata = {
   fullName: 'Ammar Hany Ezeldin Abdelrazik',
   // Short professional tagline (condensed)
   tagline: 'Software Engineer · Digital Solutions Architect',
-  description: 'Staff engineer and solutions architect delivering production-grade platforms, admin experiences, and cloud-native automation.',
+  description:
+    'Staff engineer and solutions architect delivering production-grade platforms, admin experiences, and cloud-native automation.',
   titleTemplate: '%s | Ammar Hany',
   siteUrl: 'https://ammarhany.com',
   openGraphImage: '/2024%20Ammar%20Personal%20Photo.jpg',
@@ -37,12 +38,7 @@ export const metadata: Metadata = {
     { city: 'Mersin', countryCode: 'TR' },
   ],
   // relocation: 'Married to a Swedish citizen • frequent long stays in Sweden • eligible to work in Egypt & Turkey • open to global remote/hybrid/onsite roles.',
-  languages: [
-    'English (C2)',
-    'Arabic (Native)',
-    'Turkish (B2)',
-    'Swedish (A1)',
-  ],
+  languages: ['English (C2)', 'Arabic (Native)', 'Turkish (B2)', 'Swedish (A1)'],
   // Condensed, CV-aligned bullet points used in hero summary list
   highlights: [
     '4+ years delivering production software across backend, full-stack, and product engineering roles',
@@ -55,10 +51,13 @@ export const metadata: Metadata = {
   ],
   // Hero content configuration
   hero: {
-    greeting: 'Hi, I\'m Ammar 👋',
-    callToAction: 'Let\'s build something amazing together.',
+    greeting: "Hi, I'm Ammar 👋",
+    callToAction: "Let's build something amazing together.",
     primaryButton: { text: 'Get in Touch', href: '#contact' },
-    secondaryButton: { text: 'Download CV', href: '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf' },
+    secondaryButton: {
+      text: 'Download CV',
+      href: '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf',
+    },
   },
   // Contact information
   contact: {

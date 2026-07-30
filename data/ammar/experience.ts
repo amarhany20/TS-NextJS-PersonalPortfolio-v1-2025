@@ -14,11 +14,21 @@ const rawExperience: readonly ExperienceItem[] = [
       'Built headless commerce with Shopify Storefront/Admin APIs on a Next.js frontend, pairing SEO-first delivery with scalable merchandising workflows.',
       'Ran infrastructure on DigitalOcean VMs (Linux/KDE) with CI/CD via GitHub Actions, multi-environment governance, and supplemental AWS (EC2/S3) integrations.',
       'Automated daily market-price web crawling and compiled Excel/PowerPoint intelligence for Egypt and GCC leadership decisions.',
-      'Acted as de facto CTO, aligning executives on IT strategy, cost optimization, and digital transformation roadmaps.'
+      'Acted as de facto CTO, aligning executives on IT strategy, cost optimization, and digital transformation roadmaps.',
     ],
     stack: [
-      'TypeScript', 'Next.js', 'Neon (PostgreSQL)', 'Prisma', 'Shopify Storefront API', 'Shopify Admin API',
-      'GitHub Actions', 'DigitalOcean', 'AWS (EC2/S3)', 'Linux (KDE)', 'Google Workspace', 'Web Crawling'
+      'TypeScript',
+      'Next.js',
+      'Neon (PostgreSQL)',
+      'Prisma',
+      'Shopify Storefront API',
+      'Shopify Admin API',
+      'GitHub Actions',
+      'DigitalOcean',
+      'AWS (EC2/S3)',
+      'Linux (KDE)',
+      'Google Workspace',
+      'Web Crawling',
     ],
     impact:
       'Modernized IT and digital operations with auditable pricing, scalable headless commerce, and cost-efficient hybrid cloud infrastructure.',
@@ -35,11 +45,20 @@ const rawExperience: readonly ExperienceItem[] = [
       'Handled manual release management: Linux server hardening, migrations, monitoring, and incident response.',
       'Managed hosting portfolios across cPanel/WHM, CyberPanel, and GoDaddy DNS/email with custom automation scripts.',
       'Delivered WordPress/Elementor sites with bespoke PHP snippets, analytics integrations, and speed optimisation.',
-      'Codified delivery playbooks, code reviews, and documentation to keep distributed contractors aligned.'
+      'Codified delivery playbooks, code reviews, and documentation to keep distributed contractors aligned.',
     ],
     stack: [
-      'Flutter (Android)', 'ASP.NET Core', 'PostgreSQL', 'DigitalOcean VPS', 'Linux',
-      'cPanel/WHM', 'CyberPanel', 'GoDaddy DNS & Email', 'WordPress', 'Elementor', 'PHP'
+      'Flutter (Android)',
+      'ASP.NET Core',
+      'PostgreSQL',
+      'DigitalOcean VPS',
+      'Linux',
+      'cPanel/WHM',
+      'CyberPanel',
+      'GoDaddy DNS & Email',
+      'WordPress',
+      'Elementor',
+      'PHP',
     ],
     impact:
       'Delivered reliable, cost-conscious digital platforms for SMEs while maintaining high-touch operations in a lean, part-time model.',
@@ -55,11 +74,19 @@ const rawExperience: readonly ExperienceItem[] = [
       'Delivered a secure Flutter desktop app (Windows/macOS) paired with a Django REST backend and collaboration tooling.',
       'Implemented JWT auth, encryption, and hardening across repositories/service-layer architecture with Redis and WebSockets.',
       'Deployed a hybrid stack: on-prem Linux servers for data handling with GCP services hosting public APIs and monitoring.',
-      'Led backlog, stakeholder demos, and documentation to keep R&D teams aligned despite project deprecation.'
+      'Led backlog, stakeholder demos, and documentation to keep R&D teams aligned despite project deprecation.',
     ],
     stack: [
-      'Flutter (Desktop)', 'Django REST Framework', 'Python', 'PostgreSQL', 'Redis',
-      'WebSockets', 'JWT', 'Google Cloud Platform', 'On-prem Linux', 'Docker'
+      'Flutter (Desktop)',
+      'Django REST Framework',
+      'Python',
+      'PostgreSQL',
+      'Redis',
+      'WebSockets',
+      'JWT',
+      'Google Cloud Platform',
+      'On-prem Linux',
+      'Docker',
     ],
     impact:
       'Shipped secure hybrid deployments and product direction under tight timelines, with architecture reused in successor initiatives.',
@@ -75,11 +102,19 @@ const rawExperience: readonly ExperienceItem[] = [
       'Ran a distributed NVIDIA Jetson camera network with multi-site RTSP ingestion and resilient offline-first syncing.',
       'Delivered Flask + Firebase + GCP backends with GitHub Actions CI/CD and dataset management for 10k+ annotated images.',
       'Optimized YOLO/Deep learning pipelines, cutting livestock detection error rates by ~20%.',
-      'Established QA/playbooks, mentored interns, and surfaced product insights for board reviews.'
+      'Established QA/playbooks, mentored interns, and surfaced product insights for board reviews.',
     ],
     stack: [
-      'Python', 'Flask', 'Firebase', 'Google Cloud Platform', 'GitHub Actions',
-      'NVIDIA Jetson (Edge)', 'RTSP', 'PyTorch', 'YOLO (Ultralytics v8)', 'Docker'
+      'Python',
+      'Flask',
+      'Firebase',
+      'Google Cloud Platform',
+      'GitHub Actions',
+      'NVIDIA Jetson (Edge)',
+      'RTSP',
+      'PyTorch',
+      'YOLO (Ultralytics v8)',
+      'Docker',
     ],
     impact:
       'Delivered production edge-to-cloud CV systems that earned a formal CTO recommendation and measurable accuracy gains.',
@@ -94,7 +129,7 @@ const rawExperience: readonly ExperienceItem[] = [
       'Provided IT support across campus, including Windows, Office 365, networks, VoIP, and printers.',
       'Refurbished ~50% of computer lab PCs, extending hardware lifecycles and reducing costs.',
       'Assisted with server administration, user account management, and router/switch configuration.',
-      'Supported faculty and students with technical troubleshooting, improving uptime and efficiency.'
+      'Supported faculty and students with technical troubleshooting, improving uptime and efficiency.',
     ],
     stack: ['Windows', 'Linux', 'Microsoft 365', 'Networking', 'Server Administration'],
     impact:
@@ -118,4 +153,3 @@ export const experience: Experience[] = rawExperience.map((r, idx) => ({
   createdAt: new Date(),
   updatedAt: new Date(),
 }));
-

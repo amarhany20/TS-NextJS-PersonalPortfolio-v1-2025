@@ -4,11 +4,7 @@ const yearMonthSchema = z
   .string()
   .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Value must be in YYYY-MM format');
 
-const optionalUrlSchema = z
-  .string()
-  .trim()
-  .url('Invalid URL format')
-  .optional();
+const optionalUrlSchema = z.string().trim().url('Invalid URL format').optional();
 
 const baseExperienceSchema = z.object({
   company: z.string().min(1, 'Company is required'),

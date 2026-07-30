@@ -55,6 +55,22 @@ exports[`serializeSettings snapshots > matches minimal settings snapshot 1`] = `
     ],
     "version": "1.0.0",
   },
+  "visibility": {
+    "pages": {
+      "blogs": true,
+      "portfolio": true,
+      "services": true,
+    },
+    "sections": {
+      "certificates": true,
+      "contact": true,
+      "education": true,
+      "experience": true,
+      "recommendations": true,
+      "skills": true,
+      "summary": true,
+    },
+  },
 }
 `;
 
@@ -138,6 +154,22 @@ exports[`serializeSettings snapshots > matches seeded settings snapshot 1`] = `
       "default",
     ],
     "version": "1.0.0",
+  },
+  "visibility": {
+    "pages": {
+      "blogs": true,
+      "portfolio": true,
+      "services": true,
+    },
+    "sections": {
+      "certificates": true,
+      "contact": true,
+      "education": true,
+      "experience": true,
+      "recommendations": true,
+      "skills": true,
+      "summary": true,
+    },
   },
 }
 `;

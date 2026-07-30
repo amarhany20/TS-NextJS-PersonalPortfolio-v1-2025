@@ -41,7 +41,9 @@ export interface ServiceCreateData {
 
 export type ServiceUpdateData = Partial<ServiceCreateData>;
 
-function mapService(record: Awaited<ReturnType<typeof prisma.service.findFirst>>): DbService | null {
+function mapService(
+  record: Awaited<ReturnType<typeof prisma.service.findFirst>>,
+): DbService | null {
   if (!record) {
     return null;
   }
@@ -184,8 +186,10 @@ function toUpdateData(data: ServiceUpdateData) {
   if (data.title !== undefined) update.title = data.title;
   if (data.description !== undefined) update.description = data.description;
   if (data.longDescription !== undefined) update.longDescription = data.longDescription ?? null;
-  if (data.features !== undefined) update.features = data.features ? JSON.stringify(data.features) : null;
-  if (data.technologies !== undefined) update.technologies = data.technologies ? JSON.stringify(data.technologies) : null;
+  if (data.features !== undefined)
+    update.features = data.features ? JSON.stringify(data.features) : null;
+  if (data.technologies !== undefined)
+    update.technologies = data.technologies ? JSON.stringify(data.technologies) : null;
   if (data.icon !== undefined) update.icon = data.icon ?? null;
   if (data.image !== undefined) update.image = data.image ?? null;
   if (data.active !== undefined) update.active = data.active;

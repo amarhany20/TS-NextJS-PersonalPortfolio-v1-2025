@@ -2,7 +2,10 @@ import { cache } from 'react';
 
 import { SettingsRepository } from '@/server/repositories/SettingsRepository';
 import { serializeSettings } from '@/server/serializers/settings';
-import type { UpdateSiteProfileInput, UpdateSiteVisibilityInput } from '@/server/server-validators/settings';
+import type {
+  UpdateSiteProfileInput,
+  UpdateSiteVisibilityInput,
+} from '@/server/server-validators/settings';
 import type { SiteContent, SiteVisibility } from '@/types/settings';
 import { EnvBootstrapService } from '@/server/services/EnvBootstrapService';
 
@@ -26,7 +29,9 @@ export interface SiteProfileSettings {
 
 export type SiteVisibilitySettings = SiteVisibility;
 
-function toSiteProfileSettings(settings: NonNullable<Awaited<ReturnType<typeof SettingsRepository.get>>>) {
+function toSiteProfileSettings(
+  settings: NonNullable<Awaited<ReturnType<typeof SettingsRepository.get>>>,
+) {
   return {
     siteTitle: settings.siteTitle,
     siteSubtitle: settings.siteSubtitle ?? '',
@@ -40,7 +45,9 @@ function toSiteProfileSettings(settings: NonNullable<Awaited<ReturnType<typeof S
   } satisfies SiteProfileSettings;
 }
 
-function toSiteVisibilitySettings(settings: NonNullable<Awaited<ReturnType<typeof SettingsRepository.get>>>) {
+function toSiteVisibilitySettings(
+  settings: NonNullable<Awaited<ReturnType<typeof SettingsRepository.get>>>,
+) {
   return serializeSettings(settings).visibility;
 }
 
@@ -51,7 +58,9 @@ function toSiteVisibilitySettings(settings: NonNullable<Awaited<ReturnType<typeo
 const fetchSiteContent = async (): Promise<SiteContent> => {
   const status = await SettingsRepository.getStatus();
   if (status.status === 'missing_table') {
-    throw new Error('Database tables are missing. Run `npx prisma migrate deploy` to initialize them.');
+    throw new Error(
+      'Database tables are missing. Run `npx prisma migrate deploy` to initialize them.',
+    );
   }
 
   if (status.status === 'missing_record') {
@@ -88,7 +97,9 @@ const fetchProfileSettings = async (): Promise<SiteProfileSettings> => {
   const status = await SettingsRepository.getStatus();
 
   if (status.status === 'missing_table') {
-    throw new Error('Database tables are missing. Run `npx prisma migrate deploy` to initialize them.');
+    throw new Error(
+      'Database tables are missing. Run `npx prisma migrate deploy` to initialize them.',
+    );
   }
 
   if (status.status === 'missing_record') {
@@ -107,7 +118,9 @@ const fetchVisibilitySettings = async (): Promise<SiteVisibilitySettings> => {
   const status = await SettingsRepository.getStatus();
 
   if (status.status === 'missing_table') {
-    throw new Error('Database tables are missing. Run `npx prisma migrate deploy` to initialize them.');
+    throw new Error(
+      'Database tables are missing. Run `npx prisma migrate deploy` to initialize them.',
+    );
   }
 
   if (status.status === 'missing_record') {

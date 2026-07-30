@@ -16,11 +16,7 @@
   "role": "Sole Developer",
   "start": "2021-01",
   "end": "2021-12",
-  "stack": [
-    "C#",
-    "XAML (WPF)",
-    "SQLite"
-  ],
+  "stack": ["C#", "XAML (WPF)", "SQLite"],
   "features": [
     "User login and role-based access",
     "CRUD for inventory items",
@@ -30,12 +26,42 @@
     "Automated DB build and deployment"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "University WPF project enabling secure inventory management with role-based access and audit logging.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a reliable, auditable desktop inventory system with role-based login and multi-user options.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Designed SQLite schema, implemented login/auth flows, built CRUD operations, added security features.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Inventory CRUD, audit/change history, role-based login, DDOS protection, automated setup scripts.", "order": 4 },
-    { "id": "impact", "title": "Impact / Results", "body": "Simplified organizational inventory workflows, ensured transparency with audit logs, showcased scalable WPF dev.", "order": 5 },
-    { "id": "future", "title": "Future Plans", "body": "Possible cloud DB integration and web dashboards (not pursued).", "order": 6 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "University WPF project enabling secure inventory management with role-based access and audit logging.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a reliable, auditable desktop inventory system with role-based login and multi-user options.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Designed SQLite schema, implemented login/auth flows, built CRUD operations, added security features.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Inventory CRUD, audit/change history, role-based login, DDOS protection, automated setup scripts.",
+      "order": 4
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Simplified organizational inventory workflows, ensured transparency with audit logs, showcased scalable WPF dev.",
+      "order": 5
+    },
+    {
+      "id": "future",
+      "title": "Future Plans",
+      "body": "Possible cloud DB integration and web dashboards (not pursued).",
+      "order": 6
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

@@ -32,7 +32,10 @@ type SortableProject = Project & { displayOrder: number };
 const sortProjects = (projects: Project[]): SortableProject[] =>
   projects
     .slice()
-    .sort((a, b) => (a.displayOrder ?? Number.MAX_SAFE_INTEGER) - (b.displayOrder ?? Number.MAX_SAFE_INTEGER))
+    .sort(
+      (a, b) =>
+        (a.displayOrder ?? Number.MAX_SAFE_INTEGER) - (b.displayOrder ?? Number.MAX_SAFE_INTEGER),
+    )
     .map((project, index) => ({
       ...project,
       displayOrder: index + 1,
@@ -137,7 +140,10 @@ export function PortfolioReorderBoard({ projects, onOrderSaved }: PortfolioReord
       </div>
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={items.map((item) => item.slug)} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={items.map((item) => item.slug)}
+          strategy={verticalListSortingStrategy}
+        >
           <ol className="space-y-3" aria-label="Portfolio ordering">
             {items.map((project) => (
               <SortableProjectCard key={project.slug} project={project} />
@@ -156,7 +162,9 @@ export function PortfolioReorderBoard({ projects, onOrderSaved }: PortfolioReord
 }
 
 function SortableProjectCard({ project }: { project: SortableProject }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: project.slug });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: project.slug,
+  });
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
@@ -177,7 +185,9 @@ function SortableProjectCard({ project }: { project: SortableProject }) {
             <p className="text-sm text-muted-foreground">{project.tagline}</p>
           </div>
           <div className="flex flex-col items-end text-xs text-muted-foreground">
-            <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase ${project.published ? 'bg-emerald-500/15 text-emerald-600' : 'bg-amber-500/15 text-amber-600'}`}>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] uppercase ${project.published ? 'bg-emerald-500/15 text-emerald-600' : 'bg-amber-500/15 text-amber-600'}`}
+            >
               {project.published ? 'Published' : 'Draft'}
             </span>
             <span className="rounded-full bg-muted px-2 py-0.5">{project.slug}</span>

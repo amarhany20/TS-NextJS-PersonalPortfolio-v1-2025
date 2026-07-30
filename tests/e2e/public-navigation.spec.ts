@@ -12,7 +12,6 @@ test.describe('Public site navigation', () => {
     await expect(page.locator('main')).toBeVisible();
   });
 
-
   test('responsive navigation works', async ({ page }) => {
     // Set to mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
@@ -23,5 +22,3 @@ test.describe('Public site navigation', () => {
     await expect(page.getByRole('link', { name: /Portfolio/i }).first()).toBeVisible();
   });
 });
-
-

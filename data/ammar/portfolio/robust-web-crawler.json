@@ -16,12 +16,7 @@
   "role": "Sole Developer",
   "start": "2022-01",
   "end": "2022-12",
-  "stack": [
-    "C#",
-    "XAML (WPF)",
-    "MSSQL",
-    "Multithreading"
-  ],
+  "stack": ["C#", "XAML (WPF)", "MSSQL", "Multithreading"],
   "features": [
     "Recursive domain-bound crawling",
     "Anchor tag (URL) extraction from HTML",
@@ -31,11 +26,36 @@
     "Configurable targets via GUI"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A robust WPF-based crawler that traverses websites, extracts anchor links, and stores them in MSSQL while maintaining UI responsiveness via multithreading.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Demonstrate scalable crawling, concurrency, and structured persistence with solid OOP design.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Engineered the crawler core, integrated MSSQL, built the WPF UI, implemented thread management, and added domain filters.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Threaded crawl workers; HTML parsing for anchors; domain allowlist; MSSQL schema for results; progress and control via WPF.", "order": 4 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a reusable crawling framework showcasing advanced OOP and concurrency in a desktop setting.", "order": 5 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A robust WPF-based crawler that traverses websites, extracts anchor links, and stores them in MSSQL while maintaining UI responsiveness via multithreading.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Demonstrate scalable crawling, concurrency, and structured persistence with solid OOP design.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Engineered the crawler core, integrated MSSQL, built the WPF UI, implemented thread management, and added domain filters.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Threaded crawl workers; HTML parsing for anchors; domain allowlist; MSSQL schema for results; progress and control via WPF.",
+      "order": 4
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a reusable crawling framework showcasing advanced OOP and concurrency in a desktop setting.",
+      "order": 5
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

@@ -16,12 +16,7 @@
   "role": "Software Engineer",
   "start": "2023-07",
   "end": "2024-04",
-  "stack": [
-    "Python",
-    "GUI",
-    "Database Integration",
-    "Microsoft Excel"
-  ],
+  "stack": ["Python", "GUI", "Database Integration", "Microsoft Excel"],
   "features": [
     "GUI interface for non-technical users",
     "Database connectors for retrieving datasets",
@@ -29,10 +24,30 @@
     "Excel export for structured results"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A desktop GUI tool to validate ID models and export evaluation results directly into Excel.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Simplify testing for non-technical users while ensuring consistent validation and reporting.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Developed the GUI, integrated DB connectors, implemented validation routines, and Excel export.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Streamlined evaluation workflows and reduced manual analysis overhead.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A desktop GUI tool to validate ID models and export evaluation results directly into Excel.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Simplify testing for non-technical users while ensuring consistent validation and reporting.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Developed the GUI, integrated DB connectors, implemented validation routines, and Excel export.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Streamlined evaluation workflows and reduced manual analysis overhead.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Cancelled in 2024-04.",

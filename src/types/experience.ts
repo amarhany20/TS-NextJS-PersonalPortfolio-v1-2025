@@ -4,12 +4,12 @@ export interface Experience {
   company: string;
   title: string;
   location: string;
-  start: string;          // YYYY-MM
-  end?: string;           // YYYY-MM (absent => present)
-  present: boolean;       // derived convenience flag
-  impact: string;         // primary summary / impact statement
+  start: string; // YYYY-MM
+  end?: string; // YYYY-MM (absent => present)
+  present: boolean; // derived convenience flag
+  impact: string; // primary summary / impact statement
   achievements: string[]; // bullet highlights (trimmed selection)
-  skills: string[];       // technology / stack display
+  skills: string[]; // technology / stack display
   companyUrl?: string | null;
   displayOrder?: number;
   published?: boolean;
@@ -23,7 +23,7 @@ export interface ExperienceItem {
   title: string;
   location: string;
   start: string; // YYYY-MM
-  end?: string;  // YYYY-MM
+  end?: string; // YYYY-MM
   present?: boolean;
   bullets: readonly string[];
   stack?: readonly string[];

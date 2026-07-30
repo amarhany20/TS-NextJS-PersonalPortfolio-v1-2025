@@ -28,11 +28,7 @@ export const ExperienceService = {
     if (!startDate) {
       throw new ValidationError('Invalid start date format');
     }
-    const endDate = (input.present ?? false)
-      ? null
-      : input.end
-        ? parseYearMonth(input.end)
-        : null;
+    const endDate = (input.present ?? false) ? null : input.end ? parseYearMonth(input.end) : null;
     if (input.end && !endDate && !(input.present ?? false)) {
       throw new ValidationError('Invalid end date format');
     }
@@ -42,15 +38,14 @@ export const ExperienceService = {
       company: input.company,
       title: input.title,
       location: nullIfEmpty(input.location),
-  startDate,
+      startDate,
       endDate: endDate ?? null,
       present: input.present ?? false,
       impact: nullIfEmpty(input.impact),
       achievements: input.achievements ?? [],
       skills: input.skills ?? [],
       companyUrl: nullIfEmpty(input.companyUrl),
-      displayOrder:
-        input.displayOrder ?? (await ExperienceRepository.getNextDisplayOrder()),
+      displayOrder: input.displayOrder ?? (await ExperienceRepository.getNextDisplayOrder()),
       published: input.published ?? false,
     });
 
@@ -58,18 +53,18 @@ export const ExperienceService = {
   },
 
   async updateExperience(id: string, input: UpdateExperienceInput) {
-  const existing = await ExperienceRepository.findById(id);
+    const existing = await ExperienceRepository.findById(id);
     if (!existing) {
       throw new NotFoundError('Experience not found');
     }
 
     const startDate =
       input.start !== undefined
-        ? parseYearMonth(input.start) ?? raiseValidation('Invalid start date format')
+        ? (parseYearMonth(input.start) ?? raiseValidation('Invalid start date format'))
         : undefined;
     const endDate =
       input.end !== undefined
-        ? parseYearMonth(input.end) ?? raiseValidation('Invalid end date format')
+        ? (parseYearMonth(input.end) ?? raiseValidation('Invalid end date format'))
         : input.present !== undefined
           ? input.present
             ? null

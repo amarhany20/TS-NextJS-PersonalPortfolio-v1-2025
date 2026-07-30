@@ -35,12 +35,42 @@
     "Repository/service-layer architecture with audit logging"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Product-led rebuild of Domogreen’s collaboration suite with Flutter desktop clients, Django REST services, Redis/WebSockets, and hardened security layers.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Enable secure research collaboration with offline-ready desktop apps, encrypted data flows, and hybrid deployment flexibility.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Acted as product engineer: led roadmap conversations with the CEO, delivered Flutter desktop UX, architected Django REST services, and orchestrated data migrations from the Flask V1 stack.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Implemented JWT, encryption, and RBAC; built Redis/WebSockets collaboration; set up hybrid on-prem Linux + GCP infrastructure; enforced repository/service-layer patterns.", "order": 4 },
-    { "id": "challenges", "title": "Challenges & Solutions", "body": "Balanced on-prem data residency with cloud scalability by splitting workloads, and hardened security through encryption and audit logging.", "order": 5 },
-    { "id": "impact", "title": "Impact / Results", "body": "Established secure architecture and reusable patterns later repurposed despite project discontinuation.", "order": 6 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Product-led rebuild of Domogreen’s collaboration suite with Flutter desktop clients, Django REST services, Redis/WebSockets, and hardened security layers.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Enable secure research collaboration with offline-ready desktop apps, encrypted data flows, and hybrid deployment flexibility.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Acted as product engineer: led roadmap conversations with the CEO, delivered Flutter desktop UX, architected Django REST services, and orchestrated data migrations from the Flask V1 stack.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Implemented JWT, encryption, and RBAC; built Redis/WebSockets collaboration; set up hybrid on-prem Linux + GCP infrastructure; enforced repository/service-layer patterns.",
+      "order": 4
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges & Solutions",
+      "body": "Balanced on-prem data residency with cloud scalability by splitting workloads, and hardened security through encryption and audit logging.",
+      "order": 5
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Established secure architecture and reusable patterns later repurposed despite project discontinuation.",
+      "order": 6
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Deprecated project; retain only architectural takeaways.",

@@ -11,11 +11,7 @@ const yearMonthSchema = z
   .string()
   .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Value must be in YYYY-MM format');
 
-const optionalUrlSchema = z
-  .string()
-  .trim()
-  .url('Invalid URL format')
-  .optional();
+const optionalUrlSchema = z.string().trim().url('Invalid URL format').optional();
 
 const sectionSchema = z.object({
   id: z.string().optional(),

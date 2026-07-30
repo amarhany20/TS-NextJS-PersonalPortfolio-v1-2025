@@ -16,13 +16,7 @@
   "role": "Full-stack (WordPress plugin author + site integration)",
   "start": "2025-01",
   "end": "2025-02",
-  "stack": [
-    "WordPress",
-    "PHP",
-    "MySQL",
-    "cPanel/WHM",
-    "Elementor"
-  ],
+  "stack": ["WordPress", "PHP", "MySQL", "cPanel/WHM", "Elementor"],
   "features": [
     "Webhook ingestion from carriers and third-party trackers",
     "Event normalization and deduplication pipeline",
@@ -31,10 +25,30 @@
     "Historical reporting and CSV exports"
   ],
   "sections": [
-    { "id": "overview", "title": "Overview", "body": "Unified tracking platform for operations to monitor shipments and respond to delays.", "order": 1 },
-  { "id": "pipeline", "title": "Pipeline", "body": "Custom WordPress plugin handles manual shipment entry, status updates, and document attachments; admin screens for managers to update shipment progress.", "order": 2 },
-  { "id": "dashboard", "title": "Dashboard", "body": "Admin pages in WordPress with shipment lists, filters, and role-based access; client-facing tracking page with secure lookup.", "order": 3 },
-  { "id": "ops", "title": "Operations", "body": "Document management for proofs, role-based access for managers and employees, and secure public tracking links for clients.", "order": 4 }
+    {
+      "id": "overview",
+      "title": "Overview",
+      "body": "Unified tracking platform for operations to monitor shipments and respond to delays.",
+      "order": 1
+    },
+    {
+      "id": "pipeline",
+      "title": "Pipeline",
+      "body": "Custom WordPress plugin handles manual shipment entry, status updates, and document attachments; admin screens for managers to update shipment progress.",
+      "order": 2
+    },
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "body": "Admin pages in WordPress with shipment lists, filters, and role-based access; client-facing tracking page with secure lookup.",
+      "order": 3
+    },
+    {
+      "id": "ops",
+      "title": "Operations",
+      "body": "Document management for proofs, role-based access for managers and employees, and secure public tracking links for clients.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Internal system; no public assets.",

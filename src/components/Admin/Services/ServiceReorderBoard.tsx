@@ -13,7 +13,13 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core';
-import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 import type { Service } from '@/types/service';
@@ -126,7 +132,6 @@ export function ServiceReorderBoard({ services }: Props) {
     }
   };
 
-
   if (items.length === 0) {
     return (
       <div className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-6 text-sm text-[var(--text-secondary)]">
@@ -160,12 +165,14 @@ export function ServiceReorderBoard({ services }: Props) {
       </div>
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={items.map((item) => item.slug)} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={items.map((item) => item.slug)}
+          strategy={verticalListSortingStrategy}
+        >
           <ol className="space-y-3" aria-label="Service ordering">
             {items.map((service) => (
               <ServiceCard key={service.slug} service={service} onDelete={handleDelete} />
             ))}
-
           </ol>
         </SortableContext>
       </DndContext>
@@ -179,9 +186,16 @@ export function ServiceReorderBoard({ services }: Props) {
   );
 }
 
-function ServiceCard({ service, onDelete }: { service: SortableService; onDelete: (slug: string, title: string) => void | Promise<void> }) {
-
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: service.slug });
+function ServiceCard({
+  service,
+  onDelete,
+}: {
+  service: SortableService;
+  onDelete: (slug: string, title: string) => void | Promise<void>;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: service.slug,
+  });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -230,7 +244,6 @@ function ServiceCard({ service, onDelete }: { service: SortableService; onDelete
           </div>
         </div>
       </div>
-
     </li>
   );
 }

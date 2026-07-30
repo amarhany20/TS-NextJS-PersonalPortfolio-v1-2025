@@ -26,10 +26,30 @@
     "Responsive WPF-based POS interface"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Cashier system with inventory, order history, and role-based access for admins and cashiers.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a secure, reliable POS-style cashier and inventory system for multi-user environments.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Designed DB schema, implemented authorization, inventory, and transaction flows, and built WPF interface.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a robust, real-world-ready POS solution showcasing SQL integration and role-based workflows.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Cashier system with inventory, order history, and role-based access for admins and cashiers.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a secure, reliable POS-style cashier and inventory system for multi-user environments.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Designed DB schema, implemented authorization, inventory, and transaction flows, and built WPF interface.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a robust, real-world-ready POS solution showcasing SQL integration and role-based workflows.",
+      "order": 4
+    }
   ],
   "createdAt": "2025-09-21T00:00:00",
   "updatedAt": "2025-09-21T00:00:00"

@@ -44,15 +44,15 @@ export class ContactSubmissionRepository {
     return mapSubmission(record)!;
   }
 
-  static async findAll(filter: { status?: ContactSubmissionStatus } = {}): Promise<DbContactSubmission[]> {
+  static async findAll(
+    filter: { status?: ContactSubmissionStatus } = {},
+  ): Promise<DbContactSubmission[]> {
     const records = await prisma.contactSubmission.findMany({
       where: filter.status ? { status: filter.status } : undefined,
       orderBy: { createdAt: 'desc' },
     });
 
-    return records
-      .map((record: PrismaContactSubmission) => mapSubmission(record)!)
-      .filter(Boolean);
+    return records.map((record: PrismaContactSubmission) => mapSubmission(record)!).filter(Boolean);
   }
 
   static async findById(id: string): Promise<DbContactSubmission | null> {
@@ -60,7 +60,10 @@ export class ContactSubmissionRepository {
     return mapSubmission(record);
   }
 
-  static async updateStatus(id: string, status: ContactSubmissionStatus): Promise<DbContactSubmission | null> {
+  static async updateStatus(
+    id: string,
+    status: ContactSubmissionStatus,
+  ): Promise<DbContactSubmission | null> {
     try {
       const record = await prisma.contactSubmission.update({
         where: { id },

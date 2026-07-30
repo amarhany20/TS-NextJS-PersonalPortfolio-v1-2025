@@ -82,8 +82,9 @@ const BLOG_INCLUDE = {
 type BlogWithRelations = Prisma.BlogGetPayload<{ include: typeof BLOG_INCLUDE }>;
 
 export const BlogRepository = {
-
-  async findPublished(filter: { categorySlug?: string; tagSlug?: string } = {}): Promise<DbBlogPost[]> {
+  async findPublished(
+    filter: { categorySlug?: string; tagSlug?: string } = {},
+  ): Promise<DbBlogPost[]> {
     const records = await prisma.blog.findMany({
       where: {
         status: 'published',
@@ -111,10 +112,7 @@ export const BlogRepository = {
             }
           : {}),
       },
-      orderBy: [
-        { publishedAt: 'desc' },
-        { updatedAt: 'desc' },
-      ],
+      orderBy: [{ publishedAt: 'desc' }, { updatedAt: 'desc' }],
       include: BLOG_INCLUDE,
     });
 

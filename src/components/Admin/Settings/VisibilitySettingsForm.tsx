@@ -104,13 +104,29 @@ export function VisibilitySettingsForm({ initialValues }: VisibilitySettingsForm
           <div className="mb-5 space-y-1">
             <h2 className="text-lg font-semibold text-foreground">Public pages</h2>
             <p className="text-sm text-[var(--text-secondary)]">
-              When a page is hidden, it is removed from the public navigation and direct visits return a 404 page.
+              When a page is hidden, it is removed from the public navigation and direct visits
+              return a 404 page.
             </p>
           </div>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <ToggleField title="Portfolio page" description="Controls /portfolio and portfolio detail pages." checked={values.pages.portfolio} onChange={(value) => setPage('portfolio', value)} />
-            <ToggleField title="Services page" description="Controls /services and removes it from navigation." checked={values.pages.services} onChange={(value) => setPage('services', value)} />
-            <ToggleField title="Blogs page" description="Controls /blogs, blog detail routes, and public navigation visibility." checked={values.pages.blogs} onChange={(value) => setPage('blogs', value)} />
+            <ToggleField
+              title="Portfolio page"
+              description="Controls /portfolio and portfolio detail pages."
+              checked={values.pages.portfolio}
+              onChange={(value) => setPage('portfolio', value)}
+            />
+            <ToggleField
+              title="Services page"
+              description="Controls /services and removes it from navigation."
+              checked={values.pages.services}
+              onChange={(value) => setPage('services', value)}
+            />
+            <ToggleField
+              title="Blogs page"
+              description="Controls /blogs, blog detail routes, and public navigation visibility."
+              checked={values.pages.blogs}
+              onChange={(value) => setPage('blogs', value)}
+            />
           </div>
         </section>
 
@@ -122,13 +138,48 @@ export function VisibilitySettingsForm({ initialValues }: VisibilitySettingsForm
             </p>
           </div>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <ToggleField title="Summary" description="Show or hide the hero summary section." checked={values.sections.summary} onChange={(value) => setSection('summary', value)} />
-            <ToggleField title="Experience" description="Show or hide the experience timeline section." checked={values.sections.experience} onChange={(value) => setSection('experience', value)} />
-            <ToggleField title="Education" description="Show or hide the education section." checked={values.sections.education} onChange={(value) => setSection('education', value)} />
-            <ToggleField title="Certificates" description="Show or hide certificates on the home page." checked={values.sections.certificates} onChange={(value) => setSection('certificates', value)} />
-            <ToggleField title="Recommendations" description="Show or hide testimonials and recommendations." checked={values.sections.recommendations} onChange={(value) => setSection('recommendations', value)} />
-            <ToggleField title="Skills" description="Show or hide the grouped skills section." checked={values.sections.skills} onChange={(value) => setSection('skills', value)} />
-            <ToggleField title="Contact" description="Show or hide the /home#contact section." checked={values.sections.contact} onChange={(value) => setSection('contact', value)} />
+            <ToggleField
+              title="Summary"
+              description="Show or hide the hero summary section."
+              checked={values.sections.summary}
+              onChange={(value) => setSection('summary', value)}
+            />
+            <ToggleField
+              title="Experience"
+              description="Show or hide the experience timeline section."
+              checked={values.sections.experience}
+              onChange={(value) => setSection('experience', value)}
+            />
+            <ToggleField
+              title="Education"
+              description="Show or hide the education section."
+              checked={values.sections.education}
+              onChange={(value) => setSection('education', value)}
+            />
+            <ToggleField
+              title="Certificates"
+              description="Show or hide certificates on the home page."
+              checked={values.sections.certificates}
+              onChange={(value) => setSection('certificates', value)}
+            />
+            <ToggleField
+              title="Recommendations"
+              description="Show or hide testimonials and recommendations."
+              checked={values.sections.recommendations}
+              onChange={(value) => setSection('recommendations', value)}
+            />
+            <ToggleField
+              title="Skills"
+              description="Show or hide the grouped skills section."
+              checked={values.sections.skills}
+              onChange={(value) => setSection('skills', value)}
+            />
+            <ToggleField
+              title="Contact"
+              description="Show or hide the /home#contact section."
+              checked={values.sections.contact}
+              onChange={(value) => setSection('contact', value)}
+            />
           </div>
         </section>
 

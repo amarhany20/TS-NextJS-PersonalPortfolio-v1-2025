@@ -70,7 +70,9 @@ export interface PortfolioCreateData {
 
 export type PortfolioUpdateData = Partial<PortfolioCreateData>;
 
-function mapProject(record: Awaited<ReturnType<typeof prisma.portfolio.findFirst>>): DbPortfolioProject | null {
+function mapProject(
+  record: Awaited<ReturnType<typeof prisma.portfolio.findFirst>>,
+): DbPortfolioProject | null {
   if (!record) {
     return null;
   }
@@ -110,11 +112,7 @@ function mapProject(record: Awaited<ReturnType<typeof prisma.portfolio.findFirst
 export const PortfolioRepository = {
   async findAll(): Promise<DbPortfolioProject[]> {
     const records = await prisma.portfolio.findMany({
-      orderBy: [
-        { displayOrder: 'asc' },
-        { startDate: 'desc' },
-        { createdAt: 'desc' },
-      ],
+      orderBy: [{ displayOrder: 'asc' }, { startDate: 'desc' }, { createdAt: 'desc' }],
     });
 
     return records.map((record) => mapProject(record)!).filter(Boolean);
@@ -123,11 +121,7 @@ export const PortfolioRepository = {
   async findPublished(): Promise<DbPortfolioProject[]> {
     const records = await prisma.portfolio.findMany({
       where: { published: true },
-      orderBy: [
-        { featured: 'desc' },
-        { displayOrder: 'asc' },
-        { startDate: 'desc' },
-      ],
+      orderBy: [{ featured: 'desc' }, { displayOrder: 'asc' }, { startDate: 'desc' }],
     });
 
     return records.map((record) => mapProject(record)!).filter(Boolean);
@@ -242,7 +236,7 @@ function toCreateData(data: PortfolioCreateData) {
     confidentialNotes: data.confidentialNotes ?? null,
     displayOrder: data.displayOrder,
     published: data.published,
-    publishedAt: data.published ? data.publishedAt ?? new Date() : null,
+    publishedAt: data.published ? (data.publishedAt ?? new Date()) : null,
   };
 }
 
@@ -267,10 +261,14 @@ function toUpdateData(data: PortfolioUpdateData) {
   if (data.startDate !== undefined) update.startDate = data.startDate ?? null;
   if (data.endDate !== undefined) update.endDate = data.endDate ?? null;
   if (data.stack !== undefined) update.stack = JSON.stringify(data.stack ?? []);
-  if (data.features !== undefined) update.features = data.features ? JSON.stringify(data.features) : null;
-  if (data.sections !== undefined) update.sections = data.sections ? JSON.stringify(data.sections) : null;
-  if (data.gallery !== undefined) update.gallery = data.gallery ? JSON.stringify(data.gallery) : null;
-  if (data.confidentialNotes !== undefined) update.confidentialNotes = data.confidentialNotes ?? null;
+  if (data.features !== undefined)
+    update.features = data.features ? JSON.stringify(data.features) : null;
+  if (data.sections !== undefined)
+    update.sections = data.sections ? JSON.stringify(data.sections) : null;
+  if (data.gallery !== undefined)
+    update.gallery = data.gallery ? JSON.stringify(data.gallery) : null;
+  if (data.confidentialNotes !== undefined)
+    update.confidentialNotes = data.confidentialNotes ?? null;
   if (data.displayOrder !== undefined) update.displayOrder = data.displayOrder;
   if (data.published !== undefined) update.published = data.published;
   if (data.publishedAt !== undefined) update.publishedAt = data.publishedAt ?? null;

@@ -34,8 +34,7 @@ export const CertificateService = {
       skills: input.skills,
       image: nullIfEmpty(input.image),
       verifyUrl: nullIfEmpty(input.verifyUrl),
-      displayOrder:
-        input.displayOrder ?? (await CertificateRepository.getNextDisplayOrder()),
+      displayOrder: input.displayOrder ?? (await CertificateRepository.getNextDisplayOrder()),
     });
 
     return serializeCertificate(record);
@@ -49,7 +48,7 @@ export const CertificateService = {
 
     const issuedOn =
       input.issuedOn !== undefined
-        ? parseISODate(input.issuedOn) ?? raiseValidation('Issued date must be a valid ISO date')
+        ? (parseISODate(input.issuedOn) ?? raiseValidation('Issued date must be a valid ISO date'))
         : undefined;
 
     const record = await CertificateRepository.update(id, {

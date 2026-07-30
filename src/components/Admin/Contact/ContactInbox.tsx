@@ -28,7 +28,6 @@ const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 
 const formatDateTime = (value: string) => dateTimeFormatter.format(new Date(value));
 
-
 export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
   const [submissions, setSubmissions] = useState<ContactSubmission[]>(initialSubmissions);
   const [statusFilter, setStatusFilter] = useState<'all' | ContactSubmissionStatus>('all');
@@ -61,9 +60,7 @@ export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
 
     const previous = submissions;
     setSubmissions((current) =>
-      current.map((submission) =>
-        submission.id === id ? { ...submission, status } : submission,
-      ),
+      current.map((submission) => (submission.id === id ? { ...submission, status } : submission)),
     );
 
     try {
@@ -176,7 +173,6 @@ export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
                   <p className="text-xs text-muted-foreground">
                     {formatDateTime(submission.createdAt)}
                   </p>
-
                 </div>
                 <span
                   className={`${STATUS_BADGES[submission.status].className} rounded-full px-3 py-1 text-xs font-medium`}
@@ -276,7 +272,15 @@ export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
   );
 }
 
-function FilterChip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+function FilterChip({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
   return (
     <button
       type="button"

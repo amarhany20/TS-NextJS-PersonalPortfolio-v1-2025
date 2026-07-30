@@ -121,7 +121,10 @@ describe('BlogService', () => {
       readingTime: 3,
     } as any);
     vi.mocked(BlogRepository.isSlugTaken).mockResolvedValueOnce(false);
-    vi.mocked(BlogRepository.update).mockResolvedValue({ id: 'post-1', slug: 'hello-world' } as any);
+    vi.mocked(BlogRepository.update).mockResolvedValue({
+      id: 'post-1',
+      slug: 'hello-world',
+    } as any);
 
     const result = await BlogService.updatePost('hello', {
       slug: 'hello-world',
@@ -167,7 +170,9 @@ describe('BlogService', () => {
   it('throws when updating unknown post', async () => {
     vi.mocked(BlogRepository.findBySlug).mockResolvedValue(null);
 
-    await expect(BlogService.updatePost('missing', {} as any)).rejects.toBeInstanceOf(NotFoundError);
+    await expect(BlogService.updatePost('missing', {} as any)).rejects.toBeInstanceOf(
+      NotFoundError,
+    );
   });
 
   it('throws when deleting unknown post', async () => {

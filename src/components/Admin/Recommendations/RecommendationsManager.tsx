@@ -42,7 +42,10 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
         const bOrder = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
 
         if (aOrder !== bOrder) return aOrder - bOrder;
-        return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
+        return (
+          (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) -
+          (a.updatedAt ? new Date(a.updatedAt).getTime() : 0)
+        );
       })
       .filter((item) => {
         const published = item.published ?? false;
@@ -52,8 +55,8 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
       })
       .filter((item) => {
         if (!term) return true;
-        return [item.name, item.position, item.company, item.relationship, item.content].some((field) =>
-          field?.toString().toLowerCase().includes(term),
+        return [item.name, item.position, item.company, item.relationship, item.content].some(
+          (field) => field?.toString().toLowerCase().includes(term),
         );
       });
   }, [items, search, filter]);
@@ -86,7 +89,9 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
     if (!id) return;
 
     setBusyId(id);
-    setItems((current) => current.map((item) => (item.id === id ? { ...item, published: nextPublished } : item)));
+    setItems((current) =>
+      current.map((item) => (item.id === id ? { ...item, published: nextPublished } : item)),
+    );
 
     try {
       const response = await fetch(`/api/v1/recommendations/${id}`, {
@@ -100,16 +105,27 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
         throw new Error(description);
       }
 
-      const updated: RecommendationListItem = payload?.data?.recommendation ?? { ...record, published: nextPublished };
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, ...updated } : item)));
+      const updated: RecommendationListItem = payload?.data?.recommendation ?? {
+        ...record,
+        published: nextPublished,
+      };
+      setItems((current) =>
+        current.map((item) => (item.id === id ? { ...item, ...updated } : item)),
+      );
       showToast({
         variant: 'success',
         title: nextPublished ? 'Recommendation published' : 'Recommendation moved to draft',
         description: record.name,
       });
     } catch (error) {
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, published: record.published } : item)));
-      showToast({ variant: 'error', title: 'Update failed', description: error instanceof Error ? error.message : undefined });
+      setItems((current) =>
+        current.map((item) => (item.id === id ? { ...item, published: record.published } : item)),
+      );
+      showToast({
+        variant: 'error',
+        title: 'Update failed',
+        description: error instanceof Error ? error.message : undefined,
+      });
     } finally {
       setBusyId(null);
     }
@@ -117,7 +133,9 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
 
   const handleDelete = async (record: Recommendation) => {
     if (!record.id) return;
-    const confirmed = window.confirm(`Delete recommendation from ${record.name}? This cannot be undone.`);
+    const confirmed = window.confirm(
+      `Delete recommendation from ${record.name}? This cannot be undone.`,
+    );
     if (!confirmed) return;
 
     setBusyId(record.id);
@@ -132,7 +150,11 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
       setItems((current) => current.filter((item) => item.id !== record.id));
       showToast({ variant: 'success', title: 'Recommendation deleted', description: record.name });
     } catch (error) {
-      showToast({ variant: 'error', title: 'Delete failed', description: error instanceof Error ? error.message : undefined });
+      showToast({
+        variant: 'error',
+        title: 'Delete failed',
+        description: error instanceof Error ? error.message : undefined,
+      });
     } finally {
       setBusyId(null);
     }
@@ -143,7 +165,9 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold">Testimonials</h1>
-          <p className="text-sm text-muted-foreground">Collect and curate recommendations displayed on the home page.</p>
+          <p className="text-sm text-muted-foreground">
+            Collect and curate recommendations displayed on the home page.
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -179,7 +203,9 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
               key={option}
               type="button"
               className={`rounded-full px-3 py-1 font-medium capitalize transition ${
-                filter === option ? 'bg-[var(--accent-primary)] text-black' : 'text-muted-foreground'
+                filter === option
+                  ? 'bg-[var(--accent-primary)] text-black'
+                  : 'text-muted-foreground'
               }`}
               onClick={() => setFilter(option)}
             >
@@ -192,7 +218,9 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-10 text-center">
           <p className="text-lg font-semibold text-foreground">No recommendations found</p>
-          <p className="text-sm text-muted-foreground">Create a new recommendation to get started.</p>
+          <p className="text-sm text-muted-foreground">
+            Create a new recommendation to get started.
+          </p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/30">
@@ -240,9 +268,7 @@ export function RecommendationsManager({ initialRecommendations }: Recommendatio
                       {item.displayOrder !== undefined ? (
                         <Badge variant="muted">Order #{item.displayOrder}</Badge>
                       ) : null}
-                      {item.rating ? (
-                        <Badge variant="muted">{item.rating}/5 ⭐</Badge>
-                      ) : null}
+                      {item.rating ? <Badge variant="muted">{item.rating}/5 ⭐</Badge> : null}
                     </div>
                   </td>
                   <td className="px-4 py-4 align-top">
@@ -296,9 +322,10 @@ function Badge({ children, variant = 'muted' }: BadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}>
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}
+    >
       {children}
     </span>
   );
 }
-

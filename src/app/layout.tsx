@@ -11,9 +11,8 @@ import ClientLayout from '@/components/ClientLayout';
 import { SettingsService } from '@/server/services/SettingsService';
 import './globals.css';
 
-
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -28,14 +27,16 @@ export async function generateMetadata(): Promise<Metadata> {
 
     const metadataBaseString = content.seo?.metadataBase || content.seo?.siteUrl;
     const metadataBase = metadataBaseString ? new URL(metadataBaseString) : undefined;
-    const keywords = content.seo?.keywords?.length ? content.seo.keywords : content.hero?.highlights ?? [];
+    const keywords = content.seo?.keywords?.length
+      ? content.seo.keywords
+      : (content.hero?.highlights ?? []);
     const canonical = content.seo?.siteUrl;
     const titleShape = content.seo?.titleTemplate
       ? {
           default: content.seo.title,
           template: content.seo.titleTemplate,
         }
-      : content.seo?.title ?? `${displayName} | Portfolio`;
+      : (content.seo?.title ?? `${displayName} | Portfolio`);
 
     const openGraphImages = content.seo?.openGraphImage
       ? [{ url: content.seo.openGraphImage }]
@@ -85,7 +86,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
     return (
       <html lang="en" data-theme={activeTheme} className="h-full">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full`}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full`}
+        >
           <ClientLayout siteContent={siteContent}>{children}</ClientLayout>
         </body>
       </html>
@@ -93,11 +96,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   } catch {
     return (
       <html lang="en" data-theme="professional-dark" className="h-full">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white h-full`}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white h-full`}
+        >
           {children}
         </body>
       </html>
     );
   }
 }
-

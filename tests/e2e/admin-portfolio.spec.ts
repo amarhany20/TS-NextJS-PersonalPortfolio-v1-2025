@@ -1,10 +1,7 @@
 import type { APIRequestContext } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
-import { getPlaywrightBaseUrl } from './base-url';
-
 const DEFAULT_START_MONTH = formatYearMonth(new Date());
-
 
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
@@ -20,17 +17,14 @@ test.describe('Admin portfolio experience', () => {
     await expect(page.getByRole('heading', { name: 'Create project' })).toBeVisible();
   });
 
-
-  test('creates, publishes, and deletes a project', async ({ page }) => {
+  test('creates, publishes, and deletes a project', async ({ page, request }) => {
     const unique = Date.now();
     const title = `E2E Project ${unique}`;
     const slug = `e2e-project-${unique}`;
-    const baseURL = getPlaywrightBaseUrl();
 
     try {
       await page.goto('/admin/portfolio/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Create project' })).toBeVisible();
-
 
       const fillField = async (label: string, value: string) => {
         await page.getByLabel(new RegExp(`^${label}`)).fill(value);
@@ -45,35 +39,37 @@ test.describe('Admin portfolio experience', () => {
       await fillField('Start', DEFAULT_START_MONTH);
       await fillField('Stack', 'Next.js\nTypeScript');
 
-
       await page.getByRole('button', { name: 'Create project' }).click();
       await expect(page).toHaveURL(/\/admin\/portfolio$/, { timeout: 15000 });
 
       await expect(page.locator('tr', { hasText: title }).first()).toBeVisible();
 
-
       const row = page.locator('tr', { hasText: slug });
       await expect(row.getByText('Draft')).toBeVisible();
 
       await row.getByRole('button', { name: new RegExp(`Publish ${title}`, 'i') }).click();
-      await expect(row.getByRole('button', { name: new RegExp(`Unpublish ${title}`, 'i') })).toBeVisible();
+      await expect(
+        row.getByRole('button', { name: new RegExp(`Unpublish ${title}`, 'i') }),
+      ).toBeVisible();
       await expect(row.getByText('Published')).toBeVisible();
 
       page.once('dialog', (dialog) => dialog.accept());
       await row.getByRole('button', { name: new RegExp(`Delete ${title}`, 'i') }).click();
       await expect(page.locator('tr', { hasText: slug })).toHaveCount(0);
     } finally {
-      await cleanupProject(slug, baseURL);
+      await cleanupProject(request, slug);
     }
   });
 
-  test('reorders portfolio projects through the authenticated reorder endpoint', async ({ page, request }) => {
+  test('reorders portfolio projects through the authenticated reorder endpoint', async ({
+    page,
+    request,
+  }) => {
     const unique = Date.now();
     const firstTitle = `E2E Reorder Project A ${unique}`;
     const firstSlug = `e2e-reorder-project-a-${unique}`;
     const secondTitle = `E2E Reorder Project B ${unique}`;
     const secondSlug = `e2e-reorder-project-b-${unique}`;
-    const baseURL = getPlaywrightBaseUrl();
 
     try {
       await createProject(request, {
@@ -103,8 +99,8 @@ test.describe('Admin portfolio experience', () => {
       await expect(items.nth(0)).toContainText('#1');
       await expect(items.nth(1)).toContainText('#2');
     } finally {
-      await cleanupProject(firstSlug, baseURL);
-      await cleanupProject(secondSlug, baseURL);
+      await cleanupProject(request, firstSlug);
+      await cleanupProject(request, secondSlug);
     }
   });
 });
@@ -143,13 +139,11 @@ async function reorderProjects(request: APIRequestContext, slugs: string[]) {
   expect(response.ok(), responseText).toBeTruthy();
 }
 
-async function cleanupProject(slug: string, baseURL: string) {
+async function cleanupProject(request: APIRequestContext, slug: string) {
   if (!slug) return;
 
-  const api = await test.request.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
-  const response = await api.delete(`/api/v1/portfolio/${slug}`);
+  const response = await request.delete(`/api/v1/portfolio/${slug}`);
   const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
-  await api.dispose();
 
   if (response.ok() || response.status() === 404) {
     return;

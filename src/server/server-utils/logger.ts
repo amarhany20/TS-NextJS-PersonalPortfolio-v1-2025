@@ -2,10 +2,10 @@ import { env } from '@/server/server-validators/env';
 
 /**
  * Logging utility for server-side logging.
- * 
+ *
  * This provides a structured logging interface that can be extended
  * to integrate with logging services like Sentry, LogRocket, or Datadog.
- * 
+ *
  * For v1, logs to console. In production, this can be extended to
  * send logs to external services.
  */
@@ -43,11 +43,14 @@ class Logger {
   error(message: string, error?: Error | unknown, context?: LogContext) {
     const errorContext = {
       ...context,
-      error: error instanceof Error ? {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-      } : error,
+      error:
+        error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+            }
+          : error,
     };
     console.error(this.formatMessage('error', message, errorContext));
   }
@@ -84,4 +87,3 @@ export function logDatabase(operation: string, table: string, duration?: number)
     duration: duration ? `${duration}ms` : undefined,
   });
 }
-

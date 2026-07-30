@@ -1,9 +1,9 @@
 /**
  * HTTP Error Classes and Mapping
- * 
+ *
  * Centralized error handling for API routes.
  * All domain errors map to HTTP status codes here.
- * 
+ *
  * Usage in controllers:
  *   throw new NotFoundError('User not found');
  *   throw new ValidationError('Invalid email format');
@@ -14,7 +14,7 @@ export class AppError extends Error {
     message: string,
     public statusCode: number = 500,
     public code: string = 'INTERNAL_ERROR',
-    public details?: unknown
+    public details?: unknown,
   ) {
     super(message);
     this.name = this.constructor.name;

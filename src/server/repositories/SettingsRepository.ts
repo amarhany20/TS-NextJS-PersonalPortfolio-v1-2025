@@ -8,7 +8,10 @@ import type { Settings as PrismaSettingsRecord } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 import prisma from '@/server/db/prisma';
-import type { UpdateSiteProfileInput, UpdateSiteVisibilityInput } from '@/server/server-validators/settings';
+import type {
+  UpdateSiteProfileInput,
+  UpdateSiteVisibilityInput,
+} from '@/server/server-validators/settings';
 import { parseJson } from '@/server/server-utils/json';
 
 export interface DbSettings {
@@ -81,7 +84,9 @@ export const SettingsRepository = {
       return { status: 'ready', settings: mapSettingsRecord(record) };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2021') {
-        console.warn('Settings table missing. Run `npx prisma migrate dev` (local) or `npx prisma migrate deploy` (prod) to initialise the database.');
+        console.warn(
+          'Settings table missing. Run `npx prisma migrate dev` (local) or `npx prisma migrate deploy` (prod) to initialise the database.',
+        );
         return { status: 'missing_table' };
       }
 
@@ -95,7 +100,9 @@ export const SettingsRepository = {
       record = await prisma.settings.findUnique({ where: { id: SETTINGS_ID } });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2021') {
-        console.warn('Settings table missing. Run `npx prisma db push` or migrations to initialise the database.');
+        console.warn(
+          'Settings table missing. Run `npx prisma db push` or migrations to initialise the database.',
+        );
         return null;
       }
 
@@ -117,8 +124,9 @@ export const SettingsRepository = {
       });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
-        throw new Error('Settings record not initialised. Ensure .env bootstrap has run and database is migrated.');
-
+        throw new Error(
+          'Settings record not initialised. Ensure .env bootstrap has run and database is migrated.',
+        );
       }
 
       throw error;
@@ -145,7 +153,9 @@ export const SettingsRepository = {
       return mapSettingsRecord(record);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
-        throw new Error('Settings record not initialised. Seed or bootstrap the database before editing site profile settings.');
+        throw new Error(
+          'Settings record not initialised. Seed or bootstrap the database before editing site profile settings.',
+        );
       }
 
       throw error;
@@ -157,10 +167,13 @@ export const SettingsRepository = {
       const current = await prisma.settings.findUnique({ where: { id: SETTINGS_ID } });
 
       if (!current) {
-        throw new Error('Settings record not initialised. Seed or bootstrap the database before editing visibility settings.');
+        throw new Error(
+          'Settings record not initialised. Seed or bootstrap the database before editing visibility settings.',
+        );
       }
 
-      const currentSeoDefaults = parseJson<Record<string, unknown> | null>(current.seoDefaults, null) ?? {};
+      const currentSeoDefaults =
+        parseJson<Record<string, unknown> | null>(current.seoDefaults, null) ?? {};
       const record = await prisma.settings.update({
         where: { id: SETTINGS_ID },
         data: {
@@ -174,7 +187,9 @@ export const SettingsRepository = {
       return mapSettingsRecord(record);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
-        throw new Error('Settings record not initialised. Seed or bootstrap the database before editing visibility settings.');
+        throw new Error(
+          'Settings record not initialised. Seed or bootstrap the database before editing visibility settings.',
+        );
       }
 
       throw error;

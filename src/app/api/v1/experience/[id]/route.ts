@@ -1,6 +1,11 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
+import {
+  errorResponse,
+  notFoundResponse,
+  successResponse,
+  validationErrorResponse,
+} from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
 import { ExperienceService } from '@/server/services/ExperienceService';
 import { updateExperienceSchema } from '@/server/server-validators/api/experience';

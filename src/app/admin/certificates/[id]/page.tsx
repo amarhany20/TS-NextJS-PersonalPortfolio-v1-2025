@@ -13,7 +13,9 @@ interface AdminCertificateEditPageProps {
 
 const loadCertificate = cache((id: string) => CertificateService.getCertificateById(id));
 
-export async function generateMetadata({ params }: AdminCertificateEditPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: AdminCertificateEditPageProps): Promise<Metadata> {
   const { id } = await params;
   const certificate = await loadCertificate(id);
   return {
@@ -31,4 +33,3 @@ export default async function AdminCertificateEditPage({ params }: AdminCertific
 
   return <CertificateForm mode="edit" certificate={certificate} />;
 }
-

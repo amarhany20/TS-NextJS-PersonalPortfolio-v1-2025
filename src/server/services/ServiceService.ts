@@ -38,8 +38,7 @@ export const ServiceService = {
       icon: nullIfEmpty(input.icon),
       image: nullIfEmpty(input.image),
       active: input.active ?? true,
-      displayOrder:
-        input.displayOrder ?? (await ServiceRepository.getNextDisplayOrder()),
+      displayOrder: input.displayOrder ?? (await ServiceRepository.getNextDisplayOrder()),
     });
 
     return serializeService(record);
@@ -52,9 +51,7 @@ export const ServiceService = {
     }
 
     const nextSlug =
-      input.slug !== undefined
-        ? await ensureUniqueSlug(input.slug, existing.id)
-        : undefined;
+      input.slug !== undefined ? await ensureUniqueSlug(input.slug, existing.id) : undefined;
 
     const record = await ServiceRepository.update(slug, {
       slug: nextSlug,

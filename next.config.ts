@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 import fs from 'fs';
 import path from 'path';
 
@@ -33,8 +33,8 @@ const allowedDevOrigins = Array.from(
         } catch {
           return value;
         }
-      })
-  )
+      }),
+  ),
 );
 const distDir = process.env.PLAYWRIGHT_ISOLATED === '1' ? '.next-playwright' : '.next';
 const disableWebpackCache = process.env.PLAYWRIGHT_E2E_SERVER === '1';
@@ -48,7 +48,7 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    formats: ["image/webp", "image/avif"],
+    formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    optimizePackageImports: ['lucide-react'],
   },
   turbopack: {
     root: __dirname,
@@ -75,28 +75,28 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: '/(.*)',
         headers: [
           {
-            key: "X-Frame-Options",
-            value: "DENY",
+            key: 'X-Frame-Options',
+            value: 'DENY',
           },
           {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
           },
           {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
           },
         ],
       },
       {
-        source: "/api/(.*)",
+        source: '/api/(.*)',
         headers: [
           {
-            key: "Cache-Control",
-            value: "public, max-age=300, stale-while-revalidate=600",
+            key: 'Cache-Control',
+            value: 'public, max-age=300, stale-while-revalidate=600',
           },
         ],
       },

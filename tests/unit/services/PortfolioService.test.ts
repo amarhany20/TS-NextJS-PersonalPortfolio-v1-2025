@@ -71,7 +71,9 @@ beforeEach(() => {
 
 describe('PortfolioService', () => {
   it('returns published projects through the serializer', async () => {
-  const records = [{ slug: 'example', title: 'Example' }] as unknown as Parameters<typeof serializeProject>[0][];
+    const records = [{ slug: 'example', title: 'Example' }] as unknown as Parameters<
+      typeof serializeProject
+    >[0][];
     vi.mocked(PortfolioRepository.findPublished).mockResolvedValue(records);
     vi.mocked(serializeProject).mockImplementation((record: any) => ({
       slug: record.slug,
@@ -92,11 +94,11 @@ describe('PortfolioService', () => {
 
     const result = await PortfolioService.getPublishedProjects();
 
-  expect(result).toHaveLength(1);
-  expect(result[0]).toMatchObject({ slug: 'example', marker: true });
-  expect(PortfolioRepository.findPublished).toHaveBeenCalledTimes(1);
-  const firstCall = vi.mocked(serializeProject).mock.calls[0];
-  expect(firstCall?.[0]).toBe(records[0]);
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({ slug: 'example', marker: true });
+    expect(PortfolioRepository.findPublished).toHaveBeenCalledTimes(1);
+    const firstCall = vi.mocked(serializeProject).mock.calls[0];
+    expect(firstCall?.[0]).toBe(records[0]);
   });
 
   it('creates a project with a slug derived from the title when none provided', async () => {
@@ -130,7 +132,7 @@ describe('PortfolioService', () => {
         publishedAt: null,
       }),
     );
-  expect(result).toMatchObject({ slug: 'test-project' });
+    expect(result).toMatchObject({ slug: 'test-project' });
   });
 
   it('throws when updating a project that does not exist', async () => {

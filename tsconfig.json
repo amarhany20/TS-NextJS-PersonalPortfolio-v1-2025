@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,18 +21,10 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/server/*": [
-        "./src/server/*"
-      ],
-      "@/static-content/*": [
-        "./src/static-content/*"
-      ],
-      "@/client-validators/*": [
-        "./src/client-validators/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/server/*": ["./src/server/*"],
+      "@/static-content/*": ["./src/static-content/*"],
+      "@/client-validators/*": ["./src/client-validators/*"]
     }
   },
   "include": [

@@ -16,12 +16,7 @@
   "role": "Frontend Lead (Design -> Implementation)",
   "start": "2023-07",
   "end": "2023-08",
-  "stack": [
-    "React",
-    "Vite",
-    "Tailwind",
-    "Netlify"
-  ],
+  "stack": ["React", "Vite", "Tailwind", "Netlify"],
   "features": [
     "Content-first layout with case studies and service pages",
     "Reusable design system components for rapid updates",
@@ -29,9 +24,24 @@
     "SEO-friendly markup and metadata"
   ],
   "sections": [
-    { "id": "problem", "title": "Problem", "body": "Al-Serif needed a clear website to showcase services and win leads.", "order": 1 },
-    { "id": "solution", "title": "Solution", "body": "Built a fast static site with CMS-backed copy for easy updates.", "order": 2 },
-    { "id": "results", "title": "Results", "body": "Lower bounce rates and increased contact requests via improved messaging.", "order": 3 }
+    {
+      "id": "problem",
+      "title": "Problem",
+      "body": "Al-Serif needed a clear website to showcase services and win leads.",
+      "order": 1
+    },
+    {
+      "id": "solution",
+      "title": "Solution",
+      "body": "Built a fast static site with CMS-backed copy for easy updates.",
+      "order": 2
+    },
+    {
+      "id": "results",
+      "title": "Results",
+      "body": "Lower bounce rates and increased contact requests via improved messaging.",
+      "order": 3
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

@@ -40,7 +40,11 @@ export default function LoginPage() {
           return;
         }
 
-        showToast({ variant: 'success', title: 'Login successful', description: 'Redirecting to admin dashboard...' });
+        showToast({
+          variant: 'success',
+          title: 'Login successful',
+          description: 'Redirecting to admin dashboard...',
+        });
         router.push('/admin');
         router.refresh();
       } catch (err) {
@@ -58,7 +62,10 @@ export default function LoginPage() {
         <p className="text-muted-foreground">Sign in to access the admin dashboard</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-6">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-6"
+      >
         {error && (
           <div className="rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400">
             {error}
@@ -115,7 +122,6 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
-
     </section>
   );
 }

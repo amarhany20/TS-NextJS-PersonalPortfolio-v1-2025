@@ -16,11 +16,7 @@
   "role": "Full-stack WordPress Developer",
   "start": "2024-09",
   "end": null,
-  "stack": [
-    "WordPress",
-    "PHP",
-    "cPanel hosting"
-  ],
+  "stack": ["WordPress", "PHP", "cPanel hosting"],
   "features": [
     "Zero-downtime site & DB migration",
     "Custom wholesale pricing plugin",
@@ -28,10 +24,30 @@
     "Ongoing maintenance and support"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A wholesale/retail WordPress platform enhanced for bulk pricing and migrated seamlessly to a new host.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Introduce robust wholesale pricing and complete a risk-free migration with no business disruption.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Executed the full migration, authored the wholesale pricing plugin, and provided long-term maintenance.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Simplified bulk order management and improved platform stability.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A wholesale/retail WordPress platform enhanced for bulk pricing and migrated seamlessly to a new host.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Introduce robust wholesale pricing and complete a risk-free migration with no business disruption.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Executed the full migration, authored the wholesale pricing plugin, and provided long-term maintenance.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Simplified bulk order management and improved platform stability.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

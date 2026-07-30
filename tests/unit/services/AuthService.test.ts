@@ -43,7 +43,9 @@ describe('AuthService', () => {
   it('throws UnauthorizedError when user missing', async () => {
     vi.mocked(UserRepository.findByUsername).mockResolvedValue(null);
 
-    await expect(AuthService.authenticate('ghost', 'secret')).rejects.toBeInstanceOf(UnauthorizedError);
+    await expect(AuthService.authenticate('ghost', 'secret')).rejects.toBeInstanceOf(
+      UnauthorizedError,
+    );
   });
 
   it('throws UnauthorizedError when password mismatch', async () => {
@@ -58,6 +60,8 @@ describe('AuthService', () => {
     } as any);
     vi.mocked(verifyPassword).mockResolvedValue(false);
 
-    await expect(AuthService.authenticate('ammar', 'bad')).rejects.toBeInstanceOf(UnauthorizedError);
+    await expect(AuthService.authenticate('ammar', 'bad')).rejects.toBeInstanceOf(
+      UnauthorizedError,
+    );
   });
 });

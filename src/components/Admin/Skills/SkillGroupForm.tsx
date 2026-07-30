@@ -13,10 +13,7 @@ import {
 } from 'react';
 
 import { useToast } from '@/components/ui/ToastProvider';
-import {
-  skillGroupCreateSchema,
-  skillGroupUpdateSchema,
-} from '@/client-validators/forms/skills';
+import { skillGroupCreateSchema, skillGroupUpdateSchema } from '@/client-validators/forms/skills';
 import type { SkillGroupDisplay } from '@/types/skill';
 
 interface SkillGroupFormProps {
@@ -36,7 +33,8 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
   const map: FormErrors = {};
   for (const issue of issues) {
     const rawKey = issue.path[0];
-    const key = typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
+    const key =
+      typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
     if (!map[key]) {
       map[key] = issue.message;
     }
@@ -60,7 +58,8 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
-  const pageTitle = mode === 'create' ? 'Create skill group' : `Edit skill group: ${group?.title ?? ''}`;
+  const pageTitle =
+    mode === 'create' ? 'Create skill group' : `Edit skill group: ${group?.title ?? ''}`;
   const submitLabel = mode === 'create' ? 'Create group' : 'Save changes';
 
   useEffect(() => {
@@ -73,7 +72,8 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
     };
   }, [formState.skillsInput]);
 
-  const handleInputChange = (field: keyof typeof formState) =>
+  const handleInputChange =
+    (field: keyof typeof formState) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormState((prev) => ({ ...prev, [field]: event.target.value }));
     };
@@ -112,7 +112,8 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
       return;
     }
 
-    const endpoint = mode === 'create' ? '/api/v1/skills' : group ? `/api/v1/skills/${group.id}` : null;
+    const endpoint =
+      mode === 'create' ? '/api/v1/skills' : group ? `/api/v1/skills/${group.id}` : null;
     if (!endpoint) {
       setSubmitting(false);
       setError('Skill group context missing. Refresh and try again.');
@@ -150,11 +151,16 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">{pageTitle}</h1>
-        <p className="text-sm text-muted-foreground">Skill groups power the public skills section and sidebar badges.</p>
+        <p className="text-sm text-muted-foreground">
+          Skill groups power the public skills section and sidebar badges.
+        </p>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700" role="alert">
+        <p
+          className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
@@ -174,7 +180,11 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
               label="Slug"
               value={formState.slug}
               onChange={handleInputChange('slug')}
-              helper={mode === 'create' ? 'Leave blank to auto-generate from title.' : 'Changing slug updates the URL.'}
+              helper={
+                mode === 'create'
+                  ? 'Leave blank to auto-generate from title.'
+                  : 'Changing slug updates the URL.'
+              }
               error={fieldErrors.slug}
             />
             <LabeledInput
@@ -229,7 +239,12 @@ export function SkillGroupForm({ mode, group }: SkillGroupFormProps) {
   );
 }
 
-function LabeledInput({ label, helper, error, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; helper?: string; error?: string }) {
+function LabeledInput({
+  label,
+  helper,
+  error,
+  ...props
+}: InputHTMLAttributes<HTMLInputElement> & { label: string; helper?: string; error?: string }) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -242,16 +257,35 @@ function LabeledInput({ label, helper, error, ...props }: InputHTMLAttributes<HT
         {...props}
         aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
-          error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
+          error
+            ? 'border-amber-500 focus:border-amber-500'
+            : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+      {helper ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-amber-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-function TextareaField({ label, helper, error, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; helper?: string; error?: string }) {
+function TextareaField({
+  label,
+  helper,
+  error,
+  ...props
+}: TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label: string;
+  helper?: string;
+  error?: string;
+}) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -264,11 +298,21 @@ function TextareaField({ label, helper, error, ...props }: TextareaHTMLAttribute
         {...props}
         aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
-          error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
+          error
+            ? 'border-amber-500 focus:border-amber-500'
+            : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+      {helper ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-amber-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

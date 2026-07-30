@@ -100,13 +100,15 @@ export class MediaRepository {
   }
 }
 
-type MediaRecord = (Awaited<ReturnType<typeof prisma.media.findFirst>> & {
-  createdBy?: {
-    id: string;
-    displayName: string;
-    email: string;
-  } | null;
-}) | null;
+type MediaRecord =
+  | (Awaited<ReturnType<typeof prisma.media.findFirst>> & {
+      createdBy?: {
+        id: string;
+        displayName: string;
+        email: string;
+      } | null;
+    })
+  | null;
 
 function mapMedia(record: MediaRecord): DbMedia | null {
   if (!record) {

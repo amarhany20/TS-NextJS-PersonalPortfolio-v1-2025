@@ -1,0 +1,16 @@
+.next
+.next-playwright
+build
+dist
+node_modules
+out
+coverage
+playwright-report
+playwright/.auth
+prisma/migrations
+prisma/dev.db
+prisma/dev.db-journal
+public/uploads
+src/generated
+package-lock.json
+*.tsbuildinfo

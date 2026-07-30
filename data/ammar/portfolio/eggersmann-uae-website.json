@@ -16,13 +16,7 @@
   "role": "Sole Developer (Architecture, Implementation, Deployment)",
   "start": "2025-03",
   "end": "2025-04",
-  "stack": [
-    "WordPress",
-    "Elementor Pro",
-    "Pods",
-    "Custom PHP",
-    "Cloudways (DigitalOcean)"
-  ],
+  "stack": ["WordPress", "Elementor Pro", "Pods", "Custom PHP", "Cloudways (DigitalOcean)"],
   "features": [
     "Pods-based CPTs & relationships (Projects, Materials, Finishes)",
     "Custom Elementor layouts with advanced styling and interactions",
@@ -31,12 +25,42 @@
     "Performance tuning for fast TTFB and core web vitals"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A high-end website representing Eggersmann’s luxury kitchens in the UAE, balancing visual storytelling with maintainable content workflows.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Deliver a premium digital presence and empower the team to manage Projects and Finishes without developer involvement.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "End-to-end build: CPT modeling with Pods, Elementor theming, custom PHP, SEO setup, hosting and deployment on Cloudways.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Modular templates; multilingual routing; optimized assets; structured content for scalability; consistent brand visuals.", "order": 4 },
-    { "id": "challenges", "title": "Challenges & Solutions", "body": "Maintained performance on a flexible WP stack via query optimization, asset discipline, and caching layers.", "order": 5 },
-    { "id": "impact", "title": "Impact / Results", "body": "Premium UX that matches the global brand; improved SEO visibility; content is now manageable by non-technical staff.", "order": 6 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A high-end website representing Eggersmann’s luxury kitchens in the UAE, balancing visual storytelling with maintainable content workflows.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Deliver a premium digital presence and empower the team to manage Projects and Finishes without developer involvement.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "End-to-end build: CPT modeling with Pods, Elementor theming, custom PHP, SEO setup, hosting and deployment on Cloudways.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Modular templates; multilingual routing; optimized assets; structured content for scalability; consistent brand visuals.",
+      "order": 4
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges & Solutions",
+      "body": "Maintained performance on a flexible WP stack via query optimization, asset discipline, and caching layers.",
+      "order": 5
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Premium UX that matches the global brand; improved SEO visibility; content is now manageable by non-technical staff.",
+      "order": 6
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

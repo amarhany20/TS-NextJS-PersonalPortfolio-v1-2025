@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useRef } from 'react';
 import type QuillType from 'quill';
@@ -72,7 +72,9 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
     }
   }, [value]);
 
-  return <div className="rounded-lg border border-[var(--border)] bg-[var(--card-bg)]" ref={editorRef} />;
+  return (
+    <div className="rounded-lg border border-[var(--border)] bg-[var(--card-bg)]" ref={editorRef} />
+  );
 }
 
 function normalizeHtml(html: string) {

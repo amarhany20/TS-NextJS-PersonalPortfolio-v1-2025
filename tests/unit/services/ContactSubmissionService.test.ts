@@ -64,7 +64,10 @@ describe('ContactSubmissionService', () => {
       { id: 'sub-1' } as any,
       { id: 'sub-2' } as any,
     ]);
-    vi.mocked(serializeContactSubmission).mockImplementation((record: any) => ({ ...record, ok: true }));
+    vi.mocked(serializeContactSubmission).mockImplementation((record: any) => ({
+      ...record,
+      ok: true,
+    }));
 
     const result = await ContactSubmissionService.listSubmissions();
     expect(result).toEqual([
@@ -74,7 +77,10 @@ describe('ContactSubmissionService', () => {
   });
 
   it('updates status and serializes result', async () => {
-    vi.mocked(ContactSubmissionRepository.updateStatus).mockResolvedValue({ id: 'sub-1', status: 'resolved' } as any);
+    vi.mocked(ContactSubmissionRepository.updateStatus).mockResolvedValue({
+      id: 'sub-1',
+      status: 'resolved',
+    } as any);
 
     const result = await ContactSubmissionService.updateSubmissionStatus('sub-1', 'resolved');
 

@@ -6,15 +6,8 @@ code, docs, and launch tracking in sync.
 ## 1. Required Standards
 
 - Read `AGENTS.md` first, then `.github/copilot-instructions.md`.
-- Read the local helper docs before changing code or documentation:
-  - `docs/helper_docs/ammar-agent-guideline/agent-guideline.md`
-  - `docs/helper_docs/Ammar-Documentation-Guidelines/ammar-documentation-guideline.md`
-  - `docs/helper_docs/Ammar-NextJS-Guideline/ammar-nextjs-guidelines.md`
-- Use `docs/architecture/README.md` and `docs/architecture/architect.md` as the active architecture
-  entry points.
-- Track launch work in `docs/architecture/sections/09-implementation-checklist.md`.
-- Treat `docs/archive/**` as history only; do not use archived "complete" or "production-ready"
-  claims as current proof.
+- Read the relevant top-level folder `README.md` files under `src/**` before changing that area.
+- Track launch/roadmap work in `AGENTS.md` and this repo's issue tracker.
 
 ## 2. Environment Setup
 

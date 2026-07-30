@@ -68,7 +68,9 @@ export function SkillGroupsManager({ initialSkillGroups }: SkillGroupsManagerPro
     const slug = group.id;
 
     setBusySlug(slug);
-    setItems((current) => current.map((item) => (item.id === slug ? { ...item, published: nextPublished } : item)));
+    setItems((current) =>
+      current.map((item) => (item.id === slug ? { ...item, published: nextPublished } : item)),
+    );
 
     try {
       const response = await fetch(`/api/v1/skills/${slug}`, {
@@ -82,16 +84,27 @@ export function SkillGroupsManager({ initialSkillGroups }: SkillGroupsManagerPro
         throw new Error(description);
       }
 
-      const updated: SkillGroupDisplay = payload?.data?.skillGroup ?? { ...group, published: nextPublished };
-      setItems((current) => current.map((item) => (item.id === slug ? { ...item, ...updated } : item)));
+      const updated: SkillGroupDisplay = payload?.data?.skillGroup ?? {
+        ...group,
+        published: nextPublished,
+      };
+      setItems((current) =>
+        current.map((item) => (item.id === slug ? { ...item, ...updated } : item)),
+      );
       showToast({
         variant: 'success',
         title: nextPublished ? 'Skill group published' : 'Skill group moved to draft',
         description: group.title,
       });
     } catch (error) {
-      setItems((current) => current.map((item) => (item.id === slug ? { ...item, published: group.published } : item)));
-      showToast({ variant: 'error', title: 'Update failed', description: error instanceof Error ? error.message : undefined });
+      setItems((current) =>
+        current.map((item) => (item.id === slug ? { ...item, published: group.published } : item)),
+      );
+      showToast({
+        variant: 'error',
+        title: 'Update failed',
+        description: error instanceof Error ? error.message : undefined,
+      });
     } finally {
       setBusySlug(null);
     }
@@ -127,7 +140,9 @@ export function SkillGroupsManager({ initialSkillGroups }: SkillGroupsManagerPro
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold">Skills</h1>
-          <p className="text-sm text-muted-foreground">Organise skill groups and keep the stack representation current.</p>
+          <p className="text-sm text-muted-foreground">
+            Organise skill groups and keep the stack representation current.
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -162,7 +177,9 @@ export function SkillGroupsManager({ initialSkillGroups }: SkillGroupsManagerPro
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-10 text-center">
           <p className="text-lg font-semibold text-foreground">No skill groups found</p>
-          <p className="text-sm text-muted-foreground">Create a new group to populate the skills section.</p>
+          <p className="text-sm text-muted-foreground">
+            Create a new group to populate the skills section.
+          </p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/30">
@@ -188,9 +205,14 @@ export function SkillGroupsManager({ initialSkillGroups }: SkillGroupsManagerPro
                       ) : null}
                     </div>
                   </td>
-                  <td className="px-4 py-4 align-top text-xs text-muted-foreground">{group.summary ?? '—'}</td>
                   <td className="px-4 py-4 align-top text-xs text-muted-foreground">
-                    {(group.skills ?? []).slice(0, 10).map((skill) => skill.name).join(', ') || '—'}
+                    {group.summary ?? '—'}
+                  </td>
+                  <td className="px-4 py-4 align-top text-xs text-muted-foreground">
+                    {(group.skills ?? [])
+                      .slice(0, 10)
+                      .map((skill) => skill.name)
+                      .join(', ') || '—'}
                     {(group.skills?.length ?? 0) > 10 ? (
                       <span className="text-muted-foreground"> …</span>
                     ) : null}
@@ -256,7 +278,9 @@ function Badge({ children, variant = 'muted' }: BadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}>
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}
+    >
       {children}
     </span>
   );

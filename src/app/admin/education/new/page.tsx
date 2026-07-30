@@ -9,4 +9,3 @@ export const metadata: Metadata = {
 export default function AdminEducationCreatePage() {
   return <EducationForm mode="create" />;
 }
-

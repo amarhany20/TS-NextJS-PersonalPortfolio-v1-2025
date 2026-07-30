@@ -33,8 +33,8 @@ export default async function AdminHome() {
         <p className="text-xs text-muted-foreground">Last activity: {lastUpdatedLabel}</p>
         {overview.meta.missingEnvVars.length > 0 ? (
           <p className="text-xs text-amber-600">
-            Missing env vars: {overview.meta.missingEnvVars.join(', ')} — add them to your `.env.local` and deployment
-            secrets.
+            Missing env vars: {overview.meta.missingEnvVars.join(', ')} — add them to your
+            `.env.local` and deployment secrets.
           </p>
         ) : null}
       </header>
@@ -67,7 +67,11 @@ export default async function AdminHome() {
   );
 }
 
-function StatCard({ stat }: { stat: Awaited<ReturnType<typeof DashboardService.getAdminOverview>>['stats'][number] }) {
+function StatCard({
+  stat,
+}: {
+  stat: Awaited<ReturnType<typeof DashboardService.getAdminOverview>>['stats'][number];
+}) {
   const CardContent = () => (
     <div className="space-y-1">
       <p className="text-sm text-muted-foreground">{stat.label}</p>
@@ -114,7 +118,9 @@ function QuickLinkCard({
           <p className="text-sm text-muted-foreground">{link.description}</p>
         </div>
         {link.badge ? (
-          <span className={`${badgeClassNames[link.status ?? 'default']} rounded-full px-2 py-0.5 text-xs font-medium`}>
+          <span
+            className={`${badgeClassNames[link.status ?? 'default']} rounded-full px-2 py-0.5 text-xs font-medium`}
+          >
             {link.badge}
           </span>
         ) : null}

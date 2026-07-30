@@ -1,6 +1,6 @@
 /**
  * SEO Configuration
- * 
+ *
  * Default SEO metadata and OpenGraph configuration.
  * Page-specific metadata can override these defaults using Next.js generateMetadata.
  */

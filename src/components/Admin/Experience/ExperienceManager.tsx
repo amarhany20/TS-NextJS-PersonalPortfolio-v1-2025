@@ -33,7 +33,10 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
         const bOrder = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
 
         if (aOrder !== bOrder) return aOrder - bOrder;
-        return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
+        return (
+          (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) -
+          (a.updatedAt ? new Date(a.updatedAt).getTime() : 0)
+        );
       })
       .filter((item) => {
         if (filter === 'published') return item.published;
@@ -76,7 +79,9 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
     if (!id) return;
 
     setBusyId(id);
-    setItems((current) => current.map((item) => (item.id === id ? { ...item, published: nextPublished } : item)));
+    setItems((current) =>
+      current.map((item) => (item.id === id ? { ...item, published: nextPublished } : item)),
+    );
 
     try {
       const response = await fetch(`/api/v1/experience/${id}`, {
@@ -90,16 +95,27 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
         throw new Error(description);
       }
 
-      const updated: Experience = payload?.data?.experience ?? { ...record, published: nextPublished };
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, ...updated } : item)));
+      const updated: Experience = payload?.data?.experience ?? {
+        ...record,
+        published: nextPublished,
+      };
+      setItems((current) =>
+        current.map((item) => (item.id === id ? { ...item, ...updated } : item)),
+      );
       showToast({
         variant: 'success',
         title: nextPublished ? 'Experience published' : 'Experience moved to draft',
         description: record.company,
       });
     } catch (error) {
-      setItems((current) => current.map((item) => (item.id === id ? { ...item, published: record.published } : item)));
-      showToast({ variant: 'error', title: 'Update failed', description: error instanceof Error ? error.message : undefined });
+      setItems((current) =>
+        current.map((item) => (item.id === id ? { ...item, published: record.published } : item)),
+      );
+      showToast({
+        variant: 'error',
+        title: 'Update failed',
+        description: error instanceof Error ? error.message : undefined,
+      });
     } finally {
       setBusyId(null);
     }
@@ -121,7 +137,11 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
       showToast({ variant: 'success', title: 'Experience deleted', description: record.company });
       router.refresh();
     } catch (error) {
-      showToast({ variant: 'error', title: 'Delete failed', description: error instanceof Error ? error.message : undefined });
+      showToast({
+        variant: 'error',
+        title: 'Delete failed',
+        description: error instanceof Error ? error.message : undefined,
+      });
     } finally {
       setBusyId(null);
     }
@@ -132,7 +152,9 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold">Experience</h1>
-          <p className="text-sm text-muted-foreground">Manage career milestones powering the public timeline.</p>
+          <p className="text-sm text-muted-foreground">
+            Manage career milestones powering the public timeline.
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -168,7 +190,9 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
               key={option}
               type="button"
               className={`rounded-full px-3 py-1 font-medium capitalize transition ${
-                filter === option ? 'bg-[var(--accent-primary)] text-black' : 'text-muted-foreground'
+                filter === option
+                  ? 'bg-[var(--accent-primary)] text-black'
+                  : 'text-muted-foreground'
               }`}
               onClick={() => setFilter(option)}
             >
@@ -181,7 +205,9 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-10 text-center">
           <p className="text-lg font-semibold text-foreground">No experience entries found</p>
-          <p className="text-sm text-muted-foreground">Create a new milestone to populate the timeline.</p>
+          <p className="text-sm text-muted-foreground">
+            Create a new milestone to populate the timeline.
+          </p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/30">
@@ -201,10 +227,14 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
                   <td className="px-4 py-4 align-top">
                     <div className="space-y-1">
                       <p className="font-semibold text-foreground">{item.company}</p>
-                      <p className="text-xs text-muted-foreground">{item.location || 'Location TBD'}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.location || 'Location TBD'}
+                      </p>
                     </div>
                   </td>
-                  <td className="px-4 py-4 align-top text-xs text-muted-foreground">{item.title}</td>
+                  <td className="px-4 py-4 align-top text-xs text-muted-foreground">
+                    {item.title}
+                  </td>
                   <td className="px-4 py-4 align-top text-xs text-muted-foreground">
                     {formatRange(item.start, item.end, item.present)}
                     <p className="mt-1 text-muted-foreground">{item.impact}</p>
@@ -270,7 +300,9 @@ function Badge({ children, variant = 'muted' }: BadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}>
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}
+    >
       {children}
     </span>
   );
@@ -281,7 +313,7 @@ const monthFormatter = new Intl.DateTimeFormat(undefined, { month: 'short', year
 function formatRange(start?: string, end?: string, present?: boolean) {
   if (!start) return 'Unknown timeline';
   const startLabel = toMonthLabel(start);
-  const endLabel = present || !end ? 'Present' : toMonthLabel(end) ?? 'Unknown';
+  const endLabel = present || !end ? 'Present' : (toMonthLabel(end) ?? 'Unknown');
   return `${startLabel ?? 'Unknown'} — ${endLabel}`;
 }
 

@@ -32,9 +32,24 @@
     "Export orders for accounting"
   ],
   "sections": [
-    { "id": "overview", "title": "Overview", "body": "A small-scale internal portal to reduce support load and improve customer communication.", "order": 1 },
-    { "id": "features", "title": "Features", "body": "Order filters, status automation, notification templates, and export tools.", "order": 2 },
-    { "id": "results", "title": "Results", "body": "Improved customer satisfaction and decreased manual order status inquiries.", "order": 3 }
+    {
+      "id": "overview",
+      "title": "Overview",
+      "body": "A small-scale internal portal to reduce support load and improve customer communication.",
+      "order": 1
+    },
+    {
+      "id": "features",
+      "title": "Features",
+      "body": "Order filters, status automation, notification templates, and export tools.",
+      "order": 2
+    },
+    {
+      "id": "results",
+      "title": "Results",
+      "body": "Improved customer satisfaction and decreased manual order status inquiries.",
+      "order": 3
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

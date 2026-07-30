@@ -39,7 +39,9 @@ export interface CertificateCreateData {
 
 export type CertificateUpdateData = Partial<CertificateCreateData>;
 
-function mapCertificate(record: Awaited<ReturnType<typeof prisma.certificate.findFirst>>): DbCertificate | null {
+function mapCertificate(
+  record: Awaited<ReturnType<typeof prisma.certificate.findFirst>>,
+): DbCertificate | null {
   if (!record) {
     return null;
   }

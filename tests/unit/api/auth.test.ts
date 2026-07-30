@@ -60,10 +60,12 @@ describe('auth api routes', () => {
       role: 'admin',
     });
 
-    const response = await loginHandler(createRequest('/api/v1/auth/login', 'POST', {
-      username: 'admin',
-      password: 'password123',
-    }));
+    const response = await loginHandler(
+      createRequest('/api/v1/auth/login', 'POST', {
+        username: 'admin',
+        password: 'password123',
+      }),
+    );
 
     expect(mockSession.save).toHaveBeenCalled();
 

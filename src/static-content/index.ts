@@ -11,25 +11,37 @@ export * from './portfolio';
 export * from './routes';
 export * from './seo';
 
-export { metadata, personalInfo, heroContent, contactInfo, experience, education, allSkills, coreSkills, skillGroups, certificates, recommendations, services };
+export {
+  metadata,
+  personalInfo,
+  heroContent,
+  contactInfo,
+  experience,
+  education,
+  allSkills,
+  coreSkills,
+  skillGroups,
+  certificates,
+  recommendations,
+  services,
+};
 
 // Languages now come from metadata.languages (no separate language objects needed)
 
 // Aggregate (sync) object similar to previous loadAllStatic result
 export const allStaticData = {
-	personalInfo,
-	heroContent,
-	contactInfo,
-	experience,
-	education,
-	skills: allSkills,
-	coreSkills,
-	certificates,
-	recommendations,
-	services,
-	languages: metadata.languages,
+  personalInfo,
+  heroContent,
+  contactInfo,
+  experience,
+  education,
+  skills: allSkills,
+  coreSkills,
+  certificates,
+  recommendations,
+  services,
+  languages: metadata.languages,
 };
 
 // Async compatibility wrapper (if any legacy code expected a Promise)
 export const getAllStatic = async () => allStaticData;
-

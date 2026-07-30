@@ -60,7 +60,17 @@ async function loadAmmarPayload(): Promise<{ source: 'ammar'; payload: ArchivePa
     return null;
   }
 
-  const [metadataMod, personalMod, portfolioMod, experienceMod, educationMod, servicesMod, certificatesMod, recommendationsMod, skillsMod] = await Promise.all([
+  const [
+    metadataMod,
+    personalMod,
+    portfolioMod,
+    experienceMod,
+    educationMod,
+    servicesMod,
+    certificatesMod,
+    recommendationsMod,
+    skillsMod,
+  ] = await Promise.all([
     import('../data/ammar/metadata'),
     import('../data/ammar/personal'),
     import('../data/ammar/portfolio'),
@@ -100,7 +110,9 @@ async function seedSettings(payload: ArchivePayload) {
   const heroContent = payload.heroContent ?? {};
   const personalInfo = payload.personalInfo ?? {};
   const contactInfo = payload.contactInfo ?? {};
-  const coreSkills = (payload.coreSkills ?? []).map((s: any) => (typeof s === 'string' ? { name: s } : s));
+  const coreSkills = (payload.coreSkills ?? []).map((s: any) =>
+    typeof s === 'string' ? { name: s } : s,
+  );
 
   const seoDefaultsPayload = {
     languages: metadata.languages,
@@ -215,8 +227,8 @@ async function seedSkillGroups(payload: ArchivePayload) {
               groupId: record.id,
               displayOrder: skillIndex,
             },
-          })
-        )
+          }),
+        ),
       );
     }
   }
@@ -482,9 +494,14 @@ async function seedRecommendations(payload: ArchivePayload) {
 }
 
 async function seedAdminUser() {
-  const username = (process.env.ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
-  const email = (process.env.ADMIN_EMAIL ?? process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
-  const displayName = process.env.ADMIN_DISPLAY_NAME ?? process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
+  const username = (process.env.ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin')
+    .trim()
+    .toLowerCase();
+  const email = (process.env.ADMIN_EMAIL ?? process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com')
+    .trim()
+    .toLowerCase();
+  const displayName =
+    process.env.ADMIN_DISPLAY_NAME ?? process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
   const password = process.env.ADMIN_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
 
   const passwordHash = await hashPassword(password);
@@ -536,7 +553,9 @@ async function main() {
 
   const ammarSeed = await loadAmmarPayload();
   if (!ammarSeed) {
-    console.warn('Ammar data folder not found. Create data/ammar with your personal archive data to run this command.');
+    console.warn(
+      'Ammar data folder not found. Create data/ammar with your personal archive data to run this command.',
+    );
     return;
   }
 

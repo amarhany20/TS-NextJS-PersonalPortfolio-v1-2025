@@ -9,8 +9,8 @@ export default async function AdminContactPage() {
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Contact inbox</h1>
         <p className="text-sm text-[var(--text-secondary)]">
-          Review inbound leads, track follow-ups, and archive spam. Status updates sync instantly across
-          the dashboard.
+          Review inbound leads, track follow-ups, and archive spam. Status updates sync instantly
+          across the dashboard.
         </p>
       </header>
 

@@ -16,11 +16,7 @@
   "role": "Hosting & Maintenance Lead",
   "start": "2024-01",
   "end": null,
-  "stack": [
-    "WordPress",
-    "cPanel",
-    "Email Hosting"
-  ],
+  "stack": ["WordPress", "cPanel", "Email Hosting"],
   "features": [
     "Full hosting and email setup",
     "Debugged and fixed WordPress issues",
@@ -28,10 +24,30 @@
     "Continuous technical support and collaboration"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Hosting, email configuration, and maintenance for an existing WordPress site.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Ensure stable hosting, reliable email, and improved WordPress performance.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Migrated hosting and email, debugged site issues, applied fixes, and provided continuous support.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Improved website stability and responsiveness while delivering a reliable long-term support pipeline.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Hosting, email configuration, and maintenance for an existing WordPress site.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Ensure stable hosting, reliable email, and improved WordPress performance.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Migrated hosting and email, debugged site issues, applied fixes, and provided continuous support.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Improved website stability and responsiveness while delivering a reliable long-term support pipeline.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

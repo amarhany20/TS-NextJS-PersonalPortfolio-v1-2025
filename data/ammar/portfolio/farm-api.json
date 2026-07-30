@@ -34,10 +34,30 @@
     "Edge-to-cloud synchronization for Jetson pipelines"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A RESTful API built with Flask to manage farm-related data, integrating Firestore and Google Cloud Storage, designed for stateless deployment on Cloud Run.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a secure data-access layer for internal systems and AI components within the company’s ecosystem.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Designed and implemented Flask endpoints, integrated Firestore/GCS, configured token/Basic auth, and set up CI/CD and Cloud Run deployments.", "order": 3 },
-  { "id": "impact", "title": "Impact / Results", "body": "Served as the backbone API connecting edge devices to cloud analytics, standardizing data access across teams.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A RESTful API built with Flask to manage farm-related data, integrating Firestore and Google Cloud Storage, designed for stateless deployment on Cloud Run.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a secure data-access layer for internal systems and AI components within the company’s ecosystem.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Designed and implemented Flask endpoints, integrated Firestore/GCS, configured token/Basic auth, and set up CI/CD and Cloud Run deployments.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Served as the backbone API connecting edge devices to cloud analytics, standardizing data access across teams.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Project cancelled in 2024-04; repository private.",

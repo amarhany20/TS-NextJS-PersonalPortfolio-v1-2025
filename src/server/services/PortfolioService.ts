@@ -2,7 +2,10 @@ import { PortfolioRepository } from '@/server/repositories/PortfolioRepository';
 import { serializeProject } from '@/server/serializers/portfolio';
 import { nullIfEmpty, parseISODate, parseYearMonth } from '@/server/server-utils/dates';
 import { BadRequestError, ConflictError, NotFoundError } from '@/server/http/errors';
-import type { CreateProjectInput, UpdateProjectInput } from '@/server/server-validators/api/portfolio';
+import type {
+  CreateProjectInput,
+  UpdateProjectInput,
+} from '@/server/server-validators/api/portfolio';
 import { slugify } from '@/utils/helpers';
 
 export const PortfolioService = {
@@ -29,8 +32,7 @@ export const PortfolioService = {
   async createProject(input: CreateProjectInput) {
     const baseSlug = input.slug ?? slugify(input.title);
     const slug = await ensureUniqueSlug(baseSlug || input.title);
-    const displayOrder =
-      input.displayOrder ?? (await PortfolioRepository.getNextDisplayOrder());
+    const displayOrder = input.displayOrder ?? (await PortfolioRepository.getNextDisplayOrder());
     const published = input.published ?? false;
     const publishedAt = resolvePublishedAt(published, input.publishedAt);
 
@@ -51,7 +53,7 @@ export const PortfolioService = {
       repository: nullIfEmpty(input.repository),
       role: input.role,
       startDate: parseYearMonth(input.start) ?? undefined,
-      endDate: input.end ? parseYearMonth(input.end) ?? undefined : undefined,
+      endDate: input.end ? (parseYearMonth(input.end) ?? undefined) : undefined,
       stack: input.stack ?? [],
       features: input.features,
       sections: input.sections,
@@ -72,16 +74,10 @@ export const PortfolioService = {
     }
 
     const nextSlug =
-      input.slug !== undefined
-        ? await ensureUniqueSlug(input.slug, existing.id)
-        : undefined;
+      input.slug !== undefined ? await ensureUniqueSlug(input.slug, existing.id) : undefined;
 
     const nextPublished = input.published ?? existing.published;
-    const publishedAt = resolvePublishedAt(
-      nextPublished,
-      input.publishedAt,
-      existing.publishedAt,
-    );
+    const publishedAt = resolvePublishedAt(nextPublished, input.publishedAt, existing.publishedAt);
 
     const record = await PortfolioRepository.update(existing.slug, {
       slug: nextSlug,
@@ -101,12 +97,9 @@ export const PortfolioService = {
       role: input.role,
       startDate:
         input.start !== undefined
-          ? parseYearMonth(input.start) ?? existing.startDate ?? undefined
+          ? (parseYearMonth(input.start) ?? existing.startDate ?? undefined)
           : undefined,
-      endDate:
-        input.end !== undefined
-          ? parseYearMonth(input.end)
-          : undefined,
+      endDate: input.end !== undefined ? parseYearMonth(input.end) : undefined,
       stack: input.stack,
       features: input.features,
       sections: input.sections,
@@ -177,11 +170,7 @@ async function ensureUniqueSlug(candidate: string, excludeId?: string) {
   return attempt;
 }
 
-function resolvePublishedAt(
-  published: boolean,
-  provided?: string,
-  fallback?: Date | null,
-) {
+function resolvePublishedAt(published: boolean, provided?: string, fallback?: Date | null) {
   if (!published) {
     return null;
   }

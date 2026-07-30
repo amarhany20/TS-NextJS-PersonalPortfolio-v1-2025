@@ -16,11 +16,7 @@
   "role": "Sole Developer",
   "start": "2019-01",
   "end": "2019-12",
-  "stack": [
-    "C#",
-    "XAML (WPF)",
-    "MSSQL"
-  ],
+  "stack": ["C#", "XAML (WPF)", "MSSQL"],
   "features": [
     "Role-based authorization (Students, Lecturers, Admins)",
     "Inventory and stock management",
@@ -30,11 +26,36 @@
     "Server deployment option for multi-device access"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A comprehensive WPF library system with MSSQL persistence, role-based access, and rental workflows.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Streamline library operations with secure access, clear inventories, and timely notifications.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Implemented roles, built inventory and rental modules, integrated MSSQL, and designed the WPF UI.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Role-confirmation flows; stock updates; rental timers; notification scheduler; validation rules.", "order": 4 },
-    { "id": "impact", "title": "Impact / Results", "body": "Reduced manual overhead and demonstrated early competency in WPF, SQL, and OOP.", "order": 5 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A comprehensive WPF library system with MSSQL persistence, role-based access, and rental workflows.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Streamline library operations with secure access, clear inventories, and timely notifications.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Implemented roles, built inventory and rental modules, integrated MSSQL, and designed the WPF UI.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Role-confirmation flows; stock updates; rental timers; notification scheduler; validation rules.",
+      "order": 4
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Reduced manual overhead and demonstrated early competency in WPF, SQL, and OOP.",
+      "order": 5
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

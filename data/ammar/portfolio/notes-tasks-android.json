@@ -26,10 +26,30 @@
     "Native Android interface for smooth UX"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Android notes and tasks app with CRUD, pinning, and search functionality using RoomsDB.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a versatile Android productivity app for managing notes and tasks with persistence and usability.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Implemented CRUD flows, integrated RoomsDB, built UI in Android Studio, and added pinning/search features.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Showcased Android development and database integration skills through a functional productivity app.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Android notes and tasks app with CRUD, pinning, and search functionality using RoomsDB.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a versatile Android productivity app for managing notes and tasks with persistence and usability.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Implemented CRUD flows, integrated RoomsDB, built UI in Android Studio, and added pinning/search features.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Showcased Android development and database integration skills through a functional productivity app.",
+      "order": 4
+    }
   ],
   "createdAt": "2025-09-21T00:00:00",
   "updatedAt": "2025-09-21T00:00:00"

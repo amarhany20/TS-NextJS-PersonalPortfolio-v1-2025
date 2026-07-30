@@ -26,7 +26,9 @@ export function BlogListClient({ posts }: BlogListClientProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {posts.length === 0 && (
-          <p className="text-[var(--text-secondary)] text-sm col-span-full">No blog posts yet. Content coming soon.</p>
+          <p className="text-[var(--text-secondary)] text-sm col-span-full">
+            No blog posts yet. Content coming soon.
+          </p>
         )}
 
         {posts.map((post) => (
@@ -45,14 +47,20 @@ export function BlogListClient({ posts }: BlogListClientProps) {
                   </span>
                 ))}
               </div>
-              {post.readingTime && <span className="text-[var(--text-secondary)] text-sm">{post.readingTime} min read</span>}
+              {post.readingTime && (
+                <span className="text-[var(--text-secondary)] text-sm">
+                  {post.readingTime} min read
+                </span>
+              )}
             </div>
 
             <Link href={`/blogs/${post.slug}`} className="group block space-y-3">
               <h2 className="text-xl font-semibold text-foreground group-hover:text-[var(--accent-primary)] transition-colors">
                 {post.title}
               </h2>
-              {post.summary && <p className="text-[var(--text-secondary)] text-sm line-clamp-3">{post.summary}</p>}
+              {post.summary && (
+                <p className="text-[var(--text-secondary)] text-sm line-clamp-3">{post.summary}</p>
+              )}
             </Link>
 
             <div className="mt-4 flex items-center justify-between text-xs text-[var(--text-secondary)]">
@@ -77,6 +85,7 @@ function formatPublishedDate(value?: string) {
     return 'Date unavailable';
   }
 
-  return new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value));
+  return new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(
+    new Date(value),
+  );
 }
-

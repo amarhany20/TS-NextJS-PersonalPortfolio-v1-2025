@@ -29,7 +29,9 @@ test.describe('Admin skills CRUD', () => {
       const editHref = await row.getByRole('link', { name: /Edit/i }).getAttribute('href');
       expect(editHref).toBe(`/admin/skills/${slug}`);
       await page.goto(editHref!, { waitUntil: 'domcontentloaded' });
-      await expect(page.getByRole('heading', { name: new RegExp(`Edit skill group: ${title}`) })).toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: new RegExp(`Edit skill group: ${title}`) }),
+      ).toBeVisible();
 
       await updateSkillGroup(request, slug, { title: `${title} Updated` });
 
@@ -37,28 +39,40 @@ test.describe('Admin skills CRUD', () => {
       await expect(page.locator('tr', { hasText: `${title} Updated` }).first()).toBeVisible();
 
       await deleteSkillGroup(request, slug);
-      await expect.poll(async () => {
-        await page.reload({ waitUntil: 'domcontentloaded' });
-        return page.locator('tr', { hasText: `/${slug}` }).count();
-      }, { timeout: 15000 }).toBe(0);
+      await expect
+        .poll(
+          async () => {
+            await page.reload({ waitUntil: 'domcontentloaded' });
+            return page.locator('tr', { hasText: `/${slug}` }).count();
+          },
+          { timeout: 15000 },
+        )
+        .toBe(0);
     } finally {
       await cleanupSkillGroup(slug, request);
     }
   });
 });
 
-async function createSkillGroup(request: APIRequestContext, payload: {
-  slug: string;
-  title: string;
-  summary: string;
-  skills: Array<{ name: string; displayOrder: number }>;
-}) {
+async function createSkillGroup(
+  request: APIRequestContext,
+  payload: {
+    slug: string;
+    title: string;
+    summary: string;
+    skills: Array<{ name: string; displayOrder: number }>;
+  },
+) {
   const response = await request.post('/api/v1/skills', { data: payload });
   const responseText = response.ok() ? '' : await response.text();
   expect(response.ok(), responseText).toBeTruthy();
 }
 
-async function updateSkillGroup(request: APIRequestContext, slug: string, payload: { title: string }) {
+async function updateSkillGroup(
+  request: APIRequestContext,
+  slug: string,
+  payload: { title: string },
+) {
   const response = await request.patch(`/api/v1/skills/${slug}`, { data: payload });
   const responseText = response.ok() ? '' : await response.text();
   expect(response.ok(), responseText).toBeTruthy();

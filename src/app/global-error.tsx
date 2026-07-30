@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 /**
@@ -32,9 +33,9 @@ export default function GlobalError({
               >
                 Retry
               </button>
-              <a href="/" className="underline text-primary">
+              <Link href="/" className="underline text-primary">
                 Go home
-              </a>
+              </Link>
             </div>
 
             <p className="text-xs text-muted">Error: {error.message}</p>

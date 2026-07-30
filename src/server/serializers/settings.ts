@@ -1,6 +1,18 @@
 import { getThemeSummary } from '@/themes';
 import type { DbSettings } from '@/server/repositories/SettingsRepository';
-import { DEFAULT_SITE_VISIBILITY, type ContactDetails, type ContactPhone, type ContactLeads, type HeroButton, type HeroContent, type LinkItem, type ProfileInfo, type SeoConfig, type SiteContent, type SiteVisibility } from '@/types/settings';
+import {
+  DEFAULT_SITE_VISIBILITY,
+  type ContactDetails,
+  type ContactPhone,
+  type ContactLeads,
+  type HeroButton,
+  type HeroContent,
+  type LinkItem,
+  type ProfileInfo,
+  type SeoConfig,
+  type SiteContent,
+  type SiteVisibility,
+} from '@/types/settings';
 
 interface HeroButtonsShape {
   primary?: HeroButtonLike;
@@ -36,23 +48,56 @@ interface SeoDefaultsShape {
 }
 
 function toVisibilityConfig(value?: unknown): SiteVisibility {
-  const pages = typeof value === 'object' && value && 'pages' in value ? (value as { pages?: Record<string, unknown> }).pages : undefined;
-  const sections = typeof value === 'object' && value && 'sections' in value ? (value as { sections?: Record<string, unknown> }).sections : undefined;
+  const pages =
+    typeof value === 'object' && value && 'pages' in value
+      ? (value as { pages?: Record<string, unknown> }).pages
+      : undefined;
+  const sections =
+    typeof value === 'object' && value && 'sections' in value
+      ? (value as { sections?: Record<string, unknown> }).sections
+      : undefined;
 
   return {
     pages: {
-      portfolio: typeof pages?.portfolio === 'boolean' ? pages.portfolio : DEFAULT_SITE_VISIBILITY.pages.portfolio,
-      services: typeof pages?.services === 'boolean' ? pages.services : DEFAULT_SITE_VISIBILITY.pages.services,
+      portfolio:
+        typeof pages?.portfolio === 'boolean'
+          ? pages.portfolio
+          : DEFAULT_SITE_VISIBILITY.pages.portfolio,
+      services:
+        typeof pages?.services === 'boolean'
+          ? pages.services
+          : DEFAULT_SITE_VISIBILITY.pages.services,
       blogs: typeof pages?.blogs === 'boolean' ? pages.blogs : DEFAULT_SITE_VISIBILITY.pages.blogs,
     },
     sections: {
-      summary: typeof sections?.summary === 'boolean' ? sections.summary : DEFAULT_SITE_VISIBILITY.sections.summary,
-      experience: typeof sections?.experience === 'boolean' ? sections.experience : DEFAULT_SITE_VISIBILITY.sections.experience,
-      education: typeof sections?.education === 'boolean' ? sections.education : DEFAULT_SITE_VISIBILITY.sections.education,
-      certificates: typeof sections?.certificates === 'boolean' ? sections.certificates : DEFAULT_SITE_VISIBILITY.sections.certificates,
-      recommendations: typeof sections?.recommendations === 'boolean' ? sections.recommendations : DEFAULT_SITE_VISIBILITY.sections.recommendations,
-      skills: typeof sections?.skills === 'boolean' ? sections.skills : DEFAULT_SITE_VISIBILITY.sections.skills,
-      contact: typeof sections?.contact === 'boolean' ? sections.contact : DEFAULT_SITE_VISIBILITY.sections.contact,
+      summary:
+        typeof sections?.summary === 'boolean'
+          ? sections.summary
+          : DEFAULT_SITE_VISIBILITY.sections.summary,
+      experience:
+        typeof sections?.experience === 'boolean'
+          ? sections.experience
+          : DEFAULT_SITE_VISIBILITY.sections.experience,
+      education:
+        typeof sections?.education === 'boolean'
+          ? sections.education
+          : DEFAULT_SITE_VISIBILITY.sections.education,
+      certificates:
+        typeof sections?.certificates === 'boolean'
+          ? sections.certificates
+          : DEFAULT_SITE_VISIBILITY.sections.certificates,
+      recommendations:
+        typeof sections?.recommendations === 'boolean'
+          ? sections.recommendations
+          : DEFAULT_SITE_VISIBILITY.sections.recommendations,
+      skills:
+        typeof sections?.skills === 'boolean'
+          ? sections.skills
+          : DEFAULT_SITE_VISIBILITY.sections.skills,
+      contact:
+        typeof sections?.contact === 'boolean'
+          ? sections.contact
+          : DEFAULT_SITE_VISIBILITY.sections.contact,
     },
   };
 }
@@ -162,13 +207,17 @@ export function serializeSettings(record: DbSettings): SiteContent {
   const contact: ContactDetails = {
     title: typeof contactConfig?.title === 'string' ? contactConfig.title : 'Get In Touch',
     subtitle: typeof contactConfig?.subtitle === 'string' ? contactConfig.subtitle : hero.subtitle,
-    description: typeof contactConfig?.description === 'string' ? contactConfig.description : undefined,
+    description:
+      typeof contactConfig?.description === 'string' ? contactConfig.description : undefined,
     location: record.location ?? undefined,
-    emails: [record.primaryEmail, record.secondaryEmail].filter((email): email is string => typeof email === 'string' && email.length > 0),
+    emails: [record.primaryEmail, record.secondaryEmail].filter(
+      (email): email is string => typeof email === 'string' && email.length > 0,
+    ),
     phones: toPhones(contactConfig?.phones),
     leads: {
       left: typeof contactConfig?.leads?.left === 'string' ? contactConfig?.leads?.left : undefined,
-      right: typeof contactConfig?.leads?.right === 'string' ? contactConfig?.leads?.right : undefined,
+      right:
+        typeof contactConfig?.leads?.right === 'string' ? contactConfig?.leads?.right : undefined,
     },
     socialLinks: toLinkArray(record.socialLinks),
   };
@@ -203,11 +252,16 @@ export function serializeSettings(record: DbSettings): SiteContent {
 function buildSeoConfig(record: DbSettings, seoDefaults?: SeoDefaultsShape | null): SeoConfig {
   const fallbackTitle = record.siteTitle;
   const fallbackDescription =
-    record.heroDescription ?? record.heroSubtitle ?? record.siteSubtitle ?? record.heroGreeting ?? record.siteTitle;
+    record.heroDescription ??
+    record.heroSubtitle ??
+    record.siteSubtitle ??
+    record.heroGreeting ??
+    record.siteTitle;
 
   const keywords = toStringArray(seoDefaults?.keywords);
 
-  const metadataBase = toAbsoluteUrl(seoDefaults?.metadataBase) ?? toAbsoluteUrl(seoDefaults?.siteUrl);
+  const metadataBase =
+    toAbsoluteUrl(seoDefaults?.metadataBase) ?? toAbsoluteUrl(seoDefaults?.siteUrl);
   const siteUrl = metadataBase ?? toAbsoluteUrl(seoDefaults?.siteUrl);
 
   return {

@@ -26,7 +26,7 @@ export async function HomeSections() {
   ]);
 
   const mergedSocialLinks = [...content.socialLinks, ...content.contact.socialLinks].filter(
-    (link, index, array) => array.findIndex(item => item.href === link.href) === index,
+    (link, index, array) => array.findIndex((item) => item.href === link.href) === index,
   );
 
   return (
@@ -37,7 +37,9 @@ export async function HomeSections() {
       {sections.certificates ? <CertificatesSection items={certificates} /> : null}
       {sections.recommendations ? <RecommendationsSection items={recommendations} /> : null}
       {sections.skills ? <SkillsSection groups={skills} /> : null}
-      {sections.contact ? <ContactSection details={content.contact} socialLinks={mergedSocialLinks} /> : null}
+      {sections.contact ? (
+        <ContactSection details={content.contact} socialLinks={mergedSocialLinks} />
+      ) : null}
     </div>
   );
 }

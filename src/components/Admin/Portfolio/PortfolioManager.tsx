@@ -37,8 +37,9 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       })
       .filter((project) => {
         if (!term) return true;
-        return [project.title, project.slug, project.intro, project.summary]
-          .some((field) => field?.toLowerCase().includes(term));
+        return [project.title, project.slug, project.intro, project.summary].some((field) =>
+          field?.toLowerCase().includes(term),
+        );
       });
   }, [projects, search]);
 
@@ -49,7 +50,11 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
   const handleOrderSaved = (ordered: Project[]) => {
     setProjects(ordered);
     setMessage('Order updated.');
-    showToast({ variant: 'success', title: 'Order updated', description: 'Portfolio order synced.' });
+    showToast({
+      variant: 'success',
+      title: 'Order updated',
+      description: 'Portfolio order synced.',
+    });
     router.refresh();
   };
 
@@ -71,7 +76,11 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to refresh projects.');
-      showToast({ variant: 'error', title: 'Refresh failed', description: err instanceof Error ? err.message : undefined });
+      showToast({
+        variant: 'error',
+        title: 'Refresh failed',
+        description: err instanceof Error ? err.message : undefined,
+      });
     } finally {
       setRefreshing(false);
     }
@@ -84,7 +93,10 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
     setMessage(null);
 
     setProjects((current) =>
-      current.map((item) => (item.slug === project.slug ? { ...item, published: nextPublished } : item)));
+      current.map((item) =>
+        item.slug === project.slug ? { ...item, published: nextPublished } : item,
+      ),
+    );
 
     try {
       const response = await fetch(`/api/v1/portfolio/${project.slug}`, {
@@ -98,7 +110,9 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
         throw new Error(description);
       }
       const updated: Project = payload?.data?.project ?? { ...project, published: nextPublished };
-      setProjects((current) => current.map((item) => (item.slug === project.slug ? { ...item, ...updated } : item)));
+      setProjects((current) =>
+        current.map((item) => (item.slug === project.slug ? { ...item, ...updated } : item)),
+      );
       setMessage(nextPublished ? 'Project published.' : 'Project moved to draft.');
       showToast({
         variant: 'success',
@@ -107,7 +121,10 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       });
     } catch (err) {
       setProjects((current) =>
-        current.map((item) => (item.slug === project.slug ? { ...item, published: project.published } : item)));
+        current.map((item) =>
+          item.slug === project.slug ? { ...item, published: project.published } : item,
+        ),
+      );
       setError(err instanceof Error ? err.message : 'Unable to update project.');
       showToast({
         variant: 'error',
@@ -155,7 +172,9 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold">Portfolio</h1>
-          <p className="text-sm text-muted-foreground">Manage case studies, publish drafts, and keep ordering tidy.</p>
+          <p className="text-sm text-muted-foreground">
+            Manage case studies, publish drafts, and keep ordering tidy.
+          </p>
         </div>
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
@@ -205,7 +224,9 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-6 sm:p-10 text-center">
           <p className="text-lg font-semibold text-foreground">No projects match that filter</p>
-          <p className="text-sm text-muted-foreground">Try a different search term or create a new case study.</p>
+          <p className="text-sm text-muted-foreground">
+            Try a different search term or create a new case study.
+          </p>
         </div>
       ) : (
         <>
@@ -231,14 +252,14 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
                           {project.featured ? <Badge variant="accent">Featured</Badge> : null}
                         </div>
                         <p className="text-xs text-muted-foreground">/{project.slug}</p>
-                        <p className="text-xs text-muted-foreground line-clamp-2">{project.tagline}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {project.tagline}
+                        </p>
                       </div>
                     </td>
                     <td className="px-4 py-4 align-top text-xs text-muted-foreground">
                       <p>{formatRange(project.start, project.end)}</p>
-                      <p>
-                        Updated {formatShortDate(project.updatedAt)}
-                      </p>
+                      <p>Updated {formatShortDate(project.updatedAt)}</p>
                     </td>
                     <td className="px-4 py-4 align-top">
                       <div className="flex flex-col gap-1 text-xs">
@@ -246,14 +267,19 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
                           {project.published ? 'Published' : 'Draft'}
                         </Badge>
                         <Badge variant="muted">{project.status}</Badge>
-                        <Badge variant={project.visibility === 'public' ? 'muted' : 'warning'}>{project.visibility}</Badge>
+                        <Badge variant={project.visibility === 'public' ? 'muted' : 'warning'}>
+                          {project.visibility}
+                        </Badge>
                         <Badge variant="muted">{project.access}</Badge>
                       </div>
                     </td>
                     <td className="px-4 py-4 align-top text-xs text-muted-foreground">
                       <div className="flex flex-wrap gap-1">
                         {(project.stack ?? []).slice(0, 4).map((tech) => (
-                          <span key={tech} className="rounded-full bg-[var(--border)]/40 px-2 py-0.5 text-[10px] uppercase tracking-wide">
+                          <span
+                            key={tech}
+                            className="rounded-full bg-[var(--border)]/40 px-2 py-0.5 text-[10px] uppercase tracking-wide"
+                          >
                             {tech}
                           </span>
                         ))}
@@ -296,15 +322,22 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
           {/* Mobile Card View */}
           <div className="lg:hidden space-y-4">
             {filtered.map((project) => (
-              <div key={project.slug} className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/30 p-4 space-y-3">
+              <div
+                key={project.slug}
+                className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/30 p-4 space-y-3"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-foreground truncate">{project.title}</span>
+                      <span className="font-semibold text-foreground truncate">
+                        {project.title}
+                      </span>
                       {project.featured ? <Badge variant="accent">Featured</Badge> : null}
                     </div>
                     <p className="text-xs text-muted-foreground truncate">/{project.slug}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{project.tagline}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                      {project.tagline}
+                    </p>
                   </div>
                 </div>
 
@@ -319,14 +352,19 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
                     {project.published ? 'Published' : 'Draft'}
                   </Badge>
                   <Badge variant="muted">{project.status}</Badge>
-                  <Badge variant={project.visibility === 'public' ? 'muted' : 'warning'}>{project.visibility}</Badge>
+                  <Badge variant={project.visibility === 'public' ? 'muted' : 'warning'}>
+                    {project.visibility}
+                  </Badge>
                   <Badge variant="muted">{project.access}</Badge>
                 </div>
 
                 {(project.stack ?? []).length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {(project.stack ?? []).slice(0, 6).map((tech) => (
-                      <span key={tech} className="rounded-full bg-[var(--border)]/40 px-2 py-0.5 text-[10px] uppercase tracking-wide">
+                      <span
+                        key={tech}
+                        className="rounded-full bg-[var(--border)]/40 px-2 py-0.5 text-[10px] uppercase tracking-wide"
+                      >
                         {tech}
                       </span>
                     ))}
@@ -381,14 +419,17 @@ interface BadgeProps {
 
 function Badge({ children, variant = 'muted' }: BadgeProps) {
   const classMap: Record<Required<BadgeProps>['variant'], string> = {
-    accent: 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border-[var(--accent-primary)]/30',
+    accent:
+      'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border-[var(--accent-primary)]/30',
     warning: 'bg-amber-500/15 text-amber-600 border-amber-600/40',
     success: 'bg-emerald-500/15 text-emerald-600 border-emerald-500/40',
     muted: 'bg-[var(--border)]/30 text-muted-foreground border-[var(--border)]/60',
   } as const;
 
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}>
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}
+    >
       {children}
     </span>
   );

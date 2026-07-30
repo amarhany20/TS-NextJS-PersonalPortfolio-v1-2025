@@ -40,13 +40,48 @@
     "Responsive UI across devices"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A production-ready internal pricing platform to unify and accelerate furniture cost estimation workflows.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Replace manual, inconsistent workflows with a centralized, auditable, and scalable system for complex pricing rules.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "End-to-end architecture & development; multi-env containerized setup; responsive admin UI; automated backups; resource & project-based pricing enhancements.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Deterministic engine; RBAC & logs; preset import/export; CSV/Excel pipelines; backups; vendor price crawling.", "order": 4 },
-    { "id": "challenges", "title": "Challenges & Solutions", "body": "Balanced maintainability and scalability with a modular Prisma schema and Next.js API routes; designed a colorful, accessible UI for non-technical staff.", "order": 5 },
-    { "id": "impact", "title": "Impact / Results", "body": "Cut quote preparation from hours to minutes; improved consistency; enabled standardized resources; increased resilience via backups.", "order": 6 },
-    { "id": "future", "title": "Future Plans", "body": "Room- and project-based calculations; richer vendor crawling; management dashboards.", "order": 7 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A production-ready internal pricing platform to unify and accelerate furniture cost estimation workflows.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Replace manual, inconsistent workflows with a centralized, auditable, and scalable system for complex pricing rules.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "End-to-end architecture & development; multi-env containerized setup; responsive admin UI; automated backups; resource & project-based pricing enhancements.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Deterministic engine; RBAC & logs; preset import/export; CSV/Excel pipelines; backups; vendor price crawling.",
+      "order": 4
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges & Solutions",
+      "body": "Balanced maintainability and scalability with a modular Prisma schema and Next.js API routes; designed a colorful, accessible UI for non-technical staff.",
+      "order": 5
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Cut quote preparation from hours to minutes; improved consistency; enabled standardized resources; increased resilience via backups.",
+      "order": 6
+    },
+    {
+      "id": "future",
+      "title": "Future Plans",
+      "body": "Room- and project-based calculations; richer vendor crawling; management dashboards.",
+      "order": 7
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Internal system; keep infrastructure details private in public views.",

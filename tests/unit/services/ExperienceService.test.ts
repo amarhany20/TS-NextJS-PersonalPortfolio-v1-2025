@@ -66,7 +66,9 @@ describe('ExperienceService', () => {
   });
 
   it('maps published experience through serializer', async () => {
-    const records = [{ id: '1', company: 'Acme' }] as unknown as Parameters<typeof serializeExperience>[0][];
+    const records = [{ id: '1', company: 'Acme' }] as unknown as Parameters<
+      typeof serializeExperience
+    >[0][];
     vi.mocked(ExperienceRepository.findPublished).mockResolvedValue(records);
 
     const result = await ExperienceService.getPublishedExperience();
@@ -87,6 +89,8 @@ describe('ExperienceService', () => {
   it('throws NotFoundError when delete returns false', async () => {
     vi.mocked(ExperienceRepository.delete).mockResolvedValue(false);
 
-    await expect(ExperienceService.deleteExperience('missing')).rejects.toBeInstanceOf(NotFoundError);
+    await expect(ExperienceService.deleteExperience('missing')).rejects.toBeInstanceOf(
+      NotFoundError,
+    );
   });
 });

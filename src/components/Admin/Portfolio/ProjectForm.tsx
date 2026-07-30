@@ -93,15 +93,14 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
     };
   }, [formState.stackInput, formState.featuresInput]);
 
-  const handleCheckboxChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target;
-    setFormState((prev) => ({ ...prev, [field]: checked }));
-  };
+  const handleCheckboxChange =
+    (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = event.target;
+      setFormState((prev) => ({ ...prev, [field]: checked }));
+    };
 
-  const handleInputChange = (
-    field: keyof typeof formState,
-    formatter?: (value: string) => string,
-  ) =>
+  const handleInputChange =
+    (field: keyof typeof formState, formatter?: (value: string) => string) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const value = formatter ? formatter(event.target.value) : event.target.value;
       setFormState((prev) => ({ ...prev, [field]: value }));
@@ -157,7 +156,12 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
       return;
     }
 
-    const endpoint = mode === 'create' ? '/api/v1/portfolio' : project ? `/api/v1/portfolio/${project.slug}` : null;
+    const endpoint =
+      mode === 'create'
+        ? '/api/v1/portfolio'
+        : project
+          ? `/api/v1/portfolio/${project.slug}`
+          : null;
     if (!endpoint) {
       setSubmitting(false);
       setError('Project context missing. Refresh and try again.');
@@ -191,18 +195,25 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">{pageTitle}</h1>
         <p className="text-sm text-muted-foreground">
-          Provide the core details for your case study. Required fields ensure the public portfolio has everything it needs.
+          Provide the core details for your case study. Required fields ensure the public portfolio
+          has everything it needs.
         </p>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700" role="alert">
+        <p
+          className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
 
       {success ? (
-        <p className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600" aria-live="polite">
+        <p
+          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600"
+          aria-live="polite"
+        >
           {success}
         </p>
       ) : null}
@@ -343,14 +354,24 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
               />
               <div className="space-y-2 rounded-xl border border-dashed border-[var(--border)] p-4 text-sm">
                 <label className="flex items-center gap-2 text-sm font-medium">
-                  <input type="checkbox" checked={formState.featured} onChange={handleCheckboxChange('featured')} />
+                  <input
+                    type="checkbox"
+                    checked={formState.featured}
+                    onChange={handleCheckboxChange('featured')}
+                  />
                   Featured project
                 </label>
                 <label className="flex items-center gap-2 text-sm font-medium">
-                  <input type="checkbox" checked={formState.published} onChange={handleCheckboxChange('published')} />
+                  <input
+                    type="checkbox"
+                    checked={formState.published}
+                    onChange={handleCheckboxChange('published')}
+                  />
                   Published
                 </label>
-                <p className="text-xs text-muted-foreground">Draft projects stay hidden from the public site.</p>
+                <p className="text-xs text-muted-foreground">
+                  Draft projects stay hidden from the public site.
+                </p>
               </div>
             </div>
           </div>
@@ -443,7 +464,11 @@ function LabeledInput({ label, helper, error, required, className, ...props }: L
         aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-accent ${className ?? ''}`}
       />
-      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {helper ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
       {error ? (
         <p id={errorId} className="text-xs text-amber-600" role="alert">
           {error}
@@ -459,7 +484,14 @@ interface TextareaFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement>
   error?: string;
 }
 
-function TextareaField({ label, helper, error, required, className, ...props }: TextareaFieldProps) {
+function TextareaField({
+  label,
+  helper,
+  error,
+  required,
+  className,
+  ...props
+}: TextareaFieldProps) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -477,7 +509,11 @@ function TextareaField({ label, helper, error, required, className, ...props }: 
         aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-accent ${className ?? ''}`}
       />
-      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {helper ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
       {error ? (
         <p id={errorId} className="text-xs text-amber-600" role="alert">
           {error}

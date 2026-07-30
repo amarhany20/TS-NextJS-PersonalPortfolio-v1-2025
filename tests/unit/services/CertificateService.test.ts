@@ -33,7 +33,9 @@ import { serializeCertificate } from '@/server/serializers/certificate';
 import { CertificateService } from '@/server/services/CertificateService';
 import type { CreateCertificateInput } from '@/server/server-validators/api/certificate';
 
-const buildCertificate = (overrides: Partial<CreateCertificateInput> = {}): CreateCertificateInput => ({
+const buildCertificate = (
+  overrides: Partial<CreateCertificateInput> = {},
+): CreateCertificateInput => ({
   id: overrides.id,
   name: overrides.name ?? 'Deep Learning Specialization',
   issuer: overrides.issuer ?? 'Coursera',
@@ -52,7 +54,9 @@ beforeEach(() => {
 
 describe('CertificateService', () => {
   it('maps certificates through serializer', async () => {
-    const records = [{ id: 'cert-1', name: 'Cert' }] as unknown as Parameters<typeof serializeCertificate>[0][];
+    const records = [{ id: 'cert-1', name: 'Cert' }] as unknown as Parameters<
+      typeof serializeCertificate
+    >[0][];
     vi.mocked(CertificateRepository.findAll).mockResolvedValue(records);
 
     const result = await CertificateService.getCertificates();
@@ -70,6 +74,8 @@ describe('CertificateService', () => {
   it('deletes certificate or throws when missing', async () => {
     vi.mocked(CertificateRepository.delete).mockResolvedValue(false);
 
-    await expect(CertificateService.deleteCertificate('missing')).rejects.toBeInstanceOf(NotFoundError);
+    await expect(CertificateService.deleteCertificate('missing')).rejects.toBeInstanceOf(
+      NotFoundError,
+    );
   });
 });

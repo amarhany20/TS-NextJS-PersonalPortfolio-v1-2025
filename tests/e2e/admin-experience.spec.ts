@@ -17,7 +17,6 @@ test.describe('Admin experience CRUD', () => {
       await page.goto('/admin/experience/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: 'Create experience' })).toBeVisible();
 
-
       const fillField = async (label: string, value: string) => {
         await page.getByLabel(new RegExp(`^${label}$`)).fill(value);
       };
@@ -30,11 +29,9 @@ test.describe('Admin experience CRUD', () => {
       await fillField('Achievement bullets', 'Built admin CRUD flows\nAdded tests');
       await fillField('Skills', 'Next.js\nTypeScript');
 
-
       await page.getByRole('button', { name: 'Create experience' }).click();
       await expect(page).toHaveURL(/\/admin\/experience$/);
       await expect(page.locator('tr', { hasText: company }).first()).toBeVisible();
-
 
       const row = page.locator('tr', { hasText: company });
       await expect(row.getByText('Draft')).toBeVisible();
@@ -48,7 +45,6 @@ test.describe('Admin experience CRUD', () => {
       await page.getByRole('button', { name: 'Save changes' }).click();
       await expect(page).toHaveURL(/\/admin\/experience$/);
       await expect(page.locator('tr', { hasText: company }).first()).toBeVisible();
-
 
       const updatedRow = page.locator('tr', { hasText: company });
       await expect(updatedRow).toBeVisible();
@@ -65,7 +61,10 @@ test.describe('Admin experience CRUD', () => {
 });
 
 async function cleanupExperience(company: string, title: string, baseURL: string) {
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
+  const api = await playwrightRequest.newContext({
+    baseURL,
+    storageState: 'playwright/.auth/admin.json',
+  });
 
   try {
     const listResponse = await api.get('/api/v1/experience');
@@ -74,19 +73,26 @@ async function cleanupExperience(company: string, title: string, baseURL: string
     }
 
     const payload = (await listResponse.json().catch(() => null)) as any;
-    const experience = (payload?.data?.experience ?? []) as Array<{ id: string | number; company: string; title: string }>;
+    const experience = (payload?.data?.experience ?? []) as Array<{
+      id: string | number;
+      company: string;
+      title: string;
+    }>;
     const match = experience.find((item) => item.company === company && item.title === title);
     if (!match) {
       return;
     }
 
     const deleteResponse = await api.delete(`/api/v1/experience/${match.id}`);
-    const responseText = deleteResponse.ok() || deleteResponse.status() === 404 ? '' : await deleteResponse.text();
+    const responseText =
+      deleteResponse.ok() || deleteResponse.status() === 404 ? '' : await deleteResponse.text();
     if (deleteResponse.ok() || deleteResponse.status() === 404) {
       return;
     }
 
-    console.warn(`Cleanup failed for experience ${match.id}: ${deleteResponse.status()} ${responseText}`);
+    console.warn(
+      `Cleanup failed for experience ${match.id}: ${deleteResponse.status()} ${responseText}`,
+    );
   } finally {
     await api.dispose();
   }

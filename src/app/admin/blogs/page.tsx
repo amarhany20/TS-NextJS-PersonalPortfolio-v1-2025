@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 import { BlogTable } from '@/components/Admin/Blog/BlogTable';
 import { BlogService } from '@/server/services/BlogService';
@@ -13,13 +13,15 @@ export default async function AdminBlogsPage() {
   return (
     <section className="space-y-6 py-6">
       <header className="space-y-2">
-        <p className="text-sm text-[var(--text-secondary)] uppercase tracking-wide">Phase 5 · Blog Module</p>
+        <p className="text-sm text-[var(--text-secondary)] uppercase tracking-wide">
+          Phase 5 · Blog Module
+        </p>
         <div className="flex flex-wrap items-center gap-3">
           <div>
             <h1 className="text-2xl font-semibold">Blog Posts</h1>
             <p className="text-sm text-[var(--text-secondary)]">
-              Draft, schedule, and publish long-form content. Filters and scheduling controls live below while the
-              editor preview opens in a side drawer.
+              Draft, schedule, and publish long-form content. Filters and scheduling controls live
+              below while the editor preview opens in a side drawer.
             </p>
           </div>
           <Link

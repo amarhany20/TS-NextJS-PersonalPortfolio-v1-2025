@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   /* Palette */
@@ -19,12 +19,12 @@
   --warning: #fcc419;
 
   /* Fonts */
-  --font-sans: var(--font-geist-sans, "Geist", Arial, sans-serif);
-  --font-mono: var(--font-geist-mono, "Geist Mono", monospace);
+  --font-sans: var(--font-geist-sans, 'Geist', Arial, sans-serif);
+  --font-mono: var(--font-geist-mono, 'Geist Mono', monospace);
 
   /* Typography scale */
   --fs-2xs: 0.65rem;
-  --fs-xs: 0.70rem;
+  --fs-xs: 0.7rem;
   --fs-sm: 0.78rem;
   --fs-base: 0.88rem; /* slightly larger base for better readability */
   --fs-md: 0.95rem;
@@ -156,8 +156,8 @@
   :root:not([data-theme]) {
     --background: #111216;
     --foreground: #fff;
-  --text-primary: var(--foreground);
-  --bg-primary: var(--background);
+    --text-primary: var(--foreground);
+    --bg-primary: var(--background);
     --sidebar: #181a1b;
     --accent-primary: #ffd600;
     --accent-secondary: #058ddb;
@@ -183,8 +183,13 @@ html {
 }
 
 /* Global hover text color normalization to avoid abrupt white->black flash */
-.hover-text-invert, a.hover-text-invert, .tag-chip {
-  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+.hover-text-invert,
+a.hover-text-invert,
+.tag-chip {
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
   -webkit-font-smoothing: antialiased;
 }
 .hover-text-invert:hover {
@@ -193,7 +198,9 @@ html {
 
 /* Utility for gradient chips to ensure text color transitions smoothly */
 .chip-gradient {
-  transition: background 220ms ease, color 160ms ease;
+  transition:
+    background 220ms ease,
+    color 160ms ease;
   will-change: background, color;
 }
 
@@ -235,7 +242,7 @@ html {
 }
 
 /* Ensure tooltips are always on top */
-.group:hover [class*="z-[9999]"] {
+.group:hover [class*='z-[9999]'] {
   z-index: 9999 !important;
 }
 

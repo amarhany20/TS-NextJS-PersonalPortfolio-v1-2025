@@ -16,13 +16,7 @@
   "role": "Computer Vision Intern",
   "start": "2023-06",
   "end": "2023-08",
-  "stack": [
-    "Python",
-    "OpenCV",
-    "Ultralytics",
-    "Supervision",
-    "NVIDIA Jetson"
-  ],
+  "stack": ["Python", "OpenCV", "Ultralytics", "Supervision", "NVIDIA Jetson"],
   "features": [
     "Real-time detection & counting",
     "Annotated frame outputs",
@@ -30,10 +24,30 @@
     "Reusable modular scripts"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Internship project to build a Jetson-optimized object counting and annotation pipeline with Python CV libraries.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a lightweight, real-time object counter running reliably on constrained Jetson hardware.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Developed pipeline with OpenCV + Ultralytics, integrated annotations with Supervision, optimized for edge deployment.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a working CV tool during internship, proving feasibility of edge CV workloads on limited devices.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Internship project to build a Jetson-optimized object counting and annotation pipeline with Python CV libraries.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a lightweight, real-time object counter running reliably on constrained Jetson hardware.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Developed pipeline with OpenCV + Ultralytics, integrated annotations with Supervision, optimized for edge deployment.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a working CV tool during internship, proving feasibility of edge CV workloads on limited devices.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Internship project; repository private.",

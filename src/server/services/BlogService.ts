@@ -81,7 +81,11 @@ export const BlogService = {
       throw new BadRequestError('Content cannot be empty');
     }
     const status = input.status ?? existing.status;
-    const publishedAt = resolvePublishedAt(status, input.publishedAt, existing.publishedAt ?? undefined);
+    const publishedAt = resolvePublishedAt(
+      status,
+      input.publishedAt,
+      existing.publishedAt ?? undefined,
+    );
     const categories = input.categories ? normalizeCategories(input.categories) : undefined;
     const tags = input.tags ? normalizeTags(input.tags) : undefined;
 
@@ -90,14 +94,12 @@ export const BlogService = {
       title,
       summary: input.summary === undefined ? undefined : nullIfEmpty(input.summary),
       content,
-      coverImage:
-        input.coverImage === undefined
-          ? undefined
-          : nullIfEmpty(input.coverImage),
+      coverImage: input.coverImage === undefined ? undefined : nullIfEmpty(input.coverImage),
       status,
       publishedAt,
       readingTime:
-        input.readingTime ?? (content ? calculateReadingTime(content) : existing.readingTime ?? undefined),
+        input.readingTime ??
+        (content ? calculateReadingTime(content) : (existing.readingTime ?? undefined)),
       seo: input.seo,
       meta: input.meta,
       categories,

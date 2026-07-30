@@ -39,15 +39,24 @@ test.describe('Admin media library', () => {
 });
 
 async function findAssetId(filename: string, baseURL: string) {
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
+  const api = await playwrightRequest.newContext({
+    baseURL,
+    storageState: 'playwright/.auth/admin.json',
+  });
 
   try {
     const response = await api.get('/api/v1/media');
     if (!response.ok()) return null;
 
     const payload = (await response.json().catch(() => null)) as any;
-    const assets = (payload?.data?.assets ?? []) as Array<{ id: string; originalName?: string; filename?: string }>;
-    const match = assets.find((item) => item.originalName === filename || item.filename === filename);
+    const assets = (payload?.data?.assets ?? []) as Array<{
+      id: string;
+      originalName?: string;
+      filename?: string;
+    }>;
+    const match = assets.find(
+      (item) => item.originalName === filename || item.filename === filename,
+    );
     return match?.id ?? null;
   } finally {
     await api.dispose();
@@ -55,7 +64,10 @@ async function findAssetId(filename: string, baseURL: string) {
 }
 
 async function cleanupMediaAsset(id: string, baseURL: string) {
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
+  const api = await playwrightRequest.newContext({
+    baseURL,
+    storageState: 'playwright/.auth/admin.json',
+  });
   const response = await api.delete(`/api/v1/media/${id}`);
   const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
   await api.dispose();

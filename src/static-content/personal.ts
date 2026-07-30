@@ -14,7 +14,10 @@ export const heroContent = {
   id: 1,
   greeting: metadata.hero.greeting,
   subtitle: metadata.tagline,
-  description: `<ul>${metadata.highlights.slice(0, 6).map((h) => `<li>${h}</li>`).join('')}</ul>`,
+  description: `<ul>${metadata.highlights
+    .slice(0, 6)
+    .map((h) => `<li>${h}</li>`)
+    .join('')}</ul>`,
   callToAction: metadata.hero.callToAction,
   primaryButton: metadata.hero.primaryButton,
   secondaryButton: metadata.hero.secondaryButton,

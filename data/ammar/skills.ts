@@ -104,18 +104,21 @@ export const skillGroups: readonly SkillGroupDisplay[] = [
   },
 ];
 
-
 // Flattened categories similar to previous loader output
 import type { SkillItem } from '@/types/skill';
 
-export const allSkills: Record<string, { title: string; icon: string; skills: SkillItem[] }> = skillGroups.reduce((acc, g) => {
-  acc[g.id] = {
-    title: g.title,
-    icon: g.id,
-    skills: g.skills.map((s) => ({ name: s.name }))
-  };
-  return acc;
-}, {} as Record<string, { title: string; icon: string; skills: SkillItem[] }>);
+export const allSkills: Record<string, { title: string; icon: string; skills: SkillItem[] }> =
+  skillGroups.reduce(
+    (acc, g) => {
+      acc[g.id] = {
+        title: g.title,
+        icon: g.id,
+        skills: g.skills.map((s) => ({ name: s.name })),
+      };
+      return acc;
+    },
+    {} as Record<string, { title: string; icon: string; skills: SkillItem[] }>,
+  );
 
 export const coreSkills: SkillItem[] = [
   { name: 'Python (Django, DRF, Flask, FastAPI)' },
@@ -124,7 +127,5 @@ export const coreSkills: SkillItem[] = [
   { name: 'WordPress' },
   { name: 'PostgreSQL' },
   { name: 'Google Cloud' },
-  { name: 'Azure' }
-  
+  { name: 'Azure' },
 ];
-

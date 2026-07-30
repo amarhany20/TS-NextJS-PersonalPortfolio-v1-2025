@@ -1,4 +1,4 @@
-import type { Metadata } from '@/types/metadata'
+import type { Metadata } from '@/types/metadata';
 
 /**
  * Neutral fallback metadata for template/bootstrap scenarios.
@@ -32,4 +32,4 @@ export const metadata: Metadata = {
   contact: {
     title: 'Get In Touch',
   },
-} as const
+} as const;

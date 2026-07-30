@@ -15,8 +15,15 @@ describe('serializeSkillGroup', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       skills: [
-
-        { id: '1', name: 'Node.js', icon: null, level: null, keywords: undefined, displayOrder: 0, groupId: 'group-1' },
+        {
+          id: '1',
+          name: 'Node.js',
+          icon: null,
+          level: null,
+          keywords: undefined,
+          displayOrder: 0,
+          groupId: 'group-1',
+        },
       ],
     };
 

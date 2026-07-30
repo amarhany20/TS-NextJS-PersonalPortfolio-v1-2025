@@ -12,18 +12,13 @@ export default async function SetupSettingsPage() {
       <section className="space-y-6 py-6">
         <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4">
           <p className="text-sm text-amber-600">
-            Settings have not been initialized. Configure environment variables, run migrations,
-            and bootstrap or seed the database.
+            Settings have not been initialized. Configure environment variables, run migrations, and
+            bootstrap or seed the database.
           </p>
         </div>
       </section>
     );
   }
 
-  return (
-      <SetupSettingsPanel
-      settings={settings}
-    />
-  );
+  return <SetupSettingsPanel settings={settings} />;
 }
-

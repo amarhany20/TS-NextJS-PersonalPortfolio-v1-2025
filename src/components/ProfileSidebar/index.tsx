@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import ProfileSidebarClient from './ProfileSidebarClient';
 import type { ProfileInfo } from '@/types/settings';

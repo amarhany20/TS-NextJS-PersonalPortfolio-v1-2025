@@ -16,13 +16,7 @@
   "role": "Technical Lead (Optimization & Maintenance)",
   "start": "2023-07",
   "end": null,
-  "stack": [
-    "WordPress",
-    "Woodmart Theme",
-    "PHP",
-    "Linux (terminal)",
-    "cPanel (GoDaddy VPS)"
-  ],
+  "stack": ["WordPress", "Woodmart Theme", "PHP", "Linux (terminal)", "cPanel (GoDaddy VPS)"],
   "features": [
     "Significant admin performance tuning (~60s → ~3s)",
     "UX improvements to product browsing and filters",
@@ -30,11 +24,36 @@
     "Continuous bug fixing and updates (2023–2025)"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "An e-commerce site requiring sustained technical remediation and optimization to reach reliable performance.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Stabilize operations, improve speed, and enhance the shopping experience end-to-end.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Led performance profiling and fixes, applied UI/UX improvements, executed server-level interventions, and maintained the stack.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Dramatically improved admin and browsing performance, leading to a more reliable operation.", "order": 4 },
-    { "id": "future", "title": "Future Plans", "body": "Iterative optimization and bug fixing; explore deeper caching and search improvements.", "order": 5 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "An e-commerce site requiring sustained technical remediation and optimization to reach reliable performance.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Stabilize operations, improve speed, and enhance the shopping experience end-to-end.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Led performance profiling and fixes, applied UI/UX improvements, executed server-level interventions, and maintained the stack.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Dramatically improved admin and browsing performance, leading to a more reliable operation.",
+      "order": 4
+    },
+    {
+      "id": "future",
+      "title": "Future Plans",
+      "body": "Iterative optimization and bug fixing; explore deeper caching and search improvements.",
+      "order": 5
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

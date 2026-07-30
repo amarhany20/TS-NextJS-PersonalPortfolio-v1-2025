@@ -45,7 +45,9 @@ export interface ExperienceCreateData {
 
 export type ExperienceUpdateData = Partial<ExperienceCreateData>;
 
-function mapExperience(record: Awaited<ReturnType<typeof prisma.experience.findFirst>>): DbExperience | null {
+function mapExperience(
+  record: Awaited<ReturnType<typeof prisma.experience.findFirst>>,
+): DbExperience | null {
   if (!record) {
     return null;
   }
@@ -73,10 +75,7 @@ export const ExperienceRepository = {
   async findPublished(): Promise<DbExperience[]> {
     const records = await prisma.experience.findMany({
       where: { published: true },
-      orderBy: [
-        { displayOrder: 'asc' },
-        { startDate: 'desc' },
-      ],
+      orderBy: [{ displayOrder: 'asc' }, { startDate: 'desc' }],
     });
 
     return records.map((record) => mapExperience(record)!).filter(Boolean);
@@ -84,10 +83,7 @@ export const ExperienceRepository = {
 
   async findAll(): Promise<DbExperience[]> {
     const records = await prisma.experience.findMany({
-      orderBy: [
-        { displayOrder: 'asc' },
-        { startDate: 'desc' },
-      ],
+      orderBy: [{ displayOrder: 'asc' }, { startDate: 'desc' }],
     });
 
     return records.map((record) => mapExperience(record)!).filter(Boolean);
@@ -174,7 +170,8 @@ function toUpdateData(data: ExperienceUpdateData) {
   if (data.endDate !== undefined) update.endDate = data.endDate ?? null;
   if (data.present !== undefined) update.present = data.present;
   if (data.impact !== undefined) update.impact = data.impact ?? null;
-  if (data.achievements !== undefined) update.achievements = JSON.stringify(data.achievements ?? []);
+  if (data.achievements !== undefined)
+    update.achievements = JSON.stringify(data.achievements ?? []);
   if (data.skills !== undefined) update.skills = JSON.stringify(data.skills ?? []);
   if (data.companyUrl !== undefined) update.companyUrl = data.companyUrl ?? null;
   if (data.displayOrder !== undefined) update.displayOrder = data.displayOrder;

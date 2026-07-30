@@ -30,4 +30,3 @@ export async function getMaintenanceMessage(): Promise<string | null> {
     return null;
   }
 }
-

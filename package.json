@@ -1,6 +1,6 @@
 {
   "name": "ts-nextjs-personalportfolio-v1-2025",
-  "version": "00.80.01",
+  "version": "00.81.00",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -55,6 +55,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
     "isomorphic-dompurify": "^2.27.0",
+    "prettier": "^3.3.3",
     "prisma": "^5.22.0",
     "quill": "^2.0.3",
     "tailwindcss": "^4",

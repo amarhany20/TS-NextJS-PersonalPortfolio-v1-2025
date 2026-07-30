@@ -32,13 +32,48 @@
     "Vercel CI/CD and Docker-ready"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "An open-source portfolio system for developers to showcase projects, blogs, and case studies with SEO-first architecture. Starts static for speed, with a migration path to backend services and authentication.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a reusable, modular portfolio framework that anyone can fork, customize, and deploy quickly—eliminating repetitive setup while keeping clean architecture and extensibility.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Full-stack design & implementation; Next.js + Tailwind front-end; planned API/auth/database; Vercel CI/CD; Resend-based contact pipeline; Controller → Service → Repository patterns.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Modular structure; rich content (MDX-ready); typed configuration; responsive Tailwind UI; secure contact delivery; configurable metadata; supports static hosting and Dockerized deployments.", "order": 4 },
-    { "id": "challenges", "title": "Challenges & Solutions", "body": "Chose static TS content initially for velocity and reliability; planned evolution to dynamic content + auth. Leveraged App Router + structured data to balance SEO and modern DX.", "order": 5 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivers a professional starter for developer portfolios; demonstrates SSR practices and typed services; usable today, with a clear backend roadmap.", "order": 6 },
-    { "id": "future", "title": "Future Plans", "body": "Integrate Postgres/Prisma; add authentication and admin; visual gallery; MDX ingestion; CI/CD templates for contributors.", "order": 7 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "An open-source portfolio system for developers to showcase projects, blogs, and case studies with SEO-first architecture. Starts static for speed, with a migration path to backend services and authentication.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a reusable, modular portfolio framework that anyone can fork, customize, and deploy quickly—eliminating repetitive setup while keeping clean architecture and extensibility.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Full-stack design & implementation; Next.js + Tailwind front-end; planned API/auth/database; Vercel CI/CD; Resend-based contact pipeline; Controller → Service → Repository patterns.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Modular structure; rich content (MDX-ready); typed configuration; responsive Tailwind UI; secure contact delivery; configurable metadata; supports static hosting and Dockerized deployments.",
+      "order": 4
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges & Solutions",
+      "body": "Chose static TS content initially for velocity and reliability; planned evolution to dynamic content + auth. Leveraged App Router + structured data to balance SEO and modern DX.",
+      "order": 5
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivers a professional starter for developer portfolios; demonstrates SSR practices and typed services; usable today, with a clear backend roadmap.",
+      "order": 6
+    },
+    {
+      "id": "future",
+      "title": "Future Plans",
+      "body": "Integrate Postgres/Prisma; add authentication and admin; visual gallery; MDX ingestion; CI/CD templates for contributors.",
+      "order": 7
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

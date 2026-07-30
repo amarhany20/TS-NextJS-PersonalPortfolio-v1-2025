@@ -16,12 +16,7 @@
   "role": "Co-developer (Customization & Deployment)",
   "start": "2024-09",
   "end": null,
-  "stack": [
-    "WordPress",
-    "Avada Theme",
-    "Custom CSS",
-    "WHM/cPanel (VPS)"
-  ],
+  "stack": ["WordPress", "Avada Theme", "Custom CSS", "WHM/cPanel (VPS)"],
   "features": [
     "Three-language support (EN/TR/AR) with seamless switching",
     "Single-page layout highlighting products and brand",
@@ -30,10 +25,30 @@
     "VPS hosting with WHM/cPanel for stability"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A multilingual landing experience focused on clarity, speed, and product presentation.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Reach international audiences and present products professionally with minimal maintenance overhead.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Led theme customization, CSS refinement, language toggling, and VPS deployment.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Expanded accessibility and delivered a maintainable, brand-aligned presence.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A multilingual landing experience focused on clarity, speed, and product presentation.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Reach international audiences and present products professionally with minimal maintenance overhead.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Led theme customization, CSS refinement, language toggling, and VPS deployment.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Expanded accessibility and delivered a maintainable, brand-aligned presence.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

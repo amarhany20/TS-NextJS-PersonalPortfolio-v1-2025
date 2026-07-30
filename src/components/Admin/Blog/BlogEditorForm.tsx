@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
@@ -29,15 +29,28 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
   const [summary, setSummary] = useState(initialPost?.summary ?? '');
   const [status, setStatus] = useState<BlogStatus>(initialPost?.status ?? 'draft');
   const [content, setContent] = useState(initialPost?.content ?? '');
-  const [scheduledAt, setScheduledAt] = useState(() => (initialPost?.publishedAt ? toLocalDatetime(initialPost.publishedAt) : ''));
-  const [selectedCategories, setSelectedCategories] = useState<TaxonomyItem[]>(initialPost?.categories ?? []);
+  const [scheduledAt, setScheduledAt] = useState(() =>
+    initialPost?.publishedAt ? toLocalDatetime(initialPost.publishedAt) : '',
+  );
+  const [selectedCategories, setSelectedCategories] = useState<TaxonomyItem[]>(
+    initialPost?.categories ?? [],
+  );
   const [selectedTags, setSelectedTags] = useState<TaxonomyItem[]>(initialPost?.tags ?? []);
-  const [pendingMessage, setPendingMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [pendingMessage, setPendingMessage] = useState<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
   const [isSubmitting, startTransition] = useTransition();
 
-  const readingTime = useMemo(() => calculateReadingTime(content || initialPost?.content || ''), [content, initialPost?.content]);
+  const readingTime = useMemo(
+    () => calculateReadingTime(content || initialPost?.content || ''),
+    [content, initialPost?.content],
+  );
 
-  const availableCategories = useMemo(() => mergeTaxonomies(categories, selectedCategories), [categories, selectedCategories]);
+  const availableCategories = useMemo(
+    () => mergeTaxonomies(categories, selectedCategories),
+    [categories, selectedCategories],
+  );
   const availableTags = useMemo(() => mergeTaxonomies(tags, selectedTags), [tags, selectedTags]);
 
   useEffect(() => {
@@ -96,14 +109,22 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
         window.location.assign('/admin/blogs');
       } catch (error) {
         console.error(error);
-        setPendingMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save blog post' });
+        setPendingMessage({
+          type: 'error',
+          text: error instanceof Error ? error.message : 'Failed to save blog post',
+        });
       }
     });
   }
 
   function buildPayload() {
     const normalizedSlug = slugify(slug || title) ?? '';
-    const publishDate = status === 'scheduled' ? scheduledAt : status === 'published' ? scheduledAt || new Date().toISOString() : undefined;
+    const publishDate =
+      status === 'scheduled'
+        ? scheduledAt
+        : status === 'published'
+          ? scheduledAt || new Date().toISOString()
+          : undefined;
 
     return {
       title: title.trim(),
@@ -113,12 +134,25 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
       status,
       publishedAt: publishDate ? toIsoString(publishDate) : undefined,
       readingTime,
-      categories: selectedCategories.map(({ slug: catSlug, name, description }) => ({ slug: catSlug, name, description })),
-      tags: selectedTags.map(({ slug: tagSlug, name, description }) => ({ slug: tagSlug, name, description })),
+      categories: selectedCategories.map(({ slug: catSlug, name, description }) => ({
+        slug: catSlug,
+        name,
+        description,
+      })),
+      tags: selectedTags.map(({ slug: tagSlug, name, description }) => ({
+        slug: tagSlug,
+        name,
+        description,
+      })),
     };
   }
 
-  const disableSubmit = !hydrated || isSubmitting || !title.trim() || !content.trim() || (status === 'scheduled' && !scheduledAt);
+  const disableSubmit =
+    !hydrated ||
+    isSubmitting ||
+    !title.trim() ||
+    !content.trim() ||
+    (status === 'scheduled' && !scheduledAt);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
@@ -280,7 +314,9 @@ function TaxonomySelector({ label, available, selected, onToggle, onAdd }: Selec
               type="button"
               onClick={() => onToggle(item)}
               className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                isActive ? 'bg-[var(--accent-primary)] text-black border-[var(--accent-primary)]' : 'border-[var(--border)] text-[var(--text-secondary)]'
+                isActive
+                  ? 'bg-[var(--accent-primary)] text-black border-[var(--accent-primary)]'
+                  : 'border-[var(--border)] text-[var(--text-secondary)]'
               }`}
             >
               {item.name}

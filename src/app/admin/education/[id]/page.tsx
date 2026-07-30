@@ -31,4 +31,3 @@ export default async function AdminEducationEditPage({ params }: AdminEducationE
 
   return <EducationForm mode="edit" education={education} />;
 }
-

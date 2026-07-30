@@ -6,7 +6,8 @@ export const services: Service[] = [
     title: 'Web Apps',
     slug: 'web-apps',
     description: 'Modern, accessible web applications with SSR-first delivery.',
-    longDescription: 'A template service entry you can replace with your real offering. Keep descriptions concise and action-oriented.',
+    longDescription:
+      'A template service entry you can replace with your real offering. Keep descriptions concise and action-oriented.',
     features: ['SSR/SSG pages', 'Accessible UI', 'Typed APIs'],
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
     icon: 'Globe',
@@ -17,7 +18,8 @@ export const services: Service[] = [
     title: 'APIs',
     slug: 'apis',
     description: 'REST endpoints with validation and consistent responses.',
-    longDescription: 'Example service entry. Replace it with your own specialties and proof points.',
+    longDescription:
+      'Example service entry. Replace it with your own specialties and proof points.',
     features: ['Zod validation', 'Service/repository layering', 'Structured errors'],
     technologies: ['Node.js', 'TypeScript', 'Prisma'],
     icon: 'ServerCog',

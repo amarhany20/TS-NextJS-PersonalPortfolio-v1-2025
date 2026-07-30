@@ -16,12 +16,7 @@
   "role": "Designer & Developer",
   "start": "2024-01",
   "end": "2024-06",
-  "stack": [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "Bootstrap"
-  ],
+  "stack": ["HTML", "CSS", "JavaScript", "Bootstrap"],
   "features": [
     "Sectioned layout: navbar, education, skills, projects, resume",
     "Responsive Bootstrap design",
@@ -29,10 +24,30 @@
     "Deployed via GitHub Pages"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A personal one-page portfolio created to consolidate professional information and projects.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a professional online presence before migrating to a modern Next.js stack.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Designed and implemented all sections with Bootstrap and custom HTML/CSS.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a clean online portfolio; later archived in favor of a new Next.js portfolio.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A personal one-page portfolio created to consolidate professional information and projects.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a professional online presence before migrating to a modern Next.js stack.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Designed and implemented all sections with Bootstrap and custom HTML/CSS.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a clean online portfolio; later archived in favor of a new Next.js portfolio.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

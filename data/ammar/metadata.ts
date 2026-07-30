@@ -1,4 +1,4 @@
-import type { Metadata } from '@/types/metadata'
+import type { Metadata } from '@/types/metadata';
 
 export const metadata: Metadata = {
   fullName: 'Ammar Hany Ezeldin Abdelrazik',
@@ -53,10 +53,13 @@ export const metadata: Metadata = {
     greeting: "Hi, I'm Ammar 👋",
     callToAction: "Let's build something amazing together.",
     primaryButton: { text: 'Get in Touch', href: '#contact' },
-    secondaryButton: { text: 'Download CV', href: '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf' },
+    secondaryButton: {
+      text: 'Download CV',
+      href: '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf',
+    },
   },
   // Contact information
   contact: {
     title: 'Get In Touch',
   },
-} as const
+} as const;

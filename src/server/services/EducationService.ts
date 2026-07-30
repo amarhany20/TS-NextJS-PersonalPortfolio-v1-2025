@@ -29,11 +29,7 @@ export const EducationService = {
       throw new ValidationError('Invalid start date format');
     }
 
-    const endDate = (input.present ?? false)
-      ? null
-      : input.end
-        ? parseYearMonth(input.end)
-        : null;
+    const endDate = (input.present ?? false) ? null : input.end ? parseYearMonth(input.end) : null;
     if (input.end && !endDate && !(input.present ?? false)) {
       throw new ValidationError('Invalid end date format');
     }
@@ -50,8 +46,7 @@ export const EducationService = {
       gpa: nullIfEmpty(input.gpa),
       achievements: input.achievements ?? [],
       project: nullIfEmpty(input.project),
-      displayOrder:
-        input.displayOrder ?? (await EducationRepository.getNextDisplayOrder()),
+      displayOrder: input.displayOrder ?? (await EducationRepository.getNextDisplayOrder()),
       published: input.published ?? false,
     });
 
@@ -59,18 +54,18 @@ export const EducationService = {
   },
 
   async updateEducation(id: string, input: UpdateEducationInput) {
-  const existing = await EducationRepository.findById(id);
+    const existing = await EducationRepository.findById(id);
     if (!existing) {
       throw new NotFoundError('Education record not found');
     }
 
     const startDate =
       input.start !== undefined
-        ? parseYearMonth(input.start) ?? raiseValidation('Invalid start date format')
+        ? (parseYearMonth(input.start) ?? raiseValidation('Invalid start date format'))
         : undefined;
     const endDate =
       input.end !== undefined
-        ? parseYearMonth(input.end) ?? raiseValidation('Invalid end date format')
+        ? (parseYearMonth(input.end) ?? raiseValidation('Invalid end date format'))
         : input.present !== undefined
           ? input.present
             ? null

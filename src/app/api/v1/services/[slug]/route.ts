@@ -1,6 +1,11 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
+import {
+  errorResponse,
+  notFoundResponse,
+  successResponse,
+  validationErrorResponse,
+} from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
 import { ServiceService } from '@/server/services/ServiceService';
 import { updateServiceSchema } from '@/server/server-validators/api/service';
@@ -21,7 +26,10 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: 
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
   try {
     await requireAuth();
     const { slug } = await params;

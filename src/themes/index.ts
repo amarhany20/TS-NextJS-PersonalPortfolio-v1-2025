@@ -153,7 +153,8 @@ const forestNoir: ThemeDefinition = {
 const paperSlate: ThemeDefinition = {
   id: 'paper-slate',
   name: 'Paper Slate',
-  description: 'Editorial off-white surfaces with sharp slate contrast for a clean knowledge-first aesthetic.',
+  description:
+    'Editorial off-white surfaces with sharp slate contrast for a clean knowledge-first aesthetic.',
   author: 'Ammar Hany',
   version: '1.0.0',
   tags: ['light', 'editorial', 'clean'],

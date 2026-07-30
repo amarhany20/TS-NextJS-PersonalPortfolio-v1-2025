@@ -87,9 +87,7 @@ function resolveMimeType(value?: string): string {
 }
 
 function validateMimeType(mimeType: string) {
-  const matchesPrefix = ALLOWED_MIME_PREFIXES.some((prefix) =>
-    mimeType.startsWith(prefix),
-  );
+  const matchesPrefix = ALLOWED_MIME_PREFIXES.some((prefix) => mimeType.startsWith(prefix));
 
   if (!matchesPrefix && !ALLOWED_MIME_TYPES.has(mimeType)) {
     throw new BadRequestError('Unsupported file type');

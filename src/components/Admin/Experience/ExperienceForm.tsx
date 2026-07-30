@@ -12,7 +12,10 @@ import {
   type TextareaHTMLAttributes,
 } from 'react';
 
-import { experienceCreateSchema, experienceUpdateSchema } from '@/client-validators/forms/experience';
+import {
+  experienceCreateSchema,
+  experienceUpdateSchema,
+} from '@/client-validators/forms/experience';
 import type { Experience } from '@/types/experience';
 import { useToast } from '@/components/ui/ToastProvider';
 
@@ -36,7 +39,8 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
   const map: FormErrors = {};
   for (const issue of issues) {
     const rawKey = issue.path[0];
-    const key = typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
+    const key =
+      typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
     if (!map[key]) {
       map[key] = issue.message;
     }
@@ -66,7 +70,8 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
   const [success, setSuccess] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
-  const pageTitle = mode === 'create' ? 'Create experience' : `Edit experience at ${experience?.company ?? ''}`;
+  const pageTitle =
+    mode === 'create' ? 'Create experience' : `Edit experience at ${experience?.company ?? ''}`;
   const submitLabel = mode === 'create' ? 'Create experience' : 'Save changes';
 
   useEffect(() => {
@@ -80,23 +85,22 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
     };
   }, [formState.achievementsInput, formState.skillsInput]);
 
-  const handleInputChange = (
-    field: keyof typeof formState,
-    formatter?: (value: string) => string,
-  ) =>
+  const handleInputChange =
+    (field: keyof typeof formState, formatter?: (value: string) => string) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const value = formatter ? formatter(event.target.value) : event.target.value;
       setFormState((prev) => ({ ...prev, [field]: value }));
     };
 
-  const handleCheckboxChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target;
-    setFormState((prev) => ({
-      ...prev,
-      [field]: checked,
-      ...(field === 'present' && checked ? { end: '' } : {}),
-    }));
-  };
+  const handleCheckboxChange =
+    (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = event.target;
+      setFormState((prev) => ({
+        ...prev,
+        [field]: checked,
+        ...(field === 'present' && checked ? { end: '' } : {}),
+      }));
+    };
 
   const buildPayload = () => {
     const achievements = splitList(formState.achievementsInput);
@@ -136,7 +140,12 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
       return;
     }
 
-    const endpoint = mode === 'create' ? '/api/v1/experience' : experience ? `/api/v1/experience/${experience.id}` : null;
+    const endpoint =
+      mode === 'create'
+        ? '/api/v1/experience'
+        : experience
+          ? `/api/v1/experience/${experience.id}`
+          : null;
     if (!endpoint) {
       setSubmitting(false);
       setError('Experience context missing. Refresh and try again.');
@@ -175,17 +184,25 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">{pageTitle}</h1>
-        <p className="text-sm text-muted-foreground">Document milestones to power the home page timeline.</p>
+        <p className="text-sm text-muted-foreground">
+          Document milestones to power the home page timeline.
+        </p>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700" role="alert">
+        <p
+          className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
 
       {success ? (
-        <p className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600" aria-live="polite">
+        <p
+          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600"
+          aria-live="polite"
+        >
           {success}
         </p>
       ) : null}
@@ -243,20 +260,34 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
                 value={formState.end}
                 onChange={handleInputChange('end')}
                 disabled={formState.present}
-                helper={formState.present ? 'Disabled while Present is checked' : 'Leave blank if ongoing'}
+                helper={
+                  formState.present ? 'Disabled while Present is checked' : 'Leave blank if ongoing'
+                }
                 error={fieldErrors.end}
               />
             </div>
             <div className="space-y-3 rounded-xl border border-dashed border-[var(--border)] p-4 text-sm">
               <label className="flex items-center gap-2 text-sm font-medium">
-                <input type="checkbox" checked={formState.present} onChange={handleCheckboxChange('present')} className="w-4 h-4" />
+                <input
+                  type="checkbox"
+                  checked={formState.present}
+                  onChange={handleCheckboxChange('present')}
+                  className="w-4 h-4"
+                />
                 <span>Present role</span>
               </label>
               <label className="flex items-center gap-2 text-sm font-medium">
-                <input type="checkbox" checked={formState.published} onChange={handleCheckboxChange('published')} className="w-4 h-4" />
+                <input
+                  type="checkbox"
+                  checked={formState.published}
+                  onChange={handleCheckboxChange('published')}
+                  className="w-4 h-4"
+                />
                 <span>Published</span>
               </label>
-              <p className="text-xs text-muted-foreground">Draft entries stay hidden from the public site.</p>
+              <p className="text-xs text-muted-foreground">
+                Draft entries stay hidden from the public site.
+              </p>
             </div>
             <LabeledInput
               label="Display order"
@@ -321,7 +352,12 @@ export function ExperienceForm({ mode, experience }: ExperienceFormProps) {
   );
 }
 
-function LabeledInput({ label, helper, error, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; helper?: string; error?: string }) {
+function LabeledInput({
+  label,
+  helper,
+  error,
+  ...props
+}: InputHTMLAttributes<HTMLInputElement> & { label: string; helper?: string; error?: string }) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -334,16 +370,35 @@ function LabeledInput({ label, helper, error, ...props }: InputHTMLAttributes<HT
         {...props}
         aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
-          error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
+          error
+            ? 'border-amber-500 focus:border-amber-500'
+            : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+      {helper ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-amber-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-function TextareaField({ label, helper, error, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; helper?: string; error?: string }) {
+function TextareaField({
+  label,
+  helper,
+  error,
+  ...props
+}: TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label: string;
+  helper?: string;
+  error?: string;
+}) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -356,11 +411,21 @@ function TextareaField({ label, helper, error, ...props }: TextareaHTMLAttribute
         {...props}
         aria-describedby={[helperId, errorId].filter(Boolean).join(' ') || undefined}
         className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition ${
-          error ? 'border-amber-500 focus:border-amber-500' : 'border-[var(--border)] bg-transparent focus:border-accent'
+          error
+            ? 'border-amber-500 focus:border-amber-500'
+            : 'border-[var(--border)] bg-transparent focus:border-accent'
         } ${props.className ?? ''}`}
       />
-      {helper ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
-      {error ? <p id={errorId} className="text-xs text-amber-600">{error}</p> : null}
+      {helper ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-amber-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

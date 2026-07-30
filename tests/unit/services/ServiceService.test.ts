@@ -71,7 +71,9 @@ describe('ServiceService', () => {
       active: record.active ?? true,
     }));
 
-    const result = await ServiceService.createService(buildService({ title: 'Fractional Engineering' }));
+    const result = await ServiceService.createService(
+      buildService({ title: 'Fractional Engineering' }),
+    );
 
     expect(ServiceRepository.create).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -100,7 +102,9 @@ describe('ServiceService', () => {
   it('bubbles unique slug exhaustion as ConflictError', async () => {
     vi.mocked(ServiceRepository.isSlugTaken).mockResolvedValue(true);
 
-    await expect(ServiceService.createService(buildService({ title: 'X' }))).rejects.toBeInstanceOf(ConflictError);
+    await expect(ServiceService.createService(buildService({ title: 'X' }))).rejects.toBeInstanceOf(
+      ConflictError,
+    );
   });
 
   it('reorders services and normalizes displayOrder values', async () => {
@@ -124,6 +128,8 @@ describe('ServiceService', () => {
       { slug: 'known-service', displayOrder: 1 } as any,
     ]);
 
-    await expect(ServiceService.reorderServices(['missing-service'])).rejects.toBeInstanceOf(NotFoundError);
+    await expect(ServiceService.reorderServices(['missing-service'])).rejects.toBeInstanceOf(
+      NotFoundError,
+    );
   });
 });

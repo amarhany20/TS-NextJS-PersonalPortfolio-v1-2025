@@ -27,6 +27,12 @@ vi.mock('@/server/repositories/SettingsRepository', () => ({
   },
 }));
 
+vi.mock('@/server/services/EnvBootstrapService', () => ({
+  EnvBootstrapService: {
+    ensureSettingsAndAdmin: vi.fn(),
+  },
+}));
+
 vi.mock('@/server/serializers/settings', () => ({
   serializeSettings: vi.fn((record: any) => ({
     hero: record.hero ?? {},
@@ -46,14 +52,14 @@ vi.mock('@/server/serializers/settings', () => ({
 }));
 
 import { SettingsRepository } from '@/server/repositories/SettingsRepository';
+import { EnvBootstrapService } from '@/server/services/EnvBootstrapService';
 
-let SettingsService: typeof import('@/server/services/SettingsService')['SettingsService'];
+let SettingsService: (typeof import('@/server/services/SettingsService'))['SettingsService'];
 
 beforeEach(async () => {
   vi.clearAllMocks();
   vi.resetModules();
   ({ SettingsService } = await import('@/server/services/SettingsService'));
-
 });
 
 describe('SettingsService', () => {
@@ -81,10 +87,27 @@ describe('SettingsService', () => {
     expect(SettingsRepository.getStatus).toHaveBeenCalledTimes(1);
   });
 
-  it('throws when settings missing', async () => {
-    vi.mocked(SettingsRepository.getStatus).mockResolvedValue({ status: 'missing_record' });
+  it('bootstraps the settings row when the record is missing', async () => {
+    vi.mocked(SettingsRepository.getStatus)
+      .mockResolvedValueOnce({ status: 'missing_record' })
+      .mockResolvedValueOnce({
+        status: 'ready',
+        settings: { profile: { fullName: 'Bootstrapped' } } as any,
+      });
 
-    await expect(SettingsService.getSiteContent()).rejects.toThrow('Settings bootstrap failed. Check your .env defaults.');
+    await SettingsService.getSiteContent();
 
+    expect(EnvBootstrapService.ensureSettingsAndAdmin).toHaveBeenCalledTimes(1);
+    expect(SettingsRepository.getStatus).toHaveBeenCalledTimes(2);
+  });
+
+  it('throws when bootstrap leaves the record still missing', async () => {
+    vi.mocked(SettingsRepository.getStatus)
+      .mockResolvedValueOnce({ status: 'missing_record' })
+      .mockResolvedValueOnce({ status: 'missing_record' });
+
+    await expect(SettingsService.getSiteContent()).rejects.toThrow(
+      'Settings bootstrap failed. Check your .env defaults.',
+    );
   });
 });

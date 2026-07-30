@@ -1,6 +1,11 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
+import {
+  errorResponse,
+  notFoundResponse,
+  successResponse,
+  validationErrorResponse,
+} from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
 import { EducationService } from '@/server/services/EducationService';
 import { updateEducationSchema } from '@/server/server-validators/api/education';

@@ -33,9 +33,7 @@ const buildGroup = (overrides: Partial<CreateSkillGroupInput> = {}): CreateSkill
   title: overrides.title ?? 'Platform',
   summary: overrides.summary,
   displayOrder: overrides.displayOrder,
-  skills: overrides.skills ?? [
-    { id: 'ts', name: 'TypeScript', displayOrder: 0 },
-  ],
+  skills: overrides.skills ?? [{ id: 'ts', name: 'TypeScript', displayOrder: 0 }],
 });
 
 beforeEach(() => {
@@ -93,9 +91,7 @@ describe('SkillService', () => {
       updatedAt: new Date(),
       skills: [],
     } as any);
-    vi.mocked(SkillRepository.isSlugTaken)
-      .mockResolvedValueOnce(true)
-      .mockResolvedValueOnce(false);
+    vi.mocked(SkillRepository.isSlugTaken).mockResolvedValueOnce(true).mockResolvedValueOnce(false);
     vi.mocked(SkillRepository.updateGroup).mockResolvedValue({
       id: 'existing',
       slug: 'platform-2',
@@ -107,9 +103,15 @@ describe('SkillService', () => {
       skills: [],
     } as any);
 
-    const result = await SkillService.updateSkillGroup('platform', { slug: 'platform', title: 'Updated' });
+    const result = await SkillService.updateSkillGroup('platform', {
+      slug: 'platform',
+      title: 'Updated',
+    });
 
-    expect(SkillRepository.updateGroup).toHaveBeenCalledWith('platform', expect.objectContaining({ slug: 'platform-2' }));
-  expect(result.id).toBe('platform-2');
+    expect(SkillRepository.updateGroup).toHaveBeenCalledWith(
+      'platform',
+      expect.objectContaining({ slug: 'platform-2' }),
+    );
+    expect(result.id).toBe('platform-2');
   });
 });

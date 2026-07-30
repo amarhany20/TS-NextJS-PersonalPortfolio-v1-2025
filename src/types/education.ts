@@ -21,7 +21,7 @@ export interface EducationItem {
   field?: string;
   location?: string;
   start: string; // YYYY-MM
-  end?: string;  // YYYY-MM
+  end?: string; // YYYY-MM
   gpa?: string;
   achievements?: string[];
   project?: string;

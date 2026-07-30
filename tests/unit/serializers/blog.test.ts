@@ -19,12 +19,8 @@ function buildPost(overrides: Partial<DbBlogPost> = {}): DbBlogPost {
     meta: { featured: true },
     createdAt: now,
     updatedAt: now,
-    categories: [
-      { id: 'cat-1', slug: 'guides', name: 'Guides' },
-    ],
-    tags: [
-      { id: 'tag-1', slug: 'nextjs', name: 'Next.js' },
-    ],
+    categories: [{ id: 'cat-1', slug: 'guides', name: 'Guides' }],
+    tags: [{ id: 'tag-1', slug: 'nextjs', name: 'Next.js' }],
     ...overrides,
   };
 }

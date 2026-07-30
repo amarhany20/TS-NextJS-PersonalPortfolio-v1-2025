@@ -1,13 +1,20 @@
 import { z } from 'zod';
 
 const nullableTrimmedString = (max: number) =>
-  z.string().trim().max(max).transform((value) => (value.length > 0 ? value : null));
+  z
+    .string()
+    .trim()
+    .max(max)
+    .transform((value) => (value.length > 0 ? value : null));
 
 const nullableEmail = z
   .string()
   .trim()
   .max(160)
-  .refine((value) => value.length === 0 || z.email().safeParse(value).success, 'Enter a valid email address')
+  .refine(
+    (value) => value.length === 0 || z.email().safeParse(value).success,
+    'Enter a valid email address',
+  )
   .transform((value) => (value.length > 0 ? value : null));
 
 export const updateSiteProfileSchema = z.object({

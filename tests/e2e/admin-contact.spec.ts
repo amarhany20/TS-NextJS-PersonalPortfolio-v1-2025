@@ -37,7 +37,15 @@ test.describe('Admin contact inbox', () => {
   });
 });
 
-async function createContactSubmission({ name, email, baseURL }: { name: string; email: string; baseURL: string }) {
+async function createContactSubmission({
+  name,
+  email,
+  baseURL,
+}: {
+  name: string;
+  email: string;
+  baseURL: string;
+}) {
   const api = await playwrightRequest.newContext({ baseURL });
   const ipHeader = `192.0.2.${(Date.now() % 200) + 10}`;
 
@@ -63,7 +71,10 @@ async function createContactSubmission({ name, email, baseURL }: { name: string;
 }
 
 async function cleanupContactSubmission(id: string, baseURL: string) {
-  const api = await playwrightRequest.newContext({ baseURL, storageState: 'playwright/.auth/admin.json' });
+  const api = await playwrightRequest.newContext({
+    baseURL,
+    storageState: 'playwright/.auth/admin.json',
+  });
   const response = await api.delete(`/api/v1/contact/${id}`);
   const responseText = response.ok() || response.status() === 404 ? '' : await response.text();
   await api.dispose();

@@ -22,10 +22,7 @@ export async function GET(request: NextRequest) {
     const validationResult = querySchema.safeParse(searchParams);
 
     if (!validationResult.success) {
-      return validationErrorResponse(
-        'Invalid query parameters',
-        validationResult.error.format()
-      );
+      return validationErrorResponse('Invalid query parameters', validationResult.error.format());
     }
 
     const { name } = validationResult.data;
@@ -59,10 +56,7 @@ export async function POST(request: NextRequest) {
     const validationResult = bodySchema.safeParse(body);
 
     if (!validationResult.success) {
-      return validationErrorResponse(
-        'Invalid request body',
-        validationResult.error.format()
-      );
+      return validationErrorResponse('Invalid request body', validationResult.error.format());
     }
 
     const { message } = validationResult.data;

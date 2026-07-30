@@ -5,7 +5,8 @@ export const certificates = [
     issuer: 'Animals.ai',
     date: '2023-10-01',
     credential: 'animals-ai-internship-certificate',
-    description: 'Confirms production computer vision delivery, edge deployments, and backend ownership at Animals.ai.',
+    description:
+      'Confirms production computer vision delivery, edge deployments, and backend ownership at Animals.ai.',
     skills: ['CV', 'Backend'],
     image: null,
     verifyUrl: '/attachments/2023-10%20Animals.ai%20Internship%20Certificate.pdf',
@@ -21,7 +22,8 @@ export const certificates = [
     description: 'Comprehensive course in Go programming language & modern practices.',
     skills: ['Go'],
     image: null,
-    verifyUrl: '/attachments/2025-03-06%20Go%20-%20The%20Complete%20Guide%20UC-d9e09f02-5a94-492b-8f9c-dff51cda8a02.pdf',
+    verifyUrl:
+      '/attachments/2025-03-06%20Go%20-%20The%20Complete%20Guide%20UC-d9e09f02-5a94-492b-8f9c-dff51cda8a02.pdf',
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -31,10 +33,12 @@ export const certificates = [
     issuer: 'Udemy',
     date: '2024-01-01',
     credential: 'udemy-python-bootcamp',
-  description: 'Comprehensive bootcamp covering modern Python, backend frameworks, and production data tooling.',
+    description:
+      'Comprehensive bootcamp covering modern Python, backend frameworks, and production data tooling.',
     skills: ['Python'],
     image: null,
-    verifyUrl: '/attachments/Ammar%20Hany%20Python%20Course%20Certificate%20-%20UC-9615c4dd-a278-45ab-800f-78eeb80e5e66.pdf',
+    verifyUrl:
+      '/attachments/Ammar%20Hany%20Python%20Course%20Certificate%20-%20UC-9615c4dd-a278-45ab-800f-78eeb80e5e66.pdf',
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -44,10 +48,12 @@ export const certificates = [
     issuer: 'Udemy',
     date: '2023-01-01',
     credential: 'udemy-self-driving-car-applied-deep-learning',
-  description: 'Applied deep learning specialization with behavioral cloning pipelines deployed for autonomous driving use cases.',
+    description:
+      'Applied deep learning specialization with behavioral cloning pipelines deployed for autonomous driving use cases.',
     skills: ['Deep Learning', 'CNN'],
     image: null,
-    verifyUrl: '/attachments/Self-Driving%20Car%20Certificate%20UC-b28c626f-132b-4ff3-bea9-89e33052f24a.pdf',
+    verifyUrl:
+      '/attachments/Self-Driving%20Car%20Certificate%20UC-b28c626f-132b-4ff3-bea9-89e33052f24a.pdf',
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -57,7 +63,8 @@ export const certificates = [
     issuer: 'Award',
     date: '2023-01-01',
     credential: 'teknofest-2023-participation-autonomous-harvesting-robot-top-25',
-  description: 'Autonomous Harvesting Robot ranked top 25 nationally and demonstrated full-stack CV/robotics delivery to 2.5M attendees.',
+    description:
+      'Autonomous Harvesting Robot ranked top 25 nationally and demonstrated full-stack CV/robotics delivery to 2.5M attendees.',
     skills: ['Competition', 'Computer Vision'],
     image: null,
     verifyUrl: '/attachments/Ammar%20Hany%20Teknofest%20Certificate.pdf',

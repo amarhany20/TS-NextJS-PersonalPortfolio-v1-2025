@@ -13,7 +13,9 @@ interface AdminExperienceEditPageProps {
 
 const loadExperience = cache((id: string) => ExperienceService.getExperienceById(id));
 
-export async function generateMetadata({ params }: AdminExperienceEditPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: AdminExperienceEditPageProps): Promise<Metadata> {
   const { id } = await params;
   const experience = await loadExperience(id);
   return {

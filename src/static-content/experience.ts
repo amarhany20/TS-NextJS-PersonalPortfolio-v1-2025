@@ -11,7 +11,7 @@ const rawExperience: readonly ExperienceItem[] = [
     bullets: [
       'Built and maintained production features across frontend and backend.',
       'Improved performance and reliability via caching and query optimization.',
-      'Collaborated with designers and PMs to ship accessible UI.'
+      'Collaborated with designers and PMs to ship accessible UI.',
     ],
     stack: ['TypeScript', 'Next.js', 'PostgreSQL', 'Prisma'],
     impact: 'Delivered end-to-end features with measurable performance improvements.',
@@ -24,7 +24,7 @@ const rawExperience: readonly ExperienceItem[] = [
     end: '2023-12',
     bullets: [
       'Implemented UI components and API integrations.',
-      'Wrote tests and improved developer tooling.'
+      'Wrote tests and improved developer tooling.',
     ],
     stack: ['React', 'Node.js', 'TypeScript'],
     impact: 'Shipped features and improved code quality through testing and refactors.',
@@ -47,4 +47,3 @@ export const experience: Experience[] = rawExperience.map((r, idx) => ({
   createdAt: new Date(),
   updatedAt: new Date(),
 }));
-

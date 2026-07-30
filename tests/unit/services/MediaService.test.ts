@@ -70,9 +70,7 @@ describe('MediaService', () => {
   it('uploads media and persists metadata', async () => {
     const payload = 'pixel-data';
     const file = buildFile(payload, 'hero banner.PNG', 'image/png');
-    const expectedChecksum = createHash('sha256')
-      .update(Buffer.from(payload))
-      .digest('hex');
+    const expectedChecksum = createHash('sha256').update(Buffer.from(payload)).digest('hex');
     const record = { id: 'media-1', checksum: expectedChecksum } as any;
 
     vi.mocked(MediaRepository.create).mockResolvedValue(record);
@@ -97,17 +95,13 @@ describe('MediaService', () => {
   it('rejects files larger than 10 MB', async () => {
     const file = new File([new Uint8Array(MAX_BYTES + 1)], 'huge.png', { type: 'image/png' });
 
-    await expect(MediaService.uploadMedia({ file })).rejects.toBeInstanceOf(
-      BadRequestError,
-    );
+    await expect(MediaService.uploadMedia({ file })).rejects.toBeInstanceOf(BadRequestError);
   });
 
   it('rejects unsupported mime types', async () => {
     const file = buildFile('data', 'document.exe', 'application/octet-stream');
 
-    await expect(MediaService.uploadMedia({ file })).rejects.toBeInstanceOf(
-      BadRequestError,
-    );
+    await expect(MediaService.uploadMedia({ file })).rejects.toBeInstanceOf(BadRequestError);
   });
 
   it('deletes media assets and underlying files', async () => {
@@ -126,8 +120,6 @@ describe('MediaService', () => {
   it('throws when deleting missing assets', async () => {
     vi.mocked(MediaRepository.findById).mockResolvedValue(null);
 
-    await expect(MediaService.deleteMedia('missing')).rejects.toBeInstanceOf(
-      NotFoundError,
-    );
+    await expect(MediaService.deleteMedia('missing')).rejects.toBeInstanceOf(NotFoundError);
   });
 });

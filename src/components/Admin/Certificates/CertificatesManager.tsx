@@ -38,7 +38,10 @@ export function CertificatesManager({ initialCertificates }: CertificatesManager
         const bOrder = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
 
         if (aOrder !== bOrder) return aOrder - bOrder;
-        return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0);
+        return (
+          (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) -
+          (a.updatedAt ? new Date(a.updatedAt).getTime() : 0)
+        );
       })
       .filter((item) => {
         if (!term) return true;
@@ -87,7 +90,11 @@ export function CertificatesManager({ initialCertificates }: CertificatesManager
       setItems((current) => current.filter((item) => item.id !== record.id));
       showToast({ variant: 'success', title: 'Certificate deleted', description: record.name });
     } catch (error) {
-      showToast({ variant: 'error', title: 'Delete failed', description: error instanceof Error ? error.message : undefined });
+      showToast({
+        variant: 'error',
+        title: 'Delete failed',
+        description: error instanceof Error ? error.message : undefined,
+      });
     } finally {
       setBusyId(null);
     }
@@ -98,7 +105,9 @@ export function CertificatesManager({ initialCertificates }: CertificatesManager
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold">Certificates</h1>
-          <p className="text-sm text-muted-foreground">Manage professional certifications and verification links.</p>
+          <p className="text-sm text-muted-foreground">
+            Manage professional certifications and verification links.
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -158,13 +167,17 @@ export function CertificatesManager({ initialCertificates }: CertificatesManager
                       ) : null}
                     </div>
                   </td>
-                  <td className="px-4 py-4 align-top text-xs text-muted-foreground">{item.issuer}</td>
+                  <td className="px-4 py-4 align-top text-xs text-muted-foreground">
+                    {item.issuer}
+                  </td>
                   <td className="px-4 py-4 align-top text-xs text-muted-foreground">
                     {formatDate(item.date)}
                   </td>
                   <td className="px-4 py-4 align-top text-xs text-muted-foreground">
                     {item.skills && item.skills.length > 0 ? (
-                      <Badge variant="muted">{item.skills.length} skill{item.skills.length !== 1 ? 's' : ''}</Badge>
+                      <Badge variant="muted">
+                        {item.skills.length} skill{item.skills.length !== 1 ? 's' : ''}
+                      </Badge>
                     ) : (
                       <span className="text-muted-foreground">—</span>
                     )}
@@ -211,7 +224,9 @@ function Badge({ children, variant = 'muted' }: BadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}>
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase ${classMap[variant]}`}
+    >
       {children}
     </span>
   );
@@ -221,9 +236,12 @@ function formatDate(dateString?: string) {
   if (!dateString) return 'Unknown date';
   try {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+    return new Intl.DateTimeFormat(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(date);
   } catch {
     return 'Invalid date';
   }
 }
-

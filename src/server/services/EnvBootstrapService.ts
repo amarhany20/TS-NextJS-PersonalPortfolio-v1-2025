@@ -116,7 +116,8 @@ export const EnvBootstrapService = {
       const siteSubtitle = readEnvString(env.SITE_SUBTITLE) ?? null;
       const heroGreeting = readEnvString(env.HERO_GREETING) ?? null;
       const heroSubtitle = readEnvString(env.HERO_SUBTITLE) ?? null;
-      const heroDescription = readEnvString(env.HERO_DESCRIPTION) ?? readEnvString(env.SITE_DESCRIPTION) ?? null;
+      const heroDescription =
+        readEnvString(env.HERO_DESCRIPTION) ?? readEnvString(env.SITE_DESCRIPTION) ?? null;
       const primaryEmail = readEnvString(env.PRIMARY_EMAIL) ?? email;
       const secondaryEmail = readEnvString(env.SECONDARY_EMAIL) ?? null;
       const location = readEnvString(env.LOCATION) ?? null;

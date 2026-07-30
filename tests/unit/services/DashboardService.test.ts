@@ -59,7 +59,7 @@ vi.mock('@/server/repositories/SettingsRepository', () => ({
 
 import { SettingsRepository } from '@/server/repositories/SettingsRepository';
 
-let DashboardService: typeof import('@/server/services/DashboardService')['DashboardService'];
+let DashboardService: (typeof import('@/server/services/DashboardService'))['DashboardService'];
 
 describe('DashboardService', () => {
   beforeEach(async () => {
@@ -68,7 +68,6 @@ describe('DashboardService', () => {
       Object.values(model as Record<string, Mock>).forEach((method) => method.mockReset());
     });
     ({ DashboardService } = await import('@/server/services/DashboardService'));
-
   });
 
   it('returns aggregated stats and quick links', async () => {
@@ -92,9 +91,13 @@ describe('DashboardService', () => {
     });
     prismaMock.contactSubmission.count.mockResolvedValue(1);
     prismaMock.media.count.mockResolvedValue(9);
-    prismaMock.portfolio.findFirst.mockResolvedValue({ updatedAt: new Date('2025-01-02T10:00:00Z') });
+    prismaMock.portfolio.findFirst.mockResolvedValue({
+      updatedAt: new Date('2025-01-02T10:00:00Z'),
+    });
     prismaMock.blog.findFirst.mockResolvedValue({ updatedAt: new Date('2025-01-01T08:00:00Z') });
-    prismaMock.contactSubmission.findFirst.mockResolvedValue({ createdAt: new Date('2025-01-03T12:00:00Z') });
+    prismaMock.contactSubmission.findFirst.mockResolvedValue({
+      createdAt: new Date('2025-01-03T12:00:00Z'),
+    });
     vi.mocked(SettingsRepository.get).mockResolvedValue({
       siteTitle: 'Portfolio',
       maintenanceMode: false,
@@ -134,16 +137,16 @@ describe('DashboardService', () => {
     process.env.AUTH_SECRET = '';
     process.env.NEXT_PUBLIC_SITE_URL = 'http://localhost:3000';
     vi.resetModules();
-    const { DashboardService: reloadedDashboardService } = await import('@/server/services/DashboardService');
+    const { DashboardService: reloadedDashboardService } =
+      await import('@/server/services/DashboardService');
 
     const overview = await reloadedDashboardService.getAdminOverview();
 
     expect(overview.meta.pendingSetup).toBe(false);
     expect(overview.meta.missingEnvVars).toContain('AUTH_SECRET');
-    
+
     expect(overview.quickLinks.some((link) => link.href === '/admin/experience/new')).toBe(true);
     expect(overview.quickLinks.some((link) => link.href === '/admin/services/new')).toBe(true);
-
 
     process.env.NEXT_PUBLIC_SITE_URL = previousEnv;
     process.env.AUTH_SECRET = previousAuth;

@@ -27,7 +27,14 @@ interface LabeledFieldProps {
   onChange: (value: string) => void;
 }
 
-function LabeledField({ label, helper, required, value, type = 'text', onChange }: LabeledFieldProps) {
+function LabeledField({
+  label,
+  helper,
+  required,
+  value,
+  type = 'text',
+  onChange,
+}: LabeledFieldProps) {
   return (
     <label className="space-y-2">
       <span className="block text-sm font-medium text-foreground">
@@ -73,7 +80,10 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const setField = <K extends keyof ProfileSettingsValues>(field: K, value: ProfileSettingsValues[K]) => {
+  const setField = <K extends keyof ProfileSettingsValues>(
+    field: K,
+    value: ProfileSettingsValues[K],
+  ) => {
     setValues((current) => ({ ...current, [field]: value }));
   };
 
@@ -117,7 +127,8 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
     <div className="space-y-6">
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/70 p-5">
         <p className="text-sm text-[var(--text-secondary)]">
-          These fields drive your public name, hero copy, contact details, and profile/sidebar content after the initial bootstrap.
+          These fields drive your public name, hero copy, contact details, and profile/sidebar
+          content after the initial bootstrap.
         </p>
       </div>
 
@@ -185,7 +196,8 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
           <div className="mb-5 space-y-1">
             <h2 className="text-lg font-semibold text-foreground">Contact details</h2>
             <p className="text-sm text-[var(--text-secondary)]">
-              Keep the basic public contact details accurate here. You can expand theme and diagnostics separately.
+              Keep the basic public contact details accurate here. You can expand theme and
+              diagnostics separately.
             </p>
           </div>
 

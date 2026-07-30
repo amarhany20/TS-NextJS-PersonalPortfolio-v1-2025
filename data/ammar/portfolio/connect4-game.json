@@ -16,13 +16,7 @@
   "role": "Full-stack Developer",
   "start": "2020-01",
   "end": null,
-  "stack": [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "jQuery",
-    "Bootstrap"
-  ],
+  "stack": ["HTML", "CSS", "JavaScript", "jQuery", "Bootstrap"],
   "features": [
     "Three versions with incremental improvements",
     "Win detection logic (basic → 2D array optimization)",
@@ -30,10 +24,30 @@
     "Hosted on GitHub Pages"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Interactive Connect 4 game built for browsers, demonstrating progression in frontend logic and design.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Showcase DOM manipulation, state management, and UI design through an enjoyable mini-game.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Coded game logic, designed responsive UI, and iterated improvements across three versions.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Serves as a showcase project for portfolio and learning, demonstrating steady growth in frontend skills.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Interactive Connect 4 game built for browsers, demonstrating progression in frontend logic and design.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Showcase DOM manipulation, state management, and UI design through an enjoyable mini-game.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Coded game logic, designed responsive UI, and iterated improvements across three versions.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Serves as a showcase project for portfolio and learning, demonstrating steady growth in frontend skills.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

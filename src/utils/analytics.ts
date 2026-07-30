@@ -61,4 +61,3 @@ export function trackBlogListView() {
     name: 'blog_list_view',
   });
 }
-

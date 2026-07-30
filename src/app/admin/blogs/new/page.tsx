@@ -1,7 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { BlogEditorForm } from "@/components/Admin/Blog/BlogEditorForm";
-import { BlogService } from "@/server/services/BlogService";
+import { BlogEditorForm } from '@/components/Admin/Blog/BlogEditorForm';
+import { BlogService } from '@/server/services/BlogService';
 
 export default async function NewBlogPostPage() {
   const [categories, tags] = await Promise.all([
@@ -13,11 +13,13 @@ export default async function NewBlogPostPage() {
     <section className="space-y-8 py-6">
       <header className="flex flex-wrap items-center gap-4">
         <div>
-          <p className="text-xs uppercase tracking-wider text-[var(--text-secondary)]">Blog Editor</p>
+          <p className="text-xs uppercase tracking-wider text-[var(--text-secondary)]">
+            Blog Editor
+          </p>
           <h1 className="text-3xl font-semibold">New blog post</h1>
           <p className="text-sm text-[var(--text-secondary)]">
-            Draft copy with the rich text surface, pick statuses, and schedule a publish date. Changes queue instantly to the
-            API.
+            Draft copy with the rich text surface, pick statuses, and schedule a publish date.
+            Changes queue instantly to the API.
           </p>
         </div>
         <Link

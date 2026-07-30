@@ -16,13 +16,11 @@ production-ready unless the current docs, checks, and manual verification all su
 ## Startup Read Order
 
 Before changing code or docs, read these sources in order:
+
 1. `AGENTS.md`
 2. `.github/copilot-instructions.md`
-3. `docs/helper_docs/ammar-agent-guideline/agent-guideline.md`
-4. `docs/helper_docs/Ammar-Documentation-Guidelines/ammar-documentation-guideline.md` when touching docs
-5. `docs/helper_docs/Ammar-NextJS-Guideline/ammar-nextjs-guidelines.md` when touching implementation
-6. `docs/architecture/README.md`, then the active architecture docs referenced there
-7. The code paths you plan to edit
+3. `README.md` and the relevant top-level folder `README.md` files under `src/**`
+4. The code paths you plan to edit
 
 ## Current Repo Truth
 
@@ -37,7 +35,7 @@ Before changing code or docs, read these sources in order:
 
 ## Architecture Quick Reference
 
-This repo follows the layered flow documented in `docs/architecture/*`:
+This repo follows a layered flow (see `AGENTS.md` for the full rules):
 
 ```text
 src/app/          -> Next.js routes, layouts, pages, and route handlers
@@ -79,6 +77,7 @@ npm run seed:ammar
 ```
 
 Important notes:
+
 - There is no supported `setup:first-run` script in this repo.
 - There is no supported web setup wizard flow.
 - The bootstrap admin/settings path is env-driven through `EnvBootstrapService` and surfaced in the
@@ -103,18 +102,15 @@ are useful for debugging but should not be treated as the release gate.
 ## Active Documentation Set
 
 These docs should stay aligned with the codebase:
-- `README.md`
-- `docs/architecture/README.md`
-- `docs/architecture/architect.md`
-- `docs/architecture/relaunch-gap-analysis.md`
-- `docs/architecture/sections/09-implementation-checklist.md`
-- Top-level folder `README.md` files under active source and test folders
 
-Historical material lives under `docs/archive/` and must not be treated as the active source of truth.
+- `README.md`
+- `AGENTS.md`
+- Top-level folder `README.md` files under active source and test folders
 
 ## Common Tasks
 
 ### API changes
+
 1. Update or add the server validator when needed.
 2. Keep the route handler thin.
 3. Implement business logic in the service.
@@ -122,15 +118,17 @@ Historical material lives under `docs/archive/` and must not be treated as the a
 5. Update serializers, docs, and checks in the same pass.
 
 ### Public/admin feature cleanup
+
 1. Read the active docs and the owning code path first.
 2. Verify the behavior through the narrowest relevant test or command.
 3. Remove stale or retired behavior aggressively once call sites confirm it is inactive.
-4. Update `docs/architecture/sections/09-implementation-checklist.md` before ending the session.
+4. Update `AGENTS.md` and relevant folder `README.md` files before ending the session if repo-reality changed.
 
 ### Documentation changes
-1. Prefer updating the active docs instead of reviving archived material.
+
+1. Prefer updating `AGENTS.md` and folder `README.md` files instead of creating parallel narratives.
 2. Keep claims tied to verified code and commands.
-3. Move stale history to `docs/archive/` instead of leaving conflicting active docs in place.
+3. Remove stale/incorrect claims outright rather than leaving conflicting active docs in place.
 
 ## Current Priorities
 
@@ -144,8 +142,6 @@ Historical material lives under `docs/archive/` and must not be treated as the a
 
 - `AGENTS.md`
 - `README.md`
-- `docs/architecture/README.md`
-- `docs/architecture/sections/09-implementation-checklist.md`
 - `src/server/services/EnvBootstrapService.ts`
 - `src/server/services/SettingsService.ts`
 - `src/server/server-validators/env.ts`

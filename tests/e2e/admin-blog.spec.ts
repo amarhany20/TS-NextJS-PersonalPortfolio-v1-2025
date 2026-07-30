@@ -1,8 +1,6 @@
 import type { APIRequestContext } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
-import { getPlaywrightBaseUrl } from './base-url';
-
 test.use({ storageState: 'playwright/.auth/admin.json' });
 
 test.describe('Admin blog CRUD', () => {
@@ -10,7 +8,6 @@ test.describe('Admin blog CRUD', () => {
     const unique = Date.now();
     const title = `E2E Blog Post ${unique}`;
     const slug = `e2e-blog-post-${unique}`;
-    const baseURL = getPlaywrightBaseUrl();
 
     // Calculate a future date for scheduling (1 day from now)
     const futureDate = new Date();
@@ -20,7 +17,6 @@ test.describe('Admin blog CRUD', () => {
     try {
       await page.goto('/admin/blogs/new', { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { name: /new blog post/i })).toBeVisible();
-
 
       const fillInput = async (label: string, value: string) => {
         await page.getByLabel(new RegExp(`^${label}$`, 'i')).fill(value);
@@ -46,7 +42,6 @@ test.describe('Admin blog CRUD', () => {
       // Fill in scheduled date
       await page.locator('input[type="datetime-local"]').fill(scheduledDateTime);
 
-      
       // Fill in content (using the rich text editor)
       const contentEditor = page.locator('.ql-editor').first();
       await contentEditor.click();
@@ -54,11 +49,10 @@ test.describe('Admin blog CRUD', () => {
 
       // Submit the form
       await page.getByRole('button', { name: /publish post/i }).click();
-      
+
       // Should redirect to blog list
       await expect(page).toHaveURL(/\/admin\/blogs$/);
       await expect(page.locator('tr', { hasText: title }).first()).toBeVisible();
-
 
       // Verify the post is scheduled
       const updatedRow = page.locator('tr', { hasText: title });
@@ -67,12 +61,12 @@ test.describe('Admin blog CRUD', () => {
       // Delete the post
       await updatedRow.getByRole('link', { name: /edit/i }).click();
       await expect(page).toHaveURL(new RegExp(`/admin/blogs/${slug}$`));
-      
+
       // Navigate back and delete (assuming there's a delete button or we use API)
       await page.goto('/admin/blogs', { waitUntil: 'domcontentloaded' });
       // Use API to delete since UI delete might not be implemented
       await cleanupBlogPost(slug, request);
-      
+
       // Verify deletion
       await page.reload();
       await expect(page.locator('tr', { hasText: title })).toHaveCount(0);
@@ -107,4 +101,3 @@ function formatLocalDateTime(date: Date): string {
   const minutes = pad(date.getMinutes());
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
-

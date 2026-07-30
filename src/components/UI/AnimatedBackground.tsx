@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 interface Particle {
   x: number;
@@ -21,7 +21,7 @@ export default function AnimatedBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const updateCanvasSize = () => {
@@ -30,7 +30,7 @@ export default function AnimatedBackground() {
     };
 
     updateCanvasSize();
-    window.addEventListener("resize", updateCanvasSize);
+    window.addEventListener('resize', updateCanvasSize);
 
     const createParticles = () => {
       const particles: Particle[] = [];
@@ -80,7 +80,7 @@ export default function AnimatedBackground() {
     animate();
 
     return () => {
-      window.removeEventListener("resize", updateCanvasSize);
+      window.removeEventListener('resize', updateCanvasSize);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
@@ -91,7 +91,7 @@ export default function AnimatedBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0, background: "transparent" }}
+      style={{ zIndex: 0, background: 'transparent' }}
     />
   );
 }

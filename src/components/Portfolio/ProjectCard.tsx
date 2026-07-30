@@ -7,7 +7,8 @@ type BadgeVariant = 'neutral' | 'accent' | 'warning' | 'success';
 
 const badgeStyles: Record<BadgeVariant, string> = {
   neutral: 'bg-[var(--card-bg)] border-[var(--border)] text-[var(--text-secondary)]',
-  accent: 'bg-[var(--accent-primary)]/10 border-[var(--accent-primary)]/30 text-[var(--accent-primary)]',
+  accent:
+    'bg-[var(--accent-primary)]/10 border-[var(--accent-primary)]/30 text-[var(--accent-primary)]',
   warning: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
   success: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
 };
@@ -42,9 +43,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <p className="text-xs text-[var(--text-secondary)]">{project.tagline}</p>
         </div>
 
-        <p className="line-clamp-3 flex-1 text-sm text-[var(--text-secondary)]">
-          {project.intro}
-        </p>
+        <p className="line-clamp-3 flex-1 text-sm text-[var(--text-secondary)]">{project.intro}</p>
 
         {project.stack.length ? (
           <div className="mt-2 flex flex-wrap gap-2">

@@ -36,7 +36,9 @@ import { serializeRecommendation } from '@/server/serializers/recommendation';
 import { RecommendationService } from '@/server/services/RecommendationService';
 import type { CreateRecommendationInput } from '@/server/server-validators/api/recommendation';
 
-const buildRecommendation = (overrides: Partial<CreateRecommendationInput> = {}): CreateRecommendationInput => ({
+const buildRecommendation = (
+  overrides: Partial<CreateRecommendationInput> = {},
+): CreateRecommendationInput => ({
   id: overrides.id,
   name: overrides.name ?? 'Jane Doe',
   position: overrides.position,
@@ -58,7 +60,9 @@ beforeEach(() => {
 
 describe('RecommendationService', () => {
   it('maps published recommendations through serializer', async () => {
-    const records = [{ id: 'rec-1', name: 'Ref' }] as unknown as Parameters<typeof serializeRecommendation>[0][];
+    const records = [{ id: 'rec-1', name: 'Ref' }] as unknown as Parameters<
+      typeof serializeRecommendation
+    >[0][];
     vi.mocked(RecommendationRepository.findPublished).mockResolvedValue(records);
 
     const result = await RecommendationService.getRecommendations();
@@ -76,6 +80,8 @@ describe('RecommendationService', () => {
   it('throws NotFoundError when deleting missing recommendation', async () => {
     vi.mocked(RecommendationRepository.delete).mockResolvedValue(false);
 
-    await expect(RecommendationService.deleteRecommendation('missing')).rejects.toBeInstanceOf(NotFoundError);
+    await expect(RecommendationService.deleteRecommendation('missing')).rejects.toBeInstanceOf(
+      NotFoundError,
+    );
   });
 });

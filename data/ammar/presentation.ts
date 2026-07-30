@@ -14,5 +14,5 @@ export const globalCtas = [
 // Contact section descriptive leads (kept here for potential localization later)
 export const contactLeads = {
   left: 'Direct channels for professional inquiries, consulting engagements, collaborations, or technical leadership support.',
-  right: 'Ready to start? Reach out via email, WhatsApp, or LinkedIn.'
+  right: 'Ready to start? Reach out via email, WhatsApp, or LinkedIn.',
 } as const;

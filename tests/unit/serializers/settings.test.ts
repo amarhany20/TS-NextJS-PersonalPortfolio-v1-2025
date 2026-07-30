@@ -55,7 +55,9 @@ describe('serializeSettings', () => {
     expect(content.contact.phones).toEqual([{ label: 'Work', e164: '+49123456789' }]);
     expect(content.coreSkills).toEqual(['TypeScript']);
     expect(content.languages).toEqual(['English']);
-    expect(content.socialLinks).toEqual([{ label: 'GitHub', href: 'https://github.com/amarhany20' }]);
+    expect(content.socialLinks).toEqual([
+      { label: 'GitHub', href: 'https://github.com/amarhany20' },
+    ]);
     expect(content.seo).toEqual({
       title: 'Ammar Hany | Portfolio',
       titleTemplate: '%s | Ammar Hany',

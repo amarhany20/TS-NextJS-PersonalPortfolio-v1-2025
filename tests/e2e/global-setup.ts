@@ -9,9 +9,15 @@ const SERVER_READY_TIMEOUT_MS = 60_000;
 
 export default async function globalSetup(config: FullConfig) {
   const projectUse = config.projects[0]?.use ?? {};
-  const baseURL = (projectUse.baseURL as string | undefined) ?? process.env.PLAYWRIGHT_ISOLATED_BASE_URL ?? 'http://127.0.0.1:3100';
-  const username = (process.env.E2E_ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
-  const password = process.env.E2E_ADMIN_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
+  const baseURL =
+    (projectUse.baseURL as string | undefined) ??
+    process.env.PLAYWRIGHT_ISOLATED_BASE_URL ??
+    'http://127.0.0.1:3100';
+  const username = (process.env.E2E_ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin')
+    .trim()
+    .toLowerCase();
+  const password =
+    process.env.E2E_ADMIN_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
 
   const apiContext = await request.newContext({ baseURL });
   let lastError: Error | null = null;
@@ -41,7 +47,9 @@ export default async function globalSetup(config: FullConfig) {
   }
 
   await apiContext.dispose();
-  throw new Error(`Unable to establish admin session for Playwright tests: ${lastError?.message ?? 'Unknown error'}`);
+  throw new Error(
+    `Unable to establish admin session for Playwright tests: ${lastError?.message ?? 'Unknown error'}`,
+  );
 }
 
 async function persistStorageState(apiContext: APIRequestContext) {
@@ -76,5 +84,7 @@ async function waitForServer(apiContext: APIRequestContext) {
     await delay(500);
   }
 
-  throw new Error(`Timed out waiting for server readiness: ${lastError?.message ?? 'Unknown error'}`);
+  throw new Error(
+    `Timed out waiting for server readiness: ${lastError?.message ?? 'Unknown error'}`,
+  );
 }

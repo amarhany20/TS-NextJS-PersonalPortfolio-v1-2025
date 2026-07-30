@@ -22,7 +22,7 @@ async function run() {
 
   if (!databaseUrl) {
     throw new Error(
-      'The isolated Playwright server requires DATABASE_URL to be set to a PostgreSQL-compatible database.'
+      'The isolated Playwright server requires DATABASE_URL to be set to a PostgreSQL-compatible database.',
     );
   }
 
@@ -31,7 +31,11 @@ async function run() {
 
   if (isIsolatedPlaywright) {
     await fs.rm(path.resolve(cwd, '.next'), { recursive: true, force: true });
-    await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate', '--force-reset', '--accept-data-loss'], cwd);
+    await exec(
+      npxCommand,
+      ['prisma', 'db', 'push', '--skip-generate', '--force-reset', '--accept-data-loss'],
+      cwd,
+    );
   } else {
     await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate'], cwd);
   }
@@ -95,6 +99,3 @@ run().catch((error) => {
   console.error('[e2e] Failed to start webserver:', error);
   process.exit(1);
 });
-
-
-

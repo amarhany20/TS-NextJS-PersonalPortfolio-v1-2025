@@ -1,16 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  useEffect,
-  useMemo,
-  useState,
-  useId,
-  type ChangeEvent,
-  type FormEvent,
-} from 'react';
+import { useEffect, useMemo, useState, useId, type ChangeEvent, type FormEvent } from 'react';
 
-import { createEducationSchema, updateEducationSchema } from '@/server/server-validators/api/education';
+import {
+  createEducationSchema,
+  updateEducationSchema,
+} from '@/server/server-validators/api/education';
 import type { Education } from '@/types/education';
 import { useToast } from '@/components/ui/ToastProvider';
 
@@ -34,7 +30,8 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
   const map: FormErrors = {};
   for (const issue of issues) {
     const rawKey = issue.path[0];
-    const key = typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
+    const key =
+      typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
     if (!map[key]) {
       map[key] = issue.message;
     }
@@ -63,7 +60,8 @@ export function EducationForm({ mode, education }: EducationFormProps) {
   const [success, setSuccess] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
-  const pageTitle = mode === 'create' ? 'Create education' : `Edit ${education?.institution ?? 'education'}`;
+  const pageTitle =
+    mode === 'create' ? 'Create education' : `Edit ${education?.institution ?? 'education'}`;
   const submitLabel = mode === 'create' ? 'Create education' : 'Save changes';
 
   useEffect(() => {
@@ -74,23 +72,22 @@ export function EducationForm({ mode, education }: EducationFormProps) {
     return splitList(formState.achievementsInput).length;
   }, [formState.achievementsInput]);
 
-  const handleInputChange = (
-    field: keyof typeof formState,
-    formatter?: (value: string) => string,
-  ) =>
+  const handleInputChange =
+    (field: keyof typeof formState, formatter?: (value: string) => string) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const value = formatter ? formatter(event.target.value) : event.target.value;
       setFormState((prev) => ({ ...prev, [field]: value }));
     };
 
-  const handleCheckboxChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target;
-    setFormState((prev) => ({
-      ...prev,
-      [field]: checked,
-      ...(field === 'present' && checked ? { end: '' } : {}),
-    }));
-  };
+  const handleCheckboxChange =
+    (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = event.target;
+      setFormState((prev) => ({
+        ...prev,
+        [field]: checked,
+        ...(field === 'present' && checked ? { end: '' } : {}),
+      }));
+    };
 
   const buildPayload = () => {
     const achievements = splitList(formState.achievementsInput);
@@ -101,12 +98,11 @@ export function EducationForm({ mode, education }: EducationFormProps) {
       field: formState.field.trim() || undefined,
       location: formState.location.trim() || undefined,
       start: formState.start,
-      end: formState.present ? undefined : (formState.end || undefined),
+      end: formState.present ? undefined : formState.end || undefined,
       present: formState.present,
       gpa: formState.gpa.trim() || undefined,
       achievements: achievements.length > 0 ? achievements : [],
       project: formState.project.trim() || undefined,
-
     };
   };
 
@@ -144,7 +140,11 @@ export function EducationForm({ mode, education }: EducationFormProps) {
         throw new Error(description);
       }
 
-      setSuccess(mode === 'create' ? 'Education record created successfully!' : 'Education record updated successfully!');
+      setSuccess(
+        mode === 'create'
+          ? 'Education record created successfully!'
+          : 'Education record updated successfully!',
+      );
       showToast({
         variant: 'success',
         title: mode === 'create' ? 'Education created' : 'Education updated',
@@ -165,17 +165,25 @@ export function EducationForm({ mode, education }: EducationFormProps) {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">{pageTitle}</h1>
-        <p className="text-sm text-muted-foreground">Document academic achievements for the public site.</p>
+        <p className="text-sm text-muted-foreground">
+          Document academic achievements for the public site.
+        </p>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700" role="alert">
+        <p
+          className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
 
       {success ? (
-        <p className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600" aria-live="polite">
+        <p
+          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600"
+          aria-live="polite"
+        >
           {success}
         </p>
       ) : null}
@@ -302,7 +310,15 @@ interface LabeledInputProps {
   helper?: string;
 }
 
-function LabeledInput({ label, required, type = 'text', value, onChange, error, helper }: LabeledInputProps) {
+function LabeledInput({
+  label,
+  required,
+  type = 'text',
+  value,
+  onChange,
+  error,
+  helper,
+}: LabeledInputProps) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -311,7 +327,12 @@ function LabeledInput({ label, required, type = 'text', value, onChange, error, 
     <div className="space-y-1">
       <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
+        {required ? (
+          <span aria-hidden="true" className="text-rose-500">
+            {' '}
+            *
+          </span>
+        ) : null}
       </label>
       <input
         id={inputId}
@@ -323,8 +344,16 @@ function LabeledInput({ label, required, type = 'text', value, onChange, error, 
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-rose-600">
+          {error}
+        </p>
+      ) : null}
+      {helper && !error ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -345,7 +374,9 @@ function TextareaField({ label, rows = 4, value, onChange, error, helper }: Text
 
   return (
     <div className="space-y-1">
-      <label htmlFor={inputId} className="text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
+        {label}
+      </label>
       <textarea
         id={inputId}
         rows={rows}
@@ -356,9 +387,16 @@ function TextareaField({ label, rows = 4, value, onChange, error, helper }: Text
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-rose-600">
+          {error}
+        </p>
+      ) : null}
+      {helper && !error ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
     </div>
   );
 }
-

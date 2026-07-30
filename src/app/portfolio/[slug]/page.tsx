@@ -12,11 +12,12 @@ function Section({ title, body }: { title: string; body: string }) {
   return (
     <div className="space-y-2">
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-      <p className="text-sm leading-relaxed text-[var(--text-secondary)] whitespace-pre-line">{body}</p>
+      <p className="text-sm leading-relaxed text-[var(--text-secondary)] whitespace-pre-line">
+        {body}
+      </p>
     </div>
   );
 }
-
 
 export async function generateStaticParams() {
   const settings = await SettingsService.getSiteContent();

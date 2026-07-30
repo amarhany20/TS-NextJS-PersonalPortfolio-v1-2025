@@ -1,8 +1,17 @@
 // metadata.ts - site-wide structured metadata types
 
-export interface Link { label: string; href: string }
-export interface Phone { label: string; e164: string }
-export interface BaseLocation { city: string; countryCode: string }
+export interface Link {
+  label: string;
+  href: string;
+}
+export interface Phone {
+  label: string;
+  e164: string;
+}
+export interface BaseLocation {
+  city: string;
+  countryCode: string;
+}
 
 export interface HeroConfig {
   greeting: string;

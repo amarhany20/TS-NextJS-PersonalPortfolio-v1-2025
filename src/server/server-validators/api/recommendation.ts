@@ -1,15 +1,14 @@
 import { z } from 'zod';
 
-const optionalUrlSchema = z
-  .string()
-  .trim()
-  .url('Invalid URL format')
-  .optional();
+const optionalUrlSchema = z.string().trim().url('Invalid URL format').optional();
 
 const receivedOnSchema = z
   .string()
   .optional()
-  .refine((value) => !value || !Number.isNaN(new Date(value).getTime()), 'Received date must be a valid ISO date');
+  .refine(
+    (value) => !value || !Number.isNaN(new Date(value).getTime()),
+    'Received date must be a valid ISO date',
+  );
 
 const baseRecommendationSchema = z.object({
   id: z.string().optional(),

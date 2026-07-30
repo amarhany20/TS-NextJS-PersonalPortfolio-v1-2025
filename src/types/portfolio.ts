@@ -31,22 +31,22 @@ export interface Project {
   slug: string;
   title: string;
   tagline: string;
-  intro: string;              // Short description
-  summary: string;            // Slightly longer description
-  featured?: boolean;         // If true, prioritized & listed in Featured group
+  intro: string; // Short description
+  summary: string; // Slightly longer description
+  featured?: boolean; // If true, prioritized & listed in Featured group
   visibility: ProjectVisibility;
   access: ProjectAccess;
   status: ProjectStatus;
-  domain?: string;            // Optional category
+  domain?: string; // Optional category
   company?: string;
   client?: string;
   website?: string;
   repository?: string | null;
   role: string;
-  start: string;              // YYYY-MM
+  start: string; // YYYY-MM
   end?: string;
-  stack: string[];            // Technologies (display order)
-  features?: string[];        // Optional highlight bullets
+  stack: string[]; // Technologies (display order)
+  features?: string[]; // Optional highlight bullets
   sections?: ProjectSection[]; // Optional deep-dive sections
   gallery?: ProjectGalleryItem[]; // Optional visuals
   confidentialNotes?: string; // Only shown internally if needed

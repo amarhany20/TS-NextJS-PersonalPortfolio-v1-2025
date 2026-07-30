@@ -1,9 +1,9 @@
 /**
  * Environment Variable Validation
- * 
+ *
  * Server-only module that validates and types all environment variables.
  * This is the single source of truth for process.env access.
- * 
+ *
  * Usage:
  *   import { env } from '@/server/server-validators/env';
  *   console.log(env.NODE_ENV);
@@ -163,3 +163,9 @@ function validateEnv(): Env {
 // Export validated and typed env object
 export const env = validateEnv();
 
+/**
+ * Re-runs the env validation against the current `process.env`. Exported for
+ * tests and tooling that need to assert on the validator behavior. The
+ * exported `env` is evaluated once at module load.
+ */
+export { validateEnv };

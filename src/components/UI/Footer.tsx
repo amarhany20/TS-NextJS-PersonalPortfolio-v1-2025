@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export default function Footer() {
   // Footer intentionally minimal. The app version is displayed in the left profile sidebar.

@@ -1,6 +1,9 @@
 import type { z } from 'zod';
 
-import { createExperienceSchema, updateExperienceSchema } from '@/server/server-validators/api/experience';
+import {
+  createExperienceSchema,
+  updateExperienceSchema,
+} from '@/server/server-validators/api/experience';
 
 export const experienceCreateSchema = createExperienceSchema;
 export const experienceUpdateSchema = updateExperienceSchema;

@@ -1,26 +1,72 @@
-
 # Personal Portfolio (Next.js + TypeScript)
 
 **Self-hosted portfolio platform with a public site, admin CMS, Prisma persistence, and launch-prep cleanup in progress.**
 
-Version: `00.80.01` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
+Version: `00.81.00` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
 
 ---
 
-## ✨ Highlights
+## Deploy to Vercel
 
-- **🏗️ Enterprise Architecture**: Full layered server architecture with separation of concerns (services, repositories, serializers)
-- **📦 Database-backed Content**: Prisma-backed public/admin content with static modules retained for fallback and bootstrap-safe defaults
-- **🎛️ Settings-driven Visibility**: Hide public pages from navigation and return 404s without deleting database content
-- **🔒 Type-Safe & Validated**: Strict TypeScript + Zod validation at all boundaries
-- **🎯 Clean API Patterns**: Consistent error handling, response envelopes, and serialization
-- **📱 Responsive & Accessible**: Mobile-first layout, semantic HTML, WCAG AA compliant
-- **⚡ Performance-Oriented**: Server-side rendering, prerendered pages (SSG), minimal client JS
-- **🎨 Curated Theme Gallery**: Seven built-in themes with persisted admin preview/apply behavior
-- **🧪 Test-Ready**: Configured for Vitest (unit) and Playwright (e2e) testing
-- **🔐 Security-First**: Environment validation, input sanitization, server-only secrets
-- **📚 Well-Documented**: Active architecture docs, folder READMEs, and launch tracking
-- **🚀 Relaunch-Oriented**: Database, authentication, admin CMS, APIs, and E2E coverage are being launch-hardened
+The fastest way to get your own copy running on Vercel + Neon PostgreSQL:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025&env=DATABASE_URL%2CAUTH_SECRET%2CNEXT_PUBLIC_SITE_URL%2CADMIN_USERNAME%2CADMIN_PASSWORD%2CADMIN_EMAIL&envDescription=DATABASE_URL%20is%20your%20Postgres%20connection%20string.%20AUTH_SECRET%20must%20be%20at%20least%2032%20random%20characters.%20The%20ADMIN_%20variables%20bootstrap%20the%20initial%20admin%20account.)
+
+After deploy, run the database migration and seed from your local clone:
+
+```bash
+git clone https://github.com/<your-username>/TS-NextJS-PersonalPortfolio-v1-2025.git
+cd TS-NextJS-PersonalPortfolio-v1-2025
+npm install
+npm run prisma:migrate
+npm run db:seed
+```
+
+Then sign in at `/login` with the `ADMIN_USERNAME` / `ADMIN_PASSWORD` you set in
+Vercel. See [Getting Started](#-getting-started) below for the full local-only
+flow and the [Release Checklist](./TS-NextJS-PersonalPortfolio-v1-2025%20Technical%20Docs/release-checklist.md)
+for the launch-signoff guide.
+
+---
+
+## Quick Start (Local)
+
+```bash
+git clone https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025.git
+cd TS-NextJS-PersonalPortfolio-v1-2025
+npm install
+cp .env.example .env.local
+# Edit .env.local: set DATABASE_URL, AUTH_SECRET (32+ random chars), and ADMIN_*.
+npm run prisma:migrate
+npm run db:seed
+npm run dev
+```
+
+Open http://localhost:3000 (redirects to `/home`) and sign in at `/login`.
+
+> **Current verification status:** The unit test, typecheck, lint, and build
+> gates each have known open items as of the public-OSS-prep pass. See the
+> [Implementation Checklist](./TS-NextJS-PersonalPortfolio-v1-2025%20Technical%20Docs/09-implementation-checklist.md)
+> for the honest, per-command state before treating this template as production-ready.
+
+---
+
+## Features
+
+- **Layered server architecture** with explicit service / repository / serializer
+  boundaries.
+- **Database-backed content** via Prisma + PostgreSQL, with static modules kept as
+  fallback / bootstrap-safe defaults.
+- **Settings-driven visibility** that hides public pages from navigation and
+  returns 404s without deleting data.
+- **Strict TypeScript + Zod validation** at every server boundary.
+- **Consistent API envelopes** and shared response helpers.
+- **Responsive, accessible UI** with mobile-first layout and semantic HTML.
+- **Server-first rendering** with prerendered static pages and minimal client JS.
+- **Seven built-in themes** with persisted admin preview / apply behavior.
+- **Vitest + Playwright** for unit and end-to-end testing.
+- **Session-based admin auth** with `iron-session`, bcrypt password hashing, and
+  rate-limited public contact submission.
 
 ---
 
@@ -77,7 +123,7 @@ src/
 └─ public/                       # Static assets (images, PDFs, etc.)
 ```
 
-See `docs/architecture/README.md` for the active architecture docs.
+See `AGENTS.md` for the architecture rules and layered-flow overview.
 
 ---
 
@@ -119,6 +165,7 @@ Update any external bookmarks to the new path when convenient.
 This repo targets **PostgreSQL** with env-driven bootstrap for admin and site settings.
 
 ### Prerequisites
+
 - Node.js LTS (v20+)
 - npm (comes with Node.js)
 
@@ -161,14 +208,17 @@ The runtime bootstrap path reads `ADMIN_*`. The seed scripts still accept `SEED_
 compatibility fallback, and Playwright can override login through `E2E_ADMIN_*`.
 
 **⚠️ Important:** Generate a secure `AUTH_SECRET` for production:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
+
 Then replace `your-32-character-minimum-secret-key-change-this-NOW` with the generated value.
 
 ### Database Setup (Required)
 
 **Local development / self-hosting:**
+
 ```bash
 npm run prisma:migrate
 npm run db:seed
@@ -176,6 +226,7 @@ npm run prisma:studio    # Opens http://localhost:5555 in browser
 ```
 
 **Production:**
+
 - Set `DATABASE_URL` in Vercel
 - Run Prisma migrations during CI/build (`prisma:migrate`)
 - Prisma `generate` runs during build; it cannot be triggered from the website
@@ -212,13 +263,13 @@ npm run format       # Format with Prettier
 ```
 
 **First start checklist:**
+
 1. ✅ `DATABASE_URL` and `AUTH_SECRET` are set
 2. ✅ `npm run prisma:migrate` completed successfully
 3. ✅ `npm run db:seed` completed (watch for "Database seed complete.")
 4. ✅ `npm run dev` running without "Site settings have not been initialised" errors
 
 Open http://localhost:3000 in your browser. **Admin dashboard** at http://localhost:3000/admin.
-
 
 ### Production Build
 
@@ -237,6 +288,7 @@ npm run e2e          # Run Playwright e2e tests (Playwright boots the app automa
 ```
 
 **E2E Testing Flow:**
+
 ```bash
 # Playwright provisions the test app, seeds the database, authenticates,
 # and runs the Chromium suite.
@@ -246,6 +298,7 @@ npm run e2e -- --project=chromium
 Tests log in via the API using credentials from `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD`.
 
 Important:
+
 - Let Playwright provision its own seeded app unless you are explicitly debugging against a running server.
 - The isolated Playwright bootstrap requires a PostgreSQL-compatible `PLAYWRIGHT_DATABASE_URL` or
   `DATABASE_URL`; this repo no longer has a valid SQLite fallback because the Prisma datasource is
@@ -348,6 +401,7 @@ For complete database setup on first run, execute: `npm run prisma:migrate && np
 This project is deployment-ready around PostgreSQL and env-driven bootstrap.
 
 Steps (Vercel):
+
 1. Import the GitHub repo
 2. Framework detected: Next.js
 3. Build command: `npm run build`
@@ -358,10 +412,10 @@ Steps (Vercel):
    - `NEXT_PUBLIC_SITE_URL`
 
 Notes:
+
 - Prisma `generate` runs during build; it cannot run from the website
 - Run `prisma:migrate` during CI/build to apply schema changes
 - Redirects for `/projects` are handled in `next.config.ts`
-
 
 ---
 
@@ -395,19 +449,27 @@ Retired from the supported launch path:
 
 - **Unit**: `npm run test` executes the Vitest suite (use `npm run test -- path/to/file` for a single spec).
 - **E2E**: `npm run e2e -- --project=chromium` boots the app via Playwright, logs in through the API, and runs admin smoke tests.
-	- Uses `tests/e2e/webserver.ts` to provision the app, push the schema, and seed test data before running the browser suite.
-	- Uses `PLAYWRIGHT_DATABASE_URL` when provided; otherwise the isolated bootstrap falls back to the active PostgreSQL `DATABASE_URL`.
-	- Defaults isolated runs to `http://127.0.0.1:3100` so they do not contend with a normal `npm run dev` session on `3000`.
-	- Override credentials with `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD` when needed.
+  - Uses `tests/e2e/webserver.ts` to provision the app, push the schema, and seed test data before running the browser suite.
+  - Uses `PLAYWRIGHT_DATABASE_URL` when provided; otherwise the isolated bootstrap falls back to the active PostgreSQL `DATABASE_URL`.
+  - Defaults isolated runs to `http://127.0.0.1:3100` so they do not contend with a normal `npm run dev` session on `3000`.
+  - Override credentials with `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD` when needed.
 - **Tips**: Keep the database in sync with `static-content` so seeded fixtures match UI assertions, and prefer `npm run dev` locally while iterating on Playwright tests for faster reloads.
 
 ---
 
-## 🛡️ License / Usage
+## License
 
-Personal + educational use permitted. For commercial reuse or white-label adaptation, contact the author or open a discussion.
+This project is released under the [MIT License](./LICENSE). You are free to
+fork, adapt, and ship your own portfolio off this template.
 
-Add a proper license (MIT / Apache-2.0) if you intend to encourage external contributions.
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the
+setup, verification, and PR process. By participating you agree to the
+[Code of Conduct](./CODE_OF_CONDUCT.md).
+
+For security issues, follow [SECURITY.md](./SECURITY.md) instead of opening a
+public issue.
 
 ---
 
@@ -435,4 +497,3 @@ Author: **Ammar Hany** – Connect via portfolio contact section or LinkedIn.
 ---
 
 If you ship a modified fork, consider keeping attribution or a link back. Enjoy building your story.
-

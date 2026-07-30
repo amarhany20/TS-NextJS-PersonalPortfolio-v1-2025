@@ -16,13 +16,7 @@
   "role": "Edge AI Engineer",
   "start": "2023-07",
   "end": "2024-04",
-  "stack": [
-    "Python",
-    "NVIDIA Jetson",
-    "RTSP",
-    "Firebase",
-    "Google Cloud Storage"
-  ],
+  "stack": ["Python", "NVIDIA Jetson", "RTSP", "Firebase", "Google Cloud Storage"],
   "features": [
     "Multi-camera RTSP ingestion and synchronization",
     "Hardware-accelerated, low-latency inference on Jetson",
@@ -31,10 +25,30 @@
     "Upstream sync with Farm-API for cloud analytics"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A production-oriented edge pipeline connecting multiple IP cameras to Jetson devices for real-time inference and alerting.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Reduce cloud dependence and latency by running estrus detection directly at the edge.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Designed the Jetson pipeline, integrated multi-RTSP streams, optimized inference, and hardened for on-site reliability.", "order": 3 },
-  { "id": "impact", "title": "Impact / Results", "body": "Lowered detection error rates by ~20% while proving reliable edge-to-cloud operations in live farm pilots.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A production-oriented edge pipeline connecting multiple IP cameras to Jetson devices for real-time inference and alerting.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Reduce cloud dependence and latency by running estrus detection directly at the edge.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Designed the Jetson pipeline, integrated multi-RTSP streams, optimized inference, and hardened for on-site reliability.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Lowered detection error rates by ~20% while proving reliable edge-to-cloud operations in live farm pilots.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Project cancelled in 2024-05; repository private.",

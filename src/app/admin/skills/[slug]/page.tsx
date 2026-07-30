@@ -13,7 +13,9 @@ interface AdminSkillGroupEditPageProps {
 
 const loadGroup = cache((slug: string) => SkillService.getSkillGroupBySlug(slug));
 
-export async function generateMetadata({ params }: AdminSkillGroupEditPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: AdminSkillGroupEditPageProps): Promise<Metadata> {
   const { slug } = await params;
   const group = await loadGroup(slug);
   return {

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
 import { useMemo, useState, useEffect } from 'react';
@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 
 import type { Blog, BlogStatus } from '@/types/blog';
 import { useToast } from '@/components/ui/ToastProvider';
-
 
 interface BlogTableProps {
   posts: Blog[];
@@ -26,7 +25,6 @@ const formatDate = (value?: string | null) => {
   }
   return new Date(value).toLocaleDateString('en-US', { timeZone: 'UTC' });
 };
-
 
 export function BlogTable({ posts }: BlogTableProps) {
   const router = useRouter();
@@ -69,7 +67,6 @@ export function BlogTable({ posts }: BlogTableProps) {
       showToast({ variant: 'error', title: 'Delete failed', description: message });
     }
   };
-
 
   return (
     <div className="space-y-4">
@@ -117,14 +114,21 @@ export function BlogTable({ posts }: BlogTableProps) {
                 <td className="py-3">
                   <div className="flex flex-col">
                     <span className="font-medium text-foreground">{post.title}</span>
-                    {post.summary && <span className="text-xs text-[var(--text-secondary)] line-clamp-1">{post.summary}</span>}
+                    {post.summary && (
+                      <span className="text-xs text-[var(--text-secondary)] line-clamp-1">
+                        {post.summary}
+                      </span>
+                    )}
                   </div>
                 </td>
                 <td className="py-3">
                   <StatusBadge status={post.status} />
                 </td>
                 <td className="py-3">
-                  <InlineList items={post.categories.map((category) => category.name)} emptyLabel="None" />
+                  <InlineList
+                    items={post.categories.map((category) => category.name)}
+                    emptyLabel="None"
+                  />
                 </td>
                 <td className="py-3">
                   <InlineList items={post.tags.map((tag) => `#${tag.name}`)} emptyLabel="None" />
@@ -132,9 +136,7 @@ export function BlogTable({ posts }: BlogTableProps) {
                 <td className="py-3 text-[var(--text-secondary)]">
                   {formatDate(post.publishedAt)}
                 </td>
-                <td className="py-3 text-[var(--text-secondary)]">
-                  {formatDate(post.updatedAt)}
-                </td>
+                <td className="py-3 text-[var(--text-secondary)]">{formatDate(post.updatedAt)}</td>
 
                 <td className="py-3 text-right">
                   <div className="flex justify-end gap-3 text-xs">
@@ -144,7 +146,11 @@ export function BlogTable({ posts }: BlogTableProps) {
                     >
                       Edit
                     </Link>
-                    <Link href={`/blogs/${post.slug}`} className="text-[var(--text-secondary)] hover:underline" prefetch={false}>
+                    <Link
+                      href={`/blogs/${post.slug}`}
+                      className="text-[var(--text-secondary)] hover:underline"
+                      prefetch={false}
+                    >
                       View
                     </Link>
                     <button
@@ -156,7 +162,6 @@ export function BlogTable({ posts }: BlogTableProps) {
                     </button>
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
@@ -175,7 +180,9 @@ function StatusBadge({ status }: { status: BlogStatus }) {
   };
 
   return (
-    <span className={`rounded-full px-3 py-1 text-xs font-medium ${styles[status] ?? styles.draft}`}>
+    <span
+      className={`rounded-full px-3 py-1 text-xs font-medium ${styles[status] ?? styles.draft}`}
+    >
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
   );

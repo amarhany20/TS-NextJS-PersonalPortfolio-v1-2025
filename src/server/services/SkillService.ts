@@ -26,8 +26,7 @@ export const SkillService = {
       slug,
       title: input.title,
       summary: input.summary,
-      displayOrder:
-        input.displayOrder ?? (await SkillRepository.getNextDisplayOrder()),
+      displayOrder: input.displayOrder ?? (await SkillRepository.getNextDisplayOrder()),
       published: input.published ?? true,
       skills: input.skills?.map((skill, index) => ({
         id: skill.id,
@@ -46,9 +45,7 @@ export const SkillService = {
     }
 
     const nextSlug =
-      input.slug !== undefined
-        ? await ensureUniqueSlug(input.slug, existing.id)
-        : undefined;
+      input.slug !== undefined ? await ensureUniqueSlug(input.slug, existing.id) : undefined;
 
     const group = await SkillRepository.updateGroup(slug, {
       slug: nextSlug,

@@ -28,10 +28,7 @@ const baseRecord = (): DbPortfolioProject => ({
     { id: 'two', title: 'Second', body: 'Details', order: 2 },
     { id: 'one', title: 'First', body: 'Overview', order: 1 },
   ],
-  gallery: [
-    { id: 'g1', image: '/hero.png', alt: 'Hero', title: 'Hero' },
-    { placeholder: true },
-  ],
+  gallery: [{ id: 'g1', image: '/hero.png', alt: 'Hero', title: 'Hero' }, { placeholder: true }],
   confidentialNotes: null,
   displayOrder: 1,
   published: true,

@@ -1,6 +1,11 @@
 import { NextRequest } from 'next/server';
 
-import { errorResponse, notFoundResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
+import {
+  errorResponse,
+  notFoundResponse,
+  successResponse,
+  validationErrorResponse,
+} from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
 import { BlogService } from '@/server/services/BlogService';
 import { updateBlogSchema } from '@/server/server-validators/api/blog';
@@ -10,7 +15,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: 
     await requireAuth();
     const { slug } = await params;
     const blogs = await BlogService.listAllPosts();
-    const blog = blogs.find(b => b.slug === slug);
+    const blog = blogs.find((b) => b.slug === slug);
 
     if (!blog) {
       return notFoundResponse('Blog post not found');
@@ -22,7 +27,10 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: 
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
   try {
     await requireAuth();
     const { slug } = await params;

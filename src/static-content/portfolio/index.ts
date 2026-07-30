@@ -1,12 +1,12 @@
-import type { Project } from '@/types/portfolio'
+import type { Project } from '@/types/portfolio';
 
-const raw: unknown[] = []
+const raw: unknown[] = [];
 
 function dateKey(p: { start: string; end?: string | null }) {
-  return (p.end || p.start) + '-01'
+  return (p.end || p.start) + '-01';
 }
 
-const now = new Date().toISOString()
+const now = new Date().toISOString();
 
 /**
  * Legacy static portfolio fallback.
@@ -16,7 +16,7 @@ const now = new Date().toISOString()
  */
 export const portfolio: Project[] = raw
   .map((r) => {
-    const o = r as Record<string, unknown>
+    const o = r as Record<string, unknown>;
     return {
       slug: String(o.slug),
       title: String(o.title),
@@ -42,13 +42,13 @@ export const portfolio: Project[] = raw
       confidentialNotes: typeof o.confidentialNotes === 'string' ? o.confidentialNotes : undefined,
       createdAt: typeof o.createdAt === 'string' ? o.createdAt : now,
       updatedAt: typeof o.updatedAt === 'string' ? o.updatedAt : now,
-    } as Project
+    } as Project;
   })
-  .sort((a, b) => dateKey(b).localeCompare(dateKey(a)))
+  .sort((a, b) => dateKey(b).localeCompare(dateKey(a)));
 
-export const featuredProjects = portfolio.filter((p) => p.featured)
-export const nonFeaturedProjects = portfolio.filter((p) => !p.featured)
+export const featuredProjects = portfolio.filter((p) => p.featured);
+export const nonFeaturedProjects = portfolio.filter((p) => !p.featured);
 
 export function findProject(slug: string) {
-  return portfolio.find((p) => p.slug === slug) || null
+  return portfolio.find((p) => p.slug === slug) || null;
 }

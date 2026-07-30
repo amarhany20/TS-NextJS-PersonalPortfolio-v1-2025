@@ -12,9 +12,11 @@ import { formatYearMonth } from './utils';
 
 const normalizeSections = (sections: unknown[]): ProjectSection[] => {
   return sections
-    .filter((section): section is Record<string, unknown> => !!section && typeof section === 'object')
+    .filter(
+      (section): section is Record<string, unknown> => !!section && typeof section === 'object',
+    )
     .map((section) => ({
-  id: String(section.id ?? randomUUIDSafely()),
+      id: String(section.id ?? randomUUIDSafely()),
       title: typeof section.title === 'string' ? section.title : 'Untitled',
       body: typeof section.body === 'string' ? section.body : '',
       order: typeof section.order === 'number' ? section.order : 0,
@@ -26,7 +28,7 @@ const normalizeGallery = (items: unknown[]): ProjectGalleryItem[] => {
   return items
     .filter((item): item is Record<string, unknown> => !!item && typeof item === 'object')
     .map((item, index) => ({
-  id: String(item.id ?? randomUUIDSafely(index)),
+      id: String(item.id ?? randomUUIDSafely(index)),
       image: typeof item.image === 'string' ? item.image : '',
       alt: typeof item.alt === 'string' ? item.alt : undefined,
       title: typeof item.title === 'string' ? item.title : undefined,
@@ -59,8 +61,8 @@ export function serializeProject(record: DbPortfolioProject): Project {
     website: record.website ?? undefined,
     repository: record.repository ?? null,
     role: record.role,
-  start: formatYearMonth(record.startDate) || formatYearMonth(record.createdAt),
-  end: record.endDate ? formatYearMonth(record.endDate) : undefined,
+    start: formatYearMonth(record.startDate) || formatYearMonth(record.createdAt),
+    end: record.endDate ? formatYearMonth(record.endDate) : undefined,
     stack: Array.isArray(record.stack) ? record.stack : [],
     features: Array.isArray(record.features) ? record.features : undefined,
     sections: Array.isArray(record.sections) ? normalizeSections(record.sections) : undefined,

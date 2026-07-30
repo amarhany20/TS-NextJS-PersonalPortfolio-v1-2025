@@ -1,8 +1,15 @@
-interface SkillIconProps { name: string; icon?: string }
+interface SkillIconProps {
+  name: string;
+  icon?: string;
+}
 
 export function SkillIcon({ name, icon }: SkillIconProps) {
   const value = icon || deriveIcon(name);
-  return <span aria-hidden className="text-sm mr-2 opacity-80 group-hover:opacity-100">{value}</span>;
+  return (
+    <span aria-hidden className="text-sm mr-2 opacity-80 group-hover:opacity-100">
+      {value}
+    </span>
+  );
 }
 
 function deriveIcon(name: string): string {

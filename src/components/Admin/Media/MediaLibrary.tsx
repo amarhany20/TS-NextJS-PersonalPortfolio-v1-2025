@@ -37,10 +37,7 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
     setHydrated(true);
   }, []);
 
-  const totalSize = useMemo(
-    () => assets.reduce((acc, asset) => acc + asset.size, 0),
-    [assets],
-  );
+  const totalSize = useMemo(() => assets.reduce((acc, asset) => acc + asset.size, 0), [assets]);
 
   const handleFilePick = () => {
     if (!hydrated || uploading) {
@@ -189,7 +186,11 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
                 type="button"
                 onClick={() => asset.mimeType.startsWith('image/') && setPreview(asset)}
                 className="relative aspect-video w-full overflow-hidden rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)]"
-                aria-label={asset.mimeType.startsWith('image/') ? 'Preview image' : 'Asset thumbnail placeholder'}
+                aria-label={
+                  asset.mimeType.startsWith('image/')
+                    ? 'Preview image'
+                    : 'Asset thumbnail placeholder'
+                }
               >
                 {asset.mimeType.startsWith('image/') ? (
                   <Image
@@ -223,7 +224,6 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
                   Uploaded {formatDateTime(asset.createdAt)}
                   {asset.createdByName ? ` · ${asset.createdByName}` : ''}
                 </p>
-
               </div>
 
               <div className="flex items-center gap-2">
@@ -259,7 +259,9 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
       ) : (
         <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-8 text-center text-sm text-muted-foreground">
           <p className="font-semibold text-foreground">No media yet</p>
-          <p className="text-sm text-muted-foreground">Upload brand assets to populate your library.</p>
+          <p className="text-sm text-muted-foreground">
+            Upload brand assets to populate your library.
+          </p>
         </div>
       )}
 

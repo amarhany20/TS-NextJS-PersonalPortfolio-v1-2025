@@ -16,12 +16,7 @@
   "role": "Computer Vision Engineer (Co-developer)",
   "start": "2023-05",
   "end": "2023-05",
-  "stack": [
-    "Python",
-    "Flask",
-    "Ultralytics YOLOv8",
-    "OpenCV"
-  ],
+  "stack": ["Python", "Flask", "Ultralytics YOLOv8", "OpenCV"],
   "features": [
     "YOLOv8 object detection for fruits/vegetables",
     "Automatic cropping for precision harvesting",
@@ -30,12 +25,42 @@
     "Dataset prep and training scripts"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "Contest project integrating YOLOv8 detection with a Flask UI to demonstrate autonomous harvesting scenarios.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Automate detection, classification, and localization to improve harvesting efficiency.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Co-developed the vision backend, built dataset workflows, implemented cropping/color pipelines, and integrated Flask UI.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "GPU-trained YOLOv8 models; custom preprocessing/augmentation; real-time demo via Flask.", "order": 4 },
-    { "id": "challenges", "title": "Challenges & Solutions", "body": "Heterogeneous datasets handled with augmentation and preprocessing; tuned YOLOv8/GPU for live demo performance.", "order": 5 },
-    { "id": "impact", "title": "Impact / Results", "body": "Ranked 25th; showcased to 2.5M+ visitors; validated feasibility of vision-driven harvesting.", "order": 6 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "Contest project integrating YOLOv8 detection with a Flask UI to demonstrate autonomous harvesting scenarios.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Automate detection, classification, and localization to improve harvesting efficiency.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Co-developed the vision backend, built dataset workflows, implemented cropping/color pipelines, and integrated Flask UI.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "GPU-trained YOLOv8 models; custom preprocessing/augmentation; real-time demo via Flask.",
+      "order": 4
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges & Solutions",
+      "body": "Heterogeneous datasets handled with augmentation and preprocessing; tuned YOLOv8/GPU for live demo performance.",
+      "order": 5
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Ranked 25th; showcased to 2.5M+ visitors; validated feasibility of vision-driven harvesting.",
+      "order": 6
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

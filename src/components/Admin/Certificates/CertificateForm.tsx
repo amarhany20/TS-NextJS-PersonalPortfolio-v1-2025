@@ -1,16 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  useEffect,
-  useMemo,
-  useState,
-  useId,
-  type ChangeEvent,
-  type FormEvent,
-} from 'react';
+import { useEffect, useMemo, useState, useId, type ChangeEvent, type FormEvent } from 'react';
 
-import { createCertificateSchema, updateCertificateSchema } from '@/server/server-validators/api/certificate';
+import {
+  createCertificateSchema,
+  updateCertificateSchema,
+} from '@/server/server-validators/api/certificate';
 import type { Certificate } from '@/types/certificate';
 import { useToast } from '@/components/ui/ToastProvider';
 
@@ -31,7 +27,8 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
   const map: FormErrors = {};
   for (const issue of issues) {
     const rawKey = issue.path[0];
-    const key = typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
+    const key =
+      typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
     if (!map[key]) {
       map[key] = issue.message;
     }
@@ -67,7 +64,8 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
   const [success, setSuccess] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
-  const pageTitle = mode === 'create' ? 'Create certificate' : `Edit ${certificate?.name ?? 'certificate'}`;
+  const pageTitle =
+    mode === 'create' ? 'Create certificate' : `Edit ${certificate?.name ?? 'certificate'}`;
   const submitLabel = mode === 'create' ? 'Create certificate' : 'Save changes';
 
   useEffect(() => {
@@ -78,9 +76,11 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
     return splitList(formState.skillsInput).length;
   }, [formState.skillsInput]);
 
-  const handleInputChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState((prev) => ({ ...prev, [field]: event.target.value }));
-  };
+  const handleInputChange =
+    (field: keyof typeof formState) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormState((prev) => ({ ...prev, [field]: event.target.value }));
+    };
 
   const buildPayload = () => {
     const skills = splitList(formState.skillsInput);
@@ -88,7 +88,9 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
     return {
       name: formState.name.trim(),
       issuer: formState.issuer.trim(),
-      issuedOn: formState.issuedOn ? new Date(formState.issuedOn).toISOString() : new Date().toISOString(),
+      issuedOn: formState.issuedOn
+        ? new Date(formState.issuedOn).toISOString()
+        : new Date().toISOString(),
       credentialId: formState.credentialId.trim() || undefined,
       description: formState.description.trim() || undefined,
       skills: skills.length > 0 ? skills : undefined,
@@ -115,7 +117,8 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
         return;
       }
 
-      const url = mode === 'create' ? '/api/v1/certificates' : `/api/v1/certificates/${certificate?.id}`;
+      const url =
+        mode === 'create' ? '/api/v1/certificates' : `/api/v1/certificates/${certificate?.id}`;
       const method = mode === 'create' ? 'POST' : 'PATCH';
 
       const response = await fetch(url, {
@@ -131,7 +134,11 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
         throw new Error(description);
       }
 
-      setSuccess(mode === 'create' ? 'Certificate created successfully!' : 'Certificate updated successfully!');
+      setSuccess(
+        mode === 'create'
+          ? 'Certificate created successfully!'
+          : 'Certificate updated successfully!',
+      );
       showToast({
         variant: 'success',
         title: mode === 'create' ? 'Certificate created' : 'Certificate updated',
@@ -152,17 +159,25 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">{pageTitle}</h1>
-        <p className="text-sm text-muted-foreground">Document professional certifications and verification links.</p>
+        <p className="text-sm text-muted-foreground">
+          Document professional certifications and verification links.
+        </p>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700" role="alert">
+        <p
+          className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
 
       {success ? (
-        <p className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600" aria-live="polite">
+        <p
+          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600"
+          aria-live="polite"
+        >
           {success}
         </p>
       ) : null}
@@ -270,7 +285,15 @@ interface LabeledInputProps {
   helper?: string;
 }
 
-function LabeledInput({ label, required, type = 'text', value, onChange, error, helper }: LabeledInputProps) {
+function LabeledInput({
+  label,
+  required,
+  type = 'text',
+  value,
+  onChange,
+  error,
+  helper,
+}: LabeledInputProps) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -279,7 +302,12 @@ function LabeledInput({ label, required, type = 'text', value, onChange, error, 
     <div className="space-y-1">
       <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
+        {required ? (
+          <span aria-hidden="true" className="text-rose-500">
+            {' '}
+            *
+          </span>
+        ) : null}
       </label>
       <input
         id={inputId}
@@ -291,8 +319,16 @@ function LabeledInput({ label, required, type = 'text', value, onChange, error, 
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-rose-600">
+          {error}
+        </p>
+      ) : null}
+      {helper && !error ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -313,7 +349,9 @@ function TextareaField({ label, rows = 4, value, onChange, error, helper }: Text
 
   return (
     <div className="space-y-1">
-      <label htmlFor={inputId} className="text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
+        {label}
+      </label>
       <textarea
         id={inputId}
         rows={rows}
@@ -324,9 +362,16 @@ function TextareaField({ label, rows = 4, value, onChange, error, helper }: Text
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-rose-600">
+          {error}
+        </p>
+      ) : null}
+      {helper && !error ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
     </div>
   );
 }
-

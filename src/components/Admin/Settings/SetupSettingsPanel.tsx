@@ -64,7 +64,9 @@ export function SetupSettingsPanel({ settings }: SetupSettingsPanelProps) {
                 Setup Version
               </label>
               <div className="text-sm font-medium">
-                {settings.setupVersion || <span className="text-[var(--text-secondary)]">Not set</span>}
+                {settings.setupVersion || (
+                  <span className="text-[var(--text-secondary)]">Not set</span>
+                )}
               </div>
             </div>
 
@@ -72,18 +74,16 @@ export function SetupSettingsPanel({ settings }: SetupSettingsPanelProps) {
               <label className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)]">
                 Completed At
               </label>
-              <div className="text-sm font-medium">
-                {formatDateTime(settings.setupCompletedAt)}
-              </div>
+              <div className="text-sm font-medium">{formatDateTime(settings.setupCompletedAt)}</div>
             </div>
           </div>
 
           {settings.setupCompletedAt && (
             <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--accent-muted)]/30 p-4">
               <p className="text-xs text-[var(--text-secondary)]">
-                Setup was completed on {formatDateTime(settings.setupCompletedAt)}.
-                The environment/bootstrap flow is treated as the supported initialization path.
-                To modify settings, use the other settings panels.
+                Setup was completed on {formatDateTime(settings.setupCompletedAt)}. The
+                environment/bootstrap flow is treated as the supported initialization path. To
+                modify settings, use the other settings panels.
               </p>
             </div>
           )}
@@ -92,4 +92,3 @@ export function SetupSettingsPanel({ settings }: SetupSettingsPanelProps) {
     </section>
   );
 }
-

@@ -38,8 +38,7 @@ export const RecommendationService = {
       recommendationLetterUrl: nullIfEmpty(input.recommendationLetterUrl),
       photo: nullIfEmpty(input.photo),
       receivedOn,
-      displayOrder:
-        input.displayOrder ?? (await RecommendationRepository.getNextDisplayOrder()),
+      displayOrder: input.displayOrder ?? (await RecommendationRepository.getNextDisplayOrder()),
       published: input.published ?? false,
     });
 
@@ -53,9 +52,7 @@ export const RecommendationService = {
     }
 
     const receivedOn =
-      input.receivedOn !== undefined
-        ? parseReceivedOn(input.receivedOn)
-        : undefined;
+      input.receivedOn !== undefined ? parseReceivedOn(input.receivedOn) : undefined;
 
     const record = await RecommendationRepository.update(id, {
       name: input.name,

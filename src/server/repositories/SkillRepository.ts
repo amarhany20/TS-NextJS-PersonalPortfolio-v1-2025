@@ -151,8 +151,8 @@ export const SkillRepository = {
                     groupId: updated.id,
                     displayOrder: skill.displayOrder ?? index,
                   },
-                })
-              )
+                }),
+              ),
             );
           }
         }

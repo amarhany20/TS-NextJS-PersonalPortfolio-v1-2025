@@ -1,9 +1,9 @@
 /**
  * HTTP Response Helpers
- * 
+ *
  * Consistent response formatting for API routes.
  * All route handlers should use these helpers.
- * 
+ *
  * Usage:
  *   return jsonResponse({ user: userData }, 200);
  *   return successResponse(data, { page: 1, total: 100 });
@@ -28,7 +28,7 @@ export interface SuccessResponse<T = unknown> {
 export function jsonResponse<T>(
   data: T,
   status: number = 200,
-  headers?: HeadersInit
+  headers?: HeadersInit,
 ): NextResponse<T> {
   return NextResponse.json(data, {
     status,
@@ -45,7 +45,7 @@ export function jsonResponse<T>(
 export function successResponse<T>(
   data: T,
   meta?: Record<string, unknown>,
-  status: number = 200
+  status: number = 200,
 ): NextResponse<SuccessResponse<T>> {
   return jsonResponse(
     {
@@ -53,7 +53,7 @@ export function successResponse<T>(
       data,
       ...(meta && { meta }),
     },
-    status
+    status,
   );
 }
 
@@ -79,7 +79,7 @@ export function notFoundResponse(message: string = 'Resource not found'): NextRe
         message,
       },
     },
-    404
+    404,
   );
 }
 
@@ -95,17 +95,14 @@ export function unauthorizedResponse(message: string = 'Unauthorized'): NextResp
         message,
       },
     },
-    401
+    401,
   );
 }
 
 /**
  * Create a 400 validation error response
  */
-export function validationErrorResponse(
-  message: string,
-  details?: unknown
-): NextResponse {
+export function validationErrorResponse(message: string, details?: unknown): NextResponse {
   return jsonResponse(
     {
       success: false,
@@ -115,6 +112,6 @@ export function validationErrorResponse(
         details,
       },
     },
-    400
+    400,
   );
 }

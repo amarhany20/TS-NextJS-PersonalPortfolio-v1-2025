@@ -44,7 +44,9 @@ export interface RecommendationCreateData {
 
 export type RecommendationUpdateData = Partial<RecommendationCreateData>;
 
-function mapRecommendation(record: Awaited<ReturnType<typeof prisma.recommendation.findFirst>>): DbRecommendation | null {
+function mapRecommendation(
+  record: Awaited<ReturnType<typeof prisma.recommendation.findFirst>>,
+): DbRecommendation | null {
   if (!record) {
     return null;
   }
@@ -167,7 +169,8 @@ function toUpdateData(data: RecommendationUpdateData) {
   if (data.content !== undefined) update.content = data.content;
   if (data.rating !== undefined) update.rating = data.rating ?? null;
   if (data.linkedin !== undefined) update.linkedin = data.linkedin ?? null;
-  if (data.recommendationLetterUrl !== undefined) update.recommendationLetterUrl = data.recommendationLetterUrl ?? null;
+  if (data.recommendationLetterUrl !== undefined)
+    update.recommendationLetterUrl = data.recommendationLetterUrl ?? null;
   if (data.photo !== undefined) update.photo = data.photo ?? null;
   if (data.receivedOn !== undefined) update.receivedOn = data.receivedOn ?? null;
   if (data.displayOrder !== undefined) update.displayOrder = data.displayOrder;

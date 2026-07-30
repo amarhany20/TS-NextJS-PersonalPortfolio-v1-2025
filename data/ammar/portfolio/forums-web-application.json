@@ -16,14 +16,7 @@
   "role": "Full-stack Developer",
   "start": "2023-01",
   "end": "2023-01",
-  "stack": [
-    "C#",
-    "ASP.NET MVC",
-    "MSSQL",
-    "Entity Framework",
-    "ASP.NET Identity",
-    "Bootstrap"
-  ],
+  "stack": ["C#", "ASP.NET MVC", "MSSQL", "Entity Framework", "ASP.NET Identity", "Bootstrap"],
   "features": [
     "User authentication/authorization with roles",
     "Post and comment workflows",
@@ -31,11 +24,36 @@
     "Responsive, user-friendly UI"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A forums web app where users can register, create posts, and comment within role-secured areas.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Foster community interaction while applying best practices in auth and persistence.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Designed schema with EF, implemented MVC controllers/views, integrated ASP.NET Identity, and built the UI.", "order": 3 },
-    { "id": "features-impl", "title": "Features / Implementation", "body": "Secure auth flows, CRUD for posts/comments, EF migrations, Bootstrap-responsive views.", "order": 4 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a complete full-stack university project demonstrating backend, frontend, and database skills.", "order": 5 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A forums web app where users can register, create posts, and comment within role-secured areas.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Foster community interaction while applying best practices in auth and persistence.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Designed schema with EF, implemented MVC controllers/views, integrated ASP.NET Identity, and built the UI.",
+      "order": 3
+    },
+    {
+      "id": "features-impl",
+      "title": "Features / Implementation",
+      "body": "Secure auth flows, CRUD for posts/comments, EF migrations, Bootstrap-responsive views.",
+      "order": 4
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a complete full-stack university project demonstrating backend, frontend, and database skills.",
+      "order": 5
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

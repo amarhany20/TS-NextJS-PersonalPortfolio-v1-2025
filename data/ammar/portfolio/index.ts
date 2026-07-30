@@ -108,7 +108,7 @@ export const portfolio: Project[] = raw
       company: o.company ?? undefined,
       client: o.client ?? undefined,
       website: o.website ?? undefined,
-      repository: (o.repository === null || typeof o.repository === 'string') ? o.repository : null,
+      repository: o.repository === null || typeof o.repository === 'string' ? o.repository : null,
       role: String(o.role),
       start: String(o.start),
       end: o.end ?? undefined,
@@ -123,9 +123,9 @@ export const portfolio: Project[] = raw
   })
   .sort((a, b) => dateKey(b).localeCompare(dateKey(a)));
 
-export const featuredProjects = portfolio.filter(p => p.featured);
-export const nonFeaturedProjects = portfolio.filter(p => !p.featured);
+export const featuredProjects = portfolio.filter((p) => p.featured);
+export const nonFeaturedProjects = portfolio.filter((p) => !p.featured);
 
 export function findProject(slug: string) {
-  return portfolio.find(p => p.slug === slug) || null;
+  return portfolio.find((p) => p.slug === slug) || null;
 }

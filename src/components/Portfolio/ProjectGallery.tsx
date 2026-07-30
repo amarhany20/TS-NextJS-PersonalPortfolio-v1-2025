@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React from 'react';
 import type { Project, ProjectGalleryItem } from '@/types/portfolio';
 import Image from 'next/image';
@@ -17,7 +17,8 @@ function AccordionItem({ item, open, onToggle }: AccordionItemProps) {
         type="button"
         aria-expanded={open}
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--border)]/20 transition">
+        className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--border)]/20 transition"
+      >
         <span className="text-sm font-medium text-foreground">{item.title || 'Image'}</span>
         <span className="text-[10px] text-[var(--text-secondary)]">{open ? 'Hide' : 'Show'}</span>
       </button>
@@ -33,7 +34,11 @@ function AccordionItem({ item, open, onToggle }: AccordionItemProps) {
                   height={800}
                   className="rounded-md border border-[var(--border)] object-cover w-full h-auto"
                 />
-                {item.alt ? <figcaption className="mt-2 text-sm text-[var(--text-secondary)]">{item.alt}</figcaption> : null}
+                {item.alt ? (
+                  <figcaption className="mt-2 text-sm text-[var(--text-secondary)]">
+                    {item.alt}
+                  </figcaption>
+                ) : null}
               </figure>
             </div>
           </div>
@@ -51,12 +56,12 @@ export function ProjectGallery({ project }: { project: Project }) {
     <div className="space-y-3">
       <h3 className="text-lg font-semibold">Gallery</h3>
       <div className="space-y-2">
-        {gallery.map(g => (
+        {gallery.map((g) => (
           <AccordionItem
             key={g.id}
             item={g}
             open={open === g.id}
-            onToggle={() => setOpen(o => o === g.id ? null : g.id)}
+            onToggle={() => setOpen((o) => (o === g.id ? null : g.id))}
           />
         ))}
       </div>

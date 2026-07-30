@@ -16,11 +16,7 @@
   "role": "Co-developer (Design & Build)",
   "start": "2024-10",
   "end": null,
-  "stack": [
-    "WordPress",
-    "Custom CSS",
-    "WHM/cPanel (VPS)"
-  ],
+  "stack": ["WordPress", "Custom CSS", "WHM/cPanel (VPS)"],
   "features": [
     "Two-language support (EN/AR)",
     "Single-page layout for clarity and speed",
@@ -29,10 +25,30 @@
     "Stable VPS hosting and maintenance"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A bilingual landing site emphasizing product presentation and accessibility.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a credible, sleek online presence for both English- and Arabic-speaking audiences.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Executed the design and build, configured bilingual content, and handled deployment.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Improved brand credibility and reach with minimal ongoing overhead.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A bilingual landing site emphasizing product presentation and accessibility.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a credible, sleek online presence for both English- and Arabic-speaking audiences.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Executed the design and build, configured bilingual content, and handled deployment.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Improved brand credibility and reach with minimal ongoing overhead.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "",

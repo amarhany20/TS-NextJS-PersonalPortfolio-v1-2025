@@ -80,19 +80,23 @@ export const DashboardService = {
       prisma.media.count(),
       prisma.portfolio.findFirst({ orderBy: { updatedAt: 'desc' }, select: { updatedAt: true } }),
       prisma.blog.findFirst({ orderBy: { updatedAt: 'desc' }, select: { updatedAt: true } }),
-      prisma.contactSubmission.findFirst({ orderBy: { createdAt: 'desc' }, select: { createdAt: true } }),
+      prisma.contactSubmission.findFirst({
+        orderBy: { createdAt: 'desc' },
+        select: { createdAt: true },
+      }),
       SettingsRepository.get(),
     ]);
 
     const draftProjects = Math.max(totalProjects - publishedProjects, 0);
-    const lastUpdatedAt = [
-      latestPortfolioUpdate?.updatedAt ?? null,
-      latestBlogUpdate?.updatedAt ?? null,
-      latestContactSubmission?.createdAt ?? null,
-      settings?.updatedAt ?? null,
-    ]
-      .filter((value): value is Date => Boolean(value))
-      .sort((a, b) => b.getTime() - a.getTime())[0] ?? null;
+    const lastUpdatedAt =
+      [
+        latestPortfolioUpdate?.updatedAt ?? null,
+        latestBlogUpdate?.updatedAt ?? null,
+        latestContactSubmission?.createdAt ?? null,
+        settings?.updatedAt ?? null,
+      ]
+        .filter((value): value is Date => Boolean(value))
+        .sort((a, b) => b.getTime() - a.getTime())[0] ?? null;
 
     const stats = buildStats({
       totalProjects,
@@ -140,7 +144,6 @@ export const DashboardService = {
         missingEnvVars,
       },
     };
-
   },
 };
 
@@ -365,7 +368,10 @@ function buildQuickLinks(input: BuildQuickLinksInput): DashboardQuickLink[] {
     title: 'Publish blog content',
     description: 'Convert drafts into published posts for SEO gains.',
     href: '/admin/blog',
-    badge: input.blogDraftCount > 0 ? `${input.blogDraftCount} draft${input.blogDraftCount === 1 ? '' : 's'}` : undefined,
+    badge:
+      input.blogDraftCount > 0
+        ? `${input.blogDraftCount} draft${input.blogDraftCount === 1 ? '' : 's'}`
+        : undefined,
     status: input.blogDraftCount > 0 ? 'info' : 'default',
     priority: input.blogDraftCount > 0 ? 3 : 2,
   });

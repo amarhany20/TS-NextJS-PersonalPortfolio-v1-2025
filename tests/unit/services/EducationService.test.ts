@@ -66,7 +66,9 @@ describe('EducationService', () => {
   });
 
   it('maps published education entries through serializer', async () => {
-    const records = [{ id: 'edu-1', institution: 'Uni' }] as unknown as Parameters<typeof serializeEducation>[0][];
+    const records = [{ id: 'edu-1', institution: 'Uni' }] as unknown as Parameters<
+      typeof serializeEducation
+    >[0][];
     vi.mocked(EducationRepository.findPublished).mockResolvedValue(records);
 
     const result = await EducationService.getPublishedEducation();

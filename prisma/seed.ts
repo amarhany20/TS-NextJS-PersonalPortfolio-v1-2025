@@ -144,8 +144,8 @@ async function seedSkillGroups() {
               groupId: record.id,
               displayOrder: skillIndex,
             },
-          })
-        )
+          }),
+        ),
       );
     }
   }
@@ -162,9 +162,9 @@ async function seedPortfolio() {
         intro: project.intro,
         summary: project.summary,
         featured: Boolean(project.featured),
-  visibility: project.visibility,
-  access: project.access,
-  status: project.status,
+        visibility: project.visibility,
+        access: project.access,
+        status: project.status,
         domain: project.domain ?? null,
         company: project.company ?? null,
         client: project.client ?? null,
@@ -173,10 +173,10 @@ async function seedPortfolio() {
         role: project.role,
         startDate: yearMonthToDate(project.start),
         endDate: yearMonthToDate(project.end ?? undefined),
-  stack: JSON.stringify(project.stack ?? []),
-  features: project.features ? JSON.stringify(project.features) : null,
-  sections: project.sections ? JSON.stringify(project.sections) : null,
-  gallery: project.gallery ? JSON.stringify(project.gallery) : null,
+        stack: JSON.stringify(project.stack ?? []),
+        features: project.features ? JSON.stringify(project.features) : null,
+        sections: project.sections ? JSON.stringify(project.sections) : null,
+        gallery: project.gallery ? JSON.stringify(project.gallery) : null,
         confidentialNotes: project.confidentialNotes ?? null,
         displayOrder: order,
         published: true,
@@ -189,9 +189,9 @@ async function seedPortfolio() {
         intro: project.intro,
         summary: project.summary,
         featured: Boolean(project.featured),
-  visibility: project.visibility,
-  access: project.access,
-  status: project.status,
+        visibility: project.visibility,
+        access: project.access,
+        status: project.status,
         domain: project.domain ?? null,
         company: project.company ?? null,
         client: project.client ?? null,
@@ -200,10 +200,10 @@ async function seedPortfolio() {
         role: project.role,
         startDate: yearMonthToDate(project.start),
         endDate: yearMonthToDate(project.end ?? undefined),
-  stack: JSON.stringify(project.stack ?? []),
-  features: project.features ? JSON.stringify(project.features) : null,
-  sections: project.sections ? JSON.stringify(project.sections) : null,
-  gallery: project.gallery ? JSON.stringify(project.gallery) : null,
+        stack: JSON.stringify(project.stack ?? []),
+        features: project.features ? JSON.stringify(project.features) : null,
+        sections: project.sections ? JSON.stringify(project.sections) : null,
+        gallery: project.gallery ? JSON.stringify(project.gallery) : null,
         confidentialNotes: project.confidentialNotes ?? null,
         displayOrder: order,
         published: true,
@@ -229,8 +229,8 @@ async function seedExperience() {
         endDate: yearMonthToDate(item.end ?? undefined),
         present: item.present,
         impact: item.impact ?? null,
-  achievements: item.achievements ? JSON.stringify(item.achievements) : null,
-  skills: item.skills ? JSON.stringify(item.skills) : null,
+        achievements: item.achievements ? JSON.stringify(item.achievements) : null,
+        skills: item.skills ? JSON.stringify(item.skills) : null,
         companyUrl: item.companyUrl ?? null,
         displayOrder: order,
         published: true,
@@ -244,8 +244,8 @@ async function seedExperience() {
         endDate: yearMonthToDate(item.end ?? undefined),
         present: item.present,
         impact: item.impact ?? null,
-  achievements: item.achievements ? JSON.stringify(item.achievements) : null,
-  skills: item.skills ? JSON.stringify(item.skills) : null,
+        achievements: item.achievements ? JSON.stringify(item.achievements) : null,
+        skills: item.skills ? JSON.stringify(item.skills) : null,
         companyUrl: item.companyUrl ?? null,
         displayOrder: order,
         published: true,
@@ -269,7 +269,7 @@ async function seedEducation() {
         endDate: yearMonthToDate(item.end ?? undefined),
         present: item.present,
         gpa: item.gpa ?? null,
-  achievements: item.achievements ? JSON.stringify(item.achievements) : null,
+        achievements: item.achievements ? JSON.stringify(item.achievements) : null,
         project: item.project ?? null,
         displayOrder: order,
         published: true,
@@ -284,7 +284,7 @@ async function seedEducation() {
         endDate: yearMonthToDate(item.end ?? undefined),
         present: item.present,
         gpa: item.gpa ?? null,
-  achievements: item.achievements ? JSON.stringify(item.achievements) : null,
+        achievements: item.achievements ? JSON.stringify(item.achievements) : null,
         project: item.project ?? null,
         displayOrder: order,
         published: true,
@@ -303,8 +303,8 @@ async function seedServices() {
         title: service.title,
         description: service.description,
         longDescription: service.longDescription ?? null,
-  features: service.features ? JSON.stringify(service.features) : null,
-  technologies: service.technologies ? JSON.stringify(service.technologies) : null,
+        features: service.features ? JSON.stringify(service.features) : null,
+        technologies: service.technologies ? JSON.stringify(service.technologies) : null,
         icon: service.icon ?? null,
         image: service.image ?? null,
         active: service.active ?? true,
@@ -316,8 +316,8 @@ async function seedServices() {
         title: service.title,
         description: service.description,
         longDescription: service.longDescription ?? null,
-  features: service.features ? JSON.stringify(service.features) : null,
-  technologies: service.technologies ? JSON.stringify(service.technologies) : null,
+        features: service.features ? JSON.stringify(service.features) : null,
+        technologies: service.technologies ? JSON.stringify(service.technologies) : null,
         icon: service.icon ?? null,
         image: service.image ?? null,
         active: service.active ?? true,
@@ -339,7 +339,7 @@ async function seedCertificates() {
         issuedOn: isoDate(certificate.date) ?? new Date(),
         credentialId: certificate.credential ?? null,
         description: certificate.description ?? null,
-  skills: certificate.skills ? JSON.stringify(certificate.skills) : null,
+        skills: certificate.skills ? JSON.stringify(certificate.skills) : null,
         image: certificate.image ?? null,
         verifyUrl: certificate.verifyUrl ?? null,
         displayOrder: order,
@@ -351,7 +351,7 @@ async function seedCertificates() {
         issuedOn: isoDate(certificate.date) ?? new Date(),
         credentialId: certificate.credential ?? null,
         description: certificate.description ?? null,
-  skills: certificate.skills ? JSON.stringify(certificate.skills) : null,
+        skills: certificate.skills ? JSON.stringify(certificate.skills) : null,
         image: certificate.image ?? null,
         verifyUrl: certificate.verifyUrl ?? null,
         displayOrder: order,
@@ -401,9 +401,14 @@ async function seedRecommendations() {
 }
 
 async function seedAdminUser() {
-  const username = (process.env.ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin').trim().toLowerCase();
-  const email = (process.env.ADMIN_EMAIL ?? process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com').trim().toLowerCase();
-  const displayName = process.env.ADMIN_DISPLAY_NAME ?? process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
+  const username = (process.env.ADMIN_USERNAME ?? process.env.SEED_ADMIN_USERNAME ?? 'admin')
+    .trim()
+    .toLowerCase();
+  const email = (process.env.ADMIN_EMAIL ?? process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com')
+    .trim()
+    .toLowerCase();
+  const displayName =
+    process.env.ADMIN_DISPLAY_NAME ?? process.env.SEED_ADMIN_DISPLAY_NAME ?? 'Portfolio Admin';
   const password = process.env.ADMIN_PASSWORD ?? process.env.SEED_ADMIN_PASSWORD ?? 'change-me-now';
 
   const passwordHash = await hashPassword(password);

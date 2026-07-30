@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface SidebarContextType {
   leftSidebarOpen: boolean;
@@ -38,20 +38,20 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         closeAllSidebars();
       }
     };
 
     if (leftSidebarOpen || rightSidebarOpen) {
-      document.addEventListener("keydown", handleEscape);
-      return () => document.removeEventListener("keydown", handleEscape);
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
     }
   }, [leftSidebarOpen, rightSidebarOpen]);
 
@@ -63,7 +63,8 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
         toggleLeftSidebar,
         toggleRightSidebar,
         closeAllSidebars,
-      }}>
+      }}
+    >
       {children}
     </SidebarContext.Provider>
   );
@@ -72,7 +73,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 export function useSidebar() {
   const context = useContext(SidebarContext);
   if (context === undefined) {
-    throw new Error("useSidebar must be used within a SidebarProvider");
+    throw new Error('useSidebar must be used within a SidebarProvider');
   }
   return context;
 }

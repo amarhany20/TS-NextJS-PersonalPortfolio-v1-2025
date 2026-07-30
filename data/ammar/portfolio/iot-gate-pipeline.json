@@ -32,10 +32,30 @@
     "Structured persistence to Firebase and GCS"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "An IoT data pipeline for farm environments integrating RFID readers and multi-camera inputs to feed AI models.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Automate identification and streamline data collection across diverse hardware setups.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Engineered the pipeline, implemented RFID integration, added multi-camera support, and built multithreaded concurrency.", "order": 3 },
-    { "id": "impact", "title": "Impact / Results", "body": "Reduced manual data collection overhead and established a consistent backbone for AI training/testing.", "order": 4 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "An IoT data pipeline for farm environments integrating RFID readers and multi-camera inputs to feed AI models.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Automate identification and streamline data collection across diverse hardware setups.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Engineered the pipeline, implemented RFID integration, added multi-camera support, and built multithreaded concurrency.",
+      "order": 3
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Reduced manual data collection overhead and established a consistent backbone for AI training/testing.",
+      "order": 4
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Project cancelled in 2024-05; repository private.",

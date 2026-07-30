@@ -45,7 +45,9 @@ export interface EducationCreateData {
 
 export type EducationUpdateData = Partial<EducationCreateData>;
 
-function mapEducation(record: Awaited<ReturnType<typeof prisma.education.findFirst>>): DbEducation | null {
+function mapEducation(
+  record: Awaited<ReturnType<typeof prisma.education.findFirst>>,
+): DbEducation | null {
   if (!record) {
     return null;
   }
@@ -73,10 +75,7 @@ export const EducationRepository = {
   async findPublished(): Promise<DbEducation[]> {
     const records = await prisma.education.findMany({
       where: { published: true },
-      orderBy: [
-        { displayOrder: 'asc' },
-        { startDate: 'desc' },
-      ],
+      orderBy: [{ displayOrder: 'asc' }, { startDate: 'desc' }],
     });
 
     return records.map((record) => mapEducation(record)!).filter(Boolean);
@@ -84,10 +83,7 @@ export const EducationRepository = {
 
   async findAll(): Promise<DbEducation[]> {
     const records = await prisma.education.findMany({
-      orderBy: [
-        { displayOrder: 'asc' },
-        { startDate: 'desc' },
-      ],
+      orderBy: [{ displayOrder: 'asc' }, { startDate: 'desc' }],
     });
 
     return records.map((record) => mapEducation(record)!).filter(Boolean);
@@ -175,7 +171,8 @@ function toUpdateData(data: EducationUpdateData) {
   if (data.endDate !== undefined) update.endDate = data.endDate ?? null;
   if (data.present !== undefined) update.present = data.present;
   if (data.gpa !== undefined) update.gpa = data.gpa ?? null;
-  if (data.achievements !== undefined) update.achievements = JSON.stringify(data.achievements ?? []);
+  if (data.achievements !== undefined)
+    update.achievements = JSON.stringify(data.achievements ?? []);
   if (data.project !== undefined) update.project = data.project ?? null;
   if (data.displayOrder !== undefined) update.displayOrder = data.displayOrder;
   if (data.published !== undefined) update.published = data.published;

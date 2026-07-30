@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-import { BlogEditorForm } from "@/components/Admin/Blog/BlogEditorForm";
-import { BlogService } from "@/server/services/BlogService";
+import { BlogEditorForm } from '@/components/Admin/Blog/BlogEditorForm';
+import { BlogService } from '@/server/services/BlogService';
 
 interface AdminBlogEditorPageProps {
   params: Promise<{
@@ -26,10 +26,13 @@ export default async function AdminBlogEditorPage({ params }: AdminBlogEditorPag
     <section className="space-y-8 py-6">
       <header className="flex flex-wrap items-center gap-4">
         <div>
-          <p className="text-xs uppercase tracking-wider text-[var(--text-secondary)]">Blog Editor</p>
+          <p className="text-xs uppercase tracking-wider text-[var(--text-secondary)]">
+            Blog Editor
+          </p>
           <h1 className="text-3xl font-semibold">Edit: {post.title}</h1>
           <p className="text-sm text-[var(--text-secondary)]">
-            Update metadata, categories, tags, and scheduled publish time. Draft changes auto-sync on save.
+            Update metadata, categories, tags, and scheduled publish time. Draft changes auto-sync
+            on save.
           </p>
         </div>
         <Link

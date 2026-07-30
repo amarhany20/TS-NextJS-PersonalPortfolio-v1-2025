@@ -1,15 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  useEffect,
-  useId,
-  useState,
-  type ChangeEvent,
-  type FormEvent,
-} from 'react';
+import { useEffect, useId, useState, type ChangeEvent, type FormEvent } from 'react';
 
-import { createRecommendationSchema, updateRecommendationSchema } from '@/server/server-validators/api/recommendation';
+import {
+  createRecommendationSchema,
+  updateRecommendationSchema,
+} from '@/server/server-validators/api/recommendation';
 import type { Recommendation } from '@/types/recommendation';
 import { useToast } from '@/components/ui/ToastProvider';
 
@@ -42,7 +39,8 @@ const buildFieldErrors = (issues: Array<{ path: PropertyKey[]; message: string }
   const map: FormErrors = {};
   for (const issue of issues) {
     const rawKey = issue.path[0];
-    const key = typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
+    const key =
+      typeof rawKey === 'string' || typeof rawKey === 'number' ? rawKey.toString() : 'form';
     if (!map[key]) {
       map[key] = issue.message;
     }
@@ -78,28 +76,36 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
     linkedin: recommendation?.linkedin ?? recommendation?.linkedinUrl ?? '',
     recommendationLetterUrl: recommendation?.recommendationLetterUrl ?? '',
     receivedOn: formatDateForInput(recommendation?.date),
-    published: Boolean((recommendation as Recommendation & { published?: boolean } | null | undefined)?.published),
+    published: Boolean(
+      (recommendation as (Recommendation & { published?: boolean }) | null | undefined)?.published,
+    ),
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
-  const pageTitle = mode === 'create' ? 'Create recommendation' : `Edit recommendation from ${recommendation?.name ?? ''}`;
+  const pageTitle =
+    mode === 'create'
+      ? 'Create recommendation'
+      : `Edit recommendation from ${recommendation?.name ?? ''}`;
   const submitLabel = mode === 'create' ? 'Create recommendation' : 'Save changes';
 
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  const handleInputChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState((prev) => ({ ...prev, [field]: event.target.value }));
-  };
+  const handleInputChange =
+    (field: keyof typeof formState) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormState((prev) => ({ ...prev, [field]: event.target.value }));
+    };
 
-  const handleCheckboxChange = (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target;
-    setFormState((prev) => ({ ...prev, [field]: checked }));
-  };
+  const handleCheckboxChange =
+    (field: keyof typeof formState) => (event: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = event.target;
+      setFormState((prev) => ({ ...prev, [field]: checked }));
+    };
 
   const buildPayload = () => {
     return {
@@ -135,7 +141,10 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
         return;
       }
 
-      const url = mode === 'create' ? '/api/v1/recommendations' : `/api/v1/recommendations/${recommendation?.id}`;
+      const url =
+        mode === 'create'
+          ? '/api/v1/recommendations'
+          : `/api/v1/recommendations/${recommendation?.id}`;
       const method = mode === 'create' ? 'POST' : 'PATCH';
 
       const response = await fetch(url, {
@@ -151,7 +160,11 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
         throw new Error(description);
       }
 
-      setSuccess(mode === 'create' ? 'Recommendation created successfully!' : 'Recommendation updated successfully!');
+      setSuccess(
+        mode === 'create'
+          ? 'Recommendation created successfully!'
+          : 'Recommendation updated successfully!',
+      );
       showToast({
         variant: 'success',
         title: mode === 'create' ? 'Recommendation created' : 'Recommendation updated',
@@ -172,17 +185,25 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">{pageTitle}</h1>
-        <p className="text-sm text-muted-foreground">Collect and curate testimonials displayed on the home page.</p>
+        <p className="text-sm text-muted-foreground">
+          Collect and curate testimonials displayed on the home page.
+        </p>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700" role="alert">
+        <p
+          className="rounded-lg border border-amber-600 bg-amber-500/10 px-4 py-2 text-sm text-amber-700"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
 
       {success ? (
-        <p className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600" aria-live="polite">
+        <p
+          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-600"
+          aria-live="polite"
+        >
           {success}
         </p>
       ) : null}
@@ -319,7 +340,17 @@ interface LabeledInputProps {
   helper?: string;
 }
 
-function LabeledInput({ label, required, type = 'text', min, max, value, onChange, error, helper }: LabeledInputProps) {
+function LabeledInput({
+  label,
+  required,
+  type = 'text',
+  min,
+  max,
+  value,
+  onChange,
+  error,
+  helper,
+}: LabeledInputProps) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -328,7 +359,12 @@ function LabeledInput({ label, required, type = 'text', min, max, value, onChang
     <div className="space-y-1">
       <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
+        {required ? (
+          <span aria-hidden="true" className="text-rose-500">
+            {' '}
+            *
+          </span>
+        ) : null}
       </label>
       <input
         id={inputId}
@@ -342,8 +378,16 @@ function LabeledInput({ label, required, type = 'text', min, max, value, onChang
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-rose-600">
+          {error}
+        </p>
+      ) : null}
+      {helper && !error ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -358,7 +402,15 @@ interface TextareaFieldProps {
   helper?: string;
 }
 
-function TextareaField({ label, rows = 4, required, value, onChange, error, helper }: TextareaFieldProps) {
+function TextareaField({
+  label,
+  rows = 4,
+  required,
+  value,
+  onChange,
+  error,
+  helper,
+}: TextareaFieldProps) {
   const inputId = useId();
   const helperId = helper ? `${inputId}-helper` : undefined;
   const errorId = error ? `${inputId}-error` : undefined;
@@ -367,7 +419,12 @@ function TextareaField({ label, rows = 4, required, value, onChange, error, help
     <div className="space-y-1">
       <label htmlFor={inputId} className="text-sm font-medium text-foreground">
         {label}
-        {required ? <span aria-hidden="true" className="text-rose-500"> *</span> : null}
+        {required ? (
+          <span aria-hidden="true" className="text-rose-500">
+            {' '}
+            *
+          </span>
+        ) : null}
       </label>
       <textarea
         id={inputId}
@@ -379,9 +436,16 @@ function TextareaField({ label, rows = 4, required, value, onChange, error, help
           error ? 'border-rose-500' : 'border-[var(--border)] focus:border-accent'
         }`}
       />
-      {error ? <p id={errorId} className="text-xs text-rose-600">{error}</p> : null}
-      {helper && !error ? <p id={helperId} className="text-xs text-muted-foreground">{helper}</p> : null}
+      {error ? (
+        <p id={errorId} className="text-xs text-rose-600">
+          {error}
+        </p>
+      ) : null}
+      {helper && !error ? (
+        <p id={helperId} className="text-xs text-muted-foreground">
+          {helper}
+        </p>
+      ) : null}
     </div>
   );
 }
-

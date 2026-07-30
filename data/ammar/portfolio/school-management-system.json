@@ -26,11 +26,36 @@
     "SQLite-backed local persistence"
   ],
   "sections": [
-    { "id": "description", "title": "Description", "body": "A desktop Java application designed for academic institutions to manage courses, exams, schedules, and grades with role-based access for students and lecturers.", "order": 1 },
-    { "id": "objective", "title": "Objective / Aim", "body": "Provide a scalable school management tool to streamline scheduling, grading, and communication while enforcing secure role-based access.", "order": 2 },
-    { "id": "role", "title": "Role & Responsibilities", "body": "Sole developer: designed architecture, implemented UI and database integration, and authored core features for scheduling and grade management.", "order": 3 },
-    { "id": "implementation", "title": "Features / Implementation", "body": "Built using Java with a local SQLite database. Implemented role-specific flows, CRUD for courses/students, scheduling, and reporting features.", "order": 4 },
-    { "id": "impact", "title": "Impact / Results", "body": "Delivered a fully functional system used as a university milestone project demonstrating Java + DB integration and role-based application design.", "order": 5 }
+    {
+      "id": "description",
+      "title": "Description",
+      "body": "A desktop Java application designed for academic institutions to manage courses, exams, schedules, and grades with role-based access for students and lecturers.",
+      "order": 1
+    },
+    {
+      "id": "objective",
+      "title": "Objective / Aim",
+      "body": "Provide a scalable school management tool to streamline scheduling, grading, and communication while enforcing secure role-based access.",
+      "order": 2
+    },
+    {
+      "id": "role",
+      "title": "Role & Responsibilities",
+      "body": "Sole developer: designed architecture, implemented UI and database integration, and authored core features for scheduling and grade management.",
+      "order": 3
+    },
+    {
+      "id": "implementation",
+      "title": "Features / Implementation",
+      "body": "Built using Java with a local SQLite database. Implemented role-specific flows, CRUD for courses/students, scheduling, and reporting features.",
+      "order": 4
+    },
+    {
+      "id": "impact",
+      "title": "Impact / Results",
+      "body": "Delivered a fully functional system used as a university milestone project demonstrating Java + DB integration and role-based application design.",
+      "order": 5
+    }
   ],
   "gallery": [],
   "confidentialNotes": "Public university project; repo available on GitHub.",

@@ -32,7 +32,9 @@ test.describe('Admin education CRUD', () => {
       const editHref = await row.getByRole('link', { name: /Edit/i }).getAttribute('href');
       expect(editHref).toBe(`/admin/education/${education.id}`);
       await page.goto(editHref!, { waitUntil: 'domcontentloaded' });
-      await expect(page.getByRole('heading', { name: new RegExp(`Edit ${institution}`) })).toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: new RegExp(`Edit ${institution}`) }),
+      ).toBeVisible();
 
       await updateEducation(request, education.id, {
         project: 'Capstone project (edited)',
@@ -42,25 +44,33 @@ test.describe('Admin education CRUD', () => {
       await expect(page.locator('tr', { hasText: institution }).first()).toBeVisible();
 
       await deleteEducation(request, education.id);
-      await expect.poll(async () => {
-        await page.reload({ waitUntil: 'domcontentloaded' });
-        return page.locator('tr', { hasText: institution }).count();
-      }, { timeout: 15000 }).toBe(0);
+      await expect
+        .poll(
+          async () => {
+            await page.reload({ waitUntil: 'domcontentloaded' });
+            return page.locator('tr', { hasText: institution }).count();
+          },
+          { timeout: 15000 },
+        )
+        .toBe(0);
     } finally {
       await cleanupEducation(institution, degree, request);
     }
   });
 });
 
-async function createEducation(request: APIRequestContext, payload: {
-  institution: string;
-  degree: string;
-  field: string;
-  location: string;
-  start: string;
-  achievements: string[];
-  project: string;
-}) {
+async function createEducation(
+  request: APIRequestContext,
+  payload: {
+    institution: string;
+    degree: string;
+    field: string;
+    location: string;
+    start: string;
+    achievements: string[];
+    project: string;
+  },
+) {
   const response = await request.post('/api/v1/education', { data: payload });
   const responseText = response.ok() ? '' : await response.text();
   expect(response.ok(), responseText).toBeTruthy();
@@ -69,7 +79,11 @@ async function createEducation(request: APIRequestContext, payload: {
   return body.data.education as { id: string };
 }
 
-async function updateEducation(request: APIRequestContext, id: string, payload: { project: string }) {
+async function updateEducation(
+  request: APIRequestContext,
+  id: string,
+  payload: { project: string },
+) {
   const response = await request.patch(`/api/v1/education/${id}`, { data: payload });
   const responseText = response.ok() ? '' : await response.text();
   expect(response.ok(), responseText).toBeTruthy();
@@ -86,16 +100,23 @@ async function cleanupEducation(institution: string, degree: string, request: AP
   if (!listResponse?.ok()) return;
 
   const payload = (await listResponse.json().catch(() => null)) as any;
-  const items = (payload?.data?.education ?? []) as Array<{ id: string; institution: string; degree: string }>;
+  const items = (payload?.data?.education ?? []) as Array<{
+    id: string;
+    institution: string;
+    degree: string;
+  }>;
   const match = items.find((item) => item.institution === institution && item.degree === degree);
   if (!match) return;
 
   const deleteResponse = await request.delete(`/api/v1/education/${match.id}`).catch(() => null);
   if (!deleteResponse) return;
-  const responseText = deleteResponse.ok() || deleteResponse.status() === 404 ? '' : await deleteResponse.text();
+  const responseText =
+    deleteResponse.ok() || deleteResponse.status() === 404 ? '' : await deleteResponse.text();
   if (deleteResponse.ok() || deleteResponse.status() === 404) return;
 
-  console.warn(`Cleanup failed for education ${match.id}: ${deleteResponse.status()} ${responseText}`);
+  console.warn(
+    `Cleanup failed for education ${match.id}: ${deleteResponse.status()} ${responseText}`,
+  );
 }
 
 function formatYearMonth(date: Date): string {
