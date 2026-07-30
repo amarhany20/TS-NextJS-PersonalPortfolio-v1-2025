@@ -1,8 +1,26 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { BlogService } from '@/server/services/BlogService';
 import { SettingsService } from '@/server/services/SettingsService';
+import { BlogService } from '@/server/services/BlogService';
 import { BlogListClient } from './BlogListClient';
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await SettingsService.getSiteContent();
+    const siteTitle = settings.seo?.title || settings.profile?.fullName || 'Portfolio';
+    const siteUrl = settings.seo?.siteUrl || '';
+    const blogUrl = siteUrl ? `${siteUrl.replace(/\/$/, '')}/blogs` : '';
+
+    return {
+      title: 'Blog',
+      description: `Blog posts by ${siteTitle}.`,
+      alternates: blogUrl ? { canonical: blogUrl } : undefined,
+    };
+  } catch {
+    return { title: 'Blog' };
+  }
+}
 
 /**
  * Blog index page.
