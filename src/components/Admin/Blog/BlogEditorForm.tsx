@@ -169,8 +169,11 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
       )}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Title</label>
+        <label htmlFor="blog-title" className="text-sm font-medium">
+          Title
+        </label>
         <input
+          id="blog-title"
           type="text"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
@@ -182,8 +185,11 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Slug</label>
+          <label htmlFor="blog-slug" className="text-sm font-medium">
+            Slug
+          </label>
           <input
+            id="blog-slug"
             type="text"
             value={slug}
             onChange={(event) => setSlug(event.target.value)}
@@ -192,8 +198,11 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Status</label>
+          <label htmlFor="blog-status" className="text-sm font-medium">
+            Status
+          </label>
           <select
+            id="blog-status"
             value={status}
             onChange={(event) => setStatus(event.target.value as BlogStatus)}
             className="w-full rounded-lg border border-[var(--border)] bg-[var(--card-bg)] px-3 py-2"
@@ -208,8 +217,11 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
 
       {status === 'scheduled' && (
         <div className="space-y-2">
-          <label className="text-sm font-medium">Publish at</label>
+          <label htmlFor="blog-scheduled-at" className="text-sm font-medium">
+            Publish at
+          </label>
           <input
+            id="blog-scheduled-at"
             type="datetime-local"
             value={scheduledAt}
             onChange={(event) => setScheduledAt(event.target.value)}
@@ -223,8 +235,11 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
       )}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Summary</label>
+        <label htmlFor="blog-summary" className="text-sm font-medium">
+          Summary
+        </label>
         <textarea
+          id="blog-summary"
           value={summary}
           onChange={(event) => setSummary(event.target.value)}
           className="w-full rounded-lg border border-[var(--border)] bg-[var(--card-bg)] px-3 py-2"
@@ -235,7 +250,9 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
 
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
-          <label className="font-medium">Content</label>
+          <label htmlFor="blog-content" className="font-medium">
+            Content
+          </label>
           <span className="text-[var(--text-secondary)]">{readingTime} min read</span>
         </div>
         <RichTextEditor value={content} onChange={setContent} placeholder="Write your post..." />
