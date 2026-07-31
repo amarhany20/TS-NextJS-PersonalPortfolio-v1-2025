@@ -29,6 +29,7 @@ exports[`serializeSettings snapshots > matches minimal settings snapshot 1`] = `
   "profile": {
     "fullName": "Untitled Profile",
     "location": undefined,
+    "photoUrl": "/2024 Ammar Personal Photo.jpg",
     "title": undefined,
   },
   "seo": {
@@ -124,6 +125,7 @@ exports[`serializeSettings snapshots > matches seeded settings snapshot 1`] = `
   "profile": {
     "fullName": "Portfolio Owner",
     "location": "",
+    "photoUrl": "/2024 Ammar Personal Photo.jpg",
     "title": "Software Engineer",
   },
   "seo": {

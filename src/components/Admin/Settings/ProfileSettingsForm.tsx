@@ -13,6 +13,7 @@ type ProfileSettingsValues = {
   secondaryEmail: string;
   location: string;
   timezone: string;
+  photoUrl?: string;
 };
 
 interface ProfileSettingsFormProps {
@@ -77,7 +78,10 @@ function LabeledTextarea({ label, helper, value, rows = 4, onChange }: LabeledTe
 }
 
 export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps) {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState<ProfileSettingsValues>({
+    ...initialValues,
+    photoUrl: initialValues.photoUrl || '/2024 Ammar Personal Photo.jpg',
+  });
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -115,7 +119,7 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
 
         setMessage({
           type: 'success',
-          text: 'Site profile saved. Refresh the public pages if you have them open in another tab.',
+          text: 'Site profile saved. Refresh the public pages or admin sidebar if open.',
         });
       } catch (error) {
         logger.error('Failed to save site profile settings', error);
@@ -128,8 +132,8 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
     <div className="space-y-6">
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/70 p-5">
         <p className="text-sm text-[var(--text-secondary)]">
-          These fields drive your public name, hero copy, contact details, and profile/sidebar
-          content after the initial bootstrap.
+          These fields drive your public name, profile photo, hero copy, contact details, and admin
+          sidebar avatar.
         </p>
       </div>
 
@@ -148,94 +152,118 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
       <form onSubmit={handleSubmit} className="space-y-6">
         <section className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/70 p-5 sm:p-6">
           <div className="mb-5 space-y-1">
-            <h2 className="text-lg font-semibold text-foreground">Public identity</h2>
-            <p className="text-sm text-[var(--text-secondary)]">
-              Update the main text people see first on the portfolio.
+            <h2 className="text-base font-semibold text-foreground">Identity & Profile Avatar</h2>
+            <p className="text-xs text-[var(--text-secondary)]">
+              Your name, title, and profile picture displayed across the site and admin panel.
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <LabeledField
-              label="Full name"
-              required
-              helper="Shown in the public sidebar/profile and used as the default site title."
-              value={values.siteTitle}
-              onChange={(value) => setField('siteTitle', value)}
-            />
-            <LabeledField
-              label="Professional title"
-              helper="Used as your short role/tagline in profile surfaces."
-              value={values.siteSubtitle}
-              onChange={(value) => setField('siteSubtitle', value)}
-            />
-            <LabeledField
-              label="Hero greeting"
-              helper="Short opening line above the hero content."
-              value={values.heroGreeting}
-              onChange={(value) => setField('heroGreeting', value)}
-            />
-            <LabeledField
-              label="Hero subtitle"
-              helper="Main supporting line in the hero section."
-              value={values.heroSubtitle}
-              onChange={(value) => setField('heroSubtitle', value)}
-            />
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border border-[var(--border)]/60 bg-[var(--background)]/50">
+              <img
+                src={values.photoUrl || '/2024 Ammar Personal Photo.jpg'}
+                alt="Profile Avatar Preview"
+                className="h-16 w-16 rounded-full object-cover shadow border-2 border-[var(--accent-primary)] shrink-0"
+              />
+              <div className="flex-1 w-full">
+                <LabeledField
+                  label="Profile Avatar Photo URL"
+                  helper="Enter a relative image path (e.g. /2024 Ammar Personal Photo.jpg) or absolute image URL."
+                  value={values.photoUrl ?? ''}
+                  onChange={(val) => setField('photoUrl', val)}
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <LabeledField
+                label="Full Name"
+                required
+                value={values.siteTitle}
+                onChange={(val) => setField('siteTitle', val)}
+              />
+              <LabeledField
+                label="Professional Title"
+                helper="e.g. Senior Software Engineer"
+                value={values.siteSubtitle}
+                onChange={(val) => setField('siteSubtitle', val)}
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/70 p-5 sm:p-6">
+          <div className="mb-5 space-y-1">
+            <h2 className="text-base font-semibold text-foreground">Hero Section</h2>
+            <p className="text-xs text-[var(--text-secondary)]">
+              Headline and intro description shown in the homepage hero header.
+            </p>
           </div>
 
-          <div className="mt-4">
+          <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <LabeledField
+                label="Hero Greeting"
+                value={values.heroGreeting}
+                onChange={(val) => setField('heroGreeting', val)}
+              />
+              <LabeledField
+                label="Hero Subtitle"
+                value={values.heroSubtitle}
+                onChange={(val) => setField('heroSubtitle', val)}
+              />
+            </div>
+
             <LabeledTextarea
-              label="Hero description"
-              helper="Longer introduction shown in the main hero area and reused in metadata fallbacks."
-              rows={5}
+              label="Hero Description"
               value={values.heroDescription}
-              onChange={(value) => setField('heroDescription', value)}
+              rows={4}
+              onChange={(val) => setField('heroDescription', val)}
             />
           </div>
         </section>
 
         <section className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/70 p-5 sm:p-6">
           <div className="mb-5 space-y-1">
-            <h2 className="text-lg font-semibold text-foreground">Contact details</h2>
-            <p className="text-sm text-[var(--text-secondary)]">
-              Keep the basic public contact details accurate here. You can expand theme and
-              diagnostics separately.
+            <h2 className="text-base font-semibold text-foreground">Contact & Location</h2>
+            <p className="text-xs text-[var(--text-secondary)]">
+              Emails, location, and timezone shown on contact forms and site footer.
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <LabeledField
-              label="Primary email"
+              label="Primary Email"
               type="email"
               value={values.primaryEmail}
-              onChange={(value) => setField('primaryEmail', value)}
+              onChange={(val) => setField('primaryEmail', val)}
             />
             <LabeledField
-              label="Secondary email"
+              label="Secondary Email"
               type="email"
               value={values.secondaryEmail}
-              onChange={(value) => setField('secondaryEmail', value)}
+              onChange={(val) => setField('secondaryEmail', val)}
             />
             <LabeledField
               label="Location"
               value={values.location}
-              onChange={(value) => setField('location', value)}
+              onChange={(val) => setField('location', val)}
             />
             <LabeledField
               label="Timezone"
-              helper="Optional admin-facing reference such as Europe/Stockholm or Africa/Cairo."
               value={values.timezone}
-              onChange={(value) => setField('timezone', value)}
+              onChange={(val) => setField('timezone', val)}
             />
           </div>
         </section>
 
-        <div className="flex items-center justify-end gap-3">
+        <div className="flex items-center justify-end">
           <button
             type="submit"
             disabled={isPending}
-            className="rounded-xl bg-[var(--accent-primary)] px-5 py-2.5 text-sm font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+            className="rounded-xl bg-[var(--accent-primary)] px-6 py-2.5 text-sm font-semibold text-black shadow transition-opacity hover:opacity-90 disabled:opacity-50"
           >
-            {isPending ? 'Saving…' : 'Save profile settings'}
+            {isPending ? 'Saving...' : 'Save Profile Settings'}
           </button>
         </div>
       </form>

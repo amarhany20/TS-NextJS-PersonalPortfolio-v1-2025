@@ -26,10 +26,12 @@ import {
 } from 'lucide-react';
 import { useEffect, useMemo, useState, type ReactNode, type ComponentType } from 'react';
 import type { SessionUser } from '@/server/security/session';
+import type { ProfileInfo } from '@/types/settings';
 import { ToastProvider } from '@/components/ui/ToastProvider';
 
 interface AdminLayoutShellProps {
   user: SessionUser;
+  profile?: ProfileInfo;
   children: ReactNode;
 }
 
@@ -70,7 +72,7 @@ function getInitials(displayName?: string) {
   return matches.slice(0, 2).join('');
 }
 
-export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
+export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellProps) {
   const pathname = usePathname();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -107,6 +109,8 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
     () => getInitials(user.displayName || user.username),
     [user.displayName, user.username],
   );
+
+  const avatarPhoto = profile?.photoUrl || '/2024 Ammar Personal Photo.jpg';
 
   const mainNavItems = useMemo(() => NAV_ITEMS.filter((i) => i.section === 'main'), []);
   const settingsNavItems = useMemo(() => NAV_ITEMS.filter((i) => i.section === 'settings'), []);
@@ -167,8 +171,16 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
           <div className="p-4 border-b border-[var(--border)]/60 flex items-center justify-between gap-3 shrink-0 h-16">
             {!isCollapsed && (
               <div className="flex items-center gap-3 min-w-0">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow">
-                  {initials}
+                <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow border border-[var(--border)]">
+                  {avatarPhoto ? (
+                    <img
+                      src={avatarPhoto}
+                      alt={user.displayName || user.username}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    initials
+                  )}
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-foreground truncate leading-tight">
@@ -182,8 +194,16 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
             )}
 
             {isCollapsed && (
-              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shadow">
-                {initials}
+              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shadow border border-[var(--border)]">
+                {avatarPhoto ? (
+                  <img
+                    src={avatarPhoto}
+                    alt={user.displayName || user.username}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  initials
+                )}
               </div>
             )}
 
@@ -233,8 +253,16 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
             <span className="text-sm font-bold tracking-tight">Admin Console</span>
           </div>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shadow">
-            {initials}
+          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shadow border border-[var(--border)]">
+            {avatarPhoto ? (
+              <img
+                src={avatarPhoto}
+                alt={user.displayName || user.username}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              initials
+            )}
           </div>
         </header>
 
@@ -255,8 +283,16 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
         >
           <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow">
-                {initials}
+              <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow border border-[var(--border)]">
+                {avatarPhoto ? (
+                  <img
+                    src={avatarPhoto}
+                    alt={user.displayName || user.username}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  initials
+                )}
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold truncate">{user.displayName || user.username}</p>

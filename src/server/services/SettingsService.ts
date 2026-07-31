@@ -25,6 +25,7 @@ export interface SiteProfileSettings {
   secondaryEmail: string;
   location: string;
   timezone: string;
+  photoUrl: string;
 }
 
 export type SiteVisibilitySettings = SiteVisibility;
@@ -32,6 +33,14 @@ export type SiteVisibilitySettings = SiteVisibility;
 function toSiteProfileSettings(
   settings: NonNullable<Awaited<ReturnType<typeof SettingsRepository.get>>>,
 ) {
+  const seoDefaults = settings.seoDefaults ?? {};
+  const rawPhoto =
+    typeof seoDefaults.photoUrl === 'string'
+      ? seoDefaults.photoUrl
+      : typeof seoDefaults.openGraphImage === 'string'
+        ? seoDefaults.openGraphImage
+        : '/2024 Ammar Personal Photo.jpg';
+
   return {
     siteTitle: settings.siteTitle,
     siteSubtitle: settings.siteSubtitle ?? '',
@@ -42,6 +51,7 @@ function toSiteProfileSettings(
     secondaryEmail: settings.secondaryEmail ?? '',
     location: settings.location ?? '',
     timezone: settings.timezone ?? '',
+    photoUrl: rawPhoto,
   } satisfies SiteProfileSettings;
 }
 

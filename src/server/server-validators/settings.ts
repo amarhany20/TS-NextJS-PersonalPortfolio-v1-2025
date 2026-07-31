@@ -27,6 +27,7 @@ export const updateSiteProfileSchema = z.object({
   secondaryEmail: nullableEmail,
   location: nullableTrimmedString(160),
   timezone: nullableTrimmedString(80),
+  photoUrl: nullableTrimmedString(500),
 });
 
 export type UpdateSiteProfileInput = z.output<typeof updateSiteProfileSchema>;

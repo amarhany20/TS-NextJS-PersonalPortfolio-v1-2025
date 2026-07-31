@@ -44,6 +44,7 @@ interface SeoDefaultsShape {
   siteUrl?: unknown;
   metadataBase?: unknown;
   openGraphImage?: unknown;
+  photoUrl?: unknown;
   twitterHandle?: unknown;
   visibility?: unknown;
 }
@@ -223,10 +224,18 @@ export function serializeSettings(record: DbSettings): SiteContent {
     socialLinks: toLinkArray(record.socialLinks),
   };
 
+  const rawPhotoUrl =
+    typeof seoDefaults?.photoUrl === 'string'
+      ? seoDefaults.photoUrl
+      : typeof seoDefaults?.openGraphImage === 'string'
+        ? seoDefaults.openGraphImage
+        : '/2024 Ammar Personal Photo.jpg';
+
   const profile: ProfileInfo = {
     fullName: record.siteTitle,
     title: record.siteSubtitle ?? undefined,
     location: record.location ?? undefined,
+    photoUrl: toPublicPath(rawPhotoUrl) ?? '/2024 Ammar Personal Photo.jpg',
   };
 
   const coreSkills = toStringArray(seoDefaults?.coreSkills);

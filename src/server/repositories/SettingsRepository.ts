@@ -136,6 +136,10 @@ export const SettingsRepository = {
 
   async updateSiteProfile(input: UpdateSiteProfileInput): Promise<DbSettings> {
     try {
+      const current = await prisma.settings.findUnique({ where: { id: SETTINGS_ID } });
+      const currentSeoDefaults =
+        parseJson<Record<string, unknown> | null>(current?.seoDefaults, null) ?? {};
+
       const record = await prisma.settings.update({
         where: { id: SETTINGS_ID },
         data: {
@@ -148,6 +152,11 @@ export const SettingsRepository = {
           secondaryEmail: input.secondaryEmail,
           location: input.location,
           timezone: input.timezone,
+          seoDefaults: JSON.stringify({
+            ...currentSeoDefaults,
+            photoUrl: input.photoUrl,
+            openGraphImage: input.photoUrl,
+          }),
         },
       });
 
