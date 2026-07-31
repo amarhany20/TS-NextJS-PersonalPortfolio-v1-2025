@@ -1,14 +1,6 @@
 'use client';
-import {
-  Mail,
-  MessageCircle,
-  MapPin,
-  Smartphone,
-  Link as LinkIcon,
-  Github,
-  Linkedin,
-  Youtube,
-} from 'lucide-react';
+import { Mail, MessageCircle, MapPin, Smartphone, Link as LinkIcon } from 'lucide-react';
+import { Github, Linkedin, Youtube } from '@/components/UI/BrandIcons';
 import type { ComponentType, SVGProps } from 'react';
 import type { ContactDetails, LinkItem } from '@/types/settings';
 

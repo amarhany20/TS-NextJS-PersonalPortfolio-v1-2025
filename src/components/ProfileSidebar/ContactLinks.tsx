@@ -1,6 +1,7 @@
 'use client';
 
-import { Mail, Linkedin, MessageCircle, Github, Youtube } from 'lucide-react';
+import { Mail, MessageCircle } from 'lucide-react';
+import { Github, Linkedin, Youtube } from '@/components/UI/BrandIcons';
 import { useState } from 'react';
 
 type SocialMeta = Record<string, unknown>;
