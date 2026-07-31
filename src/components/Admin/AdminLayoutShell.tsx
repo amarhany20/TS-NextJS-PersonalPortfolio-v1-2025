@@ -17,6 +17,7 @@ import {
   Palette,
   Eye,
   UserRound,
+  Database,
   Menu,
   X,
 } from 'lucide-react';
@@ -50,6 +51,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/admin/settings/profile', label: 'Site Profile', icon: UserRound },
   { href: '/admin/settings/visibility', label: 'Visibility', icon: Eye },
   { href: '/admin/settings/theme', label: 'Theme', icon: Palette },
+  { href: '/admin/settings/backup', label: 'Backup & Restore', icon: Database },
 ];
 
 function getInitials(displayName?: string) {
