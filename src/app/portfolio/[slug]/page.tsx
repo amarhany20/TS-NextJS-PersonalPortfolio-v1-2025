@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
@@ -9,6 +10,10 @@ import { ProjectBadges } from '@/components/Portfolio/ProjectBadges';
 import { ProjectMetaGrid } from '@/components/Portfolio/ProjectMetaGrid';
 import { ProjectGallery } from '@/components/Portfolio/ProjectGallery';
 
+interface ProjectPageProps {
+  params: Promise<{ slug: string }>;
+}
+
 function Section({ title, body }: { title: string; body: string }) {
   return (
     <div className="space-y-2">
@@ -18,6 +23,47 @@ function Section({ title, body }: { title: string; body: string }) {
       </p>
     </div>
   );
+}
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  try {
+    const { slug } = await params;
+    const project = await PortfolioService.getProjectBySlug(slug);
+
+    if (!project || !project.published) {
+      return { title: 'Project Not Found' };
+    }
+
+    const settings = await SettingsService.getSiteContent();
+    const siteUrl = settings.seo?.siteUrl || '';
+    const projectUrl = siteUrl ? `${siteUrl.replace(/\/$/, '')}/portfolio/${project.slug}` : '';
+    const siteTitle = settings.seo?.title || settings.profile?.fullName || 'Portfolio';
+    const title = `${project.title} | ${siteTitle}`;
+    const description = project.intro || project.summary || `${project.title} case study`;
+    const heroImage = project.gallery?.[0]?.image;
+
+    return {
+      title,
+      description,
+      keywords: project.stack || [],
+      alternates: projectUrl ? { canonical: projectUrl } : undefined,
+      openGraph: {
+        type: 'article',
+        title: project.title,
+        description,
+        url: projectUrl || undefined,
+        images: heroImage ? [{ url: heroImage }] : undefined,
+      },
+      twitter: {
+        card: heroImage ? 'summary_large_image' : 'summary',
+        title: project.title,
+        description,
+        images: heroImage ? [heroImage] : undefined,
+      },
+    };
+  } catch {
+    return { title: 'Portfolio Project' };
+  }
 }
 
 export async function generateStaticParams() {
@@ -31,7 +77,7 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProjectPage({ params }: ProjectPageProps) {
   const settings = await SettingsService.getSiteContent();
 
   if (!settings.visibility.pages.portfolio) {
