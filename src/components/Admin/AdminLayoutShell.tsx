@@ -20,6 +20,9 @@ import {
   Database,
   Menu,
   X,
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
 } from 'lucide-react';
 import { useEffect, useMemo, useState, type ReactNode, type ComponentType } from 'react';
 import type { SessionUser } from '@/server/security/session';
@@ -34,50 +37,69 @@ interface NavItem {
   href: string;
   label: string;
   icon: ComponentType<{ size?: number; className?: string }>;
+  section?: 'main' | 'settings';
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/portfolio', label: 'Portfolio', icon: FolderKanban },
-  { href: '/admin/experience', label: 'Experience', icon: BriefcaseBusiness },
-  { href: '/admin/education', label: 'Education', icon: GraduationCap },
-  { href: '/admin/services', label: 'Services', icon: Blocks },
-  { href: '/admin/blogs', label: 'Blog', icon: BookOpenCheck },
-  { href: '/admin/media', label: 'Media', icon: Images },
-  { href: '/admin/contact', label: 'Contact', icon: Inbox },
-  { href: '/admin/certificates', label: 'Certificates', icon: Award },
-  { href: '/admin/recommendations', label: 'Testimonials', icon: Quote },
-  { href: '/admin/skills', label: 'Skills', icon: Wrench },
-  { href: '/admin/settings/profile', label: 'Site Profile', icon: UserRound },
-  { href: '/admin/settings/visibility', label: 'Visibility', icon: Eye },
-  { href: '/admin/settings/theme', label: 'Theme', icon: Palette },
-  { href: '/admin/settings/backup', label: 'Backup & Restore', icon: Database },
+  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, section: 'main' },
+  { href: '/admin/portfolio', label: 'Portfolio', icon: FolderKanban, section: 'main' },
+  { href: '/admin/experience', label: 'Experience', icon: BriefcaseBusiness, section: 'main' },
+  { href: '/admin/education', label: 'Education', icon: GraduationCap, section: 'main' },
+  { href: '/admin/services', label: 'Services', icon: Blocks, section: 'main' },
+  { href: '/admin/blogs', label: 'Blog', icon: BookOpenCheck, section: 'main' },
+  { href: '/admin/media', label: 'Media', icon: Images, section: 'main' },
+  { href: '/admin/contact', label: 'Contact', icon: Inbox, section: 'main' },
+  { href: '/admin/certificates', label: 'Certificates', icon: Award, section: 'main' },
+  { href: '/admin/recommendations', label: 'Testimonials', icon: Quote, section: 'main' },
+  { href: '/admin/skills', label: 'Skills', icon: Wrench, section: 'main' },
+  { href: '/admin/settings/profile', label: 'Site Profile', icon: UserRound, section: 'settings' },
+  { href: '/admin/settings/visibility', label: 'Visibility', icon: Eye, section: 'settings' },
+  { href: '/admin/settings/theme', label: 'Theme', icon: Palette, section: 'settings' },
+  { href: '/admin/settings/backup', label: 'Backup & Restore', icon: Database, section: 'settings' },
 ];
 
 function getInitials(displayName?: string) {
-  if (!displayName) {
-    return '?';
-  }
-
+  if (!displayName) return '?';
   const matches = displayName
     .split(/\s+/)
     .filter(Boolean)
     .map((word) => word[0]?.toUpperCase())
     .filter(Boolean);
 
-  if (!matches.length) {
-    return displayName[0]?.toUpperCase() ?? '?';
-  }
-
+  if (!matches.length) return displayName[0]?.toUpperCase() ?? '?';
   return matches.slice(0, 2).join('');
 }
 
 export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
   const pathname = usePathname();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Load and persist sidebar collapsed preference
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('admin_sidebar_collapsed');
+      if (saved !== null) {
+        setIsCollapsed(saved === 'true');
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('admin_sidebar_collapsed', String(next));
+      } catch {
+        // Ignore localStorage errors
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
-    // Close mobile sidebar on route change
     setMobileSidebarOpen(false);
   }, [pathname]);
 
@@ -86,113 +108,196 @@ export function AdminLayoutShell({ user, children }: AdminLayoutShellProps) {
     [user.displayName, user.username],
   );
 
+  const mainNavItems = useMemo(() => NAV_ITEMS.filter((i) => i.section === 'main'), []);
+  const settingsNavItems = useMemo(() => NAV_ITEMS.filter((i) => i.section === 'settings'), []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/v1/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    } catch {
+      window.location.href = '/login';
+    }
+  };
+
+  const renderNavGroup = (items: NavItem[], title?: string) => (
+    <div className="space-y-1">
+      {title && !isCollapsed && (
+        <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)] opacity-70 mb-2">
+          {title}
+        </p>
+      )}
+      {items.map((item) => {
+        const Icon = item.icon;
+        const isActive =
+          pathname === item.href || (item.href !== '/admin/dashboard' && item.href !== '/admin' && pathname.startsWith(item.href));
+
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            title={isCollapsed ? item.label : undefined}
+            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 relative ${
+              isActive
+                ? 'bg-[var(--accent-primary)] text-black shadow-md font-semibold'
+                : 'text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10'
+            } ${isCollapsed ? 'justify-center px-2' : ''}`}
+          >
+            <Icon
+              size={18}
+              className={`shrink-0 ${isActive ? 'text-black' : 'text-[var(--text-secondary)]'}`}
+            />
+            {!isCollapsed && <span className="truncate">{item.label}</span>}
+          </Link>
+        );
+      })}
+    </div>
+  );
+
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-[var(--background)] text-foreground">
-        <div className="flex min-h-screen">
-          {/* Mobile header */}
-          <header className="lg:hidden fixed top-0 left-0 w-full bg-[var(--background)] border-b border-[var(--border)] px-4 py-3 flex items-center justify-between z-30">
-            <button
-              onClick={() => setMobileSidebarOpen(true)}
-              aria-label="Open sidebar"
-              className="p-2 rounded-md hover:bg-[var(--accent-muted)] transition-colors"
-            >
-              <Menu size={20} className="text-[var(--text-secondary)]" />
-            </button>
-            <span className="text-sm font-semibold truncate">Admin Console</span>
-            <div className="h-8 w-8 rounded-full bg-[var(--accent-muted)] flex items-center justify-center text-xs font-medium text-[var(--text-secondary)] flex-shrink-0">
-              {initials}
-            </div>
-          </header>
-          <aside
-            className={`fixed top-[56px] left-0 h-[calc(100vh-56px)] w-64 max-w-[85vw] sm:w-72 bg-[var(--card-bg)]/95 border-r border-[var(--border)] z-50 transform transition-transform duration-200 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:self-start lg:translate-x-0 lg:w-60 lg:max-w-none lg:shrink-0 ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} py-4 overflow-y-auto`}
-          >
-            <div className="lg:hidden flex items-center justify-between p-4 border-b border-[var(--border)]/60">
-              <span className="text-lg font-semibold">Admin Menu</span>
-              <button
-                onClick={() => setMobileSidebarOpen(false)}
-                className="p-2 rounded-md hover:bg-[var(--accent-muted)] transition-colors"
-              >
-                <X size={20} className="text-[var(--text-secondary)]" />
-              </button>
-            </div>
-            <div className="flex items-center gap-3 px-4 sm:px-6 border-b border-[var(--border)]/60 py-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-semibold flex-shrink-0">
+      <div className="min-h-screen bg-[var(--background)] text-foreground flex">
+        {/* Desktop Left Sidebar (Literal Left) */}
+        <aside
+          className={`hidden lg:flex flex-col fixed top-0 left-0 bottom-0 bg-[var(--card-bg)]/95 border-r border-[var(--border)] z-40 transition-all duration-300 ease-in-out ${
+            isCollapsed ? 'w-16' : 'w-64'
+          }`}
+        >
+          {/* Sidebar Header & User Card */}
+          <div className="p-4 border-b border-[var(--border)]/60 flex items-center justify-between gap-3 shrink-0 h-16">
+            {!isCollapsed && (
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow">
+                  {initials}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground truncate leading-tight">
+                    {user.displayName || user.username}
+                  </p>
+                  <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wide font-medium">
+                    Admin Panel
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {isCollapsed && (
+              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shadow">
                 {initials}
               </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold truncate">
-                  {user.displayName || user.username}
-                </p>
-                <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">
-                  Admin
-                </p>
+            )}
+
+            <button
+              onClick={toggleSidebar}
+              title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              className="p-1.5 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10 transition-colors shrink-0 hidden lg:flex"
+            >
+              {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6 scrollbar-thin">
+            {renderNavGroup(mainNavItems, 'Management')}
+            <div className="border-t border-[var(--border)]/40 pt-4">
+              {renderNavGroup(settingsNavItems, 'Settings')}
+            </div>
+          </nav>
+
+          {/* Sidebar Footer: Logout */}
+          <div className="p-3 border-t border-[var(--border)]/60 shrink-0">
+            <button
+              onClick={handleLogout}
+              title={isCollapsed ? 'Sign out' : undefined}
+              className={`w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors ${
+                isCollapsed ? 'justify-center px-2' : ''
+              }`}
+            >
+              <LogOut size={18} className="shrink-0" />
+              {!isCollapsed && <span>Sign Out</span>}
+            </button>
+          </div>
+        </aside>
+
+        {/* Mobile Header (< lg) */}
+        <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[var(--card-bg)] border-b border-[var(--border)] px-4 flex items-center justify-between z-30">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMobileSidebarOpen(true)}
+              aria-label="Open menu"
+              className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10 transition-colors"
+            >
+              <Menu size={22} />
+            </button>
+            <span className="text-sm font-bold tracking-tight">Admin Console</span>
+          </div>
+
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shadow">
+            {initials}
+          </div>
+        </header>
+
+        {/* Mobile Drawer Backdrop (< lg) */}
+        {mobileSidebarOpen && (
+          <div
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity"
+            onClick={() => setMobileSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Mobile Slide-Over Drawer (< lg) */}
+        <aside
+          className={`fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[var(--card-bg)] border-r border-[var(--border)] z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
+            mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow">
+                {initials}
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold truncate">{user.displayName || user.username}</p>
+                <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wide">Admin</p>
               </div>
             </div>
-
-            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
-              {NAV_ITEMS.map((item) => {
-                const Icon = item.icon;
-                const isActive =
-                  pathname === item.href ||
-                  (item.href !== '/admin' && pathname.startsWith(item.href));
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-                      isActive
-                        ? 'bg-[var(--accent-primary)]/90 text-black shadow'
-                        : 'text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)]'
-                    }`}
-                  >
-                    <Icon
-                      size={18}
-                      className={isActive ? 'text-black' : 'text-[var(--accent-secondary)]'}
-                    />
-                    <span className="font-medium">{item.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-          </aside>
-
-          <div className="flex-1 flex flex-col pt-[56px] lg:pt-0">
-            <div className="border-b border-[var(--border)] bg-[var(--background)]/95 px-3 py-2 flex gap-2 overflow-x-auto lg:hidden scrollbar-hide">
-              {NAV_ITEMS.map((item) => {
-                const isActive =
-                  pathname === item.href ||
-                  (item.href !== '/admin' && pathname.startsWith(item.href));
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-colors flex-shrink-0 ${
-                      isActive
-                        ? 'bg-[var(--accent-primary)] text-black'
-                        : 'border border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)] hover:text-foreground'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="flex-1 flex flex-col">
-              {mobileSidebarOpen && (
-                <div
-                  className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-                  onClick={() => setMobileSidebarOpen(false)}
-                  aria-hidden="true"
-                />
-              )}
-              <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 lg:py-8 pt-0 lg:pt-0">
-                <div className="mx-auto w-full max-w-7xl space-y-6">{children}</div>
-              </main>
-            </div>
+            <button
+              onClick={() => setMobileSidebarOpen(false)}
+              className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10"
+            >
+              <X size={20} />
+            </button>
           </div>
+
+          <nav className="flex-1 overflow-y-auto p-4 space-y-6">
+            {renderNavGroup(mainNavItems, 'Management')}
+            <div className="border-t border-[var(--border)]/40 pt-4">
+              {renderNavGroup(settingsNavItems, 'Settings')}
+            </div>
+          </nav>
+
+          <div className="p-4 border-t border-[var(--border)]/60">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
+            >
+              <LogOut size={18} />
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </aside>
+
+        {/* Main Content Body */}
+        <div
+          className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ease-in-out pt-14 lg:pt-0 ${
+            isCollapsed ? 'lg:pl-16' : 'lg:pl-64'
+          }`}
+        >
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+            {children}
+          </main>
         </div>
       </div>
     </ToastProvider>
