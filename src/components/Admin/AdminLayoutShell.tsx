@@ -35,29 +35,36 @@ interface AdminLayoutShellProps {
   children: ReactNode;
 }
 
-interface NavItem {
+export interface NavItem {
   href: string;
   label: string;
   icon: ComponentType<{ size?: number; className?: string }>;
-  section?: 'main' | 'settings';
+  category: 'overview' | 'content' | 'career' | 'system';
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, section: 'main' },
-  { href: '/admin/portfolio', label: 'Portfolio', icon: FolderKanban, section: 'main' },
-  { href: '/admin/experience', label: 'Experience', icon: BriefcaseBusiness, section: 'main' },
-  { href: '/admin/education', label: 'Education', icon: GraduationCap, section: 'main' },
-  { href: '/admin/services', label: 'Services', icon: Blocks, section: 'main' },
-  { href: '/admin/blogs', label: 'Blog', icon: BookOpenCheck, section: 'main' },
-  { href: '/admin/media', label: 'Media', icon: Images, section: 'main' },
-  { href: '/admin/contact', label: 'Contact', icon: Inbox, section: 'main' },
-  { href: '/admin/certificates', label: 'Certificates', icon: Award, section: 'main' },
-  { href: '/admin/recommendations', label: 'Testimonials', icon: Quote, section: 'main' },
-  { href: '/admin/skills', label: 'Skills', icon: Wrench, section: 'main' },
-  { href: '/admin/settings/profile', label: 'Site Profile', icon: UserRound, section: 'settings' },
-  { href: '/admin/settings/visibility', label: 'Visibility', icon: Eye, section: 'settings' },
-  { href: '/admin/settings/theme', label: 'Theme', icon: Palette, section: 'settings' },
-  { href: '/admin/settings/backup', label: 'Backup & Restore', icon: Database, section: 'settings' },
+  // Overview
+  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, category: 'overview' },
+
+  // Content Management
+  { href: '/admin/portfolio', label: 'Portfolio', icon: FolderKanban, category: 'content' },
+  { href: '/admin/blogs', label: 'Blog Posts', icon: BookOpenCheck, category: 'content' },
+  { href: '/admin/services', label: 'Services', icon: Blocks, category: 'content' },
+  { href: '/admin/media', label: 'Media Library', icon: Images, category: 'content' },
+
+  // Career & Experience
+  { href: '/admin/experience', label: 'Experience', icon: BriefcaseBusiness, category: 'career' },
+  { href: '/admin/education', label: 'Education', icon: GraduationCap, category: 'career' },
+  { href: '/admin/skills', label: 'Skills', icon: Wrench, category: 'career' },
+  { href: '/admin/certificates', label: 'Certificates', icon: Award, category: 'career' },
+  { href: '/admin/recommendations', label: 'Testimonials', icon: Quote, category: 'career' },
+  { href: '/admin/contact', label: 'Contact Submissions', icon: Inbox, category: 'career' },
+
+  // System & Settings
+  { href: '/admin/settings/profile', label: 'Site Profile', icon: UserRound, category: 'system' },
+  { href: '/admin/settings/visibility', label: 'Visibility', icon: Eye, category: 'system' },
+  { href: '/admin/settings/theme', label: 'Theme Gallery', icon: Palette, category: 'system' },
+  { href: '/admin/settings/backup', label: 'Backup & Restore', icon: Database, category: 'system' },
 ];
 
 function getInitials(displayName?: string) {
@@ -112,8 +119,10 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
 
   const avatarPhoto = profile?.photoUrl || '/2024 Ammar Personal Photo.jpg';
 
-  const mainNavItems = useMemo(() => NAV_ITEMS.filter((i) => i.section === 'main'), []);
-  const settingsNavItems = useMemo(() => NAV_ITEMS.filter((i) => i.section === 'settings'), []);
+  const overviewItems = useMemo(() => NAV_ITEMS.filter((i) => i.category === 'overview'), []);
+  const contentItems = useMemo(() => NAV_ITEMS.filter((i) => i.category === 'content'), []);
+  const careerItems = useMemo(() => NAV_ITEMS.filter((i) => i.category === 'career'), []);
+  const systemItems = useMemo(() => NAV_ITEMS.filter((i) => i.category === 'system'), []);
 
   const handleLogout = async () => {
     try {
@@ -127,29 +136,32 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
   const renderNavGroup = (items: NavItem[], title?: string) => (
     <div className="space-y-1">
       {title && !isCollapsed && (
-        <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)] opacity-70 mb-2">
+        <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
           {title}
         </p>
       )}
       {items.map((item) => {
         const Icon = item.icon;
         const isActive =
-          pathname === item.href || (item.href !== '/admin/dashboard' && item.href !== '/admin' && pathname.startsWith(item.href));
+          pathname === item.href ||
+          (item.href !== '/admin/dashboard' && item.href !== '/admin' && pathname.startsWith(item.href));
 
         return (
           <Link
             key={item.href}
             href={item.href}
             title={isCollapsed ? item.label : undefined}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 relative ${
+            className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 relative ${
               isActive
-                ? 'bg-[var(--accent-primary)] text-black shadow-md font-semibold'
-                : 'text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10'
+                ? 'bg-[var(--accent-primary)] text-slate-950 shadow-sm font-bold'
+                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
             } ${isCollapsed ? 'justify-center px-2' : ''}`}
           >
             <Icon
               size={18}
-              className={`shrink-0 ${isActive ? 'text-black' : 'text-[var(--text-secondary)]'}`}
+              className={`shrink-0 transition-colors ${
+                isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-slate-200'
+              }`}
             />
             {!isCollapsed && <span className="truncate">{item.label}</span>}
           </Link>
@@ -163,15 +175,15 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
       <div className="min-h-screen bg-[var(--background)] text-foreground flex">
         {/* Desktop Left Sidebar (Literal Left) */}
         <aside
-          className={`hidden lg:flex flex-col fixed top-0 left-0 bottom-0 bg-[var(--card-bg)]/95 border-r border-[var(--border)] z-40 transition-all duration-300 ease-in-out ${
+          className={`hidden lg:flex flex-col fixed top-0 left-0 bottom-0 bg-slate-900 border-r border-slate-800/80 z-40 transition-all duration-300 ease-in-out ${
             isCollapsed ? 'w-16' : 'w-64'
           }`}
         >
           {/* Sidebar Header & User Card */}
-          <div className="p-4 border-b border-[var(--border)]/60 flex items-center justify-between gap-3 shrink-0 h-16">
+          <div className="p-4 border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0 h-16 bg-slate-900/50">
             {!isCollapsed && (
               <div className="flex items-center gap-3 min-w-0">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow border border-[var(--border)]">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shrink-0 shadow border border-slate-700">
                   {avatarPhoto ? (
                     <img
                       src={avatarPhoto}
@@ -183,10 +195,10 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
                   )}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-foreground truncate leading-tight">
+                  <p className="text-sm font-semibold text-slate-200 truncate leading-tight">
                     {user.displayName || user.username}
                   </p>
-                  <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wide font-medium">
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">
                     Admin Panel
                   </p>
                 </div>
@@ -194,7 +206,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             )}
 
             {isCollapsed && (
-              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shadow border border-[var(--border)]">
+              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shadow border border-slate-700">
                 {avatarPhoto ? (
                   <img
                     src={avatarPhoto}
@@ -211,22 +223,22 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
               onClick={toggleSidebar}
               title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              className="p-1.5 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10 transition-colors shrink-0 hidden lg:flex"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors shrink-0 hidden lg:flex"
             >
               {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6 scrollbar-thin">
-            {renderNavGroup(mainNavItems, 'Management')}
-            <div className="border-t border-[var(--border)]/40 pt-4">
-              {renderNavGroup(settingsNavItems, 'Settings')}
-            </div>
+          <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5 scrollbar-thin">
+            {renderNavGroup(overviewItems, 'Overview')}
+            {renderNavGroup(contentItems, 'Content & Media')}
+            {renderNavGroup(careerItems, 'Career & Inbox')}
+            {renderNavGroup(systemItems, 'System Settings')}
           </nav>
 
           {/* Sidebar Footer: Logout */}
-          <div className="p-3 border-t border-[var(--border)]/60 shrink-0">
+          <div className="p-3 border-t border-slate-800/80 shrink-0 bg-slate-900/50">
             <button
               onClick={handleLogout}
               title={isCollapsed ? 'Sign out' : undefined}
@@ -241,19 +253,19 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
         </aside>
 
         {/* Mobile Header (< lg) */}
-        <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[var(--card-bg)] border-b border-[var(--border)] px-4 flex items-center justify-between z-30">
+        <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-800 px-4 flex items-center justify-between z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileSidebarOpen(true)}
               aria-label="Open menu"
-              className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10 transition-colors"
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
             >
               <Menu size={22} />
             </button>
-            <span className="text-sm font-bold tracking-tight">Admin Console</span>
+            <span className="text-sm font-bold tracking-tight text-slate-200">Admin Console</span>
           </div>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shadow border border-[var(--border)]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shadow border border-slate-700">
             {avatarPhoto ? (
               <img
                 src={avatarPhoto}
@@ -269,7 +281,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
         {/* Mobile Drawer Backdrop (< lg) */}
         {mobileSidebarOpen && (
           <div
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity"
+            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity"
             onClick={() => setMobileSidebarOpen(false)}
             aria-hidden="true"
           />
@@ -277,13 +289,13 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
 
         {/* Mobile Slide-Over Drawer (< lg) */}
         <aside
-          className={`fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[var(--card-bg)] border-r border-[var(--border)] z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
+          className={`fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-slate-900 border-r border-slate-800 z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
             mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
-          <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
+          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow border border-[var(--border)]">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shrink-0 shadow border border-slate-700">
                 {avatarPhoto ? (
                   <img
                     src={avatarPhoto}
@@ -295,26 +307,26 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
                 )}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold truncate">{user.displayName || user.username}</p>
-                <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wide">Admin</p>
+                <p className="text-sm font-semibold truncate text-slate-200">{user.displayName || user.username}</p>
+                <p className="text-[10px] text-slate-400 uppercase tracking-wider">Admin</p>
               </div>
             </div>
             <button
               onClick={() => setMobileSidebarOpen(false)}
-              className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-white/10"
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800"
             >
               <X size={20} />
             </button>
           </div>
 
-          <nav className="flex-1 overflow-y-auto p-4 space-y-6">
-            {renderNavGroup(mainNavItems, 'Management')}
-            <div className="border-t border-[var(--border)]/40 pt-4">
-              {renderNavGroup(settingsNavItems, 'Settings')}
-            </div>
+          <nav className="flex-1 overflow-y-auto p-4 space-y-5">
+            {renderNavGroup(overviewItems, 'Overview')}
+            {renderNavGroup(contentItems, 'Content & Media')}
+            {renderNavGroup(careerItems, 'Career & Inbox')}
+            {renderNavGroup(systemItems, 'System Settings')}
           </nav>
 
-          <div className="p-4 border-t border-[var(--border)]/60">
+          <div className="p-4 border-t border-slate-800">
             <button
               onClick={handleLogout}
               className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
