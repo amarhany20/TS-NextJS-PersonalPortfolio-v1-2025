@@ -7,6 +7,7 @@ import type {
   UpdateProjectInput,
 } from '@/server/server-validators/api/portfolio';
 import { slugify } from '@/utils/helpers';
+import { logger } from '@/utils/logger';
 
 export const PortfolioService = {
   async getPublishedProjects() {
@@ -65,12 +66,14 @@ export const PortfolioService = {
       publishedAt,
     });
 
+    logger.info(`Created portfolio project "${record.title}" (slug: ${record.slug})`);
     return serializeProject(record);
   },
 
   async updateProject(slug: string, input: UpdateProjectInput) {
     const existing = await PortfolioRepository.findBySlug(slug);
     if (!existing) {
+      logger.warn(`Failed to update portfolio project: slug "${slug}" not found`);
       throw new NotFoundError('Project not found');
     }
 
@@ -116,14 +119,17 @@ export const PortfolioService = {
       throw new NotFoundError('Project not found');
     }
 
+    logger.info(`Updated portfolio project "${record.title}" (slug: ${record.slug})`);
     return serializeProject(record);
   },
 
   async deleteProject(slug: string) {
     const deleted = await PortfolioRepository.delete(slug);
     if (!deleted) {
+      logger.warn(`Failed to delete portfolio project: slug "${slug}" not found`);
       throw new NotFoundError('Project not found');
     }
+    logger.info(`Deleted portfolio project with slug "${slug}"`);
   },
 
   async reorderProjects(slugs: string[]) {
@@ -148,6 +154,7 @@ export const PortfolioService = {
     const updates = finalOrder.map((slug, index) => ({ slug, displayOrder: index + 1 }));
 
     await PortfolioRepository.reorderDisplayOrder(updates);
+    logger.info(`Reordered ${updates.length} portfolio projects`);
     return updates;
   },
 };

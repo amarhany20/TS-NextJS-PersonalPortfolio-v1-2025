@@ -11,6 +11,7 @@
  */
 
 import { NextResponse } from 'next/server';
+import { logger } from '@/utils/logger';
 import { errorToResponse, toAppError } from './errors';
 
 /**
@@ -64,6 +65,12 @@ export function errorResponse(error: unknown): NextResponse {
   const appError = toAppError(error);
   const response = errorToResponse(appError);
 
+  if (appError.statusCode >= 500) {
+    logger.error(`[API 500] Internal server error: ${appError.message}`, error);
+  } else {
+    logger.warn(`[API ${appError.statusCode}] ${appError.code}: ${appError.message}`);
+  }
+
   return jsonResponse(response, appError.statusCode);
 }
 
@@ -71,6 +78,7 @@ export function errorResponse(error: unknown): NextResponse {
  * Create a 404 response
  */
 export function notFoundResponse(message: string = 'Resource not found'): NextResponse {
+  logger.warn(`[API 404] Not Found: ${message}`);
   return jsonResponse(
     {
       success: false,
@@ -87,6 +95,7 @@ export function notFoundResponse(message: string = 'Resource not found'): NextRe
  * Create a 401 response
  */
 export function unauthorizedResponse(message: string = 'Unauthorized'): NextResponse {
+  logger.warn(`[API 401] Unauthorized access attempt: ${message}`);
   return jsonResponse(
     {
       success: false,
@@ -103,6 +112,7 @@ export function unauthorizedResponse(message: string = 'Unauthorized'): NextResp
  * Create a 400 validation error response
  */
 export function validationErrorResponse(message: string, details?: unknown): NextResponse {
+  logger.warn(`[API 400] Validation Error: ${message}`, { details });
   return jsonResponse(
     {
       success: false,
