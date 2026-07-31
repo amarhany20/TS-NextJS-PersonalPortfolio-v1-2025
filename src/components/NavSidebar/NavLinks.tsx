@@ -90,7 +90,7 @@ export default function NavLinks({ visibility }: NavLinksProps) {
             key={link.href}
             className={`
               flex flex-col items-center justify-center gap-1 py-2 px-2 rounded-lg group transition-all duration-300 relative
-              ${isActive ? 'bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black shadow-lg' : 'hover:bg-[var(--accent-muted)] text-[var(--text-secondary)] hover:transform hover:scale-105'}
+              ${isActive ? 'bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-[var(--accent-contrast,#ffffff)] shadow-lg font-bold' : 'hover:bg-[var(--accent-muted)] text-[var(--text-secondary)] hover:transform hover:scale-105'}
             `}
             aria-label={link.label}
           >
@@ -98,13 +98,13 @@ export default function NavLinks({ visibility }: NavLinksProps) {
               size={18}
               className={`
                 transition-all duration-300
-                ${isActive ? 'text-black' : 'text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] group-hover:scale-110'}
+                ${isActive ? 'text-[var(--accent-contrast,#ffffff)]' : 'text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] group-hover:scale-110'}
               `}
             />
             <span
               className={`
               text-[10px] font-medium transition-all duration-300 text-center leading-tight
-              ${isActive ? 'text-black' : 'text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)]'}
+              ${isActive ? 'text-[var(--accent-contrast,#ffffff)] font-bold' : 'text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)]'}
             `}
             >
               {link.label}

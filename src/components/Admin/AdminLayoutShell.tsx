@@ -155,14 +155,14 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             title={isCollapsed ? item.label : undefined}
             className={`group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-150 relative ${
               isActive
-                ? 'bg-[var(--accent-primary)] text-black shadow-sm font-bold'
+                ? 'bg-[var(--accent-primary)] text-[var(--accent-contrast,#000000)] shadow-sm font-bold'
                 : 'text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)]'
             } ${isCollapsed ? 'justify-center px-2' : ''}`}
           >
             <Icon
               size={18}
               className={`shrink-0 transition-colors ${
-                isActive ? 'text-black' : 'text-[var(--text-secondary)] group-hover:text-foreground'
+                isActive ? 'text-[var(--accent-contrast,#000000)]' : 'text-[var(--text-secondary)] group-hover:text-foreground'
               }`}
             />
             {!isCollapsed && <span className="truncate">{item.label}</span>}

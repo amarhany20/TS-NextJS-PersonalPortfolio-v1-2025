@@ -47,7 +47,7 @@ export default function SummarySection({ hero }: SummarySectionProps) {
         {hero.primaryButton ? (
           <a
             href={hero.primaryButton.href || '#contact'}
-            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-primary)] text-black hover:bg-yellow-300 shadow-md transition"
+            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-primary)] text-[var(--accent-contrast,#ffffff)] hover:opacity-90 shadow-md transition"
             onClick={(event) => {
               const href = hero.primaryButton?.href || '';
               if (href.startsWith('#')) {
