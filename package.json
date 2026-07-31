@@ -8,7 +8,7 @@
     "dev:webpack": "next dev",
     "clean": "powershell -NoProfile -Command \"if (Test-Path .next) { Remove-Item .next -Recurse -Force }; if (Test-Path .next-playwright) { Remove-Item .next-playwright -Recurse -Force }; if (Test-Path node_modules/.cache) { Remove-Item node_modules/.cache -Recurse -Force }\"",
     "rebuild": "npm run clean && npm run build",
-    "build": "next build",
+    "build": "prisma generate && prisma migrate deploy && next build",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
