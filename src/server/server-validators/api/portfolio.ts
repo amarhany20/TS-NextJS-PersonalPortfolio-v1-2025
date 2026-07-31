@@ -53,6 +53,7 @@ const baseProjectSchema = z.object({
   features: z.array(z.string().min(1)).optional(),
   sections: z.array(sectionSchema).optional(),
   gallery: z.array(galleryItemSchema).optional(),
+  contentMdx: z.string().optional(),
   confidentialNotes: z.string().optional(),
   displayOrder: z.number().int().min(0).optional(),
   published: z.boolean().optional(),

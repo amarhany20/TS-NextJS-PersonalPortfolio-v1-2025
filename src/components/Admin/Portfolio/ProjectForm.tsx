@@ -65,6 +65,7 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
     end: project?.end ?? '',
     stackInput: (project?.stack ?? []).join('\n'),
     featuresInput: (project?.features ?? []).join('\n'),
+    contentMdx: project?.contentMdx ?? '',
     confidentialNotes: project?.confidentialNotes ?? '',
     visibility: project?.visibility ?? 'public',
     access: project?.access ?? 'open-source',
@@ -102,8 +103,8 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
   const handleInputChange =
     (field: keyof typeof formState, formatter?: (value: string) => string) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-      const value = formatter ? formatter(event.target.value) : event.target.value;
-      setFormState((prev) => ({ ...prev, [field]: value }));
+      const { value } = event.target;
+      setFormState((prev) => ({ ...prev, [field]: formatter ? formatter(value) : value }));
     };
 
   const buildPayload = () => {
@@ -130,6 +131,7 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
       end: formState.end || undefined,
       stack,
       features,
+      contentMdx: formState.contentMdx.trim() || undefined,
       confidentialNotes: formState.confidentialNotes.trim() || undefined,
       displayOrder: formState.displayOrder ? Number(formState.displayOrder) : undefined,
       published: formState.published,
@@ -410,6 +412,18 @@ export function ProjectForm({ mode, project }: ProjectFormProps) {
             error={fieldErrors.confidentialNotes}
           />
         </div>
+      </section>
+
+      <section className="space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/30 p-4 sm:p-5">
+        <h2 className="text-lg font-semibold">Rich MDX Case Study Content</h2>
+        <TextareaField
+          label="MDX / Markdown Body"
+          rows={12}
+          value={formState.contentMdx}
+          onChange={handleInputChange('contentMdx')}
+          helper="Optional. Supports Markdown, syntax highlighted code blocks (```js ... ```), callouts (> [!NOTE]), and custom headers."
+          error={fieldErrors.contentMdx}
+        />
       </section>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">

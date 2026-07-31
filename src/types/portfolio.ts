@@ -49,6 +49,7 @@ export interface Project {
   features?: string[]; // Optional highlight bullets
   sections?: ProjectSection[]; // Optional deep-dive sections
   gallery?: ProjectGalleryItem[]; // Optional visuals
+  contentMdx?: string; // Optional rich MDX content
   confidentialNotes?: string; // Only shown internally if needed
   displayOrder?: number;
   published?: boolean;

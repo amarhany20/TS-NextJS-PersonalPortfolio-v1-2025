@@ -32,6 +32,7 @@ export interface DbPortfolioProject {
   features: string[];
   sections: unknown[];
   gallery: unknown[];
+  contentMdx?: string | null;
   confidentialNotes?: string | null;
   displayOrder: number;
   published: boolean;
@@ -62,6 +63,7 @@ export interface PortfolioCreateData {
   features?: string[];
   sections?: unknown[];
   gallery?: unknown[];
+  contentMdx?: string | null;
   confidentialNotes?: string | null;
   displayOrder: number;
   published: boolean;
@@ -100,6 +102,7 @@ function mapProject(
     features: parseJson<string[]>(record.features, []),
     sections: parseJson<unknown[]>(record.sections, []),
     gallery: parseJson<unknown[]>(record.gallery, []),
+    contentMdx: record.contentMdx,
     confidentialNotes: record.confidentialNotes,
     displayOrder: record.displayOrder,
     published: record.published,
@@ -233,6 +236,7 @@ function toCreateData(data: PortfolioCreateData) {
     features: data.features ? JSON.stringify(data.features) : null,
     sections: data.sections ? JSON.stringify(data.sections) : null,
     gallery: data.gallery ? JSON.stringify(data.gallery) : null,
+    contentMdx: data.contentMdx ?? null,
     confidentialNotes: data.confidentialNotes ?? null,
     displayOrder: data.displayOrder,
     published: data.published,
@@ -267,6 +271,7 @@ function toUpdateData(data: PortfolioUpdateData) {
     update.sections = data.sections ? JSON.stringify(data.sections) : null;
   if (data.gallery !== undefined)
     update.gallery = data.gallery ? JSON.stringify(data.gallery) : null;
+  if (data.contentMdx !== undefined) update.contentMdx = data.contentMdx ?? null;
   if (data.confidentialNotes !== undefined)
     update.confidentialNotes = data.confidentialNotes ?? null;
   if (data.displayOrder !== undefined) update.displayOrder = data.displayOrder;

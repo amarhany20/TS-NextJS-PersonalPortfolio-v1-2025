@@ -67,6 +67,7 @@ export function serializeProject(record: DbPortfolioProject): Project {
     features: Array.isArray(record.features) ? record.features : undefined,
     sections: Array.isArray(record.sections) ? normalizeSections(record.sections) : undefined,
     gallery: Array.isArray(record.gallery) ? normalizeGallery(record.gallery) : undefined,
+    contentMdx: record.contentMdx ?? undefined,
     confidentialNotes: record.confidentialNotes ?? undefined,
     displayOrder: record.displayOrder,
     published: record.published,

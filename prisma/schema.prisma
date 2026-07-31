@@ -85,6 +85,7 @@ model Portfolio {
   features          String?
   sections          String?
   gallery           String?
+  contentMdx        String?            @db.Text
   confidentialNotes String?
   displayOrder      Int                @default(0)
   published         Boolean            @default(true)
