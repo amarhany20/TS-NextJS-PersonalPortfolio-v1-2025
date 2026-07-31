@@ -23,6 +23,8 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Globe,
+  ExternalLink,
 } from 'lucide-react';
 import { useEffect, useMemo, useState, type ReactNode, type ComponentType } from 'react';
 import type { SessionUser } from '@/server/security/session';
@@ -136,7 +138,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
   const renderNavGroup = (items: NavItem[], title?: string) => (
     <div className="space-y-1">
       {title && !isCollapsed && (
-        <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+        <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-[var(--text-secondary)] opacity-70 mb-1.5">
           {title}
         </p>
       )}
@@ -151,16 +153,16 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             key={item.href}
             href={item.href}
             title={isCollapsed ? item.label : undefined}
-            className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 relative ${
+            className={`group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-150 relative ${
               isActive
-                ? 'bg-[var(--accent-primary)] text-slate-950 shadow-sm font-bold'
-                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+                ? 'bg-[var(--accent-primary)] text-black shadow-sm font-bold'
+                : 'text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)]'
             } ${isCollapsed ? 'justify-center px-2' : ''}`}
           >
             <Icon
               size={18}
               className={`shrink-0 transition-colors ${
-                isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-slate-200'
+                isActive ? 'text-black' : 'text-[var(--text-secondary)] group-hover:text-foreground'
               }`}
             />
             {!isCollapsed && <span className="truncate">{item.label}</span>}
@@ -173,17 +175,17 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
   return (
     <ToastProvider>
       <div className="min-h-screen bg-[var(--background)] text-foreground flex">
-        {/* Desktop Left Sidebar (Literal Left) */}
+        {/* Desktop Left Sidebar (Literal Left - Theme Synced) */}
         <aside
-          className={`hidden lg:flex flex-col fixed top-0 left-0 bottom-0 bg-slate-900 border-r border-slate-800/80 z-40 transition-all duration-300 ease-in-out ${
+          className={`hidden lg:flex flex-col fixed top-0 left-0 bottom-0 bg-[var(--card-bg)] border-r border-[var(--border)] z-40 transition-all duration-300 ease-in-out ${
             isCollapsed ? 'w-16' : 'w-64'
           }`}
         >
           {/* Sidebar Header & User Card */}
-          <div className="p-4 border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0 h-16 bg-slate-900/50">
+          <div className="p-4 border-b border-[var(--border)]/60 flex items-center justify-between gap-2 shrink-0 h-16 bg-[var(--card-bg)]">
             {!isCollapsed && (
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shrink-0 shadow border border-slate-700">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow border border-[var(--border)]">
                   {avatarPhoto ? (
                     <img
                       src={avatarPhoto}
@@ -194,19 +196,19 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
                     initials
                   )}
                 </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-slate-200 truncate leading-tight">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-foreground truncate leading-tight">
                     {user.displayName || user.username}
                   </p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">
-                    Admin Panel
+                  <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider font-medium">
+                    Admin Console
                   </p>
                 </div>
               </div>
             )}
 
             {isCollapsed && (
-              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shadow border border-slate-700">
+              <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shadow border border-[var(--border)]">
                 {avatarPhoto ? (
                   <img
                     src={avatarPhoto}
@@ -223,7 +225,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
               onClick={toggleSidebar}
               title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors shrink-0 hidden lg:flex"
+              className="p-1.5 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)] transition-colors shrink-0 hidden lg:flex"
             >
               {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
@@ -237,12 +239,30 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             {renderNavGroup(systemItems, 'System Settings')}
           </nav>
 
-          {/* Sidebar Footer: Logout */}
-          <div className="p-3 border-t border-slate-800/80 shrink-0 bg-slate-900/50">
+          {/* Sidebar Footer: View Live Site & Logout */}
+          <div className="p-3 border-t border-[var(--border)]/60 shrink-0 space-y-1 bg-[var(--card-bg)]">
+            <Link
+              href="/home"
+              target="_blank"
+              rel="noopener noreferrer"
+              title={isCollapsed ? 'View Live Site' : undefined}
+              className={`w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-[var(--accent-primary)] hover:bg-[var(--accent-muted)] transition-colors ${
+                isCollapsed ? 'justify-center px-2' : ''
+              }`}
+            >
+              <Globe size={18} className="shrink-0" />
+              {!isCollapsed && (
+                <div className="flex items-center justify-between flex-1">
+                  <span>View Live Site</span>
+                  <ExternalLink size={14} className="opacity-70" />
+                </div>
+              )}
+            </Link>
+
             <button
               onClick={handleLogout}
               title={isCollapsed ? 'Sign out' : undefined}
-              className={`w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors ${
+              className={`w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors ${
                 isCollapsed ? 'justify-center px-2' : ''
               }`}
             >
@@ -253,35 +273,48 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
         </aside>
 
         {/* Mobile Header (< lg) */}
-        <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-800 px-4 flex items-center justify-between z-30">
+        <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[var(--card-bg)] border-b border-[var(--border)] px-4 flex items-center justify-between z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileSidebarOpen(true)}
               aria-label="Open menu"
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+              className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)] transition-colors"
             >
               <Menu size={22} />
             </button>
-            <span className="text-sm font-bold tracking-tight text-slate-200">Admin Console</span>
+            <span className="text-sm font-bold tracking-tight text-foreground">Admin Console</span>
           </div>
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shadow border border-slate-700">
-            {avatarPhoto ? (
-              <img
-                src={avatarPhoto}
-                alt={user.displayName || user.username}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              initials
-            )}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/home"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg text-[var(--accent-primary)] hover:bg-[var(--accent-muted)] transition-colors flex items-center gap-1.5 text-xs font-semibold"
+              title="View Live Site"
+            >
+              <Globe size={16} />
+              <span className="hidden sm:inline">Live Site</span>
+            </Link>
+
+            <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shadow border border-[var(--border)]">
+              {avatarPhoto ? (
+                <img
+                  src={avatarPhoto}
+                  alt={user.displayName || user.username}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                initials
+              )}
+            </div>
           </div>
         </header>
 
         {/* Mobile Drawer Backdrop (< lg) */}
         {mobileSidebarOpen && (
           <div
-            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity"
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity"
             onClick={() => setMobileSidebarOpen(false)}
             aria-hidden="true"
           />
@@ -289,13 +322,13 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
 
         {/* Mobile Slide-Over Drawer (< lg) */}
         <aside
-          className={`fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-slate-900 border-r border-slate-800 z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
+          className={`fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[var(--card-bg)] border-r border-[var(--border)] z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
             mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
-          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+          <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-slate-950 font-bold text-xs shrink-0 shadow border border-slate-700">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-[var(--accent-primary)] text-black font-bold text-xs shrink-0 shadow border border-[var(--border)]">
                 {avatarPhoto ? (
                   <img
                     src={avatarPhoto}
@@ -307,13 +340,13 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
                 )}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold truncate text-slate-200">{user.displayName || user.username}</p>
-                <p className="text-[10px] text-slate-400 uppercase tracking-wider">Admin</p>
+                <p className="text-sm font-semibold truncate text-foreground">{user.displayName || user.username}</p>
+                <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider">Admin</p>
               </div>
             </div>
             <button
               onClick={() => setMobileSidebarOpen(false)}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+              className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)]"
             >
               <X size={20} />
             </button>
@@ -326,10 +359,21 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             {renderNavGroup(systemItems, 'System Settings')}
           </nav>
 
-          <div className="p-4 border-t border-slate-800">
+          <div className="p-4 border-t border-[var(--border)] space-y-2">
+            <Link
+              href="/home"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-[var(--accent-primary)] hover:bg-[var(--accent-muted)] transition-colors"
+            >
+              <Globe size={18} />
+              <span className="flex-1">View Live Site</span>
+              <ExternalLink size={14} className="opacity-70" />
+            </Link>
+
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
+              className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
             >
               <LogOut size={18} />
               <span>Sign Out</span>
