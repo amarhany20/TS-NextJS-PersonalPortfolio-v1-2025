@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-
+import { put, del } from '@vercel/blob';
 import { imageSize } from 'image-size';
 
 export interface SaveFileInput {
@@ -18,10 +18,10 @@ export interface SaveFileResult {
 
 export interface MediaStorageDriver {
   saveFile(input: SaveFileInput): Promise<SaveFileResult>;
-  deleteFile(relativePath: string): Promise<void>;
+  deleteFile(relativePathOrUrl: string): Promise<void>;
 }
 
-class LocalMediaStorage implements MediaStorageDriver {
+export class LocalMediaStorage implements MediaStorageDriver {
   async saveFile(input: SaveFileInput): Promise<SaveFileResult> {
     const now = new Date();
     const year = String(now.getFullYear());
@@ -38,9 +38,13 @@ class LocalMediaStorage implements MediaStorageDriver {
     let height: number | undefined;
 
     if (input.mimeType.startsWith('image/')) {
-      const dimensions = imageSize(input.buffer);
-      width = dimensions.width ?? undefined;
-      height = dimensions.height ?? undefined;
+      try {
+        const dimensions = imageSize(input.buffer);
+        width = dimensions.width ?? undefined;
+        height = dimensions.height ?? undefined;
+      } catch {
+        // Ignore dimension extraction errors for non-standard images
+      }
     }
 
     const relativePath = path.posix.join(relativeDir, input.filename);
@@ -78,12 +82,63 @@ class LocalMediaStorage implements MediaStorageDriver {
   }
 }
 
-let currentDriver: MediaStorageDriver = new LocalMediaStorage();
+export class VercelBlobMediaStorage implements MediaStorageDriver {
+  async saveFile(input: SaveFileInput): Promise<SaveFileResult> {
+    const blob = await put(input.filename, input.buffer, {
+      access: 'public',
+      contentType: input.mimeType,
+    });
 
-export function getMediaStorageDriver(): MediaStorageDriver {
-  return currentDriver;
+    let width: number | undefined;
+    let height: number | undefined;
+
+    if (input.mimeType.startsWith('image/')) {
+      try {
+        const dimensions = imageSize(input.buffer);
+        width = dimensions.width ?? undefined;
+        height = dimensions.height ?? undefined;
+      } catch {
+        // Ignore dimension extraction errors
+      }
+    }
+
+    return {
+      path: blob.url,
+      url: blob.url,
+      width,
+      height,
+    };
+  }
+
+  async deleteFile(url: string): Promise<void> {
+    if (!url) {
+      return;
+    }
+
+    try {
+      await del(url);
+    } catch {
+      // Ignore Vercel Blob deletion errors if blob does not exist
+    }
+  }
 }
 
-export function setMediaStorageDriver(driver: MediaStorageDriver) {
-  currentDriver = driver;
+let customDriver: MediaStorageDriver | null = null;
+
+export function getMediaStorageDriver(): MediaStorageDriver {
+  if (customDriver) {
+    return customDriver;
+  }
+
+  const requestedDriver = (process.env.MEDIA_STORAGE_DRIVER || '').toLowerCase();
+
+  if (requestedDriver === 'vercel-blob' || process.env.BLOB_READ_WRITE_TOKEN) {
+    return new VercelBlobMediaStorage();
+  }
+
+  return new LocalMediaStorage();
+}
+
+export function setMediaStorageDriver(driver: MediaStorageDriver | null) {
+  customDriver = driver;
 }
