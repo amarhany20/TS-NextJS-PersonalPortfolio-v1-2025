@@ -1,5 +1,6 @@
 import { compare, genSalt, hash } from 'bcryptjs';
 import { env } from '@/server/server-validators/env';
+import { logger } from '@/utils/logger';
 
 const DEFAULT_SALT_ROUNDS = env.AUTH_SALT_ROUNDS;
 
@@ -24,7 +25,7 @@ export async function verifyPassword(plainText: string, passwordHash: string): P
     return await compare(plainText, passwordHash);
   } catch (error) {
     if (env.NODE_ENV === 'development') {
-      console.warn('Failed to verify password hash', error);
+      logger.warn('Failed to verify password hash', { error });
     }
     return false;
   }

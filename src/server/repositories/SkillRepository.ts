@@ -8,6 +8,7 @@ import { Prisma } from '@prisma/client';
 
 import prisma from '@/server/db/prisma';
 import { env } from '@/server/server-validators/env';
+import { logger } from '@/utils/logger';
 
 export interface DbSkill {
   id: string;
@@ -196,7 +197,7 @@ function safeParseKeywords(value: string): string[] {
     return JSON.parse(value) as string[];
   } catch (error) {
     if (env.NODE_ENV === 'development') {
-      console.warn('Failed to parse skill keywords JSON', error);
+      logger.warn('Failed to parse skill keywords JSON', { error });
     }
     return [];
   }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, useTransition } from 'react';
+import { logger } from '@/utils/logger';
 
 interface ThemeOption {
   id: string;
@@ -78,7 +79,7 @@ export function ThemeGallery({ themes, activeThemeId }: ThemeGalleryProps) {
           text: 'Theme applied. Refresh the public site to preview the change for visitors.',
         });
       } catch (error) {
-        console.error(error);
+        logger.error('Failed to apply theme', error);
         setMessage({ type: 'error', text: 'Unable to apply theme. Please try again.' });
       }
     });

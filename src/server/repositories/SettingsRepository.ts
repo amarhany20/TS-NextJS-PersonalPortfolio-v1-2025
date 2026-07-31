@@ -13,6 +13,7 @@ import type {
   UpdateSiteVisibilityInput,
 } from '@/server/server-validators/settings';
 import { parseJson } from '@/server/server-utils/json';
+import { logger } from '@/utils/logger';
 
 export interface DbSettings {
   id: string;
@@ -84,7 +85,7 @@ export const SettingsRepository = {
       return { status: 'ready', settings: mapSettingsRecord(record) };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2021') {
-        console.warn(
+        logger.warn(
           'Settings table missing. Run `npx prisma migrate dev` (local) or `npx prisma migrate deploy` (prod) to initialise the database.',
         );
         return { status: 'missing_table' };
@@ -100,7 +101,7 @@ export const SettingsRepository = {
       record = await prisma.settings.findUnique({ where: { id: SETTINGS_ID } });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2021') {
-        console.warn(
+        logger.warn(
           'Settings table missing. Run `npx prisma db push` or migrations to initialise the database.',
         );
         return null;

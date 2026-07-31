@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import { logger } from '@/utils/logger';
 
 type ProfileSettingsValues = {
   siteTitle: string;
@@ -117,7 +118,7 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
           text: 'Site profile saved. Refresh the public pages if you have them open in another tab.',
         });
       } catch (error) {
-        console.error(error);
+        logger.error('Failed to save site profile settings', error);
         setMessage({ type: 'error', text: 'Unable to save site profile settings.' });
       }
     });

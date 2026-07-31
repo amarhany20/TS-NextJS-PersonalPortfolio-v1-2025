@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import type { Blog, BlogCategorySummary, BlogTagSummary, BlogStatus } from '@/types/blog';
 import { calculateReadingTime, slugify } from '@/utils/helpers';
+import { logger } from '@/utils/logger';
 import { RichTextEditor } from './RichTextEditor';
 
 interface BlogEditorFormProps {
@@ -108,7 +109,7 @@ export function BlogEditorForm({ mode, initialPost, categories, tags }: BlogEdit
         setPendingMessage({ type: 'success', text: 'Post saved. Redirecting…' });
         window.location.assign('/admin/blogs');
       } catch (error) {
-        console.error(error);
+        logger.error('Failed to save blog post', error);
         setPendingMessage({
           type: 'error',
           text: error instanceof Error ? error.message : 'Failed to save blog post',

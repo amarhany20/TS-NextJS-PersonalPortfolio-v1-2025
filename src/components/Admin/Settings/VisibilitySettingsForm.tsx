@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import { logger } from '@/utils/logger';
 
 import type { SiteVisibility } from '@/types/settings';
 
@@ -79,7 +80,7 @@ export function VisibilitySettingsForm({ initialValues }: VisibilitySettingsForm
           text: 'Visibility settings saved. Hidden public pages now disappear from navigation and return 404 directly.',
         });
       } catch (error) {
-        console.error(error);
+        logger.error('Failed to save visibility settings', error);
         setMessage({ type: 'error', text: 'Unable to save visibility settings.' });
       }
     });

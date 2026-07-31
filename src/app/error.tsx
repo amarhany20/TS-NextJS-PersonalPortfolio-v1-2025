@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { logger } from '@/utils/logger';
 
 /**
  * Per-route error boundary UI for App Router rendering failures.
@@ -14,7 +15,7 @@ export default function RouteError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    logger.error('Root App Error Boundary caught unexpected failure', error);
   }, [error]);
 
   return (

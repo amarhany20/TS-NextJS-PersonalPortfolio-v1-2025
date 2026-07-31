@@ -7,6 +7,8 @@
  * across the UI.
  */
 
+import { logger } from '@/utils/logger';
+
 type AnalyticsEvent = {
   name: string;
   properties?: Record<string, unknown>;
@@ -19,7 +21,7 @@ function logAnalyticsDebug(label: string, payload: unknown) {
     return;
   }
 
-  console.log(`[Analytics] ${label}:`, payload);
+  logger.debug(`[Analytics] ${label}`, payload as Record<string, unknown>);
 }
 
 /**

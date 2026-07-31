@@ -1,5 +1,6 @@
 import { getThemeSummary } from '@/themes';
 import type { DbSettings } from '@/server/repositories/SettingsRepository';
+import { logger } from '@/utils/logger';
 import {
   DEFAULT_SITE_VISIBILITY,
   type ContactDetails,
@@ -172,7 +173,7 @@ const toAbsoluteUrl = (value?: unknown): string | undefined => {
   try {
     return new URL(stringValue).toString();
   } catch (error) {
-    console.warn('[settings] Invalid URL in seoDefaults:', stringValue, error);
+    logger.warn('[settings] Invalid URL in seoDefaults:', { url: stringValue, error });
     return undefined;
   }
 };
