@@ -111,8 +111,8 @@ Notes:
 - Never run destructive git commands unless explicitly requested.
 - Do not remove user changes you did not make.
 - If docs and code disagree, treat code as the current behavior and update docs first.
-- Treat `npm run seed:ammar` (if present) and `prisma migrate reset` as destructive; never run
-  either against a database you don't intend to wipe.
+- Treat `npm run seed:ammar` (if present), `prisma migrate reset`, and `prisma db push --force-reset` as destructive; **NEVER** run them against existing production databases.
+- **Database Safe-Migration & Version Locking**: All schema updates must be additive and backward-compatible (e.g. optional fields/default values). On server startup, `EnvBootstrapService` checks database state and records `Settings.setupVersion` to ensure pending migrations run safely without corrupting existing data.
 
 ## After Changes
 
