@@ -55,7 +55,8 @@ export default function ClientLayout({ children, siteContent }: ClientLayoutProp
     [siteContent.contact?.socialLinks, siteContent.socialLinks],
   );
 
-  const isAdminPath = pathname.startsWith('/admin');
+  const isStandalonePath =
+    pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/setup');
 
   return (
     <ToastProvider>
@@ -63,14 +64,14 @@ export default function ClientLayout({ children, siteContent }: ClientLayoutProp
         {/* Animated Background */}
         <AnimatedBackground />
 
-        {!isAdminPath && (
+        {!isStandalonePath && (
           <>
             {/* Mobile Header */}
             <TopHeader brandLabel={brandLabel} />
           </>
         )}
 
-        {!isAdminPath && (
+        {!isStandalonePath && (
           <>
             {/* Fixed Sidebars */}
             <ProfileSidebar
@@ -87,13 +88,13 @@ export default function ClientLayout({ children, siteContent }: ClientLayoutProp
           className={`fixed top-0 left-0 right-0 bottom-0 px-6 md:px-8 lg:px-12 py-6 pt-16 lg:pt-8 overflow-y-auto bg-[var(--background)]`}
           style={{
             zIndex: 10,
-            left: isAdminPath ? '0px' : 'var(--sidebar-left-width, 280px)',
-            right: isAdminPath ? '0px' : 'var(--sidebar-right-width, 108px)',
+            left: isStandalonePath ? '0px' : 'var(--sidebar-left-width, 280px)',
+            right: isStandalonePath ? '0px' : 'var(--sidebar-right-width, 108px)',
           }}
         >
           <div className="w-full max-w-none space-y-6 lg:space-y-8 mx-auto">
             {children}
-            <Footer />
+            {!isStandalonePath && <Footer />}
           </div>
         </main>
       </SidebarProvider>

@@ -184,6 +184,53 @@ export const BackupService = {
           }
         }
 
+        if (payload.data.categories.length > 0) {
+          await tx.category.deleteMany({});
+          for (const item of payload.data.categories) {
+            await tx.category.create({ data: item as unknown as Prisma.CategoryCreateInput });
+            totalRestored++;
+          }
+        }
+
+        if (payload.data.tags.length > 0) {
+          await tx.tag.deleteMany({});
+          for (const item of payload.data.tags) {
+            await tx.tag.create({ data: item as unknown as Prisma.TagCreateInput });
+            totalRestored++;
+          }
+        }
+
+        if (payload.data.blogs.length > 0) {
+          await tx.blog.deleteMany({});
+          for (const item of payload.data.blogs) {
+            await tx.blog.create({ data: item as unknown as Prisma.BlogCreateInput });
+            totalRestored++;
+          }
+        }
+
+        if (payload.data.media.length > 0) {
+          await tx.media.deleteMany({});
+          for (const item of payload.data.media) {
+            await tx.media.create({ data: item as unknown as Prisma.MediaCreateInput });
+            totalRestored++;
+          }
+        }
+
+        if (payload.data.users.length > 0) {
+          for (const item of payload.data.users) {
+            const userInput = item as unknown as Prisma.UserCreateInput;
+            const userUpdateInput = item as unknown as Prisma.UserUpdateInput;
+            const username = (item.username as string) || 'admin';
+
+            await tx.user.upsert({
+              where: { username },
+              update: userUpdateInput,
+              create: userInput,
+            });
+            totalRestored++;
+          }
+        }
+
         if (payload.data.settings.length > 0) {
           for (const item of payload.data.settings) {
             const settingsInput = item as unknown as Prisma.SettingsCreateInput;
