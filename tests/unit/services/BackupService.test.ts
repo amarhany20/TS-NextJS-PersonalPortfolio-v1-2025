@@ -3,9 +3,16 @@ import { BackupService } from '@/server/services/BackupService';
 
 vi.mock('@/server/db/prisma', () => {
   const mockPrisma = {
-    settings: { findMany: vi.fn().mockResolvedValue([{ id: 'settings-singleton', siteTitle: 'Test' }]), upsert: vi.fn() },
+    settings: {
+      findMany: vi.fn().mockResolvedValue([{ id: 'settings-singleton', siteTitle: 'Test' }]),
+      upsert: vi.fn(),
+    },
     user: { findMany: vi.fn().mockResolvedValue([]) },
-    portfolio: { findMany: vi.fn().mockResolvedValue([{ id: 'p1', title: 'Test Project' }]), deleteMany: vi.fn(), create: vi.fn() },
+    portfolio: {
+      findMany: vi.fn().mockResolvedValue([{ id: 'p1', title: 'Test Project' }]),
+      deleteMany: vi.fn(),
+      create: vi.fn(),
+    },
     blog: { findMany: vi.fn().mockResolvedValue([]) },
     category: { findMany: vi.fn().mockResolvedValue([]) },
     tag: { findMany: vi.fn().mockResolvedValue([]) },

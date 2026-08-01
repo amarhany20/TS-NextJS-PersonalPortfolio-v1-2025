@@ -30,7 +30,6 @@ code, docs, and launch tracking in sync.
    npx prisma migrate dev
    npm run db:seed
    ```
-   For Ammar-owned launch content, use `npm run seed:ammar` when that reset/seed flow is intended.
 5. Start developing.
    ```bash
    npm run dev

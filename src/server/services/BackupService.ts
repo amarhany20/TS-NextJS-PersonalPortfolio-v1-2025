@@ -118,7 +118,9 @@ export const BackupService = {
         if (payload.data.contactSubmissions.length > 0) {
           await tx.contactSubmission.deleteMany({});
           for (const item of payload.data.contactSubmissions) {
-            await tx.contactSubmission.create({ data: item as unknown as Prisma.ContactSubmissionCreateInput });
+            await tx.contactSubmission.create({
+              data: item as unknown as Prisma.ContactSubmissionCreateInput,
+            });
             totalRestored++;
           }
         }
@@ -126,7 +128,9 @@ export const BackupService = {
         if (payload.data.recommendations.length > 0) {
           await tx.recommendation.deleteMany({});
           for (const item of payload.data.recommendations) {
-            await tx.recommendation.create({ data: item as unknown as Prisma.RecommendationCreateInput });
+            await tx.recommendation.create({
+              data: item as unknown as Prisma.RecommendationCreateInput,
+            });
             totalRestored++;
           }
         }

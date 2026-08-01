@@ -238,7 +238,7 @@ npm run prisma:studio    # Opens http://localhost:5555 in browser
 
 1. Configure `.env.local` or deployment environment variables.
 2. Run `npm run prisma:migrate`.
-3. Run `npm run db:seed` or `npm run seed:ammar`.
+3. Run `npm run db:seed`.
 4. Start the app with `npm run dev`.
 5. Sign in at `/login` with the configured admin credentials.
 6. Review `/admin/settings/setup` to confirm bootstrap metadata and seed state.

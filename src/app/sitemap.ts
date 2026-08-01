@@ -11,7 +11,11 @@ import { SettingsService } from '@/server/services/SettingsService';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const settings = await SettingsService.getSiteContent();
-    const baseUrl = (settings.seo?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const baseUrl = (
+      settings.seo?.siteUrl ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      'http://localhost:3000'
+    ).replace(/\/$/, '');
 
     const routes: MetadataRoute.Sitemap = [
       {

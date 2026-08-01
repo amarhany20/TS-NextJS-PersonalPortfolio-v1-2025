@@ -9,7 +9,8 @@ import { SettingsService } from '@/server/services/SettingsService';
 export default async function robots(): Promise<MetadataRoute.Robots> {
   try {
     const settings = await SettingsService.getSiteContent();
-    const siteUrl = settings.seo?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl =
+      settings.seo?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
     return {
       rules: [

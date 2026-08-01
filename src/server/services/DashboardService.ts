@@ -212,7 +212,7 @@ function buildStats(input: BuildStatsInput): DashboardStat[] {
       label: 'Blog posts',
       value: input.blogPublishedCount,
       helper: `${input.blogDraftCount} draft${input.blogDraftCount === 1 ? '' : 's'} awaiting publish`,
-      href: '/admin/blog',
+      href: '/admin/blogs',
     },
     {
       label: 'Unread contact messages',
@@ -367,7 +367,7 @@ function buildQuickLinks(input: BuildQuickLinksInput): DashboardQuickLink[] {
   registerQuickLink(links, {
     title: 'Publish blog content',
     description: 'Convert drafts into published posts for SEO gains.',
-    href: '/admin/blog',
+    href: '/admin/blogs',
     badge:
       input.blogDraftCount > 0
         ? `${input.blogDraftCount} draft${input.blogDraftCount === 1 ? '' : 's'}`

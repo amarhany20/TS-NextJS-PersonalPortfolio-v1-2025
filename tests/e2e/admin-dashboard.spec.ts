@@ -25,8 +25,8 @@ test.describe('Admin Dashboard Overview', () => {
     // The admin shell renders one primary sidebar nav and a mobile chip nav.
     const sidebar = page.locator('aside').first();
     await expect(sidebar.getByRole('link', { name: 'Portfolio', exact: true })).toBeVisible();
-    await expect(sidebar.getByRole('link', { name: 'Blog', exact: true })).toBeVisible();
-    await expect(sidebar.getByRole('link', { name: 'Theme', exact: true })).toBeVisible();
+    await expect(sidebar.getByRole('link', { name: 'Blog Posts', exact: true })).toBeVisible();
+    await expect(sidebar.getByRole('link', { name: 'Theme Gallery', exact: true })).toBeVisible();
 
     await sidebar.getByRole('link', { name: 'Portfolio', exact: true }).click();
     await expect(page).toHaveURL(/\/admin\/portfolio/, { timeout: 15000 });

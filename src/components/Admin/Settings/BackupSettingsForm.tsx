@@ -8,7 +8,10 @@ export function BackupSettingsForm() {
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: 'success' | 'error';
+    text: string;
+  } | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleDownloadBackup = async () => {
@@ -30,7 +33,10 @@ export function BackupSettingsForm() {
       a.remove();
       window.URL.revokeObjectURL(url);
 
-      setStatusMessage({ type: 'success', text: `Backup file "${filename}" downloaded successfully!` });
+      setStatusMessage({
+        type: 'success',
+        text: `Backup file "${filename}" downloaded successfully!`,
+      });
     } catch (error) {
       logger.error('Failed to download backup', error);
       setStatusMessage({ type: 'error', text: 'Failed to download database backup snapshot.' });
@@ -116,7 +122,8 @@ export function BackupSettingsForm() {
               Download Database Backup (JSON)
             </h3>
             <p className="text-sm text-[var(--text-secondary)]">
-              Export a complete portable JSON snapshot containing your settings, portfolio projects, blogs, credentials, experience, and skills.
+              Export a complete portable JSON snapshot containing your settings, portfolio projects,
+              blogs, credentials, experience, and skills.
             </p>
           </div>
           <button
@@ -147,7 +154,8 @@ export function BackupSettingsForm() {
             Restore Database Backup
           </h3>
           <p className="text-sm text-[var(--text-secondary)]">
-            Upload a valid JSON backup file (`portfolio-backup.json`) to restore your database. This will safely update and populate your site content.
+            Upload a valid JSON backup file (`portfolio-backup.json`) to restore your database. This
+            will safely update and populate your site content.
           </p>
         </div>
 
@@ -179,7 +187,8 @@ export function BackupSettingsForm() {
           </div>
           {file && (
             <p className="text-xs text-[var(--text-secondary)]">
-              Selected file: <span className="font-mono text-foreground">{file.name}</span> ({(file.size / 1024).toFixed(1)} KB)
+              Selected file: <span className="font-mono text-foreground">{file.name}</span> (
+              {(file.size / 1024).toFixed(1)} KB)
             </p>
           )}
         </div>
@@ -194,7 +203,9 @@ export function BackupSettingsForm() {
               <h4 className="text-lg font-semibold text-foreground">Confirm Database Restore</h4>
             </div>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-              Are you sure you want to restore from <span className="font-mono text-foreground">{file?.name}</span>? This operation will update database records inside an atomic transaction.
+              Are you sure you want to restore from{' '}
+              <span className="font-mono text-foreground">{file?.name}</span>? This operation will
+              update database records inside an atomic transaction.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">
               <button

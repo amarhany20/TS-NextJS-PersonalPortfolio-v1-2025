@@ -22,17 +22,17 @@ vi.mock('@/server/services/SettingsService', () => ({
 
 vi.mock('@/server/services/PortfolioService', () => ({
   PortfolioService: {
-    getPublishedProjects: vi.fn().mockResolvedValue([
-      { slug: 'project-1', updatedAt: '2026-07-31T00:00:00.000Z' },
-    ]),
+    getPublishedProjects: vi
+      .fn()
+      .mockResolvedValue([{ slug: 'project-1', updatedAt: '2026-07-31T00:00:00.000Z' }]),
   },
 }));
 
 vi.mock('@/server/services/BlogService', () => ({
   BlogService: {
-    listPublishedPosts: vi.fn().mockResolvedValue([
-      { slug: 'post-1', publishedAt: '2026-07-31T00:00:00.000Z' },
-    ]),
+    listPublishedPosts: vi
+      .fn()
+      .mockResolvedValue([{ slug: 'post-1', publishedAt: '2026-07-31T00:00:00.000Z' }]),
   },
 }));
 

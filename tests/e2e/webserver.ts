@@ -26,6 +26,17 @@ async function run() {
     );
   }
 
+  // Prisma Migrate requires a direct (non-pooled) connection to take advisory locks
+  // (e.g. Neon's PgBouncer-compatible pooler cannot). Use an explicit override when
+  // provided, otherwise derive the direct URL from the effective database URL.
+  const directUrl =
+    process.env.PLAYWRIGHT_DIRECT_URL ??
+    process.env.DIRECT_URL ??
+    databaseUrl.replace('-pooler', '');
+  if (directUrl) {
+    process.env.DIRECT_URL = directUrl;
+  }
+
   // Preserve the tmp workspace used by Playwright artifacts and any local test helpers.
   await fs.mkdir(path.resolve(cwd, 'tmp'), { recursive: true });
 
@@ -33,11 +44,11 @@ async function run() {
     await fs.rm(path.resolve(cwd, '.next'), { recursive: true, force: true });
     await exec(
       npxCommand,
-      ['prisma', 'db', 'push', '--skip-generate', '--force-reset', '--accept-data-loss'],
+      ['prisma', 'migrate', 'reset', '--force', '--skip-seed', '--skip-generate'],
       cwd,
     );
   } else {
-    await exec(npxCommand, ['prisma', 'db', 'push', '--skip-generate'], cwd);
+    await exec(npxCommand, ['prisma', 'migrate', 'deploy'], cwd);
   }
   await exec(npmCommand, ['run', 'db:seed'], cwd);
   await exec(npmCommand, ['run', 'build'], cwd, undefined, {

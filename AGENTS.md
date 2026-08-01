@@ -1,7 +1,7 @@
 # AGENTS.md — TS-NextJS-PersonalPortfolio-v1-2025
 
-**Version:** 4.3.0
-**Updated:** 2026-07-30
+**Version:** 4.4.0
+**Updated:** 2026-08-01
 **Status:** Public OSS Template
 
 ## Project Overview
@@ -53,8 +53,11 @@ not have access to any private/internal documentation — this file must stay se
 - Always verify current `npm run typecheck` / `npm run lint` / `npm run test` / `npm run build` /
   `npm run e2e` status yourself before describing the repo as fully green — do not assume a
   previous session's result still holds.
-- All gates currently pass: typecheck ✓, lint ✓, format:check ✓, test 133/133 ✓, build ✓
-  (requires `DATABASE_URL`), e2e 21/21 ✓ (requires `PLAYWRIGHT_DATABASE_URL`).
+- All gates currently pass: typecheck ✓, lint ✓, format:check ✓, test 194/194 ✓, build ✓
+  (requires `DATABASE_URL` + `DIRECT_URL`), e2e 30/30 ✓ (requires `PLAYWRIGHT_DATABASE_URL`).
+- Prisma Migrate requires a direct (non-pooled) `DIRECT_URL` when `DATABASE_URL` points to a
+  Neon-style pooler (advisory locks). The repo ships an initial baseline migration
+  (`prisma/migrations/000001_init`); the isolated e2e webserver resets via `prisma migrate reset`.
 
 ## Commands
 
@@ -111,7 +114,7 @@ Notes:
 - Never run destructive git commands unless explicitly requested.
 - Do not remove user changes you did not make.
 - If docs and code disagree, treat code as the current behavior and update docs first.
-- Treat `npm run seed:ammar` (if present), `prisma migrate reset`, and `prisma db push --force-reset` as destructive; **NEVER** run them against existing production databases.
+- Treat `prisma migrate reset` and `prisma db push --force-reset` as destructive; **NEVER** run them against existing production databases.
 - **Database Safe-Migration & Version Locking**: All schema updates must be additive and backward-compatible (e.g. optional fields/default values). On server startup, `EnvBootstrapService` checks database state and records `Settings.setupVersion` to ensure pending migrations run safely without corrupting existing data.
 
 ## After Changes
@@ -124,6 +127,7 @@ Notes:
 
 | Version | Date       | Author         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ------- | ---------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.4.0   | 2026-08-01 | GitHub Copilot | Testing campaign: added a Prisma baseline migration (`000001_init`) and `directUrl = env("DIRECT_URL")` so `migrate deploy` works on Neon poolers; e2e webserver now resets via `prisma migrate reset`/`migrate deploy` and derives `DIRECT_URL`; fixed dashboard `/admin/blog` → `/admin/blogs` links. Expanded coverage: route-handler unit tests (`tests/unit/api/*`) and e2e specs for login-failure, settings profile, visibility, backup, public MDX/blog detail, and SEO/feeds. Unit 194/194, e2e 30/30.                                                                                    |
 | 4.0.0   | 2026-07-30 | GitHub Copilot | Rewrote for public OSS release: removed references to the private docs repo, internal helper-doc paths, and Ammar-specific secrets/domain assumptions; made this file fully self-contained for public clones.                                                                                                                                                                                                                                                                                                                                                                                      |
 | 4.1.0   | 2026-07-30 | GitHub Copilot | Public-OSS-prep pass: added `LICENSE` (MIT), `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`; added a Vercel deploy button and a tightened Quick Start to the README; removed tracked debug artifacts (`playwright_output.log`, `test_error.txt`, `test_output.log`, `test_output.txt`, `test_results.log`) and added them to `.gitignore`; re-ran the verification gate and recorded the actual per-command results in the central `09-implementation-checklist.md` (typecheck / lint / format:check / test / build each have known open items; full results in the linked checklist). |
 | 4.2.0   | 2026-07-30 | GitHub Copilot | Wave 1 features shipped: F5 (RSS/JSON feeds at `/feed.xml` and `/feed.json`), F2 (stack-based URL-driven portfolio filtering via `?stack=`), F3 (per-post OG/Twitter metadata for blog detail and index pages). Version bumped to `00.82.00`.                                                                                                                                                                                                                                                                                                                                                      |

@@ -24,8 +24,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
-    "seed:ammar": "tsx prisma/reset-and-seed-ammar.ts"
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

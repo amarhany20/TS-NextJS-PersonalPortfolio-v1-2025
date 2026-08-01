@@ -31,7 +31,6 @@ Before changing code or docs, read these sources in order:
 - `EnvBootstrapService.ensureSettingsAndAdmin()` is the real first-run initializer for settings and
   the bootstrap admin user.
 - `src/static-content/*` holds template-safe fallback content and seed-aligned defaults.
-- `data/ammar/*` holds owner-specific content used by the owner seeder and launch content review.
 
 ## Architecture Quick Reference
 
@@ -43,7 +42,6 @@ src/server/       -> Services, repositories, serializers, validators, security, 
 src/components/   -> Reusable shared and admin-facing UI pieces
 src/sections/     -> Public-page composition blocks
 src/static-content/ -> Template-safe fallback content and defaults
-data/ammar/       -> Owner-specific launch data
 prisma/           -> Schema and seed scripts
 tests/            -> Unit and Playwright verification
 ```
@@ -68,12 +66,6 @@ npm install
 npm run prisma:migrate
 npm run db:seed
 npm run dev
-```
-
-Owner-data alternative:
-
-```bash
-npm run seed:ammar
 ```
 
 Important notes:

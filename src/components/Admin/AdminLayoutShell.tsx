@@ -146,7 +146,9 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
         const Icon = item.icon;
         const isActive =
           pathname === item.href ||
-          (item.href !== '/admin/dashboard' && item.href !== '/admin' && pathname.startsWith(item.href));
+          (item.href !== '/admin/dashboard' &&
+            item.href !== '/admin' &&
+            pathname.startsWith(item.href));
 
         return (
           <Link
@@ -162,7 +164,9 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             <Icon
               size={18}
               className={`shrink-0 transition-colors ${
-                isActive ? 'text-[var(--accent-contrast,#000000)]' : 'text-[var(--text-secondary)] group-hover:text-foreground'
+                isActive
+                  ? 'text-[var(--accent-contrast,#000000)]'
+                  : 'text-[var(--text-secondary)] group-hover:text-foreground'
               }`}
             />
             {!isCollapsed && <span className="truncate">{item.label}</span>}
@@ -340,8 +344,12 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
                 )}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold truncate text-foreground">{user.displayName || user.username}</p>
-                <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider">Admin</p>
+                <p className="text-sm font-semibold truncate text-foreground">
+                  {user.displayName || user.username}
+                </p>
+                <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider">
+                  Admin
+                </p>
               </div>
             </div>
             <button
@@ -387,9 +395,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             isCollapsed ? 'lg:pl-16' : 'lg:pl-64'
           }`}
         >
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
-            {children}
-          </main>
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">{children}</main>
         </div>
       </div>
     </ToastProvider>
