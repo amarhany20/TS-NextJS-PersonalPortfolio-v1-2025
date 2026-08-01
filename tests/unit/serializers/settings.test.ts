@@ -7,19 +7,19 @@ describe('serializeSettings', () => {
   it('builds site content with sanitized data', () => {
     const record: DbSettings = {
       id: 'settings-singleton',
-      siteTitle: 'Ammar Hany',
+      siteTitle: 'Jane Doe',
       siteSubtitle: 'Staff Engineer',
       heroGreeting: null,
       heroSubtitle: 'Building resilient systems',
       heroDescription: '<p>Hello</p>',
-      primaryEmail: 'ammar@example.com',
+      primaryEmail: 'user@example.com',
       secondaryEmail: null,
       location: 'Berlin',
       timezone: 'CET',
       theme: 'default',
       maintenanceMode: false,
       maintenanceMessage: null,
-      socialLinks: [{ label: 'GitHub', href: 'https://github.com/amarhany20' }],
+      socialLinks: [{ label: 'GitHub', href: 'https://github.com/example-user' }],
       heroButtons: {
         primary: { text: 'Hire me', href: '#contact' },
         secondary: { text: 'View CV', href: '/cv.pdf' },
@@ -34,13 +34,13 @@ describe('serializeSettings', () => {
         languages: ['English'],
         highlights: ['Impact'],
         coreSkills: ['TypeScript'],
-        title: 'Ammar Hany | Portfolio',
-        titleTemplate: '%s | Ammar Hany',
+        title: 'Jane Doe | Portfolio',
+        titleTemplate: '%s | Jane Doe',
         description: 'Impact-driven engineer',
         keywords: ['Next.js'],
-        siteUrl: 'https://ammarhany.com',
+        siteUrl: 'https://example.com',
         openGraphImage: '/og.png',
-        twitterHandle: '@ammarhany',
+        twitterHandle: '@janedoe',
       },
       createdAt: new Date('2024-01-01T00:00:00Z'),
       updatedAt: new Date('2024-01-02T00:00:00Z'),
@@ -48,32 +48,32 @@ describe('serializeSettings', () => {
 
     const content = serializeSettings(record);
 
-    expect(content.profile.fullName).toBe('Ammar Hany');
-    expect(content.hero.greeting).toBe('Ammar Hany');
+    expect(content.profile.fullName).toBe('Jane Doe');
+    expect(content.hero.greeting).toBe('Jane Doe');
     expect(content.hero.primaryButton).toEqual({ text: 'Hire me', href: '#contact' });
-    expect(content.contact.emails).toEqual(['ammar@example.com']);
+    expect(content.contact.emails).toEqual(['user@example.com']);
     expect(content.contact.phones).toEqual([{ label: 'Work', e164: '+49123456789' }]);
     expect(content.coreSkills).toEqual(['TypeScript']);
     expect(content.languages).toEqual(['English']);
     expect(content.socialLinks).toEqual([
-      { label: 'GitHub', href: 'https://github.com/amarhany20' },
+      { label: 'GitHub', href: 'https://github.com/example-user' },
     ]);
     expect(content.seo).toEqual({
-      title: 'Ammar Hany | Portfolio',
-      titleTemplate: '%s | Ammar Hany',
+      title: 'Jane Doe | Portfolio',
+      titleTemplate: '%s | Jane Doe',
       description: 'Impact-driven engineer',
       keywords: ['Next.js'],
-      metadataBase: 'https://ammarhany.com/',
-      siteUrl: 'https://ammarhany.com/',
+      metadataBase: 'https://example.com/',
+      siteUrl: 'https://example.com/',
       openGraphImage: '/og.png',
-      twitterHandle: '@ammarhany',
+      twitterHandle: '@janedoe',
     });
   });
 
   it('omits malformed hero buttons', () => {
     const record: DbSettings = {
       id: 'settings-singleton',
-      siteTitle: 'Ammar',
+      siteTitle: 'Jane',
       siteSubtitle: null,
       heroGreeting: null,
       heroSubtitle: null,
@@ -85,7 +85,7 @@ describe('serializeSettings', () => {
       theme: 'default',
       maintenanceMode: false,
       maintenanceMessage: null,
-      socialLinks: [{ label: 'GitHub', href: 'https://github.com/amarhany20' }],
+      socialLinks: [{ label: 'GitHub', href: 'https://github.com/example-user' }],
       heroButtons: {
         primary: { text: 123, href: '#contact' },
       },
@@ -98,6 +98,6 @@ describe('serializeSettings', () => {
     const content = serializeSettings(record);
 
     expect(content.hero.primaryButton).toBeUndefined();
-    expect(content.seo.title).toBe('Ammar');
+    expect(content.seo.title).toBe('Jane');
   });
 });

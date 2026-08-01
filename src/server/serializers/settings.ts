@@ -229,13 +229,13 @@ export function serializeSettings(record: DbSettings): SiteContent {
       ? seoDefaults.photoUrl
       : typeof seoDefaults?.openGraphImage === 'string'
         ? seoDefaults.openGraphImage
-        : '/2024 Ammar Personal Photo.jpg';
+        : '/images/avatar.svg';
 
   const profile: ProfileInfo = {
     fullName: record.siteTitle,
     title: record.siteSubtitle ?? undefined,
     location: record.location ?? undefined,
-    photoUrl: toPublicPath(rawPhotoUrl) ?? '/2024 Ammar Personal Photo.jpg',
+    photoUrl: toPublicPath(rawPhotoUrl) ?? '/images/avatar.svg',
   };
 
   const coreSkills = toStringArray(seoDefaults?.coreSkills);

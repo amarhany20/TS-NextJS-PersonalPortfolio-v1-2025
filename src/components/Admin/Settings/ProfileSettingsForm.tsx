@@ -80,7 +80,7 @@ function LabeledTextarea({ label, helper, value, rows = 4, onChange }: LabeledTe
 export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps) {
   const [values, setValues] = useState<ProfileSettingsValues>({
     ...initialValues,
-    photoUrl: initialValues.photoUrl || '/2024 Ammar Personal Photo.jpg',
+    photoUrl: initialValues.photoUrl || '/images/avatar.svg',
   });
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -161,14 +161,14 @@ export function ProfileSettingsForm({ initialValues }: ProfileSettingsFormProps)
           <div className="space-y-5">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border border-[var(--border)]/60 bg-[var(--background)]/50">
               <img
-                src={values.photoUrl || '/2024 Ammar Personal Photo.jpg'}
+                src={values.photoUrl || '/images/avatar.svg'}
                 alt="Profile Avatar Preview"
                 className="h-16 w-16 rounded-full object-cover shadow border-2 border-[var(--accent-primary)] shrink-0"
               />
               <div className="flex-1 w-full">
                 <LabeledField
                   label="Profile Avatar Photo URL"
-                  helper="Enter a relative image path (e.g. /2024 Ammar Personal Photo.jpg) or absolute image URL."
+                  helper="Enter a relative image path (e.g. /images/avatar.svg) or absolute image URL."
                   value={values.photoUrl ?? ''}
                   onChange={(val) => setField('photoUrl', val)}
                 />

@@ -37,13 +37,13 @@ vi.mock('@/server/serializers/settings', () => ({
   serializeSettings: vi.fn((record: any) => ({
     hero: record.hero ?? {},
     contact: record.contact ?? {},
-    profile: record.profile ?? { fullName: 'Ammar' },
+    profile: record.profile ?? { fullName: 'Jane' },
     coreSkills: record.coreSkills ?? [],
     languages: record.languages ?? [],
     highlights: record.highlights ?? [],
     socialLinks: record.socialLinks ?? [],
     seo: record.seo ?? {
-      title: 'Ammar',
+      title: 'Jane',
       description: 'Portfolio',
       keywords: [],
     },
@@ -66,12 +66,12 @@ describe('SettingsService', () => {
   it('returns serialized site content', async () => {
     vi.mocked(SettingsRepository.getStatus).mockResolvedValue({
       status: 'ready',
-      settings: { profile: { fullName: 'Ammar' } } as any,
+      settings: { profile: { fullName: 'Jane' } } as any,
     });
 
     const result = await SettingsService.getSiteContent();
 
-    expect(result.profile?.fullName).toBe('Ammar');
+    expect(result.profile?.fullName).toBe('Jane');
     expect(SettingsRepository.getStatus).toHaveBeenCalledTimes(1);
   });
 

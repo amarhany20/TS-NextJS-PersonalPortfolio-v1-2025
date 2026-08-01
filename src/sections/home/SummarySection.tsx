@@ -10,7 +10,6 @@ interface SummarySectionProps {
 }
 
 export default function SummarySection({ hero }: SummarySectionProps) {
-  const cvFallback = '/cv/Ammar%202025%20CV%20General%20Website%20V1.502.pdf';
   const descriptionHtml = useMemo(() => {
     if (hero.descriptionHtml && hero.descriptionHtml.trim().length > 0) {
       return DOMPurify.sanitize(hero.descriptionHtml);
@@ -67,15 +66,17 @@ export default function SummarySection({ hero }: SummarySectionProps) {
             <ArrowRight className="ml-2" size={20} />
           </a>
         ) : null}
-        <a
-          href={hero.secondaryButton?.href || cvFallback}
-          className="inline-flex items-center px-6 py-3 rounded-lg font-semibold border border-[var(--accent-secondary)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-white transition"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Download className="mr-2" size={20} />
-          Download CV
-        </a>
+        {hero.secondaryButton?.href ? (
+          <a
+            href={hero.secondaryButton.href}
+            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold border border-[var(--accent-secondary)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-white transition"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Download className="mr-2" size={20} />
+            {hero.secondaryButton.text?.trim() || 'Download CV'}
+          </a>
+        ) : null}
         <Link
           href="/portfolio"
           className="inline-flex items-center px-6 py-3 rounded-lg font-semibold bg-[var(--accent-muted)] text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)] hover:text-black transition"

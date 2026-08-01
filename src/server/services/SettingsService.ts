@@ -39,7 +39,7 @@ function toSiteProfileSettings(
       ? seoDefaults.photoUrl
       : typeof seoDefaults.openGraphImage === 'string'
         ? seoDefaults.openGraphImage
-        : '/2024 Ammar Personal Photo.jpg';
+        : '/images/avatar.svg';
 
   return {
     siteTitle: settings.siteTitle,

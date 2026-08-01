@@ -119,7 +119,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
     [user.displayName, user.username],
   );
 
-  const avatarPhoto = profile?.photoUrl || '/2024 Ammar Personal Photo.jpg';
+  const avatarPhoto = profile?.photoUrl || '/images/avatar.svg';
 
   const overviewItems = useMemo(() => NAV_ITEMS.filter((i) => i.category === 'overview'), []);
   const contentItems = useMemo(() => NAV_ITEMS.filter((i) => i.category === 'content'), []);

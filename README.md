@@ -1,502 +1,529 @@
-# Personal Portfolio (Next.js + TypeScript)
+<div align="center">
 
-**Self-hosted portfolio platform with a public site, admin CMS, Prisma persistence, and launch-prep cleanup in progress.**
+# Personal Portfolio — Next.js + TypeScript
 
-Version: `00.82.00` • Stack: **Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod**
+**A free, self-hosted portfolio platform with a public site, admin CMS, and database-backed content.**
+
+`Next.js 16` · `React 19` · `TypeScript` · `Tailwind CSS 4` · `Prisma` · `PostgreSQL` · `Vercel` · `Neon`
+
+[Deploy for free](#deploy-to-vercel) · [Quick start](#quick-start) · [Documentation](#table-of-contents) · [License](#license)
+
+</div>
 
 ---
 
-## Deploy to Vercel
+## Table of Contents
 
-The fastest way to get your own copy running on Vercel + Neon PostgreSQL:
+- [What is this?](#what-is-this)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [The 100% Free Hosting Stack](#the-100-free-hosting-stack)
+- [Repository Structure](#repository-structure)
+- [Prerequisites](#prerequisites)
+- [Step 1 — Create a Free PostgreSQL Database (Neon)](#step-1--create-a-free-postgresql-database-neon)
+- [Step 2 — Clone & Configure Locally](#step-2--clone--configure-locally)
+- [Step 3 — Run Locally](#step-3--run-locally)
+- [Step 4 — Push to GitHub](#step-4--push-to-github)
+- [Step 5 — Deploy to Vercel](#step-5--deploy-to-vercel)
+- [Step 6 — Connect a Domain](#step-6--connect-a-domain)
+- [Step 7 — Add Your Content (Admin CMS)](#step-7--add-your-content-admin-cms)
+- [Backup & Restore](#backup--restore)
+- [Customization](#customization)
+- [Media & File Uploads](#media--file-uploads)
+- [Scripts](#scripts)
+- [Testing](#testing)
+- [Security](#security)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+- [Credits](#credits)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025&env=DATABASE_URL%2CAUTH_SECRET%2CNEXT_PUBLIC_SITE_URL%2CADMIN_USERNAME%2CADMIN_PASSWORD%2CADMIN_EMAIL&envDescription=DATABASE_URL%20is%20your%20Postgres%20connection%20string.%20AUTH_SECRET%20must%20be%20at%20least%2032%20random%20characters.%20The%20ADMIN_%20variables%20bootstrap%20the%20initial%20admin%20account.)
+---
 
-After deploy, run the database migration and seed from your local clone:
+## What is this?
 
-```bash
-git clone https://github.com/<your-username>/TS-NextJS-PersonalPortfolio-v1-2025.git
-cd TS-NextJS-PersonalPortfolio-v1-2025
-npm install
-npm run prisma:migrate
-npm run db:seed
+This repository is a **complete, open-source personal portfolio template**. It ships
+a public portfolio website **and** a full database-backed admin CMS, so you can
+manage your projects, experience, skills, services, certificates, recommendations,
+blog posts, and site settings without touching code.
+
+It is designed to be cloned, configured with a few environment variables, and
+deployed **100% free** on Vercel (Hobby plan) + Neon (free PostgreSQL tier).
+
+---
+
+## Features
+
+**Public site**
+
+- Home page with hero, summary, experience, education, skills, certificates,
+  recommendations, and contact sections.
+- Portfolio listing with **stack-based filtering** (`/portfolio?stack=next.js`) and
+  rich case-study pages with **MDX content**.
+- Services overview page.
+- Blog with categories, tags, and full posts.
+- **RSS 2.0** (`/feed.xml`) and **JSON Feed v1.1** (`/feed.json`) feeds.
+- **Dynamic SEO**: per-page Open Graph / Twitter cards, `robots.txt`, `sitemap.xml`.
+- **Lightbox gallery** with swipe gestures for project images.
+- Responsive, accessible, mobile-first UI.
+
+**Admin CMS** (`/admin`, single admin account)
+
+- Dashboard with metrics and quick links.
+- CRUD managers for portfolio, experience, education, skills, services,
+  certificates, recommendations, and blog posts.
+- Media library with uploads.
+- Contact inbox for form submissions.
+- Settings: **profile**, **visibility**, **theme** (7 built-in themes),
+  **backup/restore**, and setup diagnostics.
+
+**Platform**
+
+- Session-based admin auth (`iron-session`, bcrypt, rate-limited login).
+- **JSON backup & restore** for all content (export / import from the admin UI).
+- Hybrid media storage: local driver for development, **Vercel Blob** for production.
+- Env + bootstrap-driven first-run setup (no web wizard needed).
+- Layered architecture: Route/Page → Service → Repository → Serializer/Response.
+- Strict TypeScript and Zod validation at every server boundary.
+- Full automated test suite (Vitest unit tests + Playwright end-to-end tests).
+
+---
+
+## Tech Stack
+
+| Layer        | Technology                                          |
+| ------------ | --------------------------------------------------- |
+| Framework    | Next.js 16 (App Router), React 19                   |
+| Language     | TypeScript (strict)                                 |
+| Styling      | Tailwind CSS 4, CSS variables, 7 built-in themes    |
+| Database     | PostgreSQL (Prisma ORM)                             |
+| Auth         | iron-session (HttpOnly cookies) + bcrypt            |
+| Validation   | Zod                                                 |
+| MDX          | Rich project/blog sections (custom component suite) |
+| Testing      | Vitest (unit) + Playwright (e2e)                    |
+| Hosting      | Vercel (recommended)                                |
+| Database Ops | Neon (free tier), Prisma Migrate                    |
+
+---
+
+## The 100% Free Hosting Stack
+
+This project is designed to run at **zero cost** using free tiers:
+
+| Service                    | Purpose             | Free tier                                                                      |
+| -------------------------- | ------------------- | ------------------------------------------------------------------------------ |
+| **Neon**                   | PostgreSQL database | 0.5 GB storage, branchable, autosleeps when idle, built-in snapshot backups    |
+| **Vercel**                 | Web hosting         | Hobby plan: serverless deployment, free `*.vercel.app` subdomain, HTTPS, CI/CD |
+| **GitHub**                 | Code storage/CI     | Free public or private repos, Actions minutes                                  |
+| **Vercel Blob** (optional) | File uploads        | Hobby plan storage — needed only if you upload images/PDFs in production       |
+
+No credit card is required to start on any of these.
+
+---
+
+## Repository Structure
+
+```text
+├─ prisma/
+│  ├─ schema.prisma              # Data model (Portfolio, Experience, Blog, Settings, ...)
+│  ├─ migrations/                # Baseline + future migrations (applied by `migrate deploy`)
+│  └─ seed.ts                    # Seeds the DB with template/demo content (local dev)
+│
+├─ src/
+│  ├─ app/                       # Next.js App Router: pages, layouts, route handlers
+│  │  ├─ home/                   # Public home page
+│  │  ├─ portfolio/              # Portfolio listing + case-study detail ([slug])
+│  │  ├─ services/               # Services page
+│  │  ├─ blogs/                  # Blog listing + post detail
+│  │  ├─ feed.xml/ feed.json/    # RSS 2.0 + JSON Feed v1.1
+│  │  ├─ login/                  # Admin sign-in
+│  │  ├─ admin/                  # Admin CMS (dashboard, CRUD, media, contact, settings)
+│  │  └─ api/v1/                 # API route handlers (REST controllers)
+│  ├─ server/                    # Server layer: services, repositories, serializers,
+│  │  │                          #   validators, security, db, integrations
+│  ├─ components/                # Reusable UI (public + admin)
+│  ├─ sections/                  # Home-page section blocks
+│  ├─ static-content/            # Template-safe fallback content + seed defaults
+│  ├─ themes/                    # 7 CSS-token theme definitions
+│  ├─ types/                     # TypeScript types
+│  ├─ utils/                     # Isomorphic utilities
+│  └─ lib/                       # Framework helpers (version, etc.)
+│
+├─ public/                       # Static assets (images, documents)
+├─ tests/                        # Vitest (unit) + Playwright (e2e) suites
+└─ package.json
 ```
 
-Then sign in at `/login` with the `ADMIN_USERNAME` / `ADMIN_PASSWORD` you set in
-Vercel. See [Getting Started](#-getting-started) below for the full local-only
-flow and the [Release Checklist](./TS-NextJS-PersonalPortfolio-v1-2025%20Technical%20Docs/release-checklist.md)
-for the launch-signoff guide.
+---
+
+## Prerequisites
+
+- **Node.js 20+** and npm — [download](https://nodejs.org)
+- A **GitHub** account — [github.com](https://github.com)
+- A **Vercel** account (free) — [vercel.com](https://vercel.com)
+- A **Neon** account (free) — [neon.tech](https://neon.tech)
 
 ---
 
-## Quick Start (Local)
+## Step 1 — Create a Free PostgreSQL Database (Neon)
+
+Neon provides a free PostgreSQL database with a branching workflow and built-in
+snapshots — plenty for a portfolio.
+
+1. Go to [neon.tech](https://neon.tech) and **Sign up** (or Sign in).
+2. Click **Create a project**.
+3. Give it a name (e.g. `my-portfolio`), pick a region close to you, and select a
+   PostgreSQL version.
+4. On the **Connect** screen you will find two connection strings — **copy both**:
+
+   - **Pooled connection string** (PgBouncer-compatible, host contains `-pooler`):
+     this is your runtime `DATABASE_URL`.
+   - **Direct connection string** (non-pooled, host has **no** `-pooler`):
+     this is your `DIRECT_URL`, used by Prisma Migrate.
+
+   > **Why two URLs?** Neon routes connections through a pooler by default.
+   > Prisma Migrate needs session-based advisory locks, which require a **direct**
+   > (non-pooled) connection. This project reads both `DATABASE_URL` and
+   > `DIRECT_URL`; deployments run `prisma migrate deploy` automatically.
+
+5. Keep this tab open — you will paste the strings in the next steps.
+
+---
+
+## Step 2 — Clone & Configure Locally
 
 ```bash
 git clone https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025.git
 cd TS-NextJS-PersonalPortfolio-v1-2025
 npm install
 cp .env.example .env.local
-# Edit .env.local: set DATABASE_URL, AUTH_SECRET (32+ random chars), and ADMIN_*.
-npm run prisma:migrate
-npm run db:seed
-npm run dev
 ```
 
-Open http://localhost:3000 (redirects to `/home`) and sign in at `/login`.
+> Using your own fork? Replace the clone URL with your fork's URL.
 
-> **Current verification status:** The unit test, typecheck, lint, and build
-> gates each have known open items as of the public-OSS-prep pass. See the
-> [Implementation Checklist](./TS-NextJS-PersonalPortfolio-v1-2025%20Technical%20Docs/09-implementation-checklist.md)
-> for the honest, per-command state before treating this template as production-ready.
-
----
-
-## Features
-
-- **Layered server architecture** with explicit service / repository / serializer
-  boundaries.
-- **Database-backed content** via Prisma + PostgreSQL, with static modules kept as
-  fallback / bootstrap-safe defaults.
-- **Settings-driven visibility** that hides public pages from navigation and
-  returns 404s without deleting data.
-- **Strict TypeScript + Zod validation** at every server boundary.
-- **Consistent API envelopes** and shared response helpers.
-- **Responsive, accessible UI** with mobile-first layout and semantic HTML.
-- **Server-first rendering** with prerendered static pages and minimal client JS.
-- **Seven built-in themes** with persisted admin preview / apply behavior.
-- **Stack-based portfolio filtering** via URL query params (`?stack=next.js`).
-- **RSS 2.0 and JSON Feed v1.1** at `/feed.xml` and `/feed.json`.
-- **Per-post Open Graph and Twitter card metadata** for blog detail pages.
-- **Vitest + Playwright** for unit and end-to-end testing.
-- **Session-based admin auth** with `iron-session`, bcrypt password hashing, and
-  rate-limited public contact submission.
-
----
-
-## 📁 Architecture Overview
-
-Following the **Ammar Next.js Engineering Standard v1.02.00**:
-
-```
-src/
-├─ app/                          # Next.js App Router (pages, layouts, routes)
-│  ├─ layout.tsx                 # Root layout with fonts and metadata
-│  ├─ page.tsx                   # Landing page (redirects to /home)
-│  ├─ home/page.tsx              # Home page composing sections
-│  ├─ portfolio/                 # Portfolio listing + case studies
-│  │  ├─ page.tsx                # /portfolio listing
-│  │  └─ [slug]/page.tsx         # /portfolio/[slug] detail pages
-│  ├─ services/page.tsx          # Services overview
-│  ├─ blogs/page.tsx             # Blog listing page
-│  └─ api/v1/                    # API route handlers (controllers)
-│     └─ example/route.ts        # Lightweight diagnostics/readiness endpoint
-│
-├─ server/                       # Server-side application layer
-│  ├─ http/                      # HTTP infrastructure (errors, responses)
-│  ├─ services/                  # Business logic for public/admin domains
-│  ├─ repositories/              # Prisma-backed data access layer
-│  ├─ security/                  # Auth, password, sessions, rate limits
-│  ├─ serializers/               # Response mappers and DTO shaping
-│  ├─ server-validators/         # Authoritative Zod schemas (env validation)
-│  ├─ server-utils/              # Node-only utilities
-│  ├─ integrations/              # Third-party SDK wrappers
-│  ├─ cache/                     # Caching abstractions
-│  ├─ db/                        # Database clients
-│  ├─ jobs/                      # Background jobs
-│  └─ events/                    # Domain events (pub/sub)
-│
-├─ sections/home/                # Page sections (Experience, Education, Skills...)
-├─ components/                   # Reusable UI components
-│  ├─ Portfolio/                 # Project components
-│  ├─ ProfileSidebar/            # Avatar, skills, contact
-│  ├─ NavSidebar/                # Navigation + social links
-│  ├─ Services/                  # Service cards
-│  └─ UI/                        # Base UI primitives
-│
-├─ static-content/               # Static fallback and seed-aligned content snapshots
-│  ├─ routes.ts                  # Route constants
-│  ├─ metadata.ts                # Metadata + SEO fallback configuration
-│  ├─ portfolio/                 # Project definitions (JSON)
-│  └─ *.ts                       # Domain data (experience, skills, etc.)
-│
-├─ client-validators/            # Client-side Zod schemas (UX only)
-├─ types/                        # Frontend-only TypeScript types
-├─ utils/                        # Pure isomorphic utilities
-├─ lib/                          # Framework-level helpers
-└─ public/                       # Static assets (images, PDFs, etc.)
-```
-
-See `AGENTS.md` for the architecture rules and layered-flow overview.
-
----
-
-## 🧩 Data Model Overview
-
-|          Domain |                     Primary Source |                                         Notes |
-| --------------: | ---------------------------------: | --------------------------------------------: |
-|       Portfolio |      Prisma via `PortfolioService` |    Featured flag, metadata, sections, gallery |
-|      Experience |     Prisma via `ExperienceService` | Collapsible cards, achievements, skills array |
-|       Education |      Prisma via `EducationService` |            Start/end dates, computed duration |
-|          Skills |          Prisma via `SkillService` |  Categorized or flat list consumed in sidebar |
-|    Certificates |    Prisma via `CertificateService` |  PDF links stored under `public/attachments/` |
-| Recommendations | Prisma via `RecommendationService` |             Safe external + PDF link handling |
-|        Services |        Prisma via `ServiceService` |        Toggleable cards similar to Experience |
-|   Personal Meta |       Prisma via `SettingsService` |         Name, title, location, contact/social |
-|          Routes |     `src/static-content/routes.ts` |                          Route path constants |
-|             SEO |    Settings row + static fallbacks |        Default SEO metadata and configuration |
-
-Static content now acts as fallback/seed material rather than the only content source. Public/admin
-flows primarily read from Prisma through the service layer, with static modules still used for
-bootstrap and safe defaults where appropriate.
-
----
-
-## 🔁 Route Migration (Projects → Portfolio)
-
-The public-facing portfolio listing was renamed:
-
-- Old: `/projects` & `/projects/[slug]`
-- New: `/portfolio` & `/portfolio/[slug]`
-- Permanent redirects defined in `next.config.ts` so old links still resolve.
-
-Update any external bookmarks to the new path when convenient.
-
----
-
-## 🚀 Getting Started
-
-This repo targets **PostgreSQL** with env-driven bootstrap for admin and site settings.
-
-### Prerequisites
-
-- Node.js LTS (v20+)
-- npm (comes with Node.js)
-
-### Installation
-
-```bash
-git clone https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025.git
-cd TS-NextJS-PersonalPortfolio-v1-2025
-npm install
-```
-
-### Environment Setup
-
-Production config should be provided through environment variables.
-
-Required production variables:
+Open `.env.local` and set the required values:
 
 ```env
-# 🔐 Session Secret (required for admin authentication)
-AUTH_SECRET=your-32-character-minimum-secret-key-change-this-NOW
+# Session secret (at least 32 random characters)
+AUTH_SECRET=replace-with-a-long-random-string
 
-# 🌐 Public Site URL
-NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
+# Your site URL (the footer and SEO use this)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
-# 📦 Database (Neon PostgreSQL for production)
-DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
+# Neon database — pooled connection string (from Step 1)
+DATABASE_URL=postgresql://user:pass@your-project-pooler.example.com/db?sslmode=require
 
-```
+# Neon database — direct (non-pooled) connection string (from Step 1)
+DIRECT_URL=postgresql://user:pass@your-project-direct.example.com/db?sslmode=require
 
-Admin bootstrap defaults:
-
-```env
+# Initial admin account (created by the bootstrap on first run / seed)
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=change-me-now
-ADMIN_EMAIL=admin@example.com
-ADMIN_DISPLAY_NAME=Portfolio Admin
+ADMIN_EMAIL=you@example.com
+ADMIN_DISPLAY_NAME=Your Name
 ```
 
-The runtime bootstrap path reads `ADMIN_*`. The seed scripts still accept `SEED_ADMIN_*` as a
-compatibility fallback, and Playwright can override login through `E2E_ADMIN_*`.
-
-**⚠️ Important:** Generate a secure `AUTH_SECRET` for production:
+Generate a secure `AUTH_SECRET`:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Then replace `your-32-character-minimum-secret-key-change-this-NOW` with the generated value.
+---
 
-### Database Setup (Required)
-
-**Local development / self-hosting:**
+## Step 3 — Run Locally
 
 ```bash
+# Create the tables (applies the Prisma migrations)
 npm run prisma:migrate
+
+# Seed the database with template content (demo projects, experience, etc.)
 npm run db:seed
-npm run prisma:studio    # Opens http://localhost:5555 in browser
+
+# Start the dev server
+npm run dev
 ```
 
-**Production:**
+Open [http://localhost:3000](http://localhost:3000) — it redirects to `/home`.
 
-- Set `DATABASE_URL` in Vercel
-- Run Prisma migrations during CI/build (`prisma:migrate`)
-- Prisma `generate` runs during build; it cannot be triggered from the website
+- **Public site:** http://localhost:3000/home
+- **Admin sign-in:** http://localhost:3000/login (use `ADMIN_USERNAME` / `ADMIN_PASSWORD`)
+- **Admin CMS:** http://localhost:3000/admin
+- **Database browser:** `npm run prisma:studio` → http://localhost:5555
 
-### Supported First-Run Path
+The seeded content is **generic template/demo data** — replace it with your own via
+the admin CMS (see [Step 7](#step-7--add-your-content-admin-cms)).
 
-1. Configure `.env.local` or deployment environment variables.
-2. Run `npm run prisma:migrate`.
-3. Run `npm run db:seed`.
-4. Start the app with `npm run dev`.
-5. Sign in at `/login` with the configured admin credentials.
-6. Review `/admin/settings/setup` to confirm bootstrap metadata and seed state.
+---
 
-The old web setup flow is retired. `/setup` and legacy setup-step URLs now redirect away from the
-wizard path and are not part of the supported launch onboarding.
+## Step 4 — Push to GitHub
 
-### First-Run Verification
-
-After the first successful seed, confirm:
-
-1. `npm run dev` starts without Prisma or settings-bootstrap errors.
-2. `/home` renders public content.
-3. `/login` accepts the configured admin credentials.
-4. `/admin` loads successfully.
-5. `/admin/settings/setup` shows setup metadata sourced from the seeded settings row.
-
-### Development
+1. Create a new repository on GitHub (public or private) — e.g. `my-portfolio`.
+2. Push this repo to it:
 
 ```bash
-npm run dev          # Start dev server at http://localhost:3000
-npm run typecheck    # Run TypeScript checks
-npm run lint         # Lint code
-npm run format       # Format with Prettier
+git remote set-url origin https://github.com/<your-username>/my-portfolio.git
+git push -u origin main
 ```
 
-**First start checklist:**
+---
 
-1. ✅ `DATABASE_URL` and `AUTH_SECRET` are set
-2. ✅ `npm run prisma:migrate` completed successfully
-3. ✅ `npm run db:seed` completed (watch for "Database seed complete.")
-4. ✅ `npm run dev` running without "Site settings have not been initialised" errors
+## Step 5 — Deploy to Vercel
 
-Open http://localhost:3000 in your browser. **Admin dashboard** at http://localhost:3000/admin.
+Deploy directly with the button (clones this template into your GitHub account):
 
-### Production Build
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025&env=DATABASE_URL%2CDIRECT_URL%2CAUTH_SECRET%2CNEXT_PUBLIC_SITE_URL%2CADMIN_USERNAME%2CADMIN_PASSWORD%2CADMIN_EMAIL&envDescription=DATABASE_URL%20is%20your%20pooled%20Postgres%20connection%20string%20from%20Neon.%20DIRECT_URL%20is%20the%20non-pooled%20connection%20string%20%28remove%20-pooler%20from%20the%20host%29%20required%20for%20Prisma%20migrations.%20AUTH_SECRET%20must%20be%20at%20least%2032%20random%20characters.%20The%20ADMIN_%20variables%20bootstrap%20the%20initial%20admin%20account.)
+
+Or, manually:
+
+1. Go to [vercel.com/new](https://vercel.com/new).
+2. **Import** your GitHub repository.
+3. Vercel auto-detects Next.js — the framework preset is fine.
+4. Add the **Environment Variables**:
+
+   | Variable               | Value                                                       |
+   | ---------------------- | ----------------------------------------------------------- |
+   | `DATABASE_URL`         | Neon **pooled** connection string                           |
+   | `DIRECT_URL`           | Neon **direct** connection string (no `-pooler`)            |
+   | `AUTH_SECRET`          | A secure 32+ character random string                        |
+   | `NEXT_PUBLIC_SITE_URL` | Your deployment URL, e.g. `https://my-portfolio.vercel.app` |
+   | `ADMIN_USERNAME`       | Your admin username                                         |
+   | `ADMIN_PASSWORD`       | Your admin password                                         |
+   | `ADMIN_EMAIL`          | Your admin email                                            |
+
+5. Click **Deploy**.
+
+**How migrations work on Vercel:** the build runs `vercel-build` =
+`prisma generate && prisma migrate deploy && next build`, so your schema is
+migrated automatically on every deploy. No SSH/CLI needed.
+
+**First run:** when the deployed app boots and finds no settings/admin row,
+`EnvBootstrapService` creates them from your env vars automatically. Sign in at
+`/login` with the `ADMIN_USERNAME` / `ADMIN_PASSWORD` you set.
+
+> **Optional — seed content on your deployed DB:** the seed script is skipped in
+> production, so a fresh deploy starts with an empty (CMS-managed) database. If you
+> want the demo content, run the seed once from a local clone pointed at the Neon
+> DB:
+>
+> ```bash
+> # from a local clone, with .env.local set to the same Neon DATABASE_URL/DIRECT_URL
+> npm run db:seed
+> ```
+>
+> Otherwise just add your own content through the admin CMS.
+
+---
+
+## Step 6 — Connect a Domain
+
+### Option A — Free Vercel subdomain (zero setup)
+
+Every Vercel deployment gets a free `https://<your-project>.vercel.app` URL
+automatically. Set `NEXT_PUBLIC_SITE_URL` to it and you are done.
+
+### Option B — Your own domain
+
+1. **Buy a domain** from any registrar (e.g. Namecheap, GoDaddy, Cloudflare,
+   Google Domains). Expect ~$8–15/year for a `.com`-style domain.
+2. In the **Vercel dashboard**, open your project → **Settings → Domains**.
+3. Enter your domain (e.g. `example.com` or `www.example.com`) and click **Add**.
+4. Follow the DNS instructions Vercel shows. Two common setups:
+
+   - **Apex domain** (`example.com`): point an **A record** at Vercel's IP
+     `76.76.21.21`.
+   - **Subdomain / www** (`www.example.com`): create a **CNAME record** pointing
+     at `cname.vercel-dns.com`.
+
+5. Vercel provisions an **HTTPS certificate** automatically (Let's Encrypt).
+   Wait a few minutes and visit your domain.
+6. Update `NEXT_PUBLIC_SITE_URL` to `https://your-domain.com` and redeploy so the
+   footer, SEO, sitemap, and feeds use the new URL.
+
+---
+
+## Step 7 — Add Your Content (Admin CMS)
+
+Sign in at `/login`, then open `/admin`. Everything is editable there:
+
+| Manager                   | Purpose                                          |
+| ------------------------- | ------------------------------------------------ |
+| **Dashboard**             | Metrics and quick links                          |
+| **Portfolio**             | Projects, case studies, MDX sections, gallery    |
+| **Experience**            | Work history timeline                            |
+| **Education**             | Degrees and education records                    |
+| **Skills**                | Skill groups and individual skills               |
+| **Services**              | Service offerings                                |
+| **Certificates**          | Certificates and credentials                     |
+| **Recommendations**       | Testimonials                                     |
+| **Blog**                  | Posts, categories, tags                          |
+| **Media**                 | Uploaded files                                   |
+| **Contact**               | Submitted contact-form messages (inbox)          |
+| **Settings → Profile**    | Site name, hero, photo, contact details, socials |
+| **Settings → Visibility** | Show/hide pages and home sections (404-safe)     |
+| **Settings → Theme**      | Preview and apply one of the 7 built-in themes   |
+| **Settings → Backup**     | Export / import a full JSON backup               |
+| **Settings → Setup**      | Diagnostics: bootstrap and migration status      |
+
+**Profile photo:** upload an image via **Media**, then set its URL in
+**Settings → Profile → Profile Avatar Photo URL**. If none is set, a neutral
+default avatar is shown.
+
+---
+
+## Backup & Restore
+
+You have two layers of backup:
+
+**1. Application backup (admin UI)**
+
+- Go to **Admin → Settings → Backup**.
+- **Export** downloads a JSON file containing all your content (portfolio,
+  experience, education, skills, services, certificates, recommendations, blog,
+  and settings).
+- **Import** restores content from a previously exported JSON file.
+
+> This is a content backup — ideal for moving between environments or before
+> destructive changes.
+
+**2. Database-level backups (Neon)**
+
+- Neon's free tier keeps automatic snapshots and provides **Time Travel** /
+  **Branching** so you can restore the database at any point in time.
+- Open your project in the Neon console → **Branches** / **Snapshots** to create
+  or restore backups.
+
+---
+
+## Customization
+
+- **Content** — use the admin CMS (recommended) or edit
+  `src/static-content/*` (template-safe fallback data used by the seed).
+- **Themes** — edit `src/themes/index.ts` (7 themes) and apply them from
+  **Settings → Theme**.
+- **Styling tokens** — CSS variables in `src/app/globals.css`.
+- **Navigation routes** — `src/static-content/routes.ts`.
+- **SEO defaults** — set in **Settings → Profile** and
+  `src/static-content/seo.ts` (fallback).
+- **Avatar default** — replace `public/images/avatar.svg`.
+
+---
+
+## Media & File Uploads
+
+- **Local development:** uploads are stored under `public/uploads/` (gitignored).
+- **Production:** serverless filesystems are ephemeral, so for durable production
+  uploads enable **Vercel Blob**:
+  1. Create a Blob store in your Vercel project (**Storage → Create Blob Store**).
+  2. Add the `BLOB_READ_WRITE_TOKEN` to your project's environment variables.
+  3. The app automatically detects it and stores media in Blob instead of locally.
+
+---
+
+## Scripts
+
+| Script                   | Purpose                                                                |
+| ------------------------ | ---------------------------------------------------------------------- |
+| `npm run dev`            | Start the dev server at http://localhost:3000                          |
+| `npm run build`          | Production build (`prisma generate` + `migrate deploy` + `next build`) |
+| `npm start`              | Serve a production build                                               |
+| `npm run typecheck`      | Run TypeScript checks                                                  |
+| `npm run lint`           | Run ESLint                                                             |
+| `npm run format`         | Format with Prettier                                                   |
+| `npm run format:check`   | Check formatting without changes                                       |
+| `npm run check`          | `typecheck` + `lint` + `format:check`                                  |
+| `npm run test`           | Run the Vitest unit suite                                              |
+| `npm run e2e`            | Run the Playwright end-to-end suite                                    |
+| `npm run prisma:migrate` | Apply migrations (`prisma migrate dev`)                                |
+| `npm run prisma:studio`  | Open the Prisma Studio database browser                                |
+| `npm run db:seed`        | Seed the database with template content                                |
+| `npm run clean`          | Remove build/cache artifacts                                           |
+| `npm run rebuild`        | `clean` + `build`                                                      |
+
+---
+
+## Testing
 
 ```bash
-npm run build        # Create production build
-npm start            # Start production server
+npm run check    # typecheck + lint + format
+npm run test     # unit tests (Vitest)
+npm run e2e      # end-to-end tests (Playwright, needs a Postgres DATABASE_URL)
 ```
 
-### Quality Checks
-
-```bash
-npm run check        # Run typecheck + lint + format check (CI-ready)
-npm run test         # Run Vitest suite (unit tests)
-npm run test:watch   # Watch mode for tests
-npm run e2e          # Run Playwright e2e tests (Playwright boots the app automatically)
-```
-
-**E2E Testing Flow:**
-
-```bash
-# Playwright provisions the test app, seeds the database, authenticates,
-# and runs the Chromium suite.
-npm run e2e -- --project=chromium
-```
-
-Tests log in via the API using credentials from `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD`.
-
-Important:
-
-- Let Playwright provision its own seeded app unless you are explicitly debugging against a running server.
-- The isolated Playwright bootstrap requires a PostgreSQL-compatible `PLAYWRIGHT_DATABASE_URL` or
-  `DATABASE_URL`; this repo no longer has a valid SQLite fallback because the Prisma datasource is
-  PostgreSQL-only.
-- Isolated Playwright runs default to `http://127.0.0.1:3100`; `PLAYWRIGHT_BASE_URL` is now mainly
-  for `PLAYWRIGHT_REUSE_SERVER=1` debugging against an already-running app, while
-  `PLAYWRIGHT_ISOLATED_BASE_URL` controls the dedicated bootstrapped server when needed.
-- `PLAYWRIGHT_REUSE_SERVER=1` is useful for local debugging, but it can produce noisy failures when the live dev server has different data, credentials, or state than the isolated E2E bootstrap path.
-- The actual local `.env` may override the documented default admin credentials; treat the values in `.env.example` and this README as defaults, not guaranteed active secrets.
-
-### Clean & Rebuild
-
-```bash
-npm run clean        # Remove .next and cache
-npm run rebuild      # Clean + build
-```
+- **Unit tests** cover services, repositories, serializers, validators, feeds, MDX,
+  media storage, and API route handlers.
+- **E2E tests** provision an isolated app + database, seed it, and run browser
+  flows (auth, admin CRUD, settings, backup, public content).
+- Use `PLAYWRIGHT_DATABASE_URL` to give the isolated e2e run its own database so it
+  never touches your real data.
 
 ---
 
-## 🛠️ Customization Guide
+## Security
 
-### Content Updates
+- Single-admin, session-based auth with `iron-session` (HttpOnly, `SameSite=lax`,
+  secure cookies in production) and bcrypt password hashing.
+- Auth login and public contact submission are rate-limited.
+- API input is validated with Zod at every boundary.
+- Security headers (`X-Frame-Options`, `X-Content-Type-Options`,
+  `Referrer-Policy`) are set for all routes.
+- Never commit real secrets. Keep secrets in `.env.local` locally and in your
+  hosting provider's environment-variable store in production.
 
-Primary launch content is managed through the admin CMS after seeding. Use `src/static-content/*`
-for fallback/bootstrap defaults only, then verify the database-backed public pages after changes.
-
-1. **Portfolio Items**: Manage through `/admin/portfolio`; static portfolio files are fallback/seed inputs only.
-2. **Experience**: Manage through `/admin/experience`; publish only entries that should appear publicly.
-3. **Education**: Manage through `/admin/education`.
-4. **Skills**: Manage through `/admin/skills`.
-5. **Services**: Manage through `/admin/services`.
-6. **Personal Info & SEO**: Bootstrap from env/settings, then verify the settings row and public metadata.
-
-### Assets
-
-- **Images**: Place in `public/images/` and reference as `/images/filename.jpg`
-- **PDFs**: Place in `public/attachments/` for certificates and documents
-- **Avatar**: Update `public/images/avatar.jpg` or change path in personal data
-
-### Styling
-
-- **Global Tokens**: Edit `src/app/globals.css` for color schemes and CSS variables
-- **Tailwind Config**: Modify `tailwind.config.ts` for theme extensions
-- **Component Styles**: Use Tailwind utilities; extract with `@apply` when needed
-
-### Navigation
-
-- **Routes**: Define in `src/static-content/routes.ts`
-- **Nav Links**: Edit `src/components/NavSidebar/NavLinks.tsx`
-- **Social Links**: Prefer settings/admin-backed social links; keep `src/static-content/metadata.ts` as fallback-safe defaults.
-
-### SEO
-
-- **Default Metadata**: Prefer settings/env-backed metadata, with `src/static-content/metadata.ts` retained as fallback-safe defaults.
-- **Page-Specific**: Add `generateMetadata` exports to individual pages
+For reporting a security issue, see [`SECURITY.md`](./SECURITY.md).
 
 ---
 
-## 🧪 Quality & Conventions
+## Troubleshooting
 
-- Type Safety: No `any` (enforced by ESLint). Consolidated domain types (removed legacy `database.ts`).
-- Accessibility: Avoid nested anchors (fixed in recommendations section); toggle buttons expose `aria-expanded`.
-- Performance: Static generation + minimal client interactivity; large assets manually curated.
-- Imports: Optimized for `lucide-react` via experimental `optimizePackageImports` flag.
+**`prisma migrate deploy` fails with an advisory-lock / P3005 error on Neon**
+Your `DATABASE_URL` points at the pooler. Set `DIRECT_URL` to the **non-pooled**
+Neon connection string (host without `-pooler`).
 
----
+**Build fails with "Environment variable not found: DATABASE_URL"**
+The build runs Prisma generate/migrate, so both `DATABASE_URL` and `DIRECT_URL`
+must be present at build time (Vercel → Project → Settings → Environment
+Variables).
 
-## ⚙️ Scripts (package.json)
+**Admin can't sign in**
+The admin account is created from `ADMIN_USERNAME` / `ADMIN_PASSWORD` on first
+boot. After changing them, ensure the value you type at `/login` matches exactly.
 
-| Script            |                                           Purpose |
-| ----------------- | ------------------------------------------------: |
-| `dev`             | Start development server at http://localhost:3000 |
-| `dev:turbopack`   |           Dev using Turbopack experiment (faster) |
-| `dev:webpack`     |                   Explicit Webpack dev (fallback) |
-| `build`           |                                  Production build |
-| `start`           |                            Serve production build |
-| `typecheck`       |                      Run TypeScript type checking |
-| `lint`            |                         ESLint + type-aware rules |
-| `lint:fix`        |                           Auto-fix linting errors |
-| `format`          |                              Format with Prettier |
-| `format:check`    |                  Check formatting without changes |
-| `check`           |        typecheck + lint + format check (CI-ready) |
-| `test`            |                             Run Vitest suite once |
-| `test:watch`      |                          Run Vitest in watch mode |
-| `e2e`             |                          Run Playwright e2e tests |
-| `clean`           |    Remove `.next`, `.next-playwright`, and caches |
-| `rebuild`         |                                  Clean then build |
-| `prisma:generate` |                            Generate Prisma client |
-| `prisma:migrate`  |                           Apply Prisma migrations |
-| `prisma:studio`   |                             Open Prisma Studio UI |
-| `db:push`         |        Push schema to database (prototyping only) |
-| `db:seed`         |                Seed database with initial content |
+**Uploads disappear after a Vercel redeploy**
+Local uploads are ephemeral on Vercel. Enable **Vercel Blob** (see
+[Media & File Uploads](#media--file-uploads)) for durable production media.
 
-For complete database setup on first run, execute: `npm run prisma:migrate && npm run db:seed`
+**`npm run e2e` interferes with my real database**
+Provide a dedicated `PLAYWRIGHT_DATABASE_URL` so the e2e bootstrap seeds its own
+database.
+
+**I want a fresh start**
+`npm run db:seed` resets and reseeds the database with template content (local
+dev only). For production, use the admin Backup/Import or Neon snapshots instead.
 
 ---
 
-## 🌐 Deployment (Vercel + Neon)
+## Contributing
 
-This project is deployment-ready around PostgreSQL and env-driven bootstrap.
-
-Steps (Vercel):
-
-1. Import the GitHub repo
-2. Framework detected: Next.js
-3. Build command: `npm run build`
-4. Output: `.next`
-5. Set Vercel Environment Variables:
-   - `DATABASE_URL` (Neon)
-   - `AUTH_SECRET`
-   - `NEXT_PUBLIC_SITE_URL`
-
-Notes:
-
-- Prisma `generate` runs during build; it cannot run from the website
-- Run `prisma:migrate` during CI/build to apply schema changes
-- Redirects for `/projects` are handled in `next.config.ts`
-
----
-
-## 🧭 Roadmap (Planned / Potential)
-
-- MDX support for rich project sections
-- Tag + stack filtering on `/portfolio`
-- Lightbox & swipe gestures for gallery
-- Blog system (unified content pipeline)
-- Analytics + basic performance telemetry (post-launch)
-- Optional CMS adapter layer (e.g. Contentful / Sanity / Payload)
-- Authentication + dashboard (v2) for dynamic editing
-- RSS / JSON feed for case studies
-- PDF auto-generation for resume snapshots
-- i18n (multi-language content layer)
-
-Have an idea? Open an issue or PR.
-
----
-
-## 🔐 Removed or Retired (Legacy Features)
-
-Retired from the supported launch path:
-
-- web setup wizard as onboarding
-- `setup:first-run` script-based onboarding
-
----
-
-## 🧪 Testing Strategy
-
-- **Unit**: `npm run test` executes the Vitest suite (use `npm run test -- path/to/file` for a single spec).
-- **E2E**: `npm run e2e -- --project=chromium` boots the app via Playwright, logs in through the API, and runs admin smoke tests.
-  - Uses `tests/e2e/webserver.ts` to provision the app, push the schema, and seed test data before running the browser suite.
-  - Uses `PLAYWRIGHT_DATABASE_URL` when provided; otherwise the isolated bootstrap falls back to the active PostgreSQL `DATABASE_URL`.
-  - Defaults isolated runs to `http://127.0.0.1:3100` so they do not contend with a normal `npm run dev` session on `3000`.
-  - Override credentials with `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD` when needed.
-- **Tips**: Keep the database in sync with `static-content` so seeded fixtures match UI assertions, and prefer `npm run dev` locally while iterating on Playwright tests for faster reloads.
+Contributions are welcome — see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the
+setup, verification, and pull-request process. By participating you agree to the
+[`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
 
 ---
 
 ## License
 
-This project is released under the [MIT License](./LICENSE). You are free to
-fork, adapt, and ship your own portfolio off this template.
-
-## Contributing
-
-Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the
-setup, verification, and PR process. By participating you agree to the
-[Code of Conduct](./CODE_OF_CONDUCT.md).
-
-For security issues, follow [SECURITY.md](./SECURITY.md) instead of opening a
-public issue.
+This project is released under the [MIT License](./LICENSE). You are free to fork,
+modify, and ship your own portfolio off this template — including commercially.
 
 ---
 
-## ⚡ Credits
+## Credits
 
-Built with Next.js, React, TypeScript, Tailwind CSS, and lucide-react icons.
+Built with [Next.js](https://nextjs.org), [React](https://react.dev),
+[TypeScript](https://www.typescriptlang.org), [Tailwind CSS](https://tailwindcss.com),
+[Prisma](https://www.prisma.io), [Vercel](https://vercel.com), and
+[Neon](https://neon.tech).
 
-Author: **Ammar Hany** – Connect via portfolio contact section or LinkedIn.
-
----
-
-## 🔎 Quick Reference
-
-| Area             | File / Path                                    |
-| ---------------- | ---------------------------------------------- |
-| Portfolio list   | `src/app/portfolio/page.tsx`                   |
-| Portfolio detail | `src/app/portfolio/[slug]/page.tsx`            |
-| Data index       | `src/static-content/index.ts`                  |
-| Project JSON     | `src/static-content/portfolio/*.json`          |
-| Experience UI    | `src/sections/home/ExperienceSection.tsx`      |
-| Recommendations  | `src/sections/home/RecommendationsSection.tsx` |
-| Navigation       | `src/components/NavSidebar/NavLinks.tsx`       |
-| Version export   | `src/lib/version.ts`                           |
-
----
-
-If you ship a modified fork, consider keeping attribution or a link back. Enjoy building your story.
+Author: **Ammar Hany** — if this template helps you, a star or a link back is
+always appreciated. Enjoy building your story.

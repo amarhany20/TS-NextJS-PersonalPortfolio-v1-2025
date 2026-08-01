@@ -7,6 +7,14 @@ import { useSidebar } from '@/components/ui/SidebarProvider';
 import { APP_VERSION } from '@/lib/version';
 import type { ProfileInfo } from '@/types/settings';
 
+const siteHost = (() => {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').hostname;
+  } catch {
+    return 'localhost';
+  }
+})();
+
 interface ProfileSidebarProps {
   profile: ProfileInfo;
   coreSkills: string[];
@@ -26,7 +34,7 @@ export default function ProfileSidebarClient({
   const displayName = profile.fullName || '';
   const primaryLocation = profile.location || '';
   const profileTitle = profile.title || '';
-  const photo = profile.photoUrl || '/2024 Ammar Personal Photo.jpg';
+  const photo = profile.photoUrl || '/images/avatar.svg';
 
   return (
     <>
@@ -119,7 +127,7 @@ export default function ProfileSidebarClient({
         {/* Bottom - Version & Copyright */}
         <div className="mt-auto text-center text-sm text-[var(--text-secondary)]">
           <div>
-            © {new Date().getFullYear()} ammarhany.com - V{APP_VERSION}
+            © {new Date().getFullYear()} {siteHost} - V{APP_VERSION}
           </div>
         </div>
       </aside>

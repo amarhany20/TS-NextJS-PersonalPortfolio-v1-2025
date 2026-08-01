@@ -6,8 +6,8 @@ broaden the supported feature surface are welcome.
 
 ## Ground Rules
 
-- Read [`AGENTS.md`](./AGENTS.md) and [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) before opening a PR.
-- Keep code, docs, and the launch checklist in sync in the same PR.
+- Read the [`README.md`](./README.md) before opening a PR.
+- Keep code and docs in sync in the same PR.
 - One change set per PR — split unrelated fixes.
 - Do not introduce a web setup wizard, multi-user roles, or a SQLite fallback
   without an explicit, prior issue discussion. These are deliberate non-goals.
@@ -15,7 +15,7 @@ broaden the supported feature surface are welcome.
 ## Development Setup
 
 ```bash
-git clone https://github.com/amarhany20/TS-NextJS-PersonalPortfolio-v1-2025.git
+git clone https://github.com/your-username/TS-NextJS-PersonalPortfolio-v1-2025.git
 cd TS-NextJS-PersonalPortfolio-v1-2025
 npm install
 cp .env.example .env.local
@@ -65,12 +65,11 @@ not collide with `npm run dev` on `3000`.
 
 ## Documentation Style
 
-- Update the relevant `README.md` in the folder you touched.
-- Add or update a short entry in
-  `TS-NextJS-PersonalPortfolio-v1-2025 Technical Docs/09-implementation-checklist.md`
-  if the PR closes a tracked item.
-- Update `AGENTS.md` if your change affects repo-reality, commands, or
-  architecture rules, and append a changelog row.
+- Keep the root `README.md` aligned with the current codebase.
+- Update `README.md` in the same PR when setup, commands, routes, or
+  architecture change.
+- Do not create parallel documentation files; the README is the single source
+  of truth for usage, setup, deployment, and architecture.
 
 ## Pull Request Process
 

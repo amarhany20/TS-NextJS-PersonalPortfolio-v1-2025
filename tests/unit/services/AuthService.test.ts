@@ -24,20 +24,20 @@ describe('AuthService', () => {
   it('authenticates active users with valid credentials', async () => {
     vi.mocked(UserRepository.findByUsername).mockResolvedValue({
       id: 'user-1',
-      username: 'ammar',
-      email: 'ammar@example.com',
-      displayName: 'Ammar',
+      username: 'jane',
+      email: 'user@example.com',
+      displayName: 'Jane',
       role: 'admin',
       passwordHash: 'hash',
       status: 'active',
     } as any);
     vi.mocked(verifyPassword).mockResolvedValue(true);
 
-    const result = await AuthService.authenticate(' Ammar ', 'secret');
+    const result = await AuthService.authenticate(' Jane ', 'secret');
 
-    expect(UserRepository.findByUsername).toHaveBeenCalledWith('ammar');
+    expect(UserRepository.findByUsername).toHaveBeenCalledWith('jane');
     expect(UserRepository.recordLogin).toHaveBeenCalledWith('user-1');
-    expect(result).toMatchObject({ id: 'user-1', username: 'ammar' });
+    expect(result).toMatchObject({ id: 'user-1', username: 'jane' });
   });
 
   it('throws UnauthorizedError when user missing', async () => {
@@ -51,17 +51,15 @@ describe('AuthService', () => {
   it('throws UnauthorizedError when password mismatch', async () => {
     vi.mocked(UserRepository.findByUsername).mockResolvedValue({
       id: 'user-1',
-      username: 'ammar',
-      email: 'ammar@example.com',
-      displayName: 'Ammar',
+      username: 'jane',
+      email: 'user@example.com',
+      displayName: 'Jane',
       role: 'admin',
       passwordHash: 'hash',
       status: 'active',
     } as any);
     vi.mocked(verifyPassword).mockResolvedValue(false);
 
-    await expect(AuthService.authenticate('ammar', 'bad')).rejects.toBeInstanceOf(
-      UnauthorizedError,
-    );
+    await expect(AuthService.authenticate('jane', 'bad')).rejects.toBeInstanceOf(UnauthorizedError);
   });
 });

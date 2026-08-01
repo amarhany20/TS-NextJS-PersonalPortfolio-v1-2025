@@ -6,11 +6,11 @@ import { serializeJsonFeed } from '@/server/feeds/json';
 
 const basePayload: FeedPayload = {
   channel: {
-    title: 'Ammar Hany — Portfolio',
+    title: 'Jane Doe — Portfolio',
     description: 'Published portfolio projects and blog posts.',
-    siteUrl: 'https://ammarhany.com',
-    homeUrl: 'https://ammarhany.com',
-    author: 'Ammar Hany',
+    siteUrl: 'https://example.com',
+    homeUrl: 'https://example.com',
+    author: 'Jane Doe',
     language: 'en',
   },
   items: [
@@ -19,7 +19,7 @@ const basePayload: FeedPayload = {
       kind: 'portfolio',
       title: 'Project A',
       summary: 'A short summary of Project A.',
-      url: 'https://ammarhany.com/portfolio/project-a',
+      url: 'https://example.com/portfolio/project-a',
       publishedAt: '2026-04-15T10:00:00.000Z',
     },
     {
@@ -27,9 +27,9 @@ const basePayload: FeedPayload = {
       kind: 'blog',
       title: 'Hello, world',
       summary: 'My first post.',
-      url: 'https://ammarhany.com/blogs/hello-world',
+      url: 'https://example.com/blogs/hello-world',
       publishedAt: '2026-05-01T08:00:00.000Z',
-      author: 'Ammar Hany',
+      author: 'Jane Doe',
     },
   ],
 };
@@ -48,10 +48,10 @@ describe('serializeRss', () => {
   it('renders channel metadata', () => {
     const xml = serializeRss(basePayload);
 
-    expect(xml).toContain('<title>Ammar Hany — Portfolio</title>');
-    expect(xml).toContain('<link>https://ammarhany.com</link>');
+    expect(xml).toContain('<title>Jane Doe — Portfolio</title>');
+    expect(xml).toContain('<link>https://example.com</link>');
     expect(xml).toContain('<language>en</language>');
-    expect(xml).toContain('<atom:link href="https://ammarhany.com/feed.xml" rel="self"');
+    expect(xml).toContain('<atom:link href="https://example.com/feed.xml" rel="self"');
   });
 
   it('renders one <item> per feed entry with category and guid', () => {
@@ -61,7 +61,7 @@ describe('serializeRss', () => {
     expect(xml).toContain('<category>portfolio</category>');
     expect(xml).toContain('<category>blog</category>');
     expect(xml).toContain(
-      '<guid isPermaLink="true">https://ammarhany.com/portfolio/project-a</guid>',
+      '<guid isPermaLink="true">https://example.com/portfolio/project-a</guid>',
     );
   });
 
@@ -118,9 +118,9 @@ describe('serializeJsonFeed', () => {
     const parsed = JSON.parse(json) as Record<string, unknown>;
 
     expect(parsed.version).toBe('https://jsonfeed.org/version/1.1');
-    expect(parsed.title).toBe('Ammar Hany — Portfolio');
-    expect(parsed.home_page_url).toBe('https://ammarhany.com');
-    expect(parsed.feed_url).toBe('https://ammarhany.com/feed.json');
+    expect(parsed.title).toBe('Jane Doe — Portfolio');
+    expect(parsed.home_page_url).toBe('https://example.com');
+    expect(parsed.feed_url).toBe('https://example.com/feed.json');
     expect(parsed.language).toBe('en');
     expect(Array.isArray(parsed.items)).toBe(true);
   });
@@ -144,15 +144,15 @@ describe('serializeJsonFeed', () => {
     const json = serializeJsonFeed(basePayload);
     const parsed = JSON.parse(json) as { items: Array<{ author: { name: string } }> };
 
-    expect(parsed.items[0].author.name).toBe('Ammar Hany');
-    expect(parsed.items[1].author.name).toBe('Ammar Hany');
+    expect(parsed.items[0].author.name).toBe('Jane Doe');
+    expect(parsed.items[1].author.name).toBe('Jane Doe');
   });
 
   it('renders authors array at the channel level', () => {
     const json = serializeJsonFeed(basePayload);
     const parsed = JSON.parse(json) as { authors: Array<{ name: string; url: string }> };
 
-    expect(parsed.authors).toEqual([{ name: 'Ammar Hany', url: 'https://ammarhany.com' }]);
+    expect(parsed.authors).toEqual([{ name: 'Jane Doe', url: 'https://example.com' }]);
   });
 
   it('omits authors when both channel and items have no name', () => {

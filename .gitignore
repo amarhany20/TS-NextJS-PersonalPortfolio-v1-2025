@@ -60,3 +60,6 @@ next-env.d.ts
 /src/generated/prisma
 .gemini/
 gha-creds-*.json
+
+# uploads (local media driver writes here)
+/public/uploads/

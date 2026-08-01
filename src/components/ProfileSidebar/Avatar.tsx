@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function Avatar() {
   const [name] = useState<string>('Profile');
-  const [imageUrl] = useState<string>('/2024 Ammar Personal Photo.jpg');
+  const [imageUrl] = useState<string>('/images/avatar.svg');
 
   // In static mode you may later hydrate from CMS or file-based config.
   useEffect(() => {

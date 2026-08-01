@@ -35,7 +35,7 @@ describe('settings api routes', () => {
     );
 
     const response = await patchProfile(
-      createRequest('/api/v1/settings/profile', 'PATCH', { siteTitle: 'Ammar Hany' }),
+      createRequest('/api/v1/settings/profile', 'PATCH', { siteTitle: 'Jane Doe' }),
     );
 
     expect(response.status).toBe(401);
@@ -58,16 +58,16 @@ describe('settings api routes', () => {
   it('profile PATCH updates the site profile', async () => {
     (requireAuth as unknown as Mock).mockResolvedValue({});
     (SettingsService.updateSiteProfile as unknown as Mock).mockResolvedValue({
-      siteTitle: 'Ammar Hany',
+      siteTitle: 'Jane Doe',
     });
 
     const profileBody = {
-      siteTitle: 'Ammar Hany',
+      siteTitle: 'Jane Doe',
       siteSubtitle: 'Full-Stack Engineer',
       heroGreeting: 'Hello',
       heroSubtitle: 'Welcome to my portfolio',
       heroDescription: 'A short hero description.',
-      primaryEmail: 'ammar@example.com',
+      primaryEmail: 'user@example.com',
       secondaryEmail: '',
       location: 'Cairo',
       timezone: 'Africa/Cairo',
