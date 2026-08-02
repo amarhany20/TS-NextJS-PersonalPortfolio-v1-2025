@@ -238,7 +238,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
           {/* Navigation Links */}
           <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5 scrollbar-thin">
             {renderNavGroup(overviewItems, 'Overview')}
-            {renderNavGroup(contentItems, 'Content & Media')}
+            {renderNavGroup(contentItems, 'Content & Attachments')}
             {renderNavGroup(careerItems, 'Career & Inbox')}
             {renderNavGroup(systemItems, 'System Settings')}
           </nav>
@@ -362,7 +362,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
 
           <nav className="flex-1 overflow-y-auto p-4 space-y-5">
             {renderNavGroup(overviewItems, 'Overview')}
-            {renderNavGroup(contentItems, 'Content & Media')}
+            {renderNavGroup(contentItems, 'Content & Attachments')}
             {renderNavGroup(careerItems, 'Career & Inbox')}
             {renderNavGroup(systemItems, 'System Settings')}
           </nav>
