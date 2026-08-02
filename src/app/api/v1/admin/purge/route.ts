@@ -3,6 +3,7 @@ import { verifyPassword } from '@/server/security/password';
 import prisma from '@/server/db/prisma';
 import { errorResponse, successResponse } from '@/server/http/responses';
 import { logger } from '@/utils/logger';
+import { EnvBootstrapService } from '@/server/services/EnvBootstrapService';
 
 export async function POST(request: Request) {
   try {
@@ -45,19 +46,28 @@ export async function POST(request: Request) {
       counts.certificates = (await tx.certificate.deleteMany()).count;
       counts.recommendations = (await tx.recommendation.deleteMany()).count;
       counts.contactSubmissions = (await tx.contactSubmission.deleteMany()).count;
+      counts.users = (await tx.user.deleteMany()).count;
+      counts.settings = (await tx.settings.deleteMany()).count;
     });
+
+    await EnvBootstrapService.ensureSettingsAndAdmin();
 
     const totalPurged = Object.values(counts).reduce((a, b) => a + b, 0);
 
-    logger.warn('[API Purge] Database purged by admin', {
+    logger.warn('[API Purge] Factory reset performed by admin', {
       purgedBy: session.user!.username,
       totalPurged,
       counts,
     });
 
-    return successResponse({ totalPurged, counts });
+    return successResponse({
+      totalPurged,
+      counts,
+      factoryReset: true,
+      message: 'Database wiped and reset to factory defaults (settings + admin restored from env).',
+    });
   } catch (error) {
-    logger.error('[API Purge] Failed to purge database', error);
+    logger.error('[API Purge] Failed to reset database', error);
     return errorResponse(error);
   }
 }

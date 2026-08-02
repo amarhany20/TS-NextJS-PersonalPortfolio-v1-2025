@@ -49,17 +49,23 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
         theme: 'snow',
         placeholder: placeholderRef.current,
         modules: {
-          toolbar: [
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            [{ script: 'sub' }, { script: 'super' }],
-            [{ indent: '-1' }, { indent: '+1' }],
-            [{ align: [] }],
-            ['link', 'image', 'blockquote', 'code-block'],
-            [{ color: [] }, { background: [] }],
-            ['clean'],
-          ],
+          toolbar: {
+            container: [
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              [{ script: 'sub' }, { script: 'super' }],
+              [{ indent: '-1' }, { indent: '+1' }],
+              [{ align: [] }],
+              ['link', 'image', 'blockquote', 'code-block'],
+              [{ color: [] }, { background: [] }],
+              ['clean'],
+            ],
+            handlers: {
+              image: imageHandler,
+              link: linkHandler,
+            },
+          },
         },
       });
 
@@ -68,6 +74,68 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
       quill.on('text-change', () => {
         onChangeRef.current(normalizeHtml(quill.root.innerHTML));
       });
+
+      mountElement.querySelectorAll('[title]').forEach((el) => el.removeAttribute('title'));
+    }
+
+    async function imageHandler(this: unknown) {
+      const toolbar = this as { quill: QuillType };
+      const editor = toolbar.quill;
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.style.display = 'none';
+      document.body.appendChild(input);
+
+      input.addEventListener('change', async () => {
+        const file = input.files?.[0];
+        input.remove();
+        if (!file) {
+          return;
+        }
+
+        try {
+          const form = new FormData();
+          form.append('file', file);
+
+          const response = await fetch('/api/v1/media', { method: 'POST', body: form });
+          const payload = await response.json().catch(() => null);
+          if (!response.ok) {
+            throw new Error(payload?.error?.message ?? 'Image upload failed.');
+          }
+
+          const url = payload?.data?.url as string | undefined;
+          if (!url) {
+            throw new Error('Upload returned no URL.');
+          }
+
+          const range = editor.getSelection(true);
+          editor.insertEmbed(range.index, 'image', url, 'user');
+          editor.setSelection(range.index + 1, 0);
+        } catch (error) {
+          window.alert(error instanceof Error ? error.message : 'Image upload failed.');
+        }
+      });
+
+      input.click();
+    }
+
+    function linkHandler(this: unknown, value: boolean) {
+      const toolbar = this as { quill: QuillType };
+      const editor = toolbar.quill;
+
+      if (value) {
+        const selection = editor.getSelection(true);
+        const range = selection ?? { index: editor.getLength() - 1, length: 0 };
+        const selectedText = editor.getText(range.index, range.length).trim();
+        const href = window.prompt('Enter link URL (https://…):', selectedText || 'https://');
+        if (href) {
+          editor.format('link', href, 'user');
+        }
+        return;
+      }
+
+      editor.format('link', false, 'user');
     }
 
     void init();

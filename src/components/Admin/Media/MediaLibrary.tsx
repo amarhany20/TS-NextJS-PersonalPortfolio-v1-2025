@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Copy, Eye, Image as ImageIcon, Trash2, Upload } from 'lucide-react';
+import { Check, Copy, Eye, Image as ImageIcon, Trash2, Upload } from 'lucide-react';
 
 import type { MediaAsset } from '@/types/media';
 
@@ -30,12 +30,21 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<MediaAsset | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const hasAssets = assets.length > 0;
 
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (!copiedId) {
+      return;
+    }
+    const timer = setTimeout(() => setCopiedId(null), 2000);
+    return () => clearTimeout(timer);
+  }, [copiedId]);
 
   const totalSize = useMemo(() => assets.reduce((acc, asset) => acc + asset.size, 0), [assets]);
 
@@ -120,15 +129,21 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
     setMessage('Asset deleted.');
   };
 
-  const handleCopy = async (asset: MediaAsset) => {
-    try {
-      const absoluteUrl = asset.url.startsWith('http')
-        ? asset.url
-        : `${window.location.origin}${asset.url}`;
-      await navigator.clipboard.writeText(absoluteUrl);
-      setMessage('Link copied to clipboard.');
-    } catch {
-      setError('Unable to copy link.');
+  const handleCopy = async (asset: MediaAsset, kind: 'link' | 'path') => {
+    const text =
+      kind === 'path'
+        ? asset.path
+        : asset.url.startsWith('http')
+          ? asset.url
+          : `${window.location.origin}${asset.url}`;
+
+    const ok = await copyText(text);
+    if (ok) {
+      setMessage(kind === 'path' ? 'Location copied to clipboard.' : 'Link copied to clipboard.');
+      setError(null);
+      setCopiedId(asset.id);
+    } else {
+      setError('Unable to copy. Your browser may not allow clipboard access.');
     }
   };
 
@@ -229,11 +244,33 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => handleCopy(asset)}
+                  onClick={() => handleCopy(asset, 'link')}
                   className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-medium text-muted-foreground transition hover:border-accent"
                 >
-                  <Copy size={14} /> Copy link
+                  {copiedId === asset.id ? (
+                    <>
+                      <Check size={14} className="text-emerald-500" /> Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={14} /> Copy link
+                    </>
+                  )}
                 </button>
+                {asset.path && asset.path !== asset.url ? (
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(asset, 'path')}
+                    className="rounded-lg border border-[var(--border)] px-2.5 py-2 text-xs font-medium text-muted-foreground transition hover:border-accent"
+                    title="Copy relative location"
+                  >
+                    {copiedId === asset.id ? (
+                      <Check size={14} className="text-emerald-500" />
+                    ) : (
+                      <Copy size={14} />
+                    )}
+                  </button>
+                ) : null}
                 {asset.mimeType.startsWith('image/') ? (
                   <button
                     type="button"
@@ -316,4 +353,33 @@ function formatFileSize(bytes: number) {
   const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   const value = bytes / 1024 ** exponent;
   return `${value.toFixed(value >= 10 || exponent === 0 ? 0 : 1)} ${units[exponent]}`;
+}
+
+/**
+ * Copies text to the clipboard, falling back to a temporary textarea + execCommand
+ * for browsers that block the async Clipboard API on non-secure origins.
+ */
+async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    // Fallback for insecure contexts / older browsers.
+  }
+
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    textarea.style.pointerEvents = 'none';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const ok = document.execCommand('copy');
+    textarea.remove();
+    return ok;
+  } catch {
+    return false;
+  }
 }

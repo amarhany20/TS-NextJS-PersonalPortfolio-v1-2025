@@ -51,8 +51,23 @@ function toSiteProfileSettings(
     secondaryEmail: settings.secondaryEmail ?? '',
     location: settings.location ?? '',
     timezone: settings.timezone ?? '',
-    photoUrl: rawPhoto,
+    photoUrl: toPublicPhotoPath(rawPhoto),
   } satisfies SiteProfileSettings;
+}
+
+/**
+ * Normalizes a stored photo URL into a path that resolves from any page depth.
+ * Relative values (e.g. `uploads/2026/08/a.webp`) must start with `/` so they do
+ * not break on nested routes like `/admin/settings/profile`.
+ */
+function toPublicPhotoPath(value: string): string {
+  if (!value) {
+    return '/images/avatar.svg';
+  }
+  if (value.startsWith('http') || value.startsWith('/')) {
+    return value;
+  }
+  return `/${value}`;
 }
 
 function toSiteVisibilitySettings(

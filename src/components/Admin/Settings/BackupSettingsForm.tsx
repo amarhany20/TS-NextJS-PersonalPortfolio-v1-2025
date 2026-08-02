@@ -117,7 +117,9 @@ export function BackupSettingsForm() {
 
       setStatusMessage({
         type: 'success',
-        text: `Database purged successfully! ${json.data?.totalPurged || 0} records deleted. Refreshing...`,
+        text: json.data?.factoryReset
+          ? `Factory reset complete! ${json.data?.totalPurged || 0} records deleted; settings and admin restored. Refreshing...`
+          : `Database purged successfully! ${json.data?.totalPurged || 0} records deleted. Refreshing...`,
       });
 
       setPurgePassword('');
@@ -249,8 +251,9 @@ export function BackupSettingsForm() {
           </h3>
           <p className="text-sm text-[var(--text-secondary)]">
             Permanently delete all content data (portfolio, blogs, services, experience, education,
-            skills, certificates, recommendations, media, and contact submissions). Settings and
-            admin accounts are preserved.
+            skills, certificates, recommendations, media, and contact submissions) and reset the
+            site to factory defaults — settings, site profile, and admin account are recreated from
+            the environment variables.
           </p>
         </div>
 
@@ -346,7 +349,9 @@ export function BackupSettingsForm() {
               recommendations, media files, and contact submissions.
             </p>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-              Settings and admin accounts will be preserved. This action{' '}
+              Settings, site profile, and admin accounts will be{' '}
+              <span className="font-semibold text-rose-400">reset to factory defaults</span> from
+              the environment variables. This action{' '}
               <span className="font-semibold text-rose-400">cannot be undone</span>.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">
