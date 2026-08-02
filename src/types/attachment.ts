@@ -1,4 +1,4 @@
-export interface MediaAsset {
+export interface AttachmentAsset {
   id: string;
   filename: string;
   originalName?: string;

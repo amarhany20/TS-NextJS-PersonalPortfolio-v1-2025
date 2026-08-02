@@ -61,5 +61,5 @@ next-env.d.ts
 .gemini/
 gha-creds-*.json
 
-# uploads (local media driver writes here)
+# legacy local uploads (storage is Vercel Blob only now)
 /public/uploads/

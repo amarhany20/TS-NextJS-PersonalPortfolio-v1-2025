@@ -23,7 +23,7 @@ export const BackupService = {
         services,
         certificates,
         recommendations,
-        media,
+        attachments,
         contactSubmissions,
       ] = await Promise.all([
         prisma.settings.findMany(),
@@ -39,7 +39,7 @@ export const BackupService = {
         prisma.service.findMany(),
         prisma.certificate.findMany(),
         prisma.recommendation.findMany(),
-        prisma.media.findMany(),
+        prisma.attachment.findMany(),
         prisma.contactSubmission.findMany(),
       ]);
 
@@ -57,7 +57,7 @@ export const BackupService = {
         services: services.length,
         certificates: certificates.length,
         recommendations: recommendations.length,
-        media: media.length,
+        attachments: attachments.length,
         contactSubmissions: contactSubmissions.length,
       };
 
@@ -86,7 +86,7 @@ export const BackupService = {
           services: services as Record<string, unknown>[],
           certificates: certificates as Record<string, unknown>[],
           recommendations: recommendations as Record<string, unknown>[],
-          media: media as Record<string, unknown>[],
+          attachments: attachments as Record<string, unknown>[],
           contactSubmissions: contactSubmissions as Record<string, unknown>[],
         },
       };
@@ -212,10 +212,10 @@ export const BackupService = {
           }
         }
 
-        if (payload.data.media.length > 0) {
-          await tx.media.deleteMany({});
-          for (const item of payload.data.media) {
-            await tx.media.create({ data: item as unknown as Prisma.MediaCreateInput });
+        if (payload.data.attachments.length > 0) {
+          await tx.attachment.deleteMany({});
+          for (const item of payload.data.attachments) {
+            await tx.attachment.create({ data: item as unknown as Prisma.AttachmentCreateInput });
             totalRestored++;
           }
         }

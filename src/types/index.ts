@@ -4,6 +4,6 @@ export * from './portfolio';
 export * from './skill';
 export * from './credential';
 export * from './education';
-export * from './media';
+export * from './attachment';
 export * from './contact';
 // (Add future domains here: experience, education, etc., when split.)

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { optionalUrlOrPathSchema } from '@/server/server-validators/url';
+
 const optionalUrlSchema = z.string().trim().url('Invalid URL format').optional();
 
 const receivedOnSchema = z
@@ -19,8 +21,8 @@ const baseRecommendationSchema = z.object({
   content: z.string().min(1, 'Content is required'),
   rating: z.number().int().min(1).max(5).optional(),
   linkedin: optionalUrlSchema,
-  recommendationLetterUrl: optionalUrlSchema,
-  photo: optionalUrlSchema,
+  recommendationLetterUrl: optionalUrlOrPathSchema,
+  photo: optionalUrlOrPathSchema,
   receivedOn: receivedOnSchema,
   displayOrder: z.number().int().min(0).optional(),
   published: z.boolean().optional(),
@@ -35,8 +37,8 @@ export const updateRecommendationSchema = baseRecommendationSchema
     company: z.string().optional().or(z.literal('').optional()),
     relationship: z.string().optional().or(z.literal('').optional()),
     linkedin: optionalUrlSchema.or(z.literal('').optional()),
-    recommendationLetterUrl: optionalUrlSchema.or(z.literal('').optional()),
-    photo: optionalUrlSchema.or(z.literal('').optional()),
+    recommendationLetterUrl: optionalUrlOrPathSchema.or(z.literal('').optional()),
+    photo: optionalUrlOrPathSchema.or(z.literal('').optional()),
     receivedOn: receivedOnSchema,
   })
   .refine((value) => Object.keys(value).length > 0, {

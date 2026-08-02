@@ -40,7 +40,7 @@ const prismaMock = {
     count: vi.fn(),
     findFirst: vi.fn(),
   },
-  media: {
+  attachment: {
     count: vi.fn(),
   },
 };
@@ -90,7 +90,7 @@ describe('DashboardService', () => {
       return Promise.resolve(2);
     });
     prismaMock.contactSubmission.count.mockResolvedValue(1);
-    prismaMock.media.count.mockResolvedValue(9);
+    prismaMock.attachment.count.mockResolvedValue(9);
     prismaMock.portfolio.findFirst.mockResolvedValue({
       updatedAt: new Date('2025-01-02T10:00:00Z'),
     });
@@ -124,7 +124,7 @@ describe('DashboardService', () => {
     prismaMock.recommendation.count.mockResolvedValue(0);
     prismaMock.blog.count.mockResolvedValue(0);
     prismaMock.contactSubmission.count.mockResolvedValue(0);
-    prismaMock.media.count.mockResolvedValue(0);
+    prismaMock.attachment.count.mockResolvedValue(0);
     prismaMock.portfolio.findFirst.mockResolvedValue(null);
     prismaMock.blog.findFirst.mockResolvedValue(null);
     prismaMock.contactSubmission.findFirst.mockResolvedValue(null);

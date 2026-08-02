@@ -2,22 +2,22 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 
 import { BadRequestError, NotFoundError } from '@/server/http/errors';
-import { MediaRepository } from '@/server/repositories/MediaRepository';
-import { serializeMedia } from '@/server/serializers/media';
-import { getMediaStorageDriver } from '@/server/services/media/storage';
+import { AttachmentRepository } from '@/server/repositories/AttachmentRepository';
+import { serializeAttachment } from '@/server/serializers/attachment';
+import { getAttachmentStorageDriver } from '@/server/services/attachments/storage';
 import { slugify } from '@/utils/helpers';
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_MIME_TYPES = new Set(['application/pdf', 'text/plain']);
 const ALLOWED_MIME_PREFIXES = ['image/', 'video/'];
 
-export const MediaService = {
-  async getMediaLibrary() {
-    const records = await MediaRepository.findAll();
-    return records.map(serializeMedia);
+export const AttachmentService = {
+  async getAttachmentLibrary() {
+    const records = await AttachmentRepository.findAll();
+    return records.map(serializeAttachment);
   },
 
-  async uploadMedia(input: { file: File | null; createdById?: string }) {
+  async uploadAttachment(input: { file: File | null; createdById?: string }) {
     const file = input.file;
 
     if (!file || typeof file.arrayBuffer !== 'function') {
@@ -39,14 +39,14 @@ export const MediaService = {
     const checksum = createHash('sha256').update(buffer).digest('hex');
     const filename = buildFilename(file.name, mimeType, checksum);
 
-    const storage = getMediaStorageDriver();
+    const storage = getAttachmentStorageDriver();
     const stored = await storage.saveFile({
       buffer,
       filename,
       mimeType,
     });
 
-    const record = await MediaRepository.create({
+    const record = await AttachmentRepository.create({
       filename,
       originalName: file.name,
       path: stored.path,
@@ -59,21 +59,21 @@ export const MediaService = {
       createdById: input.createdById,
     });
 
-    return serializeMedia(record);
+    return serializeAttachment(record);
   },
 
-  async deleteMedia(id: string) {
-    const existing = await MediaRepository.findById(id);
+  async deleteAttachment(id: string) {
+    const existing = await AttachmentRepository.findById(id);
     if (!existing) {
-      throw new NotFoundError('Media asset not found');
+      throw new NotFoundError('Attachment not found');
     }
 
-    const deleted = await MediaRepository.delete(id);
+    const deleted = await AttachmentRepository.delete(id);
     if (!deleted) {
-      throw new NotFoundError('Media asset not found');
+      throw new NotFoundError('Attachment not found');
     }
 
-    const storage = getMediaStorageDriver();
+    const storage = getAttachmentStorageDriver();
     await storage.deleteFile(existing.path);
   },
 };

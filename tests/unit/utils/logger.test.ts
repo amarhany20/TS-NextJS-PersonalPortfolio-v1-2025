@@ -59,9 +59,9 @@ describe('Isomorphic Logger System', () => {
   });
 
   it('assigns error level to 5xx API status codes', () => {
-    const payload = logger.api('DELETE', '/api/v1/media/123', 500);
+    const payload = logger.api('DELETE', '/api/v1/attachments/123', 500);
     expect(payload.level).toBe('error');
-    expect(payload.message).toBe('HTTP DELETE /api/v1/media/123 500');
+    expect(payload.message).toBe('HTTP DELETE /api/v1/attachments/123 500');
   });
 
   it('creates structured database query log payloads', () => {

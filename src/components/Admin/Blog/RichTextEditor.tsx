@@ -98,7 +98,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
           const form = new FormData();
           form.append('file', file);
 
-          const response = await fetch('/api/v1/media', { method: 'POST', body: form });
+          const response = await fetch('/api/v1/attachments', { method: 'POST', body: form });
           const payload = await response.json().catch(() => null);
           if (!response.ok) {
             throw new Error(payload?.error?.message ?? 'Image upload failed.');

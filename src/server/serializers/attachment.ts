@@ -1,7 +1,7 @@
-import type { DbMedia } from '@/server/repositories/MediaRepository';
-import type { MediaAsset } from '@/types/media';
+import type { DbAttachment } from '@/server/repositories/AttachmentRepository';
+import type { AttachmentAsset } from '@/types/attachment';
 
-export function serializeMedia(record: DbMedia): MediaAsset {
+export function serializeAttachment(record: DbAttachment): AttachmentAsset {
   const normalizedPath = record.path.replace(/\\/g, '/');
   return {
     id: record.id,

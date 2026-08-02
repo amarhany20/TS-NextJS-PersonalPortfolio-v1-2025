@@ -2,15 +2,15 @@ import { NextRequest } from 'next/server';
 
 import { errorResponse, successResponse, validationErrorResponse } from '@/server/http/responses';
 import { requireAuth } from '@/server/security/session';
-import { MediaService } from '@/server/services/MediaService';
+import { AttachmentService } from '@/server/services/AttachmentService';
 
 export const runtime = 'nodejs';
 
 export async function GET() {
   try {
     await requireAuth();
-    const media = await MediaService.getMediaLibrary();
-    return successResponse({ media });
+    const attachments = await AttachmentService.getAttachmentLibrary();
+    return successResponse({ attachments });
   } catch (error) {
     return errorResponse(error);
   }
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       return validationErrorResponse('File input "file" is required');
     }
 
-    const asset = await MediaService.uploadMedia({
+    const asset = await AttachmentService.uploadAttachment({
       file,
       createdById: session.user?.id,
     });

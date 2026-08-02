@@ -283,7 +283,7 @@ export function RecommendationForm({ mode, recommendation }: RecommendationFormP
               value={formState.recommendationLetterUrl}
               onChange={handleInputChange('recommendationLetterUrl')}
               error={fieldErrors.recommendationLetterUrl}
-              helper="Link to full recommendation letter if available"
+              helper="Absolute link (LinkedIn, PDF) or uploaded attachment path"
             />
             <LabeledInput
               label="Received date"

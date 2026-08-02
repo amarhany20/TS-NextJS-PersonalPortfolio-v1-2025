@@ -237,12 +237,12 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
               error={fieldErrors.skills}
             />
             <LabeledInput
-              label="Image URL"
+              label="Certificate URL"
               type="url"
               value={formState.image}
               onChange={handleInputChange('image')}
               error={fieldErrors.image}
-              helper="URL to certificate image or badge"
+              helper="Certificate link, badge URL, or uploaded attachment path"
             />
             <LabeledInput
               label="Verification URL"

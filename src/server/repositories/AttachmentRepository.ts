@@ -1,6 +1,6 @@
 import prisma from '@/server/db/prisma';
 
-export interface DbMedia {
+export interface DbAttachment {
   id: string;
   filename: string;
   originalName?: string | null;
@@ -21,7 +21,7 @@ export interface DbMedia {
   } | null;
 }
 
-export interface MediaCreateData {
+export interface AttachmentCreateData {
   filename: string;
   originalName?: string | null;
   path: string;
@@ -34,9 +34,9 @@ export interface MediaCreateData {
   createdById?: string | null;
 }
 
-export class MediaRepository {
-  static async findAll(): Promise<DbMedia[]> {
-    const records = await prisma.media.findMany({
+export class AttachmentRepository {
+  static async findAll(): Promise<DbAttachment[]> {
+    const records = await prisma.attachment.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
         createdBy: {
@@ -49,11 +49,11 @@ export class MediaRepository {
       },
     });
 
-    return records.map(mapMedia).filter(Boolean) as DbMedia[];
+    return records.map(mapAttachment).filter(Boolean) as DbAttachment[];
   }
 
-  static async findById(id: string): Promise<DbMedia | null> {
-    const record = await prisma.media.findUnique({
+  static async findById(id: string): Promise<DbAttachment | null> {
+    const record = await prisma.attachment.findUnique({
       where: { id },
       include: {
         createdBy: {
@@ -66,11 +66,11 @@ export class MediaRepository {
       },
     });
 
-    return record ? mapMedia(record) : null;
+    return record ? mapAttachment(record) : null;
   }
 
-  static async create(data: MediaCreateData): Promise<DbMedia> {
-    const record = await prisma.media.create({
+  static async create(data: AttachmentCreateData): Promise<DbAttachment> {
+    const record = await prisma.attachment.create({
       data,
       include: {
         createdBy: {
@@ -83,12 +83,12 @@ export class MediaRepository {
       },
     });
 
-    return mapMedia(record)!;
+    return mapAttachment(record)!;
   }
 
   static async delete(id: string): Promise<boolean> {
     try {
-      await prisma.media.delete({ where: { id } });
+      await prisma.attachment.delete({ where: { id } });
       return true;
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -100,8 +100,8 @@ export class MediaRepository {
   }
 }
 
-type MediaRecord =
-  | (Awaited<ReturnType<typeof prisma.media.findFirst>> & {
+type AttachmentRecord =
+  | (Awaited<ReturnType<typeof prisma.attachment.findFirst>> & {
       createdBy?: {
         id: string;
         displayName: string;
@@ -110,7 +110,7 @@ type MediaRecord =
     })
   | null;
 
-function mapMedia(record: MediaRecord): DbMedia | null {
+function mapAttachment(record: AttachmentRecord): DbAttachment | null {
   if (!record) {
     return null;
   }

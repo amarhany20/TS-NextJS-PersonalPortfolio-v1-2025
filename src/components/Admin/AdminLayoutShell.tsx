@@ -52,7 +52,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/admin/portfolio', label: 'Portfolio', icon: FolderKanban, category: 'content' },
   { href: '/admin/blogs', label: 'Blog Posts', icon: BookOpenCheck, category: 'content' },
   { href: '/admin/services', label: 'Services', icon: Blocks, category: 'content' },
-  { href: '/admin/media', label: 'Media Library', icon: Images, category: 'content' },
+  { href: '/admin/attachments', label: 'Attachments', icon: Images, category: 'content' },
 
   // Career & Experience
   { href: '/admin/experience', label: 'Experience', icon: BriefcaseBusiness, category: 'career' },

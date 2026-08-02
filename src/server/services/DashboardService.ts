@@ -68,7 +68,7 @@ export const DashboardService = {
       prisma.blog.count({ where: { status: 'published' } }),
       prisma.blog.count({ where: { status: { not: 'published' } } }),
       prisma.contactSubmission.count({ where: { status: 'new' } }),
-      prisma.media.count(),
+      prisma.attachment.count(),
       prisma.portfolio.findFirst({ orderBy: { updatedAt: 'desc' }, select: { updatedAt: true } }),
       prisma.blog.findFirst({ orderBy: { updatedAt: 'desc' }, select: { updatedAt: true } }),
       prisma.contactSubmission.findFirst({
@@ -199,10 +199,10 @@ function buildStats(input: BuildStatsInput): DashboardStat[] {
       intent: input.unreadContactCount > 0 ? 'warning' : 'default',
     },
     {
-      label: 'Media assets',
+      label: 'Attachments',
       value: input.mediaCount,
       helper: 'Images and documents in the library',
-      href: '/admin/media',
+      href: '/admin/attachments',
     },
   ];
 }

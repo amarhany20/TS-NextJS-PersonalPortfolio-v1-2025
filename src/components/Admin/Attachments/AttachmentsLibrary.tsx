@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, Copy, Eye, Image as ImageIcon, Trash2, Upload } from 'lucide-react';
 
-import type { MediaAsset } from '@/types/media';
+import type { AttachmentAsset } from '@/types/attachment';
 
-interface MediaLibraryProps {
-  initialAssets: MediaAsset[];
+interface AttachmentsLibraryProps {
+  initialAssets: AttachmentAsset[];
 }
 
 const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
@@ -19,17 +19,17 @@ const dateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 const formatDateTime = (value: string) => dateTimeFormatter.format(new Date(value));
 
 /**
- * Provides a lightweight asset library for upload, preview, and deletion workflows
- * used by the admin CMS.
+ * Provides a lightweight attachment library for upload, preview, copy-link/copy-path,
+ * and deletion workflows used by the admin CMS.
  */
-export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
+export function AttachmentsLibrary({ initialAssets }: AttachmentsLibraryProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [hydrated, setHydrated] = useState(false);
-  const [assets, setAssets] = useState<MediaAsset[]>(initialAssets);
+  const [assets, setAssets] = useState<AttachmentAsset[]>(initialAssets);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [preview, setPreview] = useState<MediaAsset | null>(null);
+  const [preview, setPreview] = useState<AttachmentAsset | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const hasAssets = assets.length > 0;
@@ -65,14 +65,14 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
     setMessage(null);
     setError(null);
 
-    const uploaded: MediaAsset[] = [];
+    const uploaded: AttachmentAsset[] = [];
 
     try {
       for (const file of Array.from(files)) {
         const body = new FormData();
         body.append('file', file);
 
-        const response = await fetch('/api/v1/media', {
+        const response = await fetch('/api/v1/attachments', {
           method: 'POST',
           body,
         });
@@ -100,7 +100,7 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
     }
   };
 
-  const handleDelete = async (asset: MediaAsset) => {
+  const handleDelete = async (asset: AttachmentAsset) => {
     setMessage(null);
     setError(null);
 
@@ -115,7 +115,7 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
       setPreview(null);
     }
 
-    const response = await fetch(`/api/v1/media/${asset.id}`, {
+    const response = await fetch(`/api/v1/attachments/${asset.id}`, {
       method: 'DELETE',
     });
 
@@ -126,10 +126,10 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
       return;
     }
 
-    setMessage('Asset deleted.');
+    setMessage('Attachment deleted.');
   };
 
-  const handleCopy = async (asset: MediaAsset, kind: 'link' | 'path') => {
+  const handleCopy = async (asset: AttachmentAsset, kind: 'link' | 'path') => {
     const text =
       kind === 'path'
         ? asset.path
@@ -204,7 +204,7 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
                 aria-label={
                   asset.mimeType.startsWith('image/')
                     ? 'Preview image'
-                    : 'Asset thumbnail placeholder'
+                    : 'Attachment thumbnail placeholder'
                 }
               >
                 {asset.mimeType.startsWith('image/') ? (
@@ -295,9 +295,9 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--card-bg)]/40 p-8 text-center text-sm text-muted-foreground">
-          <p className="font-semibold text-foreground">No media yet</p>
+          <p className="font-semibold text-foreground">No attachments yet</p>
           <p className="text-sm text-muted-foreground">
-            Upload brand assets to populate your library.
+            Upload photos, PDFs, and other files to populate your library.
           </p>
         </div>
       )}
@@ -307,7 +307,7 @@ export function MediaLibrary({ initialAssets }: MediaLibraryProps) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
           role="dialog"
           aria-modal="true"
-          aria-label="Media preview"
+          aria-label="Attachment preview"
           onClick={() => setPreview(null)}
         >
           <div

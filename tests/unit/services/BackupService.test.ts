@@ -23,7 +23,7 @@ vi.mock('@/server/db/prisma', () => {
     service: { findMany: vi.fn().mockResolvedValue([]) },
     certificate: { findMany: vi.fn().mockResolvedValue([]) },
     recommendation: { findMany: vi.fn().mockResolvedValue([]) },
-    media: { findMany: vi.fn().mockResolvedValue([]) },
+    attachment: { findMany: vi.fn().mockResolvedValue([]) },
     contactSubmission: { findMany: vi.fn().mockResolvedValue([]) },
     $transaction: vi.fn().mockImplementation(async (cb) => cb(mockPrisma)),
   };

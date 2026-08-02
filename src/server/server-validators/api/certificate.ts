@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const optionalUrlSchema = z.string().trim().url('Invalid URL format').optional();
+import { optionalUrlOrPathSchema } from '@/server/server-validators/url';
 
 const issuedOnSchema = z
   .string()
@@ -18,8 +18,8 @@ const baseCertificateSchema = z.object({
   credentialId: z.string().optional(),
   description: z.string().optional(),
   skills: z.array(z.string().min(1)).optional(),
-  image: optionalUrlSchema,
-  verifyUrl: optionalUrlSchema,
+  image: optionalUrlOrPathSchema,
+  verifyUrl: optionalUrlOrPathSchema,
   displayOrder: z.number().int().min(0).optional(),
 });
 
@@ -32,8 +32,8 @@ export const updateCertificateSchema = baseCertificateSchema
     issuer: z.string().min(1).optional(),
     credentialId: z.string().optional().or(z.literal('').optional()),
     description: z.string().optional().or(z.literal('').optional()),
-    image: optionalUrlSchema.or(z.literal('').optional()),
-    verifyUrl: optionalUrlSchema.or(z.literal('').optional()),
+    image: optionalUrlOrPathSchema.or(z.literal('').optional()),
+    verifyUrl: optionalUrlOrPathSchema.or(z.literal('').optional()),
   })
   .refine((value) => Object.keys(value).length > 0, {
     message: 'At least one field must be provided',

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     await prisma.$transaction(async (tx) => {
       counts.contentVersions = (await tx.contentVersion.deleteMany()).count;
-      counts.media = (await tx.media.deleteMany()).count;
+      counts.media = (await tx.attachment.deleteMany()).count;
       counts.blogTags = (await tx.blogTag.deleteMany()).count;
       counts.blogCategories = (await tx.blogCategory.deleteMany()).count;
       counts.blogs = (await tx.blog.deleteMany()).count;

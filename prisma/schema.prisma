@@ -31,7 +31,7 @@ model User {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  media             Media[]
+  attachments       Attachment[]
   contentVersions   ContentVersion[]
 }
 
@@ -300,7 +300,7 @@ model Recommendation {
   @@map("recommendations")
 }
 
-model Media {
+model Attachment {
   id           String    @id @default(cuid())
   filename     String
   originalName String?
@@ -318,7 +318,7 @@ model Media {
   createdBy User? @relation(fields: [createdById], references: [id], onDelete: SetNull)
 
   @@index([createdById])
-  @@map("media")
+  @@map("attachments")
 }
 
 model ContactSubmission {

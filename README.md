@@ -69,10 +69,10 @@ deployed **100% free** on Vercel (Hobby plan) + Neon (free PostgreSQL tier).
 
 **Admin CMS** (`/admin`, single admin account)
 
-- Dashboard with metrics and quick links.
+- Dashboard with metrics.
 - CRUD managers for portfolio, experience, education, skills, services,
   certificates, recommendations, and blog posts.
-- Media library with uploads.
+- Attachments library (images, PDFs, and other files) with copy-link / copy-path.
 - Contact inbox for form submissions.
 - Settings: **profile**, **visibility**, **theme** (7 built-in themes),
   **backup/restore**, and setup diagnostics.
@@ -81,7 +81,7 @@ deployed **100% free** on Vercel (Hobby plan) + Neon (free PostgreSQL tier).
 
 - Session-based admin auth (`iron-session`, bcrypt, rate-limited login).
 - **JSON backup & restore** for all content (export / import from the admin UI).
-- Hybrid media storage: local driver for development, **Vercel Blob** for production.
+- Attachment storage via **Vercel Blob** (public blob) — no local disk driver.
 - Env + bootstrap-driven first-run setup (no web wizard needed).
 - Layered architecture: Route/Page → Service → Repository → Serializer/Response.
 - Strict TypeScript and Zod validation at every server boundary.
@@ -409,14 +409,17 @@ You have two layers of backup:
 
 ---
 
-## Media & File Uploads
+## Attachments & File Storage
 
-- **Local development:** uploads are stored under `public/uploads/` (gitignored).
-- **Production:** serverless filesystems are ephemeral, so for durable production
-  uploads enable **Vercel Blob**:
+- The admin **Attachments** library stores images, PDFs, and other files as a
+  public **Vercel Blob**, and lets you copy either the full link or the location
+  to paste into URL fields (profile photo, certificate URL, recommendation letter).
+- **Setup (required for uploads):**
   1. Create a Blob store in your Vercel project (**Storage → Create Blob Store**).
-  2. Add the `BLOB_READ_WRITE_TOKEN` to your project's environment variables.
-  3. The app automatically detects it and stores media in Blob instead of locally.
+  2. Add the `BLOB_READ_WRITE_TOKEN` to your project's environment variables
+     (and to `.env.local` for local development).
+  3. Uploads are stored in Blob automatically. Without the token, uploads fail
+     with a clear error.
 
 ---
 

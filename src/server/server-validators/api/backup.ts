@@ -26,7 +26,7 @@ export const backupEnvelopeSchema = z.object({
     services: z.array(z.record(z.string(), z.unknown())).default([]),
     certificates: z.array(z.record(z.string(), z.unknown())).default([]),
     recommendations: z.array(z.record(z.string(), z.unknown())).default([]),
-    media: z.array(z.record(z.string(), z.unknown())).default([]),
+    attachments: z.array(z.record(z.string(), z.unknown())).default([]),
     contactSubmissions: z.array(z.record(z.string(), z.unknown())).default([]),
   }),
 });

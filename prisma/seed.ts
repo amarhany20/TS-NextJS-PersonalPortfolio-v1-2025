@@ -435,7 +435,7 @@ async function seedAdminUser() {
 
 async function clearTables() {
   await prisma.contentVersion.deleteMany();
-  await prisma.media.deleteMany();
+  await prisma.attachment.deleteMany();
   await prisma.blogTag.deleteMany();
   await prisma.blogCategory.deleteMany();
   await prisma.blog.deleteMany();
