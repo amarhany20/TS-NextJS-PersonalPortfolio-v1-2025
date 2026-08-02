@@ -6,6 +6,15 @@ import Link from 'next/link';
 
 import { useToast } from '@/components/ui/ToastProvider';
 
+function resolvePostLoginTarget(): string {
+  const raw = new URLSearchParams(window.location.search).get('next');
+  const next = raw ?? '';
+  if (next.startsWith('/admin') && next !== '/admin' && !next.startsWith('//')) {
+    return next;
+  }
+  return '/admin/dashboard';
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { showToast } = useToast();
@@ -40,12 +49,13 @@ export default function LoginPage() {
           return;
         }
 
+        const target = resolvePostLoginTarget();
         showToast({
           variant: 'success',
           title: 'Login successful',
-          description: 'Redirecting to admin dashboard...',
+          description: target === '/admin/dashboard' ? 'Redirecting to admin dashboard...' : 'Redirecting...',
         });
-        router.push('/admin');
+        router.push(target);
         router.refresh();
       } catch (err) {
         const message = err instanceof Error ? err.message : 'An unexpected error occurred';

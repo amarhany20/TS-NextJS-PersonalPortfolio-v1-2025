@@ -26,7 +26,7 @@ export default async function AdminBlogsPage() {
           </div>
           <Link
             href="/admin/blogs/new"
-            className="ml-auto rounded-full bg-[var(--accent-primary)] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
+            className="ml-auto rounded-full bg-[var(--accent-primary)] px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:opacity-90"
           >
             New Post
           </Link>

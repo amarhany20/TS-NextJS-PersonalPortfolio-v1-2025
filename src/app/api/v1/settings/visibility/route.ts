@@ -24,6 +24,7 @@ export async function PATCH(request: NextRequest) {
     revalidatePath('/services');
     revalidatePath('/blogs');
     revalidatePath('/admin');
+    revalidatePath('/admin/dashboard');
 
     return successResponse({ visibility });
   } catch (error) {

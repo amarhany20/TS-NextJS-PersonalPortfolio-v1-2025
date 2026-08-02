@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 
 import { requireAuth } from '@/server/security/session';
 import { SettingsService } from '@/server/services/SettingsService';
@@ -15,6 +16,11 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       </AdminLayoutShell>
     );
   } catch {
-    redirect('/login');
+    const headerList = await headers();
+    const invokePath = headerList.get('x-invoke-path') ?? '';
+    const pathname = invokePath.split('?')[0];
+    const target =
+      pathname.startsWith('/admin') && pathname !== '/admin' ? pathname : '/admin/dashboard';
+    redirect(`/login?next=${encodeURIComponent(target)}`);
   }
 }
