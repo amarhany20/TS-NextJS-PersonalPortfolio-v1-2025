@@ -14,9 +14,6 @@ test.describe('Admin Dashboard Overview', () => {
     await expect(metricsSection.getByText('Portfolio projects', { exact: true })).toBeVisible();
     await expect(metricsSection.getByText('Experience entries', { exact: true })).toBeVisible();
     await expect(metricsSection.getByText('Skills tracked', { exact: true })).toBeVisible();
-
-    // Check for recent activity or quick links
-    await expect(page.getByText(/Quick links/i)).toBeVisible();
   });
 
   test('navigation sidebar works', async ({ page }) => {

@@ -70,7 +70,7 @@ describe('DashboardService', () => {
     ({ DashboardService } = await import('@/server/services/DashboardService'));
   });
 
-  it('returns aggregated stats and quick links', async () => {
+  it('returns aggregated stats', async () => {
     prismaMock.portfolio.count.mockResolvedValueOnce(5).mockResolvedValueOnce(3);
     prismaMock.experience.count.mockResolvedValue(4);
     prismaMock.education.count.mockResolvedValue(2);
@@ -110,8 +110,6 @@ describe('DashboardService', () => {
 
     expect(overview.stats[0]).toMatchObject({ value: 5, helper: '3 published · 2 draft' });
     expect(overview.stats.some((stat) => stat.label === 'Unread contact messages')).toBe(true);
-    expect(overview.quickLinks.length).toBeGreaterThan(0);
-    expect(overview.quickLinks.length).toBeLessThanOrEqual(8);
     expect(overview.meta.pendingSetup).toBe(false);
     expect(overview.meta.lastUpdatedAt?.toISOString()).toBe('2025-01-04T12:00:00.000Z');
   });
@@ -144,9 +142,6 @@ describe('DashboardService', () => {
 
     expect(overview.meta.pendingSetup).toBe(false);
     expect(overview.meta.missingEnvVars).toContain('AUTH_SECRET');
-
-    expect(overview.quickLinks.some((link) => link.href === '/admin/experience/new')).toBe(true);
-    expect(overview.quickLinks.some((link) => link.href === '/admin/services/new')).toBe(true);
 
     process.env.NEXT_PUBLIC_SITE_URL = previousEnv;
     process.env.AUTH_SECRET = previousAuth;

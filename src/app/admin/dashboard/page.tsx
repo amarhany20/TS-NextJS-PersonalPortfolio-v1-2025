@@ -2,12 +2,6 @@ import Link from 'next/link';
 
 import { DashboardService } from '@/server/services/DashboardService';
 
-const badgeClassNames: Record<'default' | 'warning' | 'info', string> = {
-  default: 'bg-muted text-muted-foreground',
-  warning: 'bg-amber-500/15 text-amber-600',
-  info: 'bg-sky-500/15 text-sky-600',
-};
-
 export default async function AdminDashboard() {
   const overview = await DashboardService.getAdminOverview();
   const lastUpdatedLabel = overview.meta.lastUpdatedAt
@@ -47,22 +41,6 @@ export default async function AdminDashboard() {
           ))}
         </div>
       </section>
-
-      <section>
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Quick links</h2>
-          <span className="text-xs text-muted-foreground">
-            {overview.meta.pendingSetup
-              ? 'Finish setup to unlock all actions.'
-              : 'Recommended next steps based on current data.'}
-          </span>
-        </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {overview.quickLinks.map((link) => (
-            <QuickLinkCard key={link.title} link={link} />
-          ))}
-        </div>
-      </section>
     </section>
   );
 }
@@ -98,33 +76,5 @@ function StatCard({
     <div className={cardClass}>
       <CardContent />
     </div>
-  );
-}
-
-function QuickLinkCard({
-  link,
-}: {
-  link: Awaited<ReturnType<typeof DashboardService.getAdminOverview>>['quickLinks'][number];
-}) {
-  return (
-    <Link
-      prefetch={false}
-      href={link.href}
-      className="rounded-xl border border-border bg-card p-4 transition hover:border-accent"
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="font-semibold">{link.title}</p>
-          <p className="text-sm text-muted-foreground">{link.description}</p>
-        </div>
-        {link.badge ? (
-          <span
-            className={`${badgeClassNames[link.status ?? 'default']} shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium`}
-          >
-            {link.badge}
-          </span>
-        ) : null}
-      </div>
-    </Link>
   );
 }
