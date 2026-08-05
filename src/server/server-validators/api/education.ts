@@ -5,8 +5,8 @@ const yearMonthSchema = z
   .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Value must be in YYYY-MM format');
 
 const baseEducationSchema = z.object({
-  institution: z.string().min(1, 'Institution is required'),
-  degree: z.string().min(1, 'Degree is required'),
+  institution: z.string().trim().min(1, 'Institution is required'),
+  degree: z.string().trim().min(1, 'Degree is required'),
   field: z.string().optional(),
   location: z.string().optional(),
   start: yearMonthSchema,
@@ -19,9 +19,8 @@ const baseEducationSchema = z.object({
   published: z.boolean().optional(),
 });
 
-export const createEducationSchema = baseEducationSchema.extend({
-  id: z.string().optional(),
-});
+// `id` is intentionally omitted from create: rows get server-generated ids.
+export const createEducationSchema = baseEducationSchema;
 
 export const updateEducationSchema = baseEducationSchema
   .partial()

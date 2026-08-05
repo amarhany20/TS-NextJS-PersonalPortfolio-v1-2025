@@ -32,11 +32,11 @@ const accessOptions: readonly ProjectAccess[] = ['open-source', 'proprietary', '
 const statusOptions: readonly ProjectStatus[] = ['planning', 'in-progress', 'live', 'archived'];
 
 const baseProjectSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
+  title: z.string().trim().min(1, 'Title is required'),
   slug: slugSchema.optional(),
-  tagline: z.string().min(1, 'Tagline is required'),
-  intro: z.string().min(1, 'Intro is required'),
-  summary: z.string().min(1, 'Summary is required'),
+  tagline: z.string().trim().min(1, 'Tagline is required'),
+  intro: z.string().trim().min(1, 'Intro is required'),
+  summary: z.string().trim().min(1, 'Summary is required'),
   featured: z.boolean().optional(),
   visibility: z.enum(visibilityOptions as [ProjectVisibility, ...ProjectVisibility[]]),
   access: z.enum(accessOptions as [ProjectAccess, ...ProjectAccess[]]),
@@ -46,7 +46,7 @@ const baseProjectSchema = z.object({
   client: z.string().trim().optional(),
   website: optionalUrlSchema,
   repository: optionalUrlSchema,
-  role: z.string().min(1, 'Role is required'),
+  role: z.string().trim().min(1, 'Role is required'),
   start: yearMonthSchema,
   end: yearMonthSchema.optional(),
   stack: z.array(z.string().min(1)).default([]),
@@ -57,7 +57,7 @@ const baseProjectSchema = z.object({
   confidentialNotes: z.string().optional(),
   displayOrder: z.number().int().min(0).optional(),
   published: z.boolean().optional(),
-  publishedAt: z.string().optional(),
+  publishedAt: z.string().datetime({ offset: true }).optional().or(z.literal('').optional()),
 });
 
 export const createProjectSchema = baseProjectSchema;

@@ -27,7 +27,6 @@ export const RecommendationService = {
     const receivedOn = parseReceivedOn(input.receivedOn);
 
     const record = await RecommendationRepository.create({
-      id: input.id,
       name: input.name,
       position: nullIfEmpty(input.position),
       company: nullIfEmpty(input.company),

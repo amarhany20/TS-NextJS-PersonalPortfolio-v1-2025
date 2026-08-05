@@ -57,8 +57,8 @@ const buildHeroButtons = () => {
   }
 
   return {
-    primary: primaryLabel || primaryUrl ? { label: primaryLabel, url: primaryUrl } : null,
-    secondary: secondaryLabel || secondaryUrl ? { label: secondaryLabel, url: secondaryUrl } : null,
+    primary: primaryLabel || primaryUrl ? { text: primaryLabel, href: primaryUrl } : null,
+    secondary: secondaryLabel || secondaryUrl ? { text: secondaryLabel, href: secondaryUrl } : null,
   };
 };
 

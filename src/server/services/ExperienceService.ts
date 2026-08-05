@@ -34,7 +34,6 @@ export const ExperienceService = {
     }
 
     const record = await ExperienceRepository.create({
-      id: input.id,
       company: input.company,
       title: input.title,
       location: nullIfEmpty(input.location),

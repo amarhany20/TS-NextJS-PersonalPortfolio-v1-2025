@@ -25,7 +25,6 @@ export const CertificateService = {
     }
 
     const record = await CertificateRepository.create({
-      id: input.id,
       name: input.name,
       issuer: input.issuer,
       issuedOn,

@@ -324,10 +324,17 @@ export function BackupSettingsForm() {
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-gray-900 border border-white/10 rounded-xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="restore-modal-title"
+            className="bg-gray-900 border border-white/10 rounded-xl p-6 max-w-md w-full space-y-4 shadow-2xl"
+          >
             <div className="flex items-center gap-3 text-amber-400">
               <AlertTriangle className="w-6 h-6 shrink-0" />
-              <h4 className="text-lg font-semibold text-foreground">Confirm Database Restore</h4>
+              <h4 id="restore-modal-title" className="text-lg font-semibold text-foreground">
+                Confirm Database Restore
+              </h4>
             </div>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
               Are you sure you want to restore from{' '}
@@ -358,10 +365,17 @@ export function BackupSettingsForm() {
       {/* Purge Confirmation Modal */}
       {showPurgeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-gray-900 border border-rose-500/30 rounded-xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="purge-modal-title"
+            className="bg-gray-900 border border-rose-500/30 rounded-xl p-6 max-w-md w-full space-y-4 shadow-2xl"
+          >
             <div className="flex items-center gap-3 text-rose-400">
               <AlertTriangle className="w-6 h-6 shrink-0" />
-              <h4 className="text-lg font-semibold text-foreground">Confirm Database Purge</h4>
+              <h4 id="purge-modal-title" className="text-lg font-semibold text-foreground">
+                Confirm Database Purge
+              </h4>
             </div>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
               This will <span className="font-semibold text-rose-400">permanently delete</span> all

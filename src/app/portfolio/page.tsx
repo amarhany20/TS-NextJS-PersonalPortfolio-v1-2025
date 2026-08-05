@@ -1,13 +1,19 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 import { PortfolioService } from '@/server/services/PortfolioService';
 import { SettingsService } from '@/server/services/SettingsService';
 import { ProjectGrid } from '@/components/Portfolio/ProjectGrid';
 import { StackFilterBar, filterProjectsByStack } from '@/components/Portfolio/StackFilterBar';
+import { buildPageMetadata } from '@/server/server-utils/seo';
 
 type Props = {
   searchParams: Promise<{ stack?: string }>;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata('/portfolio');
+}
 
 /**
  * Public portfolio listing sourced from published database records.

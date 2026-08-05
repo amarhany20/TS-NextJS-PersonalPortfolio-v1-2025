@@ -64,12 +64,16 @@ export const truncateText = (text: string, maxLength: number): string => {
 };
 
 export const slugify = (text: string): string => {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
+  return (
+    text
+      .toLowerCase()
+      // Match the server slug rule (lowercase letters, numbers, hyphens only):
+      // underscores are not valid slugs, so collapse them into hyphens.
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim()
+  );
 };
 
 // Skill level utilities

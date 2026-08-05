@@ -31,8 +31,8 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | null>(null);
 
 const VARIANT_STYLES: Record<ToastVariant, string> = {
-  success: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-50',
-  error: 'border-rose-500/40 bg-rose-500/15 text-rose-50',
+  success: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-800 dark:text-emerald-50',
+  error: 'border-rose-500/40 bg-rose-500/15 text-rose-800 dark:text-rose-50',
   info: 'border-slate-500/40 bg-slate-900/80 text-slate-50',
 };
 
@@ -80,7 +80,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={contextValue}>
       {children}
-      <div className="pointer-events-none fixed bottom-4 right-4 z-50 flex w-[min(360px,calc(100vw-32px))] flex-col gap-3">
+      <div
+        role="status"
+        aria-live="polite"
+        className="pointer-events-none fixed bottom-4 right-4 z-50 flex w-[min(360px,calc(100vw-32px))] flex-col gap-3"
+      >
         {toasts.map((toast) => (
           <div
             key={toast.id}

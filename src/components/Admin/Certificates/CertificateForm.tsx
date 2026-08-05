@@ -88,9 +88,9 @@ export function CertificateForm({ mode, certificate }: CertificateFormProps) {
     return {
       name: formState.name.trim(),
       issuer: formState.issuer.trim(),
-      issuedOn: formState.issuedOn
-        ? new Date(formState.issuedOn).toISOString()
-        : new Date().toISOString(),
+      // No "today" fallback: if the date is empty the server schema rejects it
+      // instead of silently writing the current date.
+      issuedOn: formState.issuedOn ? new Date(formState.issuedOn).toISOString() : '',
       credentialId: formState.credentialId.trim() || undefined,
       description: formState.description.trim() || undefined,
       skills: skills.length > 0 ? skills : undefined,

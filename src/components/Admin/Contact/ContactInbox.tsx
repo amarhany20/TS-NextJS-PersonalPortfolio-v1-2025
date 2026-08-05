@@ -58,7 +58,7 @@ export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
     setError(null);
     setPendingId(id);
 
-    const previous = submissions;
+    const originalStatus = submissions.find((s) => s.id === id)?.status;
     setSubmissions((current) =>
       current.map((submission) => (submission.id === id ? { ...submission, status } : submission)),
     );
@@ -76,7 +76,15 @@ export function ContactInbox({ initialSubmissions }: ContactInboxProps) {
 
       setMessage('Status updated.');
     } catch (err) {
-      setSubmissions(previous);
+      // Functional rollback: only revert this row, so a concurrent change to
+      // another submission is never clobbered by a whole-list snapshot.
+      setSubmissions((current) =>
+        current.map((submission) =>
+          submission.id === id && originalStatus
+            ? { ...submission, status: originalStatus }
+            : submission,
+        ),
+      );
       setError(err instanceof Error ? err.message : 'Failed to update status.');
     } finally {
       setPendingId(null);
@@ -327,6 +335,11 @@ function ActionButton({
 }
 
 async function deriveError(response: Response) {
+  if (response.status === 401) {
+    const next = window.location.pathname + window.location.search;
+    window.location.assign(`/login?next=${encodeURIComponent(next)}`);
+    return new Error('Your session has expired. Redirecting to login...');
+  }
   const payload = await response.json().catch(() => null);
   const message = payload?.error?.message ?? 'Request failed.';
   return new Error(message);

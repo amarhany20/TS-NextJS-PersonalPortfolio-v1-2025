@@ -13,12 +13,11 @@ const receivedOnSchema = z
   );
 
 const baseRecommendationSchema = z.object({
-  id: z.string().optional(),
-  name: z.string().min(1, 'Name is required'),
+  name: z.string().trim().min(1, 'Name is required'),
   position: z.string().optional(),
   company: z.string().optional(),
   relationship: z.string().optional(),
-  content: z.string().min(1, 'Content is required'),
+  content: z.string().trim().min(1, 'Content is required'),
   rating: z.number().int().min(1).max(5).optional(),
   linkedin: optionalUrlSchema,
   recommendationLetterUrl: optionalUrlOrPathSchema,
@@ -28,11 +27,13 @@ const baseRecommendationSchema = z.object({
   published: z.boolean().optional(),
 });
 
+// `id` is intentionally omitted from create: rows get server-generated ids.
 export const createRecommendationSchema = baseRecommendationSchema;
 
 export const updateRecommendationSchema = baseRecommendationSchema
   .partial()
   .extend({
+    id: z.string().optional(),
     position: z.string().optional().or(z.literal('').optional()),
     company: z.string().optional().or(z.literal('').optional()),
     relationship: z.string().optional().or(z.literal('').optional()),

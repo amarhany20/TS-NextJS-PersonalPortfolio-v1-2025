@@ -16,6 +16,9 @@ export const BackupService = {
         blogs,
         categories,
         tags,
+        blogCategories,
+        blogTags,
+        contentVersions,
         experiences,
         educations,
         skillGroups,
@@ -32,6 +35,9 @@ export const BackupService = {
         prisma.blog.findMany(),
         prisma.category.findMany(),
         prisma.tag.findMany(),
+        prisma.blogCategory.findMany(),
+        prisma.blogTag.findMany(),
+        prisma.contentVersion.findMany(),
         prisma.experience.findMany(),
         prisma.education.findMany(),
         prisma.skillGroup.findMany(),
@@ -50,6 +56,9 @@ export const BackupService = {
         blogs: blogs.length,
         categories: categories.length,
         tags: tags.length,
+        blogCategories: blogCategories.length,
+        blogTags: blogTags.length,
+        contentVersions: contentVersions.length,
         experiences: experiences.length,
         educations: educations.length,
         skillGroups: skillGroups.length,
@@ -79,6 +88,9 @@ export const BackupService = {
           blogs: blogs as Record<string, unknown>[],
           categories: categories as Record<string, unknown>[],
           tags: tags as Record<string, unknown>[],
+          blogCategories: blogCategories as Record<string, unknown>[],
+          blogTags: blogTags as Record<string, unknown>[],
+          contentVersions: contentVersions as Record<string, unknown>[],
           experiences: experiences as Record<string, unknown>[],
           educations: educations as Record<string, unknown>[],
           skillGroups: skillGroups as Record<string, unknown>[],
@@ -188,6 +200,36 @@ export const BackupService = {
 
           for (const item of payload.data.tags) {
             await tx.tag.create({ data: item as unknown as Prisma.TagCreateInput });
+            totalRestored++;
+          }
+
+          // Blog/category/tag join rows: blogs, categories, and tags now exist,
+          // so the associations can be recreated without FK failures.
+          for (const item of payload.data.blogCategories) {
+            await tx.blogCategory.create({
+              data: item as unknown as Prisma.BlogCategoryCreateInput,
+            });
+            totalRestored++;
+          }
+
+          for (const item of payload.data.blogTags) {
+            await tx.blogTag.create({ data: item as unknown as Prisma.BlogTagCreateInput });
+            totalRestored++;
+          }
+
+          for (const item of payload.data.contentVersions) {
+            const input = item as Record<string, unknown>;
+            const createdById = input.createdById;
+            const userExists = payload.data.users.some(
+              (user) => user.id === createdById || user.username === createdById,
+            );
+            const { createdById: discardCreatedById, ...rest } = input;
+            void discardCreatedById;
+            const createInput: Prisma.ContentVersionCreateInput = {
+              ...(rest as unknown as Prisma.ContentVersionCreateInput),
+              createdBy: userExists ? { connect: { id: createdById as string } } : undefined,
+            };
+            await tx.contentVersion.create({ data: createInput });
             totalRestored++;
           }
 

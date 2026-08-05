@@ -53,14 +53,20 @@ const buildAuthors = (defaultAuthor: string, homeUrl: string): JsonFeedAuthor[] 
   return [{ name: defaultAuthor, url: homeUrl }];
 };
 
-const toJsonItem = (item: FeedItem, defaultAuthor: string): JsonFeedItem => {
+const toJsonItem = (item: FeedItem, defaultAuthor: string): JsonFeedItem | null => {
   const tag = item.kind === 'blog' ? 'blog' : 'portfolio';
+  const published = new Date(item.publishedAt);
+  // A malformed date must not take down the whole feed; skip the item instead.
+  if (Number.isNaN(published.getTime())) {
+    return null;
+  }
+
   const out: JsonFeedItem = {
     id: item.url,
     url: item.url,
     title: item.title,
     content_text: item.summary,
-    date_published: new Date(item.publishedAt).toISOString(),
+    date_published: published.toISOString(),
     tags: [tag],
   };
 
@@ -81,7 +87,9 @@ export function serializeJsonFeed(payload: FeedPayload): string {
     feed_url: `${channel.siteUrl}/feed.json`,
     description: channel.description,
     language: channel.language ?? 'en',
-    items: items.map((item) => toJsonItem(item, channel.author)),
+    items: items
+      .map((item) => toJsonItem(item, channel.author))
+      .filter((item): item is JsonFeedItem => item !== null),
     ...(authors.length > 0 ? { authors } : {}),
   };
 

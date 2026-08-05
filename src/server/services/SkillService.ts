@@ -28,11 +28,7 @@ export const SkillService = {
       summary: input.summary,
       displayOrder: input.displayOrder ?? (await SkillRepository.getNextDisplayOrder()),
       published: input.published ?? true,
-      skills: input.skills?.map((skill, index) => ({
-        id: skill.id,
-        name: skill.name,
-        displayOrder: skill.displayOrder ?? index,
-      })),
+      skills: dedupeSkills(input.skills),
     });
 
     return serializeSkillGroup(group);
@@ -53,11 +49,7 @@ export const SkillService = {
       summary: input.summary,
       displayOrder: input.displayOrder,
       published: input.published,
-      skills: input.skills?.map((skill, index) => ({
-        id: skill.id,
-        name: skill.name,
-        displayOrder: skill.displayOrder ?? index,
-      })),
+      skills: dedupeSkills(input.skills),
     });
 
     if (!group) {
@@ -93,4 +85,25 @@ async function ensureUniqueSlug(candidate: string, excludeId?: string) {
   }
 
   return attempt;
+}
+
+function dedupeSkills(skills?: CreateSkillGroupInput['skills']) {
+  if (!skills) {
+    return undefined;
+  }
+
+  const seen = new Set<string>();
+  const result: CreateSkillGroupInput['skills'] = [];
+
+  for (const skill of skills) {
+    const name = skill.name.trim();
+    const key = name.toLowerCase();
+    if (!name || seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    result.push({ ...skill, name });
+  }
+
+  return result;
 }

@@ -28,7 +28,6 @@ export const ServiceService = {
     const baseSlug = input.slug ?? slugify(input.title);
     const slug = await ensureUniqueSlug(baseSlug || input.title);
     const record = await ServiceRepository.create({
-      id: input.id,
       slug,
       title: input.title,
       description: input.description,

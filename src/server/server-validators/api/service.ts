@@ -6,9 +6,9 @@ const slugSchema = z
   .regex(/^[a-z0-9-]+$/, 'Slug may only contain lowercase letters, numbers, and hyphens');
 
 const baseServiceSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
+  title: z.string().trim().min(1, 'Title is required'),
   slug: slugSchema.optional(),
-  description: z.string().min(1, 'Description is required'),
+  description: z.string().trim().min(1, 'Description is required'),
   longDescription: z.string().optional(),
   features: z.array(z.string().min(1)).optional(),
   technologies: z.array(z.string().min(1)).optional(),
@@ -18,9 +18,8 @@ const baseServiceSchema = z.object({
   displayOrder: z.number().int().min(0).optional(),
 });
 
-export const createServiceSchema = baseServiceSchema.extend({
-  id: z.string().optional(),
-});
+// `id` is intentionally omitted from create: rows get server-generated ids.
+export const createServiceSchema = baseServiceSchema;
 
 export const updateServiceSchema = baseServiceSchema
   .partial()

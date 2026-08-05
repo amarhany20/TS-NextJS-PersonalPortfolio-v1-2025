@@ -47,9 +47,12 @@ export async function generateMetadata(): Promise<Metadata> {
       title: titleShape,
       description,
       keywords,
+      // No `alternates.canonical` or `openGraph.url` here: those are
+      // page-specific and would otherwise be inherited by every subpage (e.g.
+      // /home, /portfolio, /services, /login would all claim the root as their
+      // canonical). Each page sets its own canonical via generateMetadata.
       alternates: canonical
         ? {
-            canonical,
             types: {
               'application/rss+xml': `${canonical.replace(/\/$/, '')}/feed.xml`,
               'application/feed+json': `${canonical.replace(/\/$/, '')}/feed.json`,
@@ -58,7 +61,6 @@ export async function generateMetadata(): Promise<Metadata> {
         : undefined,
       openGraph: {
         type: 'website',
-        url: canonical,
         title: content.seo?.title ?? displayName,
         description,
         siteName: displayName,

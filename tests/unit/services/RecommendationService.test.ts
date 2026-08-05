@@ -39,7 +39,6 @@ import type { CreateRecommendationInput } from '@/server/server-validators/api/r
 const buildRecommendation = (
   overrides: Partial<CreateRecommendationInput> = {},
 ): CreateRecommendationInput => ({
-  id: overrides.id,
   name: overrides.name ?? 'Jane Doe',
   position: overrides.position,
   company: overrides.company,

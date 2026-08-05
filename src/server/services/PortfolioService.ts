@@ -12,17 +12,22 @@ import { logger } from '@/utils/logger';
 export const PortfolioService = {
   async getPublishedProjects() {
     const records = await PortfolioRepository.findPublished();
-    return records.map(serializeProject);
+    return records.map((record) => serializeProject(record, false));
   },
 
   async getAllProjects() {
     const records = await PortfolioRepository.findAll();
-    return records.map(serializeProject);
+    return records.map((record) => serializeProject(record, true));
   },
 
   async getProjectBySlug(slug: string) {
     const record = await PortfolioRepository.findBySlug(slug);
-    return record ? serializeProject(record) : null;
+    return record ? serializeProject(record, false) : null;
+  },
+
+  async getProjectForAdmin(slug: string) {
+    const record = await PortfolioRepository.findBySlug(slug);
+    return record ? serializeProject(record, true) : null;
   },
 
   async getProjectSlugs() {
@@ -67,7 +72,7 @@ export const PortfolioService = {
     });
 
     logger.info(`Created portfolio project "${record.title}" (slug: ${record.slug})`);
-    return serializeProject(record);
+    return serializeProject(record, true);
   },
 
   async updateProject(slug: string, input: UpdateProjectInput) {
@@ -120,7 +125,7 @@ export const PortfolioService = {
     }
 
     logger.info(`Updated portfolio project "${record.title}" (slug: ${record.slug})`);
-    return serializeProject(record);
+    return serializeProject(record, true);
   },
 
   async deleteProject(slug: string) {
@@ -192,7 +197,14 @@ function resolvePublishedAt(published: boolean, provided?: string, fallback?: Da
     return null;
   }
 
-  return parseISODate(provided) ?? new Date();
+  const parsed = parseISODate(provided);
+  if (!parsed) {
+    // The schema validates the format, but guard anyway so an invalid value
+    // fails loudly instead of silently publishing "now".
+    throw new BadRequestError('publishedAt must be a valid ISO date string');
+  }
+
+  return parsed;
 }
 
 function valueOrUndefined(value: string | undefined) {

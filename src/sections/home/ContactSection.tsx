@@ -1,8 +1,9 @@
 'use client';
 import { Mail, MessageCircle, MapPin, Smartphone, Link as LinkIcon } from 'lucide-react';
-import { Github, Linkedin, Youtube } from '@/components/UI/BrandIcons';
+import { Github, Linkedin, Youtube } from '@/components/ui/BrandIcons';
 import type { ComponentType, SVGProps } from 'react';
 import type { ContactDetails, LinkItem } from '@/types/settings';
+import { ContactForm } from '@/components/Contact/ContactForm';
 
 interface ContactSectionProps {
   details: ContactDetails;
@@ -151,6 +152,10 @@ export default function ContactSection({ details, socialLinks }: ContactSectionP
               })}
             </div>
           </div>
+        </div>
+
+        <div className="z-10">
+          <ContactForm />
         </div>
       </div>
     </section>

@@ -35,7 +35,6 @@ export const EducationService = {
     }
 
     const record = await EducationRepository.create({
-      id: input.id,
       institution: input.institution,
       degree: input.degree,
       field: nullIfEmpty(input.field),

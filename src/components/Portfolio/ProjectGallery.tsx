@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Maximize2 } from 'lucide-react';
 import type { Project, ProjectGalleryItem } from '@/types/portfolio';
-import { PortfolioLightbox } from '@/components/UI/PortfolioLightbox';
+import { PortfolioLightbox } from '@/components/ui/PortfolioLightbox';
 
 interface AccordionItemProps {
   item: ProjectGalleryItem;

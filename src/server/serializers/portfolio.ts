@@ -44,7 +44,7 @@ const randomUUIDSafely = (seed?: number) => {
   }
 };
 
-export function serializeProject(record: DbPortfolioProject): Project {
+export function serializeProject(record: DbPortfolioProject, includeInternal = false): Project {
   return {
     slug: record.slug,
     title: record.title,
@@ -68,7 +68,9 @@ export function serializeProject(record: DbPortfolioProject): Project {
     sections: Array.isArray(record.sections) ? normalizeSections(record.sections) : undefined,
     gallery: Array.isArray(record.gallery) ? normalizeGallery(record.gallery) : undefined,
     contentMdx: record.contentMdx ?? undefined,
-    confidentialNotes: record.confidentialNotes ?? undefined,
+    // Internal-only field: only include it for admin callers so confidential
+    // notes never leak into public listings, detail pages, sitemaps, or feeds.
+    confidentialNotes: includeInternal ? (record.confidentialNotes ?? undefined) : undefined,
     displayOrder: record.displayOrder,
     published: record.published,
     publishedAt: record.publishedAt ? record.publishedAt.toISOString() : null,

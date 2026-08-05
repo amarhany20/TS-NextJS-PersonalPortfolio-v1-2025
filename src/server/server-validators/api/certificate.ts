@@ -11,9 +11,8 @@ const issuedOnSchema = z
   );
 
 const baseCertificateSchema = z.object({
-  id: z.string().optional(),
-  name: z.string().min(1, 'Name is required'),
-  issuer: z.string().min(1, 'Issuer is required'),
+  name: z.string().trim().min(1, 'Name is required'),
+  issuer: z.string().trim().min(1, 'Issuer is required'),
   issuedOn: issuedOnSchema,
   credentialId: z.string().optional(),
   description: z.string().optional(),
@@ -23,11 +22,13 @@ const baseCertificateSchema = z.object({
   displayOrder: z.number().int().min(0).optional(),
 });
 
+// `id` is intentionally omitted from create: rows get server-generated ids.
 export const createCertificateSchema = baseCertificateSchema;
 
 export const updateCertificateSchema = baseCertificateSchema
   .partial()
   .extend({
+    id: z.string().optional(),
     name: z.string().min(1).optional(),
     issuer: z.string().min(1).optional(),
     credentialId: z.string().optional().or(z.literal('').optional()),

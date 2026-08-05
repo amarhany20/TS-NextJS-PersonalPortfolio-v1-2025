@@ -49,8 +49,20 @@ export async function GET(request: NextRequest) {
 }
 
 function resolveRateLimitKey(request: NextRequest) {
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  if (forwardedFor) {
+    // Trust the right-most entry: a trusted proxy appends the real client IP.
+    const entries = forwardedFor
+      .split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+    const last = entries[entries.length - 1];
+    if (last) {
+      return last;
+    }
+  }
+
   return (
-    request.headers.get('x-forwarded-for') ??
     request.headers.get('x-real-ip') ??
     request.headers.get('cf-connecting-ip') ??
     request.headers.get('x-client-ip') ??

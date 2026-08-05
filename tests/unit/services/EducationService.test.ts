@@ -39,7 +39,6 @@ import type { CreateEducationInput } from '@/server/server-validators/api/educat
 type Overrides = Partial<CreateEducationInput>;
 
 const buildEducation = (overrides: Overrides = {}): CreateEducationInput => ({
-  id: overrides.id,
   institution: overrides.institution ?? 'University',
   degree: overrides.degree ?? 'BSc Computer Science',
   field: overrides.field,

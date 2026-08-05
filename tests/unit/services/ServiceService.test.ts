@@ -36,7 +36,6 @@ import { ServiceService } from '@/server/services/ServiceService';
 import type { CreateServiceInput } from '@/server/server-validators/api/service';
 
 const buildService = (overrides: Partial<CreateServiceInput> = {}): CreateServiceInput => ({
-  id: overrides.id,
   title: overrides.title ?? 'Fractional Engineering',
   slug: overrides.slug,
   description: overrides.description ?? 'Build shipping velocity fast.',

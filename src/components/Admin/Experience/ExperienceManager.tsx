@@ -123,6 +123,7 @@ export function ExperienceManager({ initialExperience }: ExperienceManagerProps)
 
   const handleDelete = async (record: Experience) => {
     if (!record.id) return;
+    if (!window.confirm(`Delete ${record.company}? This cannot be undone.`)) return;
 
     setBusyId(record.id);
     try {

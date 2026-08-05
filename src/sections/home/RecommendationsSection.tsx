@@ -2,7 +2,7 @@ import SectionHeader from '@/components/ui/SectionHeader';
 import SectionCard from '@/components/ui/SectionCard';
 import { formatMonthYear } from '@/utils/helpers';
 import { Quote, FileText } from 'lucide-react';
-import { Linkedin } from '@/components/UI/BrandIcons';
+import { Linkedin } from '@/components/ui/BrandIcons';
 import Image from 'next/image';
 import type { Recommendation } from '@/types/recommendation';
 

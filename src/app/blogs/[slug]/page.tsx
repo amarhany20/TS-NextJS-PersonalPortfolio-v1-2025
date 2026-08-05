@@ -37,7 +37,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     const openGraphImages = ogImage ? [{ url: ogImage }] : undefined;
 
     return {
-      title,
+      // Use `absolute` so the root layout's title template does not append a
+      // second branding suffix.
+      title: { absolute: title },
       description,
       alternates: postUrl ? { canonical: postUrl } : undefined,
       openGraph: {

@@ -43,7 +43,9 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     const heroImage = project.gallery?.[0]?.image;
 
     return {
-      title,
+      // Use `absolute` so the root layout's title template does not append a
+      // second branding suffix (e.g. "Project | Name | Portfolio").
+      title: { absolute: title },
       description,
       keywords: project.stack || [],
       alternates: projectUrl ? { canonical: projectUrl } : undefined,

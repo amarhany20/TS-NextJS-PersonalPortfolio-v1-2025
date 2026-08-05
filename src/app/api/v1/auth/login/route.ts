@@ -14,7 +14,18 @@ const loginSchema = z.object({
 function getClientIdentifier(request: NextRequest): string {
   const forwardedFor = request.headers.get('x-forwarded-for');
   if (forwardedFor) {
-    return forwardedFor.split(',')[0]!.trim();
+    // Trust the right-most entry: a trusted proxy appends the real client IP
+    // to the list, while the left-most entries are client-suppliable. Using
+    // the last entry prevents an attacker from rotating the header to bypass
+    // the throttle.
+    const entries = forwardedFor
+      .split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+    const last = entries[entries.length - 1];
+    if (last) {
+      return last;
+    }
   }
 
   const realIp = request.headers.get('x-real-ip');

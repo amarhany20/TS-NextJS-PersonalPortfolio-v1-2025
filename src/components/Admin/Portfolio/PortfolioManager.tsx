@@ -8,6 +8,7 @@ import { Pencil, Plus, RefreshCw, Trash2 } from 'lucide-react';
 import type { Project } from '@/types/portfolio';
 import { PortfolioReorderBoard } from './PortfolioReorderBoard';
 import { useToast } from '@/components/ui/ToastProvider';
+import { adminError } from '@/utils/admin';
 
 interface PortfolioManagerProps {
   initialProjects: Project[];
@@ -66,8 +67,7 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       const response = await fetch('/api/v1/portfolio');
       const payload = await response.json().catch(() => null);
       if (!response.ok) {
-        const description = payload?.error?.message ?? 'Unable to refresh projects.';
-        throw new Error(description);
+        throw new Error(await adminError(response));
       }
       const nextProjects: Project[] = payload?.data?.projects ?? [];
       setProjects(nextProjects);
@@ -106,8 +106,7 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
       });
       const payload = await response.json().catch(() => null);
       if (!response.ok) {
-        const description = payload?.error?.message ?? 'Unable to update project.';
-        throw new Error(description);
+        throw new Error(await adminError(response));
       }
       const updated: Project = payload?.data?.project ?? { ...project, published: nextPublished };
       setProjects((current) =>
@@ -148,9 +147,7 @@ export function PortfolioManager({ initialProjects }: PortfolioManagerProps) {
     try {
       const response = await fetch(`/api/v1/portfolio/${project.slug}`, { method: 'DELETE' });
       if (!response.ok) {
-        const payload = await response.json().catch(() => null);
-        const description = payload?.error?.message ?? 'Unable to delete project.';
-        throw new Error(description);
+        throw new Error(await adminError(response));
       }
       setProjects((current) => current.filter((item) => item.slug !== project.slug));
       setMessage('Project deleted.');

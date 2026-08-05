@@ -66,6 +66,12 @@ export function PortfolioReorderBoard({ projects, onOrderSaved }: PortfolioReord
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
+    // Ignore drags while a save is in flight so the stale post-save order can
+    // never overwrite a newer drag.
+    if (status === 'saving') {
+      return;
+    }
+
     const { active, over } = event;
     if (!over || active.id === over.id) {
       return;

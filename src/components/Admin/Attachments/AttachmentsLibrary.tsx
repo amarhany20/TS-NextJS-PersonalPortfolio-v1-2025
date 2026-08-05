@@ -66,6 +66,7 @@ export function AttachmentsLibrary({ initialAssets }: AttachmentsLibraryProps) {
     setError(null);
 
     const uploaded: AttachmentAsset[] = [];
+    let failedMessage: string | null = null;
 
     try {
       for (const file of Array.from(files)) {
@@ -80,15 +81,23 @@ export function AttachmentsLibrary({ initialAssets }: AttachmentsLibraryProps) {
         const payload = await response.json().catch(() => null);
         if (!response.ok) {
           const description = payload?.error?.message ?? 'Unable to upload file.';
-          throw new Error(description);
+          // Keep any files already uploaded in this batch visible instead of
+          // discarding them (they are persisted server-side).
+          failedMessage = description;
+          break;
         }
 
         uploaded.push(payload.data);
+        // Surface each successful upload immediately so a later failure in the
+        // batch cannot hide already-persisted files.
+        setAssets((current) => [payload.data, ...current]);
       }
 
       if (uploaded.length) {
-        setAssets((current) => [...uploaded, ...current]);
         setMessage(`Uploaded ${uploaded.length} file${uploaded.length > 1 ? 's' : ''}.`);
+      }
+      if (failedMessage) {
+        setError(failedMessage);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed.');
@@ -109,7 +118,7 @@ export function AttachmentsLibrary({ initialAssets }: AttachmentsLibraryProps) {
       return;
     }
 
-    const previousAssets = assets;
+    const originalStatus = assets.find((item) => item.id === asset.id);
     setAssets((current) => current.filter((item) => item.id !== asset.id));
     if (preview?.id === asset.id) {
       setPreview(null);
@@ -121,7 +130,11 @@ export function AttachmentsLibrary({ initialAssets }: AttachmentsLibraryProps) {
 
     if (!response.ok) {
       const payload = await response.json().catch(() => null);
-      setAssets(previousAssets);
+      // Functional rollback: only re-add this one asset instead of restoring a
+      // whole-list snapshot that could undo concurrent changes to other rows.
+      if (originalStatus) {
+        setAssets((current) => [originalStatus, ...current]);
+      }
       setError(payload?.error?.message ?? 'Unable to delete asset.');
       return;
     }

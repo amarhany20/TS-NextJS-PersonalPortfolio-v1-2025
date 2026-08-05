@@ -20,10 +20,25 @@ const envSchema = z.object({
 
   // Database
   DATABASE_URL: optionalEnvString,
+  // Direct (non-pooled) connection used by Prisma migrations on Neon-style
+  // poolers. Optional at runtime; required when DATABASE_URL points at a pooler.
+  DIRECT_URL: optionalEnvString,
 
   // Auth
   AUTH_SECRET: optionalEnvString,
   AUTH_SALT_ROUNDS: z.coerce.number().int().positive().default(12),
+
+  // Attachments (Vercel Blob only)
+  BLOB_READ_WRITE_TOKEN: optionalEnvString,
+
+  // E2E / Playwright (test-only)
+  PLAYWRIGHT_DATABASE_URL: optionalEnvString,
+  PLAYWRIGHT_DIRECT_URL: optionalEnvString,
+  PLAYWRIGHT_BASE_URL: optionalEnvString,
+  PLAYWRIGHT_ISOLATED_BASE_URL: optionalEnvString,
+  PLAYWRIGHT_ISOLATED: optionalEnvString,
+  E2E_ADMIN_USERNAME: optionalEnvString,
+  E2E_ADMIN_PASSWORD: optionalEnvString,
 
   // Admin bootstrap
   ADMIN_USERNAME: optionalEnvString,
@@ -102,6 +117,16 @@ function validateEnv(): Env {
         {
           code: 'custom',
           message: 'AUTH_SECRET is required.',
+          path: ['AUTH_SECRET'],
+        },
+      ]);
+    }
+
+    if ((parsed.AUTH_SECRET ?? '').length < 32) {
+      throw new z.ZodError([
+        {
+          code: 'custom',
+          message: 'AUTH_SECRET must be at least 32 characters long (iron-session requirement).',
           path: ['AUTH_SECRET'],
         },
       ]);

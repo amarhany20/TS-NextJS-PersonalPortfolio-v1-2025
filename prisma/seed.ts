@@ -1,5 +1,8 @@
 import 'dotenv/config';
 
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
 import { PrismaClient } from '@prisma/client';
 
 import { hashPassword } from '../src/server/security/password';
@@ -39,8 +42,23 @@ const detectDatabaseProvider = (url?: string) => {
 
 async function seedSettings() {
   const id = 'settings-singleton';
-  const setupVersion = '00.50.07';
+  // Keep setupVersion in sync with package.json so EnvBootstrapService version
+  // locking and the setup diagnostics panel report the real release.
+  const setupVersion = (() => {
+    try {
+      const __dirname = dirname(fileURLToPath(import.meta.url));
+      const pkgPath = resolve(__dirname, 'package.json');
+      const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as { version?: string };
+      return pkg.version ?? '00.50.07';
+    } catch {
+      return '00.50.07';
+    }
+  })();
   const databaseProvider = detectDatabaseProvider(process.env.DATABASE_URL);
+  // Canonical URL should come from the deployment env, not the template default,
+  // so a seeded-then-deployed database does not publish localhost canonicals.
+  const seededSiteUrl =
+    process.env.SEO_SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? metadata.siteUrl;
   const seoDefaultsPayload = {
     languages: metadata.languages,
     highlights: metadata.highlights,
@@ -49,7 +67,7 @@ async function seedSettings() {
     titleTemplate: metadata.titleTemplate,
     description: metadata.description,
     keywords: metadata.keywords,
-    siteUrl: metadata.siteUrl,
+    siteUrl: seededSiteUrl,
     openGraphImage: metadata.openGraphImage,
     twitterHandle: metadata.twitterHandle,
   };

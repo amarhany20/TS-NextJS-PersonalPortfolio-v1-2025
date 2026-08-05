@@ -15,7 +15,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: 
   try {
     await requireAuth();
     const { slug } = await params;
-    const project = await PortfolioService.getProjectBySlug(slug);
+    const project = await PortfolioService.getProjectForAdmin(slug);
 
     if (!project) {
       return notFoundResponse('Project not found');

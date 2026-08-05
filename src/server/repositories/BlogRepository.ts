@@ -88,7 +88,9 @@ export const BlogRepository = {
     const records = await prisma.blog.findMany({
       where: {
         status: 'published',
-        publishedAt: { not: null },
+        // Only posts whose publish time has arrived: future-dated "published"
+        // posts must not appear on the public index, sitemap, or feeds early.
+        publishedAt: { not: null, lte: new Date() },
         ...(filter.categorySlug
           ? {
               categories: {

@@ -51,6 +51,14 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Attachments are stored as public Vercel Blob URLs; allow the optimizer to
+    // fetch them (plus the local dev origin). External image hosts referenced in
+    // content should be added here as needed.
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.public.blob.vercel-storage.com' },
+      { protocol: 'http', hostname: '127.0.0.1' },
+      { protocol: 'http', hostname: 'localhost' },
+    ],
   },
   env: {
     NEXT_PUBLIC_APP_VERSION: appVersion,

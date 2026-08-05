@@ -326,6 +326,9 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
 
         {/* Mobile Slide-Over Drawer (< lg) */}
         <aside
+          role="dialog"
+          aria-modal="true"
+          aria-label="Admin navigation"
           className={`fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[var(--card-bg)] border-r border-[var(--border)] z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
             mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
@@ -354,6 +357,7 @@ export function AdminLayoutShell({ user, profile, children }: AdminLayoutShellPr
             </div>
             <button
               onClick={() => setMobileSidebarOpen(false)}
+              aria-label="Close menu"
               className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-foreground hover:bg-[var(--accent-muted)]"
             >
               <X size={20} />

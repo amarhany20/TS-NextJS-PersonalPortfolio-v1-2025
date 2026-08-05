@@ -14,7 +14,13 @@ function Row({ label, children }: { label: string; children?: React.ReactNode })
   );
 }
 
-export function ProjectMetaGrid({ project }: { project: Project }) {
+export function ProjectMetaGrid({
+  project,
+  includeInternal = false,
+}: {
+  project: Project;
+  includeInternal?: boolean;
+}) {
   return (
     <div className="grid gap-4 p-4 border border-[var(--border)] rounded-lg bg-[var(--card-bg)]">
       <Row label="Company">{project.company}</Row>
@@ -71,7 +77,7 @@ export function ProjectMetaGrid({ project }: { project: Project }) {
           </ul>
         </Row>
       ) : null}
-      {project.confidentialNotes ? (
+      {includeInternal && project.confidentialNotes ? (
         <div className="mt-1 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-[10px] text-amber-300 leading-relaxed">
           {project.confidentialNotes}
         </div>

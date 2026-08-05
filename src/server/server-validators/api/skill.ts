@@ -13,7 +13,7 @@ const skillItemSchema = z.object({
 
 const baseGroupSchema = z.object({
   slug: slugSchema.optional(),
-  title: z.string().min(1, 'Title is required'),
+  title: z.string().trim().min(1, 'Title is required'),
   summary: z.string().optional(),
   displayOrder: z.number().int().min(0).optional(),
   published: z.boolean().optional(),

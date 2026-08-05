@@ -7,8 +7,8 @@ const yearMonthSchema = z
 const optionalUrlSchema = z.string().trim().url('Invalid URL format').optional();
 
 const baseExperienceSchema = z.object({
-  company: z.string().min(1, 'Company is required'),
-  title: z.string().min(1, 'Title is required'),
+  company: z.string().trim().min(1, 'Company is required'),
+  title: z.string().trim().min(1, 'Title is required'),
   location: z.string().optional(),
   start: yearMonthSchema,
   end: yearMonthSchema.optional(),
@@ -21,9 +21,8 @@ const baseExperienceSchema = z.object({
   published: z.boolean().optional(),
 });
 
-export const createExperienceSchema = baseExperienceSchema.extend({
-  id: z.string().optional(),
-});
+// `id` is intentionally omitted from create: rows get server-generated ids.
+export const createExperienceSchema = baseExperienceSchema;
 
 export const updateExperienceSchema = baseExperienceSchema
   .partial()

@@ -72,7 +72,10 @@ const nonEmpty = (value: string | null | undefined, fallback: string): string =>
 
 export async function buildFeedPayload(): Promise<FeedPayload> {
   const siteContent = await SettingsService.getSiteContent();
-  const siteUrl = nonEmpty(siteContent.seo?.siteUrl, env.NEXT_PUBLIC_SITE_URL || '');
+  const rawSiteUrl = nonEmpty(siteContent.seo?.siteUrl, env.NEXT_PUBLIC_SITE_URL || '');
+  // The settings serializer always ends siteUrl with a trailing slash; strip it
+  // once here so every feed link (self URLs, item URLs) is slash-consistent.
+  const siteUrl = rawSiteUrl.replace(/\/+$/, '');
   const channel: FeedChannel = {
     ...channelFromSettings(siteUrl),
     title:

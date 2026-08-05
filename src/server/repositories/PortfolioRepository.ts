@@ -123,7 +123,7 @@ export const PortfolioRepository = {
 
   async findPublished(): Promise<DbPortfolioProject[]> {
     const records = await prisma.portfolio.findMany({
-      where: { published: true },
+      where: { published: true, visibility: 'public' },
       orderBy: [{ featured: 'desc' }, { displayOrder: 'asc' }, { startDate: 'desc' }],
     });
 

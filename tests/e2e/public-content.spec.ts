@@ -145,11 +145,82 @@ test.describe('Public content rendering', () => {
       await cleanupPost(request, slug);
     }
   });
+
+  test('confidential notes are not rendered on the public project page', async ({
+    page,
+    request,
+  }) => {
+    const unique = Date.now();
+    const slug = `e2e-confidential-project-${unique}`;
+    const secret = `INTERNAL-ONLY-${unique}`;
+
+    try {
+      await createProject(request, {
+        title: `Confidential Project ${unique}`,
+        slug,
+        contentMdx: '## Overview\n\nPublic body content.',
+        confidentialNotes: secret,
+      });
+
+      await page.goto(`/portfolio/${slug}`, { waitUntil: 'domcontentloaded' });
+      await expect(page.getByRole('heading', { name: new RegExp(unique) })).toBeVisible();
+      await expect(page.getByText(secret)).toHaveCount(0);
+    } finally {
+      await cleanupProject(request, slug);
+    }
+  });
+
+  test('private projects are absent from the public listing and feeds', async ({ request }) => {
+    const unique = Date.now();
+    const publicSlug = `e2e-public-visible-${unique}`;
+    const privateSlug = `e2e-private-hidden-${unique}`;
+
+    try {
+      await createProject(request, { title: `Visible ${unique}`, slug: publicSlug });
+      await createProject(request, {
+        title: `Hidden ${unique}`,
+        slug: privateSlug,
+        visibility: 'private',
+      });
+
+      const listingResponse = await request.get('/portfolio');
+      const listingHtml = await listingResponse.text();
+      expect(listingHtml).toContain(publicSlug);
+      expect(listingHtml).not.toContain(privateSlug);
+
+      const feedResponse = await request.get('/feed.json');
+      const feedJson = await feedResponse.json();
+      const urls = (feedJson.items ?? []).map((item: { url?: string }) => item.url ?? '');
+      expect(urls.some((url: string) => url.includes(publicSlug))).toBeTruthy();
+      expect(urls.some((url: string) => url.includes(privateSlug))).toBeFalsy();
+    } finally {
+      await cleanupProject(request, publicSlug);
+      await cleanupProject(request, privateSlug);
+    }
+  });
+
+  test('feed self-URLs do not contain a double slash', async ({ request }) => {
+    const feedResponse = await request.get('/feed.json');
+    const feedJson = await feedResponse.json();
+    expect(feedJson.feed_url).toBeTruthy();
+    expect(String(feedJson.feed_url)).not.toContain('//feed.json');
+
+    const rssResponse = await request.get('/feed.xml');
+    const rssText = await rssResponse.text();
+    expect(rssText).not.toContain('//feed.xml');
+  });
 });
 
 async function createProject(
   request: APIRequestContext,
-  payload: { title: string; slug: string; contentMdx: string },
+  payload: {
+    title: string;
+    slug: string;
+    contentMdx?: string;
+    confidentialNotes?: string;
+    visibility?: 'public' | 'private' | 'internal';
+    published?: boolean;
+  },
 ) {
   const response = await request.post('/api/v1/portfolio', {
     data: {
@@ -159,13 +230,14 @@ async function createProject(
       intro: 'E2E intro for public project detail.',
       summary: 'E2E summary for public project detail.',
       role: 'Automation Engineer',
-      visibility: 'public',
+      visibility: payload.visibility ?? 'public',
       access: 'client-owned',
       status: 'live',
       start: DEFAULT_START_MONTH,
       stack: ['Next.js'],
-      published: true,
+      published: payload.published ?? true,
       contentMdx: payload.contentMdx,
+      confidentialNotes: payload.confidentialNotes,
     },
   });
   const responseText = response.ok() ? '' : await response.text();

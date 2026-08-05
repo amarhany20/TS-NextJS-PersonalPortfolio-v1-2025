@@ -36,7 +36,6 @@ import type { CreateCertificateInput } from '@/server/server-validators/api/cert
 const buildCertificate = (
   overrides: Partial<CreateCertificateInput> = {},
 ): CreateCertificateInput => ({
-  id: overrides.id,
   name: overrides.name ?? 'Deep Learning Specialization',
   issuer: overrides.issuer ?? 'Coursera',
   issuedOn: overrides.issuedOn ?? '2024-01-01',

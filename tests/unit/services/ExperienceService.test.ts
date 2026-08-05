@@ -39,7 +39,6 @@ import type { CreateExperienceInput } from '@/server/server-validators/api/exper
 type CreateInputOverrides = Partial<CreateExperienceInput>;
 
 const buildExperience = (overrides: CreateInputOverrides = {}): CreateExperienceInput => ({
-  id: overrides.id,
   company: overrides.company ?? 'Acme Co',
   title: overrides.title ?? 'Engineer',
   location: overrides.location ?? 'Remote',
