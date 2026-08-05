@@ -9,7 +9,9 @@ import { useToast } from '@/components/ui/ToastProvider';
 function resolvePostLoginTarget(): string {
   const raw = new URLSearchParams(window.location.search).get('next');
   const next = raw ?? '';
-  if (next.startsWith('/admin') && next !== '/admin' && !next.startsWith('//')) {
+  // Only allow a same-origin admin path. Strictly reject protocol-relative
+  // URLs, external hosts, and lookalikes like `/adminwhatever`.
+  if (/^\/admin(?:\/[A-Za-z0-9\-_/]*)?$/.test(next)) {
     return next;
   }
   return '/admin/dashboard';
@@ -53,7 +55,8 @@ export default function LoginPage() {
         showToast({
           variant: 'success',
           title: 'Login successful',
-          description: target === '/admin/dashboard' ? 'Redirecting to admin dashboard...' : 'Redirecting...',
+          description:
+            target === '/admin/dashboard' ? 'Redirecting to admin dashboard...' : 'Redirecting...',
         });
         router.push(target);
         router.refresh();

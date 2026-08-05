@@ -9,6 +9,7 @@ import {
 import { requireAuth } from '@/server/security/session';
 import { RecommendationService } from '@/server/services/RecommendationService';
 import { updateRecommendationSchema } from '@/server/server-validators/api/recommendation';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -38,6 +39,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
 
     const recommendation = await RecommendationService.updateRecommendation(id, result.data);
+    revalidatePublicPages();
     return successResponse({ recommendation });
   } catch (error) {
     return errorResponse(error);
@@ -49,6 +51,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
     await requireAuth();
     const { id } = await params;
     await RecommendationService.deleteRecommendation(id);
+    revalidatePublicPages();
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

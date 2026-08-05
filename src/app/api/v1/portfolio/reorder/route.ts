@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { PortfolioService } from '@/server/services/PortfolioService';
 import { reorderProjectsSchema } from '@/server/server-validators/api/portfolio';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     const updates = await PortfolioService.reorderProjects(result.data.slugs);
+    revalidatePublicPages();
     return successResponse({ updates });
   } catch (error) {
     return errorResponse(error);

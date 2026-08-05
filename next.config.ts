@@ -71,7 +71,12 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  // Headers for security and performance
+  // Headers for security and performance.
+  // NOTE: there is intentionally NO global Cache-Control rule for `/api/*`.
+  // Every `/api` route is authenticated or request-scoped (public feeds live
+  // outside `/api/`), so a blanket `Cache-Control: public` would let a CDN
+  // serve one authenticated user's cached response to everyone. Authenticated
+  // responses should stay uncached by default.
   async headers() {
     return [
       {
@@ -88,15 +93,6 @@ const nextConfig: NextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
-          },
-        ],
-      },
-      {
-        source: '/api/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=300, stale-while-revalidate=600',
           },
         ],
       },

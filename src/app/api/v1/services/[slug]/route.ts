@@ -9,6 +9,7 @@ import {
 import { requireAuth } from '@/server/security/session';
 import { ServiceService } from '@/server/services/ServiceService';
 import { updateServiceSchema } from '@/server/server-validators/api/service';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -41,6 +42,7 @@ export async function PATCH(
     }
 
     const service = await ServiceService.updateService(slug, result.data);
+    revalidatePublicPages();
     return successResponse({ service });
   } catch (error) {
     return errorResponse(error);
@@ -52,6 +54,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slu
     await requireAuth();
     const { slug } = await params;
     await ServiceService.deleteService(slug);
+    revalidatePublicPages();
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

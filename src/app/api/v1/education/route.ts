@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { EducationService } from '@/server/services/EducationService';
 import { createEducationSchema } from '@/server/server-validators/api/education';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const record = await EducationService.createEducation(result.data);
+    revalidatePublicPages();
     return successResponse({ education: record }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

@@ -9,6 +9,7 @@ import {
 import { requireAuth } from '@/server/security/session';
 import { EducationService } from '@/server/services/EducationService';
 import { updateEducationSchema } from '@/server/server-validators/api/education';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -38,6 +39,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
 
     const education = await EducationService.updateEducation(id, result.data);
+    revalidatePublicPages();
     return successResponse({ education });
   } catch (error) {
     return errorResponse(error);
@@ -49,6 +51,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
     await requireAuth();
     const { id } = await params;
     await EducationService.deleteEducation(id);
+    revalidatePublicPages();
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

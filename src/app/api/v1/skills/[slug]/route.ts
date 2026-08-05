@@ -9,6 +9,7 @@ import {
 import { requireAuth } from '@/server/security/session';
 import { SkillService } from '@/server/services/SkillService';
 import { updateSkillGroupSchema } from '@/server/server-validators/api/skill';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -41,6 +42,7 @@ export async function PATCH(
     }
 
     const skillGroup = await SkillService.updateSkillGroup(slug, result.data);
+    revalidatePublicPages();
     return successResponse({ skillGroup });
   } catch (error) {
     return errorResponse(error);
@@ -52,6 +54,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slu
     await requireAuth();
     const { slug } = await params;
     await SkillService.deleteSkillGroup(slug);
+    revalidatePublicPages();
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

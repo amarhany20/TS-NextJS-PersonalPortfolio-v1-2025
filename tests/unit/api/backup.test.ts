@@ -13,8 +13,24 @@ vi.mock('@/server/security/session', () => ({
   requireAuth: vi.fn(),
 }));
 
+vi.mock('@/server/security/password', () => ({
+  verifyPassword: vi.fn(),
+}));
+
+vi.mock('@/server/db/prisma', () => ({
+  default: {
+    user: {
+      findUnique: vi.fn(),
+    },
+  },
+}));
+
 const { BackupService } = await import('@/server/services/BackupService');
 const { requireAuth } = await import('@/server/security/session');
+const { verifyPassword } = await import('@/server/security/password');
+const prisma = (await import('@/server/db/prisma')).default as unknown as {
+  user: { findUnique: Mock };
+};
 
 import { GET, POST } from '@/app/api/v1/admin/backup/route';
 
@@ -70,7 +86,13 @@ describe('backup api routes', () => {
   });
 
   it('POST restores a backup from a raw JSON body', async () => {
-    (requireAuth as unknown as Mock).mockResolvedValue({});
+    (requireAuth as unknown as Mock).mockResolvedValue({ user: { id: 'u1' } });
+    prisma.user.findUnique.mockResolvedValue({
+      id: 'u1',
+      username: 'admin',
+      passwordHash: 'hash',
+    });
+    (verifyPassword as unknown as Mock).mockResolvedValue(true);
     (BackupService.importBackup as unknown as Mock).mockResolvedValue({
       imported: 15,
       domains: ['portfolio', 'blog'],
@@ -80,7 +102,7 @@ describe('backup api routes', () => {
       new Request('http://localhost/api/v1/admin/backup', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ version: 1, data: {} }),
+        body: JSON.stringify({ version: 1, data: {}, password: 'correct-password' }),
       }),
     );
 
@@ -92,7 +114,13 @@ describe('backup api routes', () => {
   });
 
   it('POST restores a backup from a multipart file upload', async () => {
-    (requireAuth as unknown as Mock).mockResolvedValue({});
+    (requireAuth as unknown as Mock).mockResolvedValue({ user: { id: 'u1' } });
+    prisma.user.findUnique.mockResolvedValue({
+      id: 'u1',
+      username: 'admin',
+      passwordHash: 'hash',
+    });
+    (verifyPassword as unknown as Mock).mockResolvedValue(true);
     (BackupService.importBackup as unknown as Mock).mockResolvedValue({ imported: 15 });
 
     const form = new FormData();
@@ -102,6 +130,7 @@ describe('backup api routes', () => {
         type: 'application/json',
       }),
     );
+    form.append('password', 'correct-password');
 
     const response = await POST(
       new Request('http://localhost/api/v1/admin/backup', { method: 'POST', body: form }),

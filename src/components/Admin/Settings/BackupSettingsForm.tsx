@@ -14,6 +14,7 @@ export function BackupSettingsForm() {
   } | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPurgeModal, setShowPurgeModal] = useState(false);
+  const [restorePassword, setRestorePassword] = useState('');
   const [purgePassword, setPurgePassword] = useState('');
   const [purgeConfirmText, setPurgeConfirmText] = useState('');
   const [isPurging, setIsPurging] = useState(false);
@@ -66,6 +67,7 @@ export function BackupSettingsForm() {
     try {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('password', restorePassword);
 
       const res = await fetch('/api/v1/admin/backup', {
         method: 'POST',
@@ -82,6 +84,8 @@ export function BackupSettingsForm() {
         type: 'success',
         text: `Database restored successfully! ${json.data?.totalRestored || 0} records processed. Refreshing app...`,
       });
+
+      setRestorePassword('');
 
       setTimeout(() => {
         window.location.reload();
@@ -203,7 +207,8 @@ export function BackupSettingsForm() {
           </h3>
           <p className="text-sm text-[var(--text-secondary)]">
             Upload a valid JSON backup file (`portfolio-backup.json`) to restore your database. This
-            will safely update and populate your site content.
+            will safely update and populate your site content. Enter your admin password to confirm
+            the restore.
           </p>
         </div>
 
@@ -217,7 +222,7 @@ export function BackupSettingsForm() {
             />
             <button
               onClick={() => setShowConfirmModal(true)}
-              disabled={!file || isImporting}
+              disabled={!file || !restorePassword || isImporting}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-600 text-white font-medium text-sm hover:bg-amber-500 transition-colors disabled:opacity-50 shrink-0"
             >
               {isImporting ? (
@@ -232,6 +237,18 @@ export function BackupSettingsForm() {
                 </>
               )}
             </button>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Admin Password
+            </label>
+            <input
+              type="password"
+              value={restorePassword}
+              onChange={(e) => setRestorePassword(e.target.value)}
+              placeholder="Enter your password to confirm restore"
+              className="w-full max-w-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-foreground text-sm placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
+            />
           </div>
           {file && (
             <p className="text-xs text-[var(--text-secondary)]">
@@ -315,11 +332,14 @@ export function BackupSettingsForm() {
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
               Are you sure you want to restore from{' '}
               <span className="font-mono text-foreground">{file?.name}</span>? This operation will
-              update database records inside an atomic transaction.
+              replace the database inside an atomic transaction and requires your admin password.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
-                onClick={() => setShowConfirmModal(false)}
+                onClick={() => {
+                  setShowConfirmModal(false);
+                  setRestorePassword('');
+                }}
                 className="px-4 py-2 rounded-lg bg-white/10 text-foreground text-sm font-medium hover:bg-white/20 transition-colors"
               >
                 Cancel

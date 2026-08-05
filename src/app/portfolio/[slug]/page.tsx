@@ -89,7 +89,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!slug) return notFound();
 
   const project: Project | null = await PortfolioService.getProjectBySlug(slug);
-  if (!project) return notFound();
+  if (!project || !project.published || project.visibility !== 'public') {
+    return notFound();
+  }
 
   const compiledMdx = compileProjectMdx(project.contentMdx);
 

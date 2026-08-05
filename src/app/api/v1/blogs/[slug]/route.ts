@@ -9,6 +9,7 @@ import {
 import { requireAuth } from '@/server/security/session';
 import { BlogService } from '@/server/services/BlogService';
 import { updateBlogSchema } from '@/server/server-validators/api/blog';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -42,6 +43,7 @@ export async function PATCH(
     }
 
     const blog = await BlogService.updatePost(slug, result.data);
+    revalidatePublicPages({ blogSlug: slug });
     return successResponse({ blog });
   } catch (error) {
     return errorResponse(error);
@@ -53,6 +55,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slu
     await requireAuth();
     const { slug } = await params;
     await BlogService.deletePost(slug);
+    revalidatePublicPages();
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

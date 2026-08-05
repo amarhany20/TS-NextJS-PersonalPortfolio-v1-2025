@@ -2,29 +2,43 @@ import { describe, expect, it, vi } from 'vitest';
 import { BackupService } from '@/server/services/BackupService';
 
 vi.mock('@/server/db/prisma', () => {
+  const emptyCollection = {
+    findMany: vi.fn().mockResolvedValue([]),
+    deleteMany: vi.fn(),
+    create: vi.fn(),
+  };
+
   const mockPrisma = {
     settings: {
       findMany: vi.fn().mockResolvedValue([{ id: 'settings-singleton', siteTitle: 'Test' }]),
+      deleteMany: vi.fn(),
       upsert: vi.fn(),
     },
-    user: { findMany: vi.fn().mockResolvedValue([]) },
+    user: {
+      findMany: vi.fn().mockResolvedValue([]),
+      deleteMany: vi.fn(),
+      upsert: vi.fn(),
+    },
     portfolio: {
       findMany: vi.fn().mockResolvedValue([{ id: 'p1', title: 'Test Project' }]),
       deleteMany: vi.fn(),
       create: vi.fn(),
     },
-    blog: { findMany: vi.fn().mockResolvedValue([]) },
-    category: { findMany: vi.fn().mockResolvedValue([]) },
-    tag: { findMany: vi.fn().mockResolvedValue([]) },
-    experience: { findMany: vi.fn().mockResolvedValue([]) },
-    education: { findMany: vi.fn().mockResolvedValue([]) },
-    skillGroup: { findMany: vi.fn().mockResolvedValue([]) },
-    skill: { findMany: vi.fn().mockResolvedValue([]) },
-    service: { findMany: vi.fn().mockResolvedValue([]) },
-    certificate: { findMany: vi.fn().mockResolvedValue([]) },
-    recommendation: { findMany: vi.fn().mockResolvedValue([]) },
-    attachment: { findMany: vi.fn().mockResolvedValue([]) },
-    contactSubmission: { findMany: vi.fn().mockResolvedValue([]) },
+    blog: { ...emptyCollection },
+    category: { ...emptyCollection },
+    tag: { ...emptyCollection },
+    experience: { ...emptyCollection },
+    education: { ...emptyCollection },
+    skillGroup: { ...emptyCollection },
+    skill: { ...emptyCollection },
+    service: { ...emptyCollection },
+    certificate: { ...emptyCollection },
+    recommendation: { ...emptyCollection },
+    attachment: { ...emptyCollection },
+    contactSubmission: { ...emptyCollection },
+    contentVersion: { ...emptyCollection },
+    blogTag: { ...emptyCollection },
+    blogCategory: { ...emptyCollection },
     $transaction: vi.fn().mockImplementation(async (cb) => cb(mockPrisma)),
   };
 

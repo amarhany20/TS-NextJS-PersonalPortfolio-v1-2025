@@ -2,6 +2,7 @@ import { requireAuth } from '@/server/security/session';
 import { verifyPassword } from '@/server/security/password';
 import prisma from '@/server/db/prisma';
 import { errorResponse, successResponse } from '@/server/http/responses';
+import { BadRequestError, ForbiddenError } from '@/server/http/errors';
 import { logger } from '@/utils/logger';
 import { EnvBootstrapService } from '@/server/services/EnvBootstrapService';
 
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
     const { password } = await request.json();
 
     if (!password || typeof password !== 'string') {
-      return errorResponse(new Error('Password is required.'));
+      return errorResponse(new BadRequestError('Password is required.'));
     }
 
     const user = await prisma.user.findUnique({
@@ -19,12 +20,12 @@ export async function POST(request: Request) {
     });
 
     if (!user) {
-      return errorResponse(new Error('User not found.'));
+      return errorResponse(new ForbiddenError('User not found.'));
     }
 
     const valid = await verifyPassword(password, user.passwordHash);
     if (!valid) {
-      return errorResponse(new Error('Incorrect password. Purge aborted.'));
+      return errorResponse(new ForbiddenError('Incorrect password. Purge aborted.'));
     }
 
     const counts: Record<string, number> = {};

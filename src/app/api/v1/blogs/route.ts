@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { BlogService } from '@/server/services/BlogService';
 import { createBlogSchema } from '@/server/server-validators/api/blog';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const post = await BlogService.createPost(result.data);
+    revalidatePublicPages({ blogSlug: post.slug });
     return successResponse({ post }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

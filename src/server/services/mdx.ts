@@ -1,3 +1,5 @@
+import DOMPurify from 'isomorphic-dompurify';
+
 import { logger } from '@/utils/logger';
 
 export interface CompiledMdxResult {
@@ -82,6 +84,12 @@ export function compileProjectMdx(source?: string | null): CompiledMdxResult | n
       /(<li[\s\S]*?<\/li>\n?)+/g,
       '<ul class="my-3 space-y-1 text-sm text-[var(--text-secondary)]">$&</ul>',
     );
+
+    // Sanitize the final HTML so arbitrary CMS-authored HTML (e.g. <img
+    // onerror>, <iframe>, javascript: links) cannot execute when rendered via
+    // dangerouslySetInnerHTML. The regex transforms above handle Markdown
+    // shapes; DOMPurify strips any dangerous HTML/schemes that slip through.
+    html = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
 
     return {
       source: trimmed,

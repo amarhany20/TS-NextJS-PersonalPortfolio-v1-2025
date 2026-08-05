@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { CertificateService } from '@/server/services/CertificateService';
 import { createCertificateSchema } from '@/server/server-validators/api/certificate';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const certificate = await CertificateService.createCertificate(result.data);
+    revalidatePublicPages();
     return successResponse({ certificate }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

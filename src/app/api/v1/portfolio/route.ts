@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { PortfolioService } from '@/server/services/PortfolioService';
 import { createProjectSchema } from '@/server/server-validators/api/portfolio';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const project = await PortfolioService.createProject(result.data);
+    revalidatePublicPages({ portfolioSlug: project.slug });
     return successResponse({ project }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

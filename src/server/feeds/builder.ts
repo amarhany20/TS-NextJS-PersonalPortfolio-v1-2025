@@ -89,7 +89,13 @@ export async function buildFeedPayload(): Promise<FeedPayload> {
     BlogService.listPublishedPosts().catch(() => []),
   ]);
 
-  const projectItems: FeedItem[] = projects
+  // Respect page-visibility settings: when a page is hidden, its items must
+  // not leak into the feeds (the public page itself 404s, so the feed must
+  // agree with it).
+  const portfolioVisible = siteContent.visibility?.pages?.portfolio !== false;
+  const blogsVisible = siteContent.visibility?.pages?.blogs !== false;
+
+  const projectItems: FeedItem[] = (portfolioVisible ? projects : [])
     .filter((project) => project.published)
     .map<FeedItem | null>((project) => {
       const publishedAt = project.publishedAt ?? project.createdAt;
@@ -108,7 +114,7 @@ export async function buildFeedPayload(): Promise<FeedPayload> {
     })
     .filter((item): item is FeedItem => item !== null);
 
-  const postItems: FeedItem[] = posts
+  const postItems: FeedItem[] = (blogsVisible ? posts : [])
     .map<FeedItem | null>((post) => {
       if (!post.publishedAt) {
         return null;

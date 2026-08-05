@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { RecommendationService } from '@/server/services/RecommendationService';
 import { createRecommendationSchema } from '@/server/server-validators/api/recommendation';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const recommendation = await RecommendationService.createRecommendation(result.data);
+    revalidatePublicPages();
     return successResponse({ recommendation }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

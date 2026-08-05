@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { ExperienceService } from '@/server/services/ExperienceService';
 import { createExperienceSchema } from '@/server/server-validators/api/experience';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const item = await ExperienceService.createExperience(result.data);
+    revalidatePublicPages();
     return successResponse({ experience: item }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

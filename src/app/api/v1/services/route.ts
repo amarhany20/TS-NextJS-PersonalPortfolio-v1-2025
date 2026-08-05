@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { ServiceService } from '@/server/services/ServiceService';
 import { createServiceSchema } from '@/server/server-validators/api/service';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const service = await ServiceService.createService(result.data);
+    revalidatePublicPages();
     return successResponse({ service }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

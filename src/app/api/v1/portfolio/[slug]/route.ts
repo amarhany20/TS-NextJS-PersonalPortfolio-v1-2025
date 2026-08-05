@@ -9,6 +9,7 @@ import {
 import { requireAuth } from '@/server/security/session';
 import { PortfolioService } from '@/server/services/PortfolioService';
 import { updateProjectSchema } from '@/server/server-validators/api/portfolio';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -41,6 +42,7 @@ export async function PATCH(
     }
 
     const project = await PortfolioService.updateProject(slug, result.data);
+    revalidatePublicPages({ portfolioSlug: slug });
     return successResponse({ project });
   } catch (error) {
     return errorResponse(error);
@@ -52,6 +54,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ slu
     await requireAuth();
     const { slug } = await params;
     await PortfolioService.deleteProject(slug);
+    revalidatePublicPages();
     return successResponse({ success: true });
   } catch (error) {
     return errorResponse(error);

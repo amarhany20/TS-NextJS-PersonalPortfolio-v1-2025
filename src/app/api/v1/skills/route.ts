@@ -4,6 +4,7 @@ import { errorResponse, successResponse, validationErrorResponse } from '@/serve
 import { requireAuth } from '@/server/security/session';
 import { SkillService } from '@/server/services/SkillService';
 import { createSkillGroupSchema } from '@/server/server-validators/api/skill';
+import { revalidatePublicPages } from '@/server/server-utils/revalidate';
 
 export async function GET() {
   try {
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const skillGroup = await SkillService.createSkillGroup(result.data);
+    revalidatePublicPages();
     return successResponse({ skillGroup }, undefined, 201);
   } catch (error) {
     return errorResponse(error);

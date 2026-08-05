@@ -36,3 +36,37 @@ async function expectBlogsStatus(request: APIRequestContext, expectedStatus: num
     expect(response.status()).toBe(expectedStatus);
   }).toPass({ timeout: 20000 });
 }
+
+test.describe('Admin visibility settings — home sections', () => {
+  test('hides and restores the experience home section', async ({ page }) => {
+    await page.goto('/admin/settings/visibility', { waitUntil: 'domcontentloaded' });
+
+    const experienceToggle = page.getByRole('checkbox', { name: /Experience/ });
+    await expect(experienceToggle).toBeVisible();
+
+    const originallyEnabled = await experienceToggle.isChecked();
+
+    try {
+      await experienceToggle.setChecked(false, { force: true });
+      await page.getByRole('button', { name: /save visibility/i }).click();
+      await expect(page.getByText(/Visibility settings saved/i)).toBeVisible();
+
+      await expect
+        .poll(
+          async () => {
+            const response = await page.request.get('/home');
+            const body = await response.text();
+            return body;
+          },
+          { timeout: 20000 },
+        )
+        .not.toContain('id="experience"');
+    } finally {
+      await page.goto('/admin/settings/visibility', { waitUntil: 'domcontentloaded' });
+      const toggle = page.getByRole('checkbox', { name: /Experience/ });
+      await toggle.setChecked(originallyEnabled, { force: true });
+      await page.getByRole('button', { name: /save visibility/i }).click();
+      await expect(page.getByText(/Visibility settings saved/i)).toBeVisible();
+    }
+  });
+});

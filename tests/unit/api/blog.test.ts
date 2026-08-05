@@ -2,6 +2,10 @@ import { afterEach, describe, expect, it, vi, type Mock } from 'vitest';
 
 import { UnauthorizedError } from '@/server/http/errors';
 
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}));
+
 vi.mock('@/server/services/BlogService', () => ({
   BlogService: {
     listAllPosts: vi.fn(),
